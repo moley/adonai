@@ -1,0 +1,17 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.settings.SettingsController" alignment="CENTER" hgap="10" vgap="10" >
+    <padding><Insets top="20" bottom="20" left="5" right="5"/> </padding>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="20"/>
+        <ColumnConstraints percentWidth="80"/>
+    </columnConstraints>
+
+
+    <Label text="Admin screen" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ComboBox fx:id="cboAdminScreen" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+
+</GridPane>

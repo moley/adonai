@@ -1,0 +1,102 @@
+.root {
+    -fx-base: rgb(200, 200, 200);
+    -fx-background: rgb(230, 230, 230);
+    -fx-control-inner-background:  rgb(180, 180, 180);
+    -fx-font-size: 20;
+}
+
+#songeditor {
+    -fx-base: rgb(255, 255, 255);
+    -fx-background: rgb(255, 255, 255);
+    -fx-control-inner-background: rgb(255, 255, 255);
+}
+
+#songpart_refrain {
+    -fx-background: rgb(119, 192, 75, .9);
+
+}
+
+#texteditor {
+    -fx-background: rgb(255, 255, 255);
+    -fx-control-inner-background: rgb(255, 255, 255);
+    -fx-font-size: 20;
+    -fx-font-family: monospaced;
+    -fx-padding: 5 0 5 0;
+    -fx-border-width: 0px;
+    -fx-background-radius: 0, 0;
+
+    -fx-background-insets: 0;
+
+
+}
+#texteditor_disabled {
+    -fx-background: rgb(255, 255, 255);
+    -fx-text-inner-color: rgb(190, 190, 190);
+    -fx-control-inner-background: rgb(255, 255, 255);
+    -fx-font-size: 20;
+    -fx-font-family: monospaced;
+    -fx-padding: 5 0 5 0;
+    -fx-border-width: 0px;
+    -fx-background-radius: 0, 0;
+
+    -fx-background-insets: 0;
+
+
+}
+
+#chordeditor {
+    -fx-background: rgb(255, 255, 255);
+    -fx-control-inner-background:  rgb(255, 255, 255);
+    -fx-font-size: 15;
+    -fx-font-family: monospaced;
+}
+
+#chordlabel {
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-control-inner-background:  rgb(255, 255, 255);
+    -fx-font-size: 15;
+    -fx-font-family: monospaced;
+}
+
+#chordlabel_selected {
+    -fx-background-color: rgb(230, 230, 255);
+    -fx-control-inner-background:  rgb(255, 255, 255);
+    -fx-font-size: 15;
+    -fx-font-family: monospaced;
+}
+
+#chordlabel_disabled {
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-control-inner-background:  rgb(255, 255, 255);
+    -fx-text-fill: rgb(190, 190, 190);
+
+    -fx-font-size: 15;
+    -fx-font-family: monospaced;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-border-color: rgb(170, 170, 140);
+    -fx-text-fill: black;
+    margin: 30px;
+    -fx-border-radius: 90%;
+}
+
+#partmarker {
+    -fx-min-width: 10px;
+    -fx-max-width: 10px;
+    -fx-opacity: 0.2;
+    -fx-border-insets: 5 5 5 5;
+}
+
+
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-view.list-cell {
+  -fx-background-color: rgb(200, 200, 200);
+
+}
+
+

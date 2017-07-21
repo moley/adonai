@@ -1,0 +1,14 @@
+- Automatically remove content of copy
+- FIXED ChordEditor Leerstring
+- FIXED ChordEditor Chord normalisieren (f#)
+- Backspace funktioniert nicht
+- Referenced part must not be removed
+- Up/Down in editor doesn't work
+-Empty new song in SongEditor: Exception in thread "JavaFX Application Thread" java.lang.NullPointerException
+                               	at SongEditor.reloadDetail(SongEditor.java:193)
+                               	at SongEditor.reload(SongEditor.java:200)
+
+- Importieren von Bildern,
+- Importieren von mp3s
+
+- Gesamt PPT

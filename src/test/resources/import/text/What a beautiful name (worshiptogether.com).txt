@@ -1,0 +1,1427 @@
+
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://developers.facebook.com/schema/" class="stylish-select cufon-active cufon-ready">
+<head>
+    <title>What A Beautiful Name - Hillsong Worship Lyrics and Chords | Worship Together</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Worship Together is the best and most comprehensive resource on the web for worship leaders, worship bands and worship teams. Each week Worship Together gives away Free Lead Sheets and MP3s to brand new songs from some of your favorite worship leaders like Chris Tomlin, Hillsong UNITED, Tim Hughes, Passion and Brenton Brown plus new voices you'll love. Get it all for free just by signing up.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/ie7.css" /><![endif]-->
+    <!--[if IE 8]><link rel="stylesheet" type="text/css" href="/css/responsive-ie8.css" /><![endif]-->
+
+	<script>
+  		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  		ga('create', 'UA-3168104-22', 'auto');
+  		ga('send', 'pageview');
+
+	</script>
+
+
+    <script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'></script>
+    <script type='text/javascript'>
+        GS_googleAddAdSenseService("ca-pub-0407946506937129");
+        GS_googleEnableAllServices();
+    </script>
+    <script type='text/javascript'>
+        GA_googleAddSlot("ca-pub-0407946506937129", "skyscraper");
+    </script>
+    <script type='text/javascript'>
+        GA_googleFetchAds();
+    </script>
+
+    <script src="/DependencyHandler.axd?s=L3NjcmlwdHMvanF1ZXJ5LTEuNC4yLm1pbi5qczsvc2NyaXB0cy9zd2ZvYmplY3QuanM7L3NjcmlwdHMvanF1ZXJ5Lmp3cGxheWVyLmpzOy9zY3JpcHRzL2pxdWVyeS52YWxpZGF0ZS5qczsvc2NyaXB0cy9wbGF5ZXJzLmpzOy9zY3JpcHRzL2pxdWVyeS5qZ2ZlZWQuanM7L3NjcmlwdHMvanF1ZXJ5LnR3ZWV0LmpzOy9zY3JpcHRzL2pxdWVyeS5jdXN0b21zY3JvbGxlci0xLjIuanM7L3NjcmlwdHMvanF1ZXJ5Lm1vdXNld2hlZWwuanM7L3NjcmlwdHMvanF1ZXJ5LndyZXNpemUuanM7L3NjcmlwdHMvanF1ZXJ5LnN0eWxpc2gtc2VsZWN0Lm1pbi5qczsvc2NyaXB0cy9wcmV0dHlDaGVja2JveGVzLmpzOy9zY3JpcHRzL2ZhY2Vib3guanM7L3NjcmlwdHMvanF1ZXJ5X2Z1bmN0aW9ucy5qczsvc2NyaXB0cy9yZXNwb25zaXZlLmpzOy9zY3JpcHRzL2N1Zm9uLnl1aS5qczsvc2NyaXB0cy9jb3JiZWwuZm9udC5qczsvdW1icmFjb19jbGllbnQvQXBwbGljYXRpb24vSlF1ZXJ5L2pxdWVyeS52YWxpZGF0ZS5taW4uanM7L3VtYnJhY29fY2xpZW50L0FwcGxpY2F0aW9uL0pRdWVyeS9qcXVlcnkudmFsaWRhdGUudW5vYnRydXNpdmUubWluLmpzOw&amp;t=Javascript&amp;cdv=538485424" type="text/javascript"></script>
+    <link href="/DependencyHandler.axd?s=L2Nzcy9jaG9yZFByb1JlbmRlci5jc3M7&amp;t=Css&amp;cdv=538485424" type="text/css" rel="stylesheet"/><link href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css" type="text/css" rel="stylesheet"/><link href="/DependencyHandler.axd?s=L2Nzcy9zdHlsZS5jc3M7L2Nzcy9yZXNwb25zaXZlLmNzczsvY3NzL2ZhY2Vib3guY3NzOy9jc3MvY3VzdG9tU2Nyb2xsZXIuY3NzOy9jc3MvcHJldHR5Q2hlY2tib3hlcy5jc3M7L2Nzcy9jdWZvbi5jc3M7&amp;t=Css&amp;cdv=538485424" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript">
+        Cufon.replace('#navigation a', { hover: true });
+    </script>
+
+	<script type="text/javascript">(function(){
+  		window._fbds = window._fbds || {};
+  		_fbds.pixelId = 522862711159593;
+ 		var fbds = document.createElement('script');
+  		fbds.async = true;
+  		fbds.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//connect.facebook.net/en_US/fbds.js';
+  		var s = document.getElementsByTagName('script')[0];
+  		s.parentNode.insertBefore(fbds, s);
+		})();
+		window._fbq = window._fbq || [];
+		window._fbq.push(["track", "PixelInitialized", {}]);
+	</script>
+	<noscript><img height="1" width="1" border="0" alt="" style="display:none" src="https://www.facebook.com/tr?id=522862711159593&amp;ev=NoScript" /></noscript>
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '226199194429630');
+fbq('track', "PageView");</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=226199194429630&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+</head>
+<body>
+        <div id='wtaudioplayer'><audio id='aplay'></audio></div>
+        <script type='text/javascript'>
+            var s0 = new SWFObject('/jwplayer/player.swf', 'audio_player', '0', '0', '9', '#000000');
+            s0.addVariable('file', '/jwplayer/test_audio/Make_You_Crazy.mp3');
+            s0.write('wtaudioplayer');
+        </script>
+
+
+
+        <div class="container">
+
+            <div id="header">
+                <div id="logo">
+                    <a href="/" title="Home" class="button">site or company name</a>
+                </div>
+
+
+
+
+<form action="/songs/what-a-beautiful-name-hillsong-worship" enctype="multipart/form-data" method="post"><input id="loginModel_RedirectSuccessUrl" name="loginModel.RedirectSuccessUrl" type="hidden" value="" /><input id="loginModel_RedirectFailUrl" name="loginModel.RedirectFailUrl" type="hidden" value="/misc/membership/log-in" />        <div id="login_menu">
+            <div id="login_form">
+                <div class="field">
+                    <label for="loginModel_Username">e-mail</label>
+                    <input data-val="true" data-val-required="The Username field is required." id="loginModel_Username" name="loginModel.Username" type="text" value="" />
+                </div>
+                <div class="field">
+                    <label for="loginModel_Password">password</label>
+                    <input data-val="true" data-val-required="The Password field is required." id="loginModel_Password" name="loginModel.Password" type="password" />
+                </div>
+                <button class="login_sub submit">Submit</button>
+                <a href="/modals/forgot-password/" title="Forgot Your Password?" class="forgot" rel="facebox">Forgot your password?</a>
+            </div>
+            <a href="#" title="Close Member Login Menu" class="login button">Member Login</a>
+        </div>
+        <div id="member_login_bar">
+            <a href="#" title="Member Login" class="login button">Member Login</a>
+        </div>
+<input name='ufprt' type='hidden' value='65BA716BA982D807E0ED56C92CBA5DE4E65CD558ABDC79FEEE7BC0C1F40B368580CDE34AFC9E755E2481B1B82304D0E41089D5F17E50704EC3681E14BF26E66C3F58065760B371C67BB3A7770A1AC905F65A1B01339DBE4A953EE52B7BCC98FFAF8FB0C6EBD2113B97C53DDB0CB0D0A3A41B914E8754963BBA997C22739DC8AFED2A0E24371ACD04A3076AEB9D75A0FC553ED7D006E67B3C8F8A90D4FBFAB70A' /></form>
+                <div class="cl">&nbsp;</div>
+                <div id="navigation">
+
+
+
+
+
+<a id="goto-button" href="#">
+    GO TO
+    <img class="more" src="/images/nav_icon.png">
+    <img class="less" src="/images/nav_close_button.png">
+</a>
+
+
+<ul>
+	    <li>
+
+            <a id="Songs" href="/songs/"  class="active">Songs</a>
+
+	    </li>
+	    <li>
+
+            <a id="Worship Leaders" href="/worship-leaders/"  class="">Worship Leaders</a>
+
+	    </li>
+	    <li>
+
+            <a id="Videos" href="/videos/"  class="">Videos</a>
+
+	    </li>
+	    <li>
+
+            <a id="Blog" href="/blog/"  class="">Blog</a>
+
+	    </li>
+	    <li>
+
+	            <a id="Event" href="http://conference.worshiptogether.com" >Event</a>
+
+	    </li>
+        <li class="last">
+        <a id="joinus" href="/membership/sign-up/">Join Us</a>
+    </li>
+
+</ul>
+<div id="search_form">
+    <div language="javascript" onkeypress="if (event.keyCode == 13) { submitSearch(); return false; }" on>
+        <div class="field search_field">
+            <input id="_ctl0_search" value="search" type="text">
+        </div>
+        <div class="search_button">
+            <input type="submit" value="" class="search_sub submit" onclick="submitSearch()">
+        </div>
+    </div>
+    <script type='text/javascript'>
+        function submitSearch()
+        {
+            var Searchtxt = document.getElementById("_ctl0_search").value;
+            window.location = "http://worship-songs-resources.worshiptogether.com/search?w=" + encodeURIComponent(Searchtxt);
+            return false;
+        }
+    </script>
+</div>
+    <a href="/membership/sign-up/" class="join_now">Join Now For Free</a>
+
+                </div>
+            </div>
+            <!-- footer -->
+
+
+<style>
+    .icon_spotify_playlist { width: 93px;height: 32px; background: url(../../images/spotify_add_to_playlist.png) no-repeat left top;}
+    .icon_planning_center { width: 93px;height: 32px; background: url(../../images/add-to-planning-center.png) no-repeat left top;}
+.fakeLink {color:#afd14c;
+    cursor: pointer;}
+</style>
+<script>
+
+    function addToPlaylist(spotifyTrack) {
+        var client_id = 'bafdf1b7e91f4baebfc80b29dc35f00b';
+        var redirect = location.origin + '/spotifyCallback.html';
+        localStorage.setItem('createplaylist-tracks', '["'  + spotifyTrack + '"]');
+        var spotifyUrl = 'https://accounts.spotify.com/authorize?client_id=' + client_id + '&response_type=token' + '&scope=playlist-read-private%20playlist-modify%20playlist-modify-private' + '&redirect_uri=' + encodeURIComponent(redirect);
+        window.open(spotifyUrl, 'spotify', 'WIDTH=400,HEIGHT=500');
+    }
+
+    function addToPlanningCenter() {
+        var url = '../../planningcenter/AddSong/' + 337266;
+        window.open(url, 'pco', 'WIDTH=400,HEIGHT=500');
+    }
+</script>
+
+
+<div class="inner_col">
+    <div class="diag_box">
+        <h1>
+            What A Beautiful Name
+
+                <span class="sub"><a href="/worship-leaders/hillsong-worship/">Hillsong Worship</a></span>
+        </h1>
+        <div class="inner_col col_375">
+            <div id="song_details" class="greybox">
+                    <div class="row">
+                        <div id="wtaudiodetailplayer">
+                            <audio id='adetailplay'></audio>
+                        </div>
+                        <script type="text/javascript">
+                            // Detect if Flash is available
+                            if ((navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.indexOf("Mac") == -1 &&
+                                    navigator.appVersion.indexOf("3.1") == -1) ||
+                                (navigator.plugins && navigator.plugins["Shockwave Flash"]) ||
+                                navigator.plugins["Shockwave Flash 2.0"]) {
+                                var s1 = new SWFObject('/jwplayer/player.swf', 'audio_detail_player', '356', '32', '9', '#000000');
+                                s1.addParam('allowscriptaccess', 'always');
+                                s1.addParam('wmode', 'transparent');
+                                s1.addVariable('file', 'http://mediacontent.worshiptogether.com/audio/what-a-beautiful-name-hillsongworship.mp3');
+                                s1.addVariable('skin', '/jwplayer/wt_detail_skin/wt_detail.xml');
+                                s1.write('wtaudiodetailplayer');
+                            } else {
+                                var detailPlayer = document.getElementById('wtaudiodetailplayer');
+                                detailPlayer.innerHTML = '<a href="#" ref="what-a-beautiful-name-hillsongworship" class="play"></a><span class="play_title">Listen To This Song</span><div class="clear">&nbsp;</div>';
+                            }
+                        </script>
+                    </div>
+
+                <div class="song_taxonomy">
+
+                        <div class="row">
+                            <p>
+                                <strong>Writer(s):</strong>
+Ben Fielding, Brooke Ligertwood                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>
+                                    Theme(s):
+                                </strong>
+<a href='http://worship-songs-resources.worshiptogether.com/nav/theme/adorationpraise/category/songs/0'>Adoration & Praise</a> , <a href='http://worship-songs-resources.worshiptogether.com/nav/theme/faithtrust/category/songs/0'>Faith & Trust</a> , <a href='http://worship-songs-resources.worshiptogether.com/nav/theme/godsattributes/category/songs/0'>God's Attributes</a>                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Tempo:</strong>
+
+                                <a href='http://worship-songs-resources.worshiptogether.com/nav/tempo/medium/category/songs/0'>Medium</a>
+                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Ministry(s):</strong>
+<a href='http://worship-songs-resources.worshiptogether.com/nav/ministries/hillsong/category/songs/0'>Hillsong</a>                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>BPM:</strong>
+                                68
+                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Original Key(s):</strong>
+<a href='http://worship-songs-resources.worshiptogether.com/nav/recommendedkey/d/category/songs/0?format=recommendedkey'>D</a>                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Key Range:</strong>
+                                Bb - F
+                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Recommended Key(s):</strong>
+
+<a href='http://worship-songs-resources.worshiptogether.com/nav/recommendedkey/d/category/songs/0?format=recommendedkey'>D</a> , <a href='http://worship-songs-resources.worshiptogether.com/nav/recommendedkey/deb/category/songs/0?format=recommendedkey'>D#/Eb</a>                            </p>
+                        </div>
+
+                        <div class="row">
+                            <p>
+                                <strong>CCLI #:</strong>
+                                7068424
+                            </p>
+                        </div>
+                                            <div class="row">
+                            <p>
+                                <strong>Scripture Reference(s):</strong>
+                                Philippians 2:9-11
+                            </p>
+                        </div>
+                </div>
+                <div class="row last">
+                    <div id="song_taxonomy_nav">
+                        <a href="#" class="hide">Hide Details</a>
+                        <a href="#" class="show">Show Details</a>
+                    </div>
+                </div>
+            </div>
+
+
+    <div id="chordPro">
+
+
+        <div id="chordPro_nav">
+                <a href="#" class="chords active">Chords</a>
+                <a class="lyrics" href="#">Lyrics</a>
+
+
+        </div>
+
+        <div class="content greybox">
+            <div class="chord-pro-disp" style="font-size: 12px; font-family: menlo;">
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Verse 1</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>You were the Word at the beginning</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>One with </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>God the </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Lord Most </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>High</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Your hidden glory </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A/C#</div>
+                                        <div class='chord-pro-lyric'>in crea</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>tion</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Now re</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>vealed in </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>You our </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Christ</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Chorus 1</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a beautiful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a beautiful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>is </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Jesus </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Christ my </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>King</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a beautiful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D/F#</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Nothing compares to </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>this</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a beautiful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Verse 2</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>You didn?t want heaven without us</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>So Jesus </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>You brought </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>heaven </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>down</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>My sin was great Your </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A/C#</div>
+                                        <div class='chord-pro-lyric'>love was great</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>er</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What could </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>separ</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>ate us </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>now?</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Chorus 2</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a wonderful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a wonderful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Jesus </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Christ my </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>King</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a wonderful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D/F#</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Nothing compares to </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>this</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a wonderful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a wonderful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Instrumental</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G /// | A /// | Hm /// | F#m ///</div>
+                                        <div class='chord-pro-lyric'>   </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>2x</div>
+                                        <div class='chord-pro-lyric'></div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G /// | A /// | Hm /// | A ///</div>
+                                        <div class='chord-pro-lyric'> </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Bridge</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Death could not </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>hold You </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The veil tore be</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>fore You </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>You silence the </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>boast of sin and </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>F#m</div>
+                                        <div class='chord-pro-lyric'>grave</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The heavens are </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>roaring the praise of Your </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>glory</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>For You are </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>raised to life </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>again</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>You have no </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>rival, You have no </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>equal </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Now and for</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>ever God You </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>F#m</div>
+                                        <div class='chord-pro-lyric'>reign</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Yours is the </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>kingdom, Yours is the </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>glory</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Yours is the </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Name above all </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Names</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Chorus 3</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>Jesus </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Christ my </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>King</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>D/F#</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Nothing can stand a</div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>gainst</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>2nd half of Bridge</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-br'></div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>Tag</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus </div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>What a powerful Name it </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>Hm</div>
+                                        <div class='chord-pro-lyric'>is</div>
+                                    </div>
+                        </div>
+                        <div class='chord-pro-line'>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'></div>
+                                        <div class='chord-pro-lyric'>The </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>A</div>
+                                        <div class='chord-pro-lyric'>Name of </div>
+                                    </div>
+                                    <div class='chord-pro-segment'>
+                                            <div class='chord-pro-note'>G</div>
+                                        <div class='chord-pro-lyric'>Jesus</div>
+                                    </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+        </div>
+        <div class="inner_col col_375 last">
+
+                <h5>
+                    Song Resources
+                </h5>
+                <div id="_ctl0_content_divFreeLinks" class="big_buttons_list">
+                                                                    <a href="/modals/free-for-members" rel="facebox" class="big_button big_button_green rounded">
+                                <strong class="button icon_sheet_music"></strong>
+                                <span>Free ChordPro Download</span>
+                            </a>
+                                                <a href="/modals/free-for-members" rel="facebox" class="big_button big_button_green rounded">
+                                <strong class="button icon_sheet_music"></strong>
+                                <span>Free Lyrics Download</span>
+                            </a>
+
+                </div>
+                            <div class="big_buttons_list">
+
+
+                        <a href="/modals/free-for-members" rel="facebox" class="big_button rounded">
+                            <strong class="button icon_note">note</strong>
+                            <span>Add to Planning Center</span>
+                            <em class="button icon_planning_center">Add to Planning Center</em>
+                        </a>
+
+
+                        <a href="http://smarturl.it/LetThereBeLight?IQid=wt" target="_blank" class="big_button rounded">
+                            <strong class="button icon_note">note</strong>
+                            <span>iTunes</span>
+                            <em class="button icon_itunes">download on iTunes</em>
+                        </a>
+                                            <div onclick="addToPlaylist('spotify:track:1yYUIjT3bZ9RB9vejqYy9f')" class="big_button rounded fakeLink" style="color:#afd14c">
+                            <strong class="button icon_note">note</strong>
+                            <span>Spotify</span>
+                            <em class="button icon_spotify_playlist">Add to Spotify Playlist</em>
+                        </div>
+                                            <a href="https://worshipcharts.com/*/Let-There-Be-Light/What-a-Beautiful-Name/0020C0DPZ000" target="_blank" class="big_button rounded">
+                            <strong class="button icon_sheet_music">note</strong>
+                            <span>Charts</span>
+                            <em class="button icon_musicnotes">download on sheetmusic</em>
+                        </a>
+                                            <a href="http://www.multitracks.com/afe/wtcap3/?t=/songs/Hillsong-Worship/Let-There-Be-Light/What-a-Beautiful-Name/" target="_blank" class="big_button rounded">
+                            <strong class="button icon_note">note</strong>
+                            <span>MultiTracks</span>
+                            <em class="button icon_multitracks">Get MultiTracks</em>
+                        </a>
+                </div>
+                            <div id="song_videos">
+                    <h5>videos</h5>
+                    <div class="video" id="video_detailed">
+</div>
+
+    <div class="greybox show-more" style="padding: 10px; margin-bottom: 20px;">
+        <div id="videos-scroll" class="scroll-pane show-more">
+            <div class="customScrollerContainer">
+                <div class="customScrollerContent">
+                    <div class="scroller">
+                        <ul class="videos-list">
+                                <li>
+                                    <a href="/videos/what-a-beautiful-name-hillsong-worship-nsc//videocontentSmall.aspx">
+                                        <img src="http://sitecontent.worshiptogether.com/site/images/videos/whatabeautifulnameTNtext.jpg"
+                                                width="110" height="63" alt="New Song Cafe" />
+                                        <span>
+                                            New Song Cafe
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/videos/what-a-beautiful-name-live-performance//videocontentSmall.aspx">
+                                        <img src="http://sitecontent.worshiptogether.com/site/images/videos/tnwhatabeatufilname.jpg"
+                                                width="110" height="63" alt="Live Video" />
+                                        <span>
+                                            Live Video
+                                        </span>
+                                    </a>
+                                </li>
+
+                        </ul>
+                        <div class="cl">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+	    // Call loadVideo to get initial video on page load
+        loadVideo("/videos/what-a-beautiful-name-hillsong-worship-nsc//videocontentSmall.aspx");
+	    // Call loadVideo to load videos when thumbnails are clicked
+	    // Also set clicked thumbnail to active thumbnail image
+	    $('.videos-list li a').bind('click', function(){
+		    loadVideo($(this).attr("href"));
+		    return false;
+	    });
+    });
+</script>
+                    <br>
+                </div>
+                <div id="song_box" class="show-more">
+                    <div id="song_nav">
+                        <a href="#" class="popular active">Popular Songs</a><a class="new" href="#">New Songs</a>
+                        <div class="cl">&nbsp;</div>
+                    </div>
+<ul class="songs_list popular list active">
+        <li>
+                <a href="#" class="play button" ref="what-a-beautiful-name-hillsongworship">play</a>
+            <a class="greybox" href="/songs/what-a-beautiful-name-hillsong-worship/" title="What A Beautiful Name">
+                What A Beautiful Name &nbsp;
+                    <span class="artist_name">
+Hillsong Worship                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="good_good_father_tomlin">play</a>
+            <a class="greybox" href="/songs/good-good-father-tomlin/" title="Good Good Father">
+                Good Good Father &nbsp;
+                    <span class="artist_name">
+Chris Tomlin, Housefires                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="cornerstone_hillsong">play</a>
+            <a class="greybox" href="/songs/cornerstone/" title="Cornerstone ">
+                Cornerstone  &nbsp;
+                    <span class="artist_name">
+Hillsong Worship                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="holy-spirit-torwalts">play</a>
+            <a class="greybox" href="/songs/holy-spirit/" title="Holy Spirit">
+                Holy Spirit &nbsp;
+                    <span class="artist_name">
+Bryan and Katie Torwalt, Kari Jobe                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="10000_reasons_redman">play</a>
+            <a class="greybox" href="/songs/10-000-reasons-bless-the-lord/" title="10,000 Reasons (Bless The Lord)">
+                10,000 Reasons (Bless The Lord) &nbsp;
+                    <span class="artist_name">
+Matt Redman, Passion                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="mighty_to_save_hschapel">play</a>
+            <a class="greybox" href="/songs/mighty-to-save/" title="Mighty To Save ">
+                Mighty To Save  &nbsp;
+                    <span class="artist_name">
+Hillsong Worship                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="how_great_is_our_god_world_edition">play</a>
+            <a class="greybox" href="/songs/how-great-is-our-god/" title="How Great Is Our God ">
+                How Great Is Our God  &nbsp;
+                    <span class="artist_name">
+Chris Tomlin                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="oceans_united">play</a>
+            <a class="greybox" href="/songs/oceans-where-feet-may-fail/" title="Oceans (Where Feet May Fail) ">
+                Oceans (Where Feet May Fail)  &nbsp;
+                    <span class="artist_name">
+UNITED                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="amazing_grace_my_chains_are_gone">play</a>
+            <a class="greybox" href="/songs/amazing-grace-my-chains-are-gone/" title="Amazing Grace (My Chains Are Gone)">
+                Amazing Grace (My Chains Are Gone) &nbsp;
+                    <span class="artist_name">
+Chris Tomlin                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="">play</a>
+            <a class="greybox" href="/songs/lion-and-the-lamb/" title="Lion And The Lamb">
+                Lion And The Lamb &nbsp;
+                    <span class="artist_name">
+Brenton Brown                    </span>
+            </a>
+        </li>
+</ul>                    <ul class="songs_list new list">
+        <li>
+                <a href="#" class="play button" ref="love_has_a_name_jesus_culture">play</a>
+            <a class="greybox" href="/songs/love-has-a-name-jesus-culture/" title="Love Has A Name">
+                Love Has A Name &nbsp;
+                    <span class="artist_name">
+Jesus Culture, Kim Walker-Smith                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="what_freedom_feels_like_carness">play</a>
+            <a class="greybox" href="/songs/what-freedom-feels-like-cody-carnes/" title="What Freedom Feels Like ">
+                What Freedom Feels Like  &nbsp;
+                    <span class="artist_name">
+Cody Carnes                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="halls_of_heaven_jesus_culture">play</a>
+            <a class="greybox" href="/songs/halls-of-heaven-jesus-culture/" title="Halls Of Heaven">
+                Halls Of Heaven &nbsp;
+                    <span class="artist_name">
+Jesus Culture, Chris Quilala                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="til_the_end_of_time_carnes">play</a>
+            <a class="greybox" href="/songs/til-the-end-of-time-cody-carnes/" title="&#39;Til The End Of Time">
+                &#39;Til The End Of Time &nbsp;
+                    <span class="artist_name">
+Cody Carnes                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="so_will_i_100_billion_x_united">play</a>
+            <a class="greybox" href="/songs/so-will-i-100-billion-x-united/" title="So Will I (100 Billion X)">
+                So Will I (100 Billion X) &nbsp;
+                    <span class="artist_name">
+UNITED                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="future_marches_in_united">play</a>
+            <a class="greybox" href="/songs/future-marches-in-united/" title="Future Marches In">
+                Future Marches In &nbsp;
+                    <span class="artist_name">
+UNITED                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="praise_the_lord_evermore_worshipcentral">play</a>
+            <a class="greybox" href="/songs/praise-the-lord-evermore-worship-central/" title="Praise The Lord (Evermore)">
+                Praise The Lord (Evermore) &nbsp;
+                    <span class="artist_name">
+Worship Central, Ben Cantelon                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="devotion_worshipcentral">play</a>
+            <a class="greybox" href="/songs/devotion-worship-central/" title="Devotion">
+                Devotion &nbsp;
+                    <span class="artist_name">
+Worship Central                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="shadow_step_united">play</a>
+            <a class="greybox" href="/songs/shadow-step-united/" title="Shadow Step">
+                Shadow Step &nbsp;
+                    <span class="artist_name">
+UNITED                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="wonder_united">play</a>
+            <a class="greybox" href="/songs/wonder-united/" title="Wonder">
+                Wonder &nbsp;
+                    <span class="artist_name">
+UNITED                    </span>
+            </a>
+        </li>
+</ul>                </div>
+        </div>
+        <div class="cl">
+            &nbsp;
+        </div>
+    </div>
+</div>
+<div class=" col col_160 last">
+    <div id="free_songs" class="diag_box">
+    <h5>Free Songs</h5>
+
+    <ul class="songs_list">
+        <li>
+                <a href="#" class="play button" ref="love_has_a_name_jesus_culture">play</a>
+            <a class="greybox" href="/songs/love-has-a-name-jesus-culture/" title="Love Has A Name">
+                Love Has A Name &nbsp;
+                    <span class="artist_name">
+Jesus Culture, Kim Walker-Smith                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="what_freedom_feels_like_carness">play</a>
+            <a class="greybox" href="/songs/what-freedom-feels-like-cody-carnes/" title="What Freedom Feels Like ">
+                What Freedom Feels Like  &nbsp;
+                    <span class="artist_name">
+Cody Carnes                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="pray_worshipcentral">play</a>
+            <a class="greybox" href="/songs/pray-worship-central/" title="Pray">
+                Pray &nbsp;
+                    <span class="artist_name">
+Worship Central, Tim Hughes                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="halls_of_heaven_jesus_culture">play</a>
+            <a class="greybox" href="/songs/halls-of-heaven-jesus-culture/" title="Halls Of Heaven">
+                Halls Of Heaven &nbsp;
+                    <span class="artist_name">
+Jesus Culture, Chris Quilala                    </span>
+            </a>
+        </li>
+        <li>
+                <a href="#" class="play button" ref="hold_it_all_carnes">play</a>
+            <a class="greybox" href="/songs/hold-it-all-cody-carnes/" title="Hold It All">
+                Hold It All &nbsp;
+                    <span class="artist_name">
+Cody Carnes                    </span>
+            </a>
+        </li>
+</ul>
+
+
+</div>
+	    <script type='text/javascript'>
+            GA_googleFillSlot("skyscraper");
+        </script>
+</div>
+
+            <div id="responsive_search" class="col col_380">
+                <div class="diag_box">
+                    <div language="javascript" onkeypress="if (event.keyCode == 13) { submitResponsiveSearch(); return false; }" on>
+                        <div class="field search_field">
+                            <input id="_ctl0_responsive_search" value="search" type="text">
+                        </div>
+                        <div class="search_button">
+                            <input type="submit" value="" class="search_sub submit" onclick="submitResponsiveSearch()">
+                        </div>
+                    </div>
+                    <script type='text/javascript'>
+                        function submitResponsiveSearch() {
+                            var Searchtxt = document.getElementById("_ctl0_responsive_search").value;
+                            window.location = "http://worship-songs-resources.worshiptogether.com/search?w=" + encodeURIComponent(Searchtxt);
+                            return false;
+                        }
+                    </script>
+
+                    <div class="cl">&nbsp;</div>
+                </div>
+            </div>
+            <div class="cl">&nbsp;</div>
+
+<div id="footer" class="rounded">
+	<div id="footer_left">
+
+		<div id="social_media">
+			<h4>Social Media Outlets</h4>
+			<a href="http://www.facebook.com/worshiptogether" target="blank" class="facebook_btn button" title="">Facebook</a>
+			<a href="http://www.twitter.com/worshiptogether" target="blank" class="twitter_btn button" title="">Twitter</a>
+			<a href="https://www.instagram.com/worshiptogether/" target="blank" class="instagram_btn button" title="">Instagram</a>
+		</div>
+	</div>
+
+		<div id="footerlinks">
+			<ul class="footer_col popular_searches">
+				<li><h4>Popular Searches</h4></li>
+				<li><a href="http://worship-songs-resources.worshiptogether.com/nav/category/00/0">Songs</a></li>
+				<li><a href="http://worship-songs-resources.worshiptogether.com/nav/category/02/0">Worship Leaders</a></li>
+				<li><a href="http://worship-songs-resources.worshiptogether.com/nav/category/03/0">Blog</a></li>
+
+			</ul>
+
+			<ul class="footer_col partners">
+				<li><h4>Partners</h4></li>
+
+                    <li><a href="/partners/passion/">Passion</a></li>
+                    <li><a href="/partners/hillsong/">Hillsong</a></li>
+                    <li><a href="/partners/jesus-culture/">Jesus Culture</a></li>
+                    <li><a href="/partners/ccli/">CCLI</a></li>
+            </ul>
+			<ul class="footer_col nav">
+				<li><h4>Navigation</h4></li>
+                <li><a href="/">Home</a></li>
+                    <li>
+                            <a href="/songs/">Songs</a>
+                    </li>
+                    <li>
+                            <a href="/worship-leaders/">Worship Leaders</a>
+                    </li>
+                    <li>
+                            <a href="/videos/">Videos</a>
+                    </li>
+                    <li>
+                            <a href="/blog/">Blog</a>
+                    </li>
+                    <li>
+                            <a href="http://conference.worshiptogether.com">Event</a>
+                    </li>
+
+			</ul>
+			<div class="clear">&nbsp;</div>
+		</div>
+	<div class="clear">&nbsp;</div>
+
+</div>
+
+	<div id="sub_footer">
+	    <ul>
+	        <li><a href="/faq.aspx">FAQ/Help</a></li>
+
+	        <li>|</li>
+	        <li><a href="/modals/copyright/" rel="facebox">Copyright</a></li>
+	        <li>|</li>
+	        <li><a href="/modals/privacy-policy/" rel="facebox">Privacy Policy</a></li>
+	    </ul>
+	    <span class="cabedge">Website by <a href="http://www.atiba.com" target="blank" title="Visit atiba.com">atiba.com</a></span>
+	    <div class="clear">&nbsp;</div>
+	    <span class="copyright">&copy; 2017 WorshipTogether.com | All Rights Reserved.</span>
+	</div>
+        </div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54cc46376bbbd819" async="async"></script>
+<script id="e2ma-embed">window.e2ma=window.e2ma||{};e2ma.accountId='31774';</script>
+        <script src="//embed.e2ma.net/e2ma.js" async="async"></script>
+<!-- Google Code for Worship Together - Site - 540 Day Conversion Page -->
+<!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. For instructions on adding this tag and more information on the above requirements, read the setup guide: google.com/ads/remarketingsetup -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 982033727;
+var google_conversion_label = "stUeCOuRpmgQv8qi1AM";
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+
+	<script>
+			var refTagger = {
+		settings: {
+			bibleVersion: "NIV",
+			noSearchClassNames: ["chord-pro-disp"],
+			noSearchTagNames: ["chord-pro-disp"],
+			socialSharing: ["twitter","facebook"],
+			tooltipStyle: "dark",
+			customStyle : {
+				heading: {
+					backgroundColor : "#000501",
+					color : "#ffffff",
+					fontFamily : "Arial, 'Helvetica Neue', Helvetica, sans-serif",
+					fontSize : "14px"
+				},
+				body   : {
+					fontFamily : "Arial, 'Helvetica Neue', Helvetica, sans-serif",
+					moreLink : {
+						color: "#afd14c"
+					}
+				}
+			}
+		}
+	};
+	(function(d, t) {
+		var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+		g.src = "//api.reftagger.com/v2/RefTagger.js";
+		s.parentNode.insertBefore(g, s);
+	}(document, "script"));
+</script>
+
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/982033727/?value=1.00&currency_code=USD&label=stUeCOuRpmgQv8qi1AM&guid=ON&script=0"/>
+</div>
+</noscript>
+</body>
+</html>

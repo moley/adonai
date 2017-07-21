@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <extensionPaths>/Users/OleyMa/Music/iTunes/iTunes Media/Music</extensionPaths>
+    <sessions>
+        <name>Demosession</name>
+        <songs>2</songs>
+        <songs>1</songs>
+    </sessions>
+    <songBooks>
+        <songs>
+            <id>1</id>
+            <songParts>
+                <id>7dfa209a-ecf5-4308-97e7-5d828bdb9435</id>
+                <lines>
+                    <lineParts>
+                        <text>This is a demo</text>
+                    </lineParts>
+                </lines>
+                <songPartType>VERS</songPartType>
+            </songParts>
+            <title>Song 1</title>
+        </songs>
+        <songs>
+            <id>2</id>
+            <songParts>
+                <id>017e2849-515b-47ba-9ac2-d6c1f6a86704</id>
+                <lines>
+                    <lineParts>
+                        <chord>D</chord>
+                        <text>This is a demo</text>
+                    </lineParts>
+                </lines>
+                <songPartType>VERS</songPartType>
+            </songParts>
+            <title>Song 2</title>
+        </songs>
+    </songBooks>
+</configuration>
