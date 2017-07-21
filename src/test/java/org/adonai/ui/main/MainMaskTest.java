@@ -4,13 +4,13 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.Test;
-import org.adonai.AbstractLyricsExtractorUiTest;
+import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Song;
 import org.adonai.ui.editor.SongEditorPage;
 import org.adonai.ui.selectsong.SelectSongPage;
 
 
-public class MainMaskTest extends AbstractLyricsExtractorUiTest {
+public class MainMaskTest extends AbstractAdonaiUiTest {
 
   private MainMaskPage mainMaskPage;
 

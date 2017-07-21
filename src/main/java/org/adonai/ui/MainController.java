@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -19,18 +18,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import org.adonai.PlaylistExport;
+import org.adonai.export.ppt.PptExporter;
 import org.adonai.model.*;
 import org.adonai.screens.ScreenManager;
+import org.adonai.services.AddSongService;
 import org.adonai.ui.editor.SongEditor;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
-import org.adonai.export.ExportConfiguration;
-import org.adonai.export.ExportException;
-import org.adonai.export.ppt.PptExporter;
-import org.adonai.services.AddSongService;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -218,9 +213,9 @@ public class MainController {
       @Override
       public void handle(ActionEvent event) {
 
-        File playlistpath = new File("/Users/OleyMa/privat/worship/playlist");
-        PlaylistExport export = new PlaylistExport();
-        export.export(configuration, playlistpath);
+        throw new IllegalStateException("Implement selection dialog");
+        //PlaylistExport export = new PlaylistExport();
+        //export.export(configuration, playlistpath);
 
 
       }
@@ -234,15 +229,17 @@ public class MainController {
         //saving the changes to a file
         //creating an FileOutputStream object
         Session session = lviSessions.getSelectionModel().getSelectedItem();
-        File file = new File("/Users/OleyMa/privat/worship/worshipmappe_" + session.getName() + ".pptx");
+
         PptExporter writer = new PptExporter();
         Collection<Song> sessionSongs = getSongs(session);
 
-        try {
+        throw new IllegalStateException("Implement selection dialog");
+
+/**        try {
           writer.export(sessionSongs, file, new ExportConfiguration());
         } catch (ExportException e) {
           throw new IllegalStateException(e);
-        }
+        }**/
       }
     });
 
@@ -251,13 +248,14 @@ public class MainController {
     btnExportAll.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        File file = new File("/Users/OleyMa/privat/worship/worshipmappe_All.pptx");
-        PptExporter writer = new PptExporter();
+        throw new IllegalStateException("Implement selection dialog");
+
+        /**PptExporter writer = new PptExporter();
         try {
           writer.export(configuration.getSongBooks().get(0).getSongs(), file, new ExportConfiguration());
         } catch (ExportException e) {
           throw new IllegalStateException(e);
-        }
+        }**/
 
       }
     });
@@ -268,7 +266,7 @@ public class MainController {
     lviAllSongs.getSelectionModel().selectFirst();
 
 
-    MenuItem menuItemNewSong = new MenuItem("New song", new ImageView("/icons/add.png"));
+    MenuItem menuItemNewSong = new MenuItem("New song");
     menuItemNewSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -283,7 +281,7 @@ public class MainController {
       }
     });
 
-    MenuItem menuItemCopySong = new MenuItem("Copy song", new ImageView("/icons/add.png"));
+    MenuItem menuItemCopySong = new MenuItem("Copy song");
     menuItemCopySong.setId("menuItemCopySong");
     menuItemCopySong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -301,7 +299,7 @@ public class MainController {
       }
     });
 
-    MenuItem menuItemImportSong = new MenuItem("Import song", new ImageView("/icons/add.png"));
+    MenuItem menuItemImportSong = new MenuItem("Import song");
     menuItemImportSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -314,7 +312,7 @@ public class MainController {
 
     lviAllSongs.setContextMenu(contextMenu);
 
-    MenuItem menuItemNewSession = new MenuItem("New session", new ImageView("/icons/add.png"));
+    MenuItem menuItemNewSession = new MenuItem("New session");
     menuItemNewSession.setId("menuItemNewSession");
     menuItemNewSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -323,7 +321,7 @@ public class MainController {
       }
     });
 
-    MenuItem menuItemRemoveSession = new MenuItem("Remove session", new ImageView("/icons/add.png"));
+    MenuItem menuItemRemoveSession = new MenuItem("Remove session");
     menuItemRemoveSession.setId("menuItemRemoveSession");
     menuItemRemoveSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -336,7 +334,7 @@ public class MainController {
 
     lviSessions.setContextMenu(contextMenuSesssionsOverview);
 
-    MenuItem menuItemAddSongToSession = new MenuItem("Add song", new ImageView("/icons/add.png"));
+    MenuItem menuItemAddSongToSession = new MenuItem("Add song");
     menuItemAddSongToSession.setId("menuItemAddSongToSession");
     menuItemAddSongToSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -345,7 +343,7 @@ public class MainController {
       }
     });
 
-    MenuItem menuItemRemoveSongFromSession = new MenuItem("Remove session", new ImageView("/icons/add.png"));
+    MenuItem menuItemRemoveSongFromSession = new MenuItem("Remove session");
     menuItemRemoveSongFromSession.setId("menuItemRemoveSession");
     menuItemRemoveSongFromSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -444,7 +442,7 @@ public class MainController {
 
     ImportWizard importWizard = new ImportWizard(stage, songImportController);
     Scene scene = new Scene(importWizard, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
-    scene.getStylesheets().add("/lyricsextractor.css");
+    scene.getStylesheets().add("/adonai.css");
 
     stage.setOnCloseRequest(event -> {
       stage.close();
@@ -465,7 +463,7 @@ public class MainController {
     Parent editor = songEditor.getPanel();
 
     Scene scene = new Scene(editor, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
-    scene.getStylesheets().add("/lyricsextractor.css");
+    scene.getStylesheets().add("/adonai.css");
     Stage stage = new Stage();
     stage.setOnCloseRequest(event -> {
       songEditor.save();
@@ -496,7 +494,7 @@ public class MainController {
   private void addSongToSession() {
     Parent root = null;
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/lyricsextractor/songselector.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/songselector.fxml"));
       root = loader.load();
 
 
@@ -507,7 +505,7 @@ public class MainController {
 
       stage.setTitle("Select song");
       Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
-      scene.getStylesheets().add("/lyricsextractor.css");
+      scene.getStylesheets().add("/adonai.css");
       stage.setScene(scene);
 
 

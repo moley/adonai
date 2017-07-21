@@ -79,7 +79,7 @@ public class SongSelectorController {
   private void connectBackground ( ){
     Song selectedSong = tabSongs.getSelectionModel().getSelectedItem();
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/lyricsextractor/extensionselector.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/extensionselector.fxml"));
     Parent root = null;
     try {
       root = loader.load();
@@ -90,7 +90,7 @@ public class SongSelectorController {
     extensionSelectorController.init(ExtensionType.BACKGROUND);
 
     Scene scene = new Scene(root, 800, 600);
-    scene.getStylesheets().add("/lyricsextractor.css");
+    scene.getStylesheets().add("/adonai.css");
 
     Stage stage = new Stage();
     stage.setTitle("Connect background with " + selectedSong.getTitle());
@@ -114,7 +114,7 @@ public class SongSelectorController {
   private void connectSong ( ){
     Song selectedSong = tabSongs.getSelectionModel().getSelectedItem();
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/lyricsextractor/extensionselector.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/extensionselector.fxml"));
     Parent root = null;
     try {
       root = loader.load();
@@ -125,7 +125,7 @@ public class SongSelectorController {
     extensionSelectorController.init(ExtensionType.SONG);
 
     Scene scene = new Scene(root, 800, 600);
-    scene.getStylesheets().add("/lyricsextractor.css");
+    scene.getStylesheets().add("/adonai.css");
 
     Stage stage = new Stage();
     stage.setTitle("Connect song with " + selectedSong.getTitle());

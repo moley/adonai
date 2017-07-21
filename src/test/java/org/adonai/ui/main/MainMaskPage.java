@@ -25,9 +25,9 @@ public class MainMaskPage {
   public MainMaskPage (final Stage stage, final ApplicationTest applicationTest) throws IOException {
     this.stage = stage;
     this.applicationTest = applicationTest;
-    Parent root = FXMLLoader.load(getClass().getResource("/org/lyricsextractor/sample.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/org/adonai/main.fxml"));
     scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
-    scene.getStylesheets().add("/lyricsextractor.css");
+    scene.getStylesheets().add("/adonai.css");
     stage.setScene(scene);
     stage.show();
   }

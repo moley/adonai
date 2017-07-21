@@ -77,7 +77,7 @@ public class SongEditorStarter extends Application {
 
       Scene scene = new Scene(editor, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
 
-      scene.getStylesheets().add("/lyricsextractor.css");
+      scene.getStylesheets().add("/adonai.css");
 
       primaryStage.setScene(scene);
 

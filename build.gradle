@@ -34,7 +34,7 @@ dependencies {
 
 }
 
-mainClassName = 'sample.ui.LyricsExtractorApplication'
+mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 
 task install(type: Copy, dependsOn: distZip) {

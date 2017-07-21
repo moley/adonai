@@ -42,10 +42,15 @@ public class PartEditor extends PanelHolder {
     this.songEditor = songEditor;
     try {
 
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/lyricsextractor/songpartdetails.fxml"));
-      Parent songdetailsParent = fxmlLoader.load();
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/adonai/songpartdetails.fxml"));
+      Parent songpartDetailsRoot = fxmlLoader.load();
       SongPartDetailsController songPartDetailsController = fxmlLoader.getController();
       songPartDetailsController.setPartEditor(this);
+
+      fxmlLoader = new FXMLLoader(getClass().getResource("/org/adonai/songdetails.fxml"));
+      Parent songDetailsRoot = fxmlLoader.load();
+      SongDetailsController songDetailsController = fxmlLoader.getController();
+      songDetailsController.setPartEditor(this);
 
       contentPane.setPadding(new Insets(20, 5, 20, 5));
       contentPane.setFillWidth(true);
@@ -53,10 +58,14 @@ public class PartEditor extends PanelHolder {
       Tab contentTab = new Tab("Part content");
       contentTab.setContent(contentPane);
 
-      Tab detailsTab = new Tab("Part details");
-      detailsTab.setContent(songdetailsParent);
+      Tab songpartdetailsTab = new Tab("Part details");
+      songpartdetailsTab.setContent(songpartDetailsRoot);
+
+      Tab songdetailsTab = new Tab("Song details");
+      songdetailsTab.setContent(songDetailsRoot);
       rootPane.getTabs().add(contentTab);
-      rootPane.getTabs().add(detailsTab);
+      rootPane.getTabs().add(songpartdetailsTab);
+      rootPane.getTabs().add(songdetailsTab);
       rootPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
         @Override
         public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {

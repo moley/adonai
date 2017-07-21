@@ -8,20 +8,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.adonai.model.LinePart;
+import org.adonai.model.Song;
+import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
 import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongInfoService;
 import org.adonai.ui.Consts;
-import org.adonai.model.LinePart;
-import org.adonai.model.Song;
-import org.adonai.model.SongPart;
 
 import java.util.HashMap;
 
@@ -90,7 +89,7 @@ public class SongEditor extends PanelHolder {
 
 
 
-    MenuItem menuItemAddPartBefore = new MenuItem("Add part before", new ImageView("/icons/add.png"));
+    MenuItem menuItemAddPartBefore = new MenuItem("Add part before");
     menuItemAddPartBefore.setId("menuitemAddPartBefore");
     menuItemAddPartBefore.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -100,7 +99,7 @@ public class SongEditor extends PanelHolder {
       }
     });
 
-    MenuItem menuItemRemovePart = new MenuItem("Remove", new ImageView("/icons/remove.png"));
+    MenuItem menuItemRemovePart = new MenuItem("Remove");
     menuItemRemovePart.setId("menuItemRemovePart");
     menuItemRemovePart.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -110,7 +109,7 @@ public class SongEditor extends PanelHolder {
       }
     });
 
-    MenuItem menuItemAddPartAfter = new MenuItem("Add part after", new ImageView("/icons/add.png"));
+    MenuItem menuItemAddPartAfter = new MenuItem("Add part after");
     menuItemAddPartAfter.setId("menuitemAddPartAfter");
     menuItemAddPartAfter.setOnAction(new EventHandler<ActionEvent>() {
       @Override
