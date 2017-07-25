@@ -36,6 +36,24 @@ public class ExportTokenContainer {
         max = Double.max(max, next.getAreaInfo().getX());
     }
     return max;
+  }
 
+  public ExportToken findTokenByText (String text) {
+    for (ExportToken next: exportTokenList) {
+      if (next.getText().startsWith(text))
+        return next;
+    }
+
+    throw new IllegalStateException("Export Token with text " + text + " not found");
+
+  }
+
+  public String toString () {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (ExportToken token: exportTokenList) {
+      stringBuilder.append(token + "\n");
+    }
+
+    return stringBuilder.toString();
   }
 }

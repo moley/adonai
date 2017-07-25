@@ -10,9 +10,10 @@ import java.io.File;
 import java.util.Collection;
 
 public class PdfExporter implements Exporter {
+
+  private PdfDocumentBuilder pdfDocumentBuilder = new PdfDocumentBuilder();
   @Override
   public void export(Collection<Song> songs, File exportFile, ExportConfiguration config) throws ExportException {
-    PdfDocumentBuilder pdfDocumentBuilder = new PdfDocumentBuilder();
     ExportEngine exportEngine = new ExportEngine();
     exportEngine.exportSongs(songs, config, exportFile, pdfDocumentBuilder);
   }
@@ -20,6 +21,10 @@ public class PdfExporter implements Exporter {
   @Override
   public String getSuffix() {
     return ".pdf";
+  }
+
+  public PdfDocumentBuilder getPdfDocumentBuilder () {
+    return pdfDocumentBuilder;
   }
 
 

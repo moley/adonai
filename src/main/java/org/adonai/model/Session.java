@@ -1,5 +1,8 @@
 package org.adonai.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -9,7 +12,7 @@ import java.util.Collection;
 public class Session {
 
   private Collection<Integer> songs = new ArrayList<Integer>();
-  private String name;
+  private StringProperty name = new SimpleStringProperty();
 
 
   public Collection<Integer> getSongs() {
@@ -21,14 +24,18 @@ public class Session {
   }
 
   public String getName() {
+    return name.getValue();
+  }
+
+  public StringProperty getNameProperty () {
     return name;
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name.setValue(name);
   }
 
   public String toString () {
-    return name + "(" + songs.size() + " songs)";
+    return getName() + "(" + songs.size() + " songs)";
   }
 }

@@ -1,6 +1,7 @@
 package org.adonai.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class Configuration {
   private List<SongBook> songBooks = new ArrayList<>();
 
   private List<String> extensionPaths = new ArrayList<>();
+
+  private String exportPath = "export";
 
   public List<Session> getSessions() {
     return sessions;
@@ -63,6 +66,11 @@ public class Configuration {
 
   public void setScreensAdmin(List<String> screensAdmin) {
     this.screensAdmin = screensAdmin;
+  }
+
+  @XmlTransient
+  public File getExportPathAsFile () {
+    return new File (exportPath);
   }
 
 }

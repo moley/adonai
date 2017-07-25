@@ -25,7 +25,7 @@ public class PdfWriterStarter {
     PdfDocumentBuilder pdfDocumentBuilder = new PdfDocumentBuilder();
     ExportConfiguration exportConfiguration = pdfDocumentBuilder.getDefaultConfiguration();
     exportConfiguration.setWithTitle(true);
-    //exportConfiguration.setWithChords(true);
+    exportConfiguration.setWithChords(true);
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
 
     if (Desktop.isDesktopSupported()) {

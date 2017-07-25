@@ -67,7 +67,7 @@ public class SongDetailsController {
         if (currentSong.getCurrentKey() != null) {
           Key previousKey = Key.fromString(currentSong.getCurrentKey());
 
-          Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
           alert.setHeaderText("You have changed the key of the song. Do you want to transpose all chords from " +
                               currentSong.getCurrentKey() + " to " + newValue.name() + "?");
           Optional<ButtonType> result = alert.showAndWait();

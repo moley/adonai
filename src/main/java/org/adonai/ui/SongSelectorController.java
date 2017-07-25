@@ -55,6 +55,7 @@ public class SongSelectorController {
 
   ObservableList<Song> shownSongs = FXCollections.observableArrayList();
 
+  private TableColumn colId = new TableColumn("Id");
   private TableColumn colTitle = new TableColumn("Title");
   private TableColumn colSong = new TableColumn("Song");
   private TableColumn colBackground = new TableColumn("Background");
@@ -67,13 +68,15 @@ public class SongSelectorController {
     LOGGER.info("refresh listview with search " + filter);
     List<Song> filtered = new ArrayList<Song>();
     for (Song next : configuration.getSongBooks().get(0).getSongs()) {
-      if (filter.trim().isEmpty() || next.getTitle().toUpperCase().contains(filter.toUpperCase())) {
+      if (filter.trim().isEmpty() || next.getTitle().toUpperCase().contains(filter.toUpperCase()) || next.getId().toString().equals(filter)) {
         filtered.add(next);
         LOGGER.info(" Add " + next.getId() + "-" + next.getAttachedSong() + " to table");
       }
     }
     shownSongs.removeAll(shownSongs);
     shownSongs.addAll(filtered);
+    if (! filtered.isEmpty())
+      tabSongs.getSelectionModel().selectFirst();
   }
 
   private void connectBackground ( ){
@@ -155,6 +158,10 @@ public class SongSelectorController {
     tabSongs.setItems(shownSongs);
 
 
+    colId.setPrefWidth(10);
+    colId.setCellValueFactory(new PropertyValueFactory<Song, String>("id"));
+    colId.setId("id");
+
     colTitle.setPrefWidth(80);
     colTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
     colTitle.setId("title");
@@ -166,7 +173,7 @@ public class SongSelectorController {
     colBackground.setPrefWidth(10);
     colBackground.setCellValueFactory(new PropertyValueFactory<Song, String>("attachedBackground"));
     colBackground.setId("background");
-    tabSongs.getColumns().addAll(colTitle, colSong, colBackground);
+    tabSongs.getColumns().addAll(colId, colTitle, colSong, colBackground);
 
     tabSongs.setOnMousePressed(new EventHandler<MouseEvent>() {
       @Override
@@ -202,11 +209,13 @@ public class SongSelectorController {
       }
     });
 
-    tabSongs.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    tabSongs.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER))
+        if (event.getCode().equals(KeyCode.ENTER)) {
+          event.consume();
           close();
+        }
       }
     });
 
@@ -231,6 +240,7 @@ public class SongSelectorController {
   }
 
   public void close() {
+
     Stage stage = (Stage) btnSelect.getScene().getWindow();
     stage.fireEvent(
       new WindowEvent(

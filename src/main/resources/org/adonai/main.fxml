@@ -7,9 +7,8 @@
                  GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
     </top>
     <center>
-        <TabPane>
+        <TabPane fx:id="tabView">
             <tabs>
-
 
                 <Tab text="All songs" fx:id="tabAllSongs">
                     <GridPane alignment="center" hgap="5" vgap="5">
@@ -43,7 +42,8 @@
                         </ListView>
 
                         <TextField fx:id="txtSessionName" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <ListView fx:id="lviSessionDetails" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                        <ListView fx:id="lviSessionDetails" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                                  GridPane.vgrow="ALWAYS"
                                   GridPane.rowIndex="2" GridPane.fillHeight="true" GridPane.fillWidth="true"/>
 
                     </GridPane>

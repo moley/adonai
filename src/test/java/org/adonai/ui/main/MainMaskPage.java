@@ -45,6 +45,8 @@ public class MainMaskPage {
     applicationTest.clickOn("#menuItemNewSession");
   }
 
+
+
   public void addSongInSession () {
     applicationTest.rightClickOn(getSongsOfSessionListView());
     applicationTest.clickOn("#menuItemAddSongToSession");

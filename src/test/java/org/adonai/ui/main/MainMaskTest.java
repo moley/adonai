@@ -1,6 +1,10 @@
 package org.adonai.ui.main;
 
+import javafx.application.Platform;
+import javafx.event.EventType;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,6 +22,24 @@ public class MainMaskTest extends AbstractAdonaiUiTest {
   public void start(Stage stage) throws Exception {
     super.start(stage);
     mainMaskPage = new MainMaskPage(stage, this);
+  }
+
+  @Test
+  public void navigateInTab () throws InterruptedException {
+    Assert.assertTrue ("AllSongs not focused at startup", mainMaskPage.getAllSongsListView().isFocused());
+    key(KeyCode.RIGHT);
+    Assert.assertTrue ("Sessions not focused", mainMaskPage.getSessionOverviewListView().isFocused());
+
+    key(KeyCode.RIGHT);
+    Assert.assertTrue ("Title not focused", mainMaskPage.getTitleTextField().isFocused());
+
+    key(KeyCode.DOWN);
+    Assert.assertTrue ("SessionDetails not focused", mainMaskPage.getSongsOfSessionListView().isFocused());
+
+    key(KeyCode.LEFT);
+    Assert.assertTrue ("Sessions not focused", mainMaskPage.getSessionOverviewListView().isFocused());
+    key(KeyCode.LEFT);
+    Assert.assertTrue ("AllSongs not focused", mainMaskPage.getAllSongsListView().isFocused());
   }
 
   @Test

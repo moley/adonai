@@ -1,5 +1,6 @@
 package org.adonai.ui;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,7 +19,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import org.adonai.export.ppt.PptExporter;
+import org.adonai.export.ExportConfiguration;
+import org.adonai.export.ExportException;
+import org.adonai.export.pdf.PdfExporter;
 import org.adonai.model.*;
 import org.adonai.screens.ScreenManager;
 import org.adonai.services.AddSongService;
@@ -26,6 +29,7 @@ import org.adonai.ui.editor.SongEditor;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,6 +47,7 @@ public class MainController {
 
   private static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
 
+  private ScreenManager screenManager = new ScreenManager();
 
   @FXML
   ListView<Song> lviAllSongs;
@@ -64,7 +69,11 @@ public class MainController {
   @FXML
   ToolBar tbaActions;
 
+  @FXML
+  TabPane tabView;
+
   Player playMP3;
+
 
 
   @FXML
@@ -72,6 +81,8 @@ public class MainController {
     configuration = configurationService.get();
     lviSessions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     lviSessions.setPlaceholder(new Label ("No sessions available, please create one"));
+
+
 
     lviSessionDetails.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -86,14 +97,44 @@ public class MainController {
     colBackground.setId("background");
     lviSessionDetails.setCellFactory(new SongCellFactory());
     lviSessionDetails.setPlaceholder(new Label ("No songs available in session, please add one"));
+    lviSessions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Session>() {
+      @Override
+      public void changed(ObservableValue<? extends Session> observable, Session oldValue, Session newValue) {
+
+        if (oldValue != null) {
+          txtSessionName.textProperty().unbindBidirectional(oldValue.getNameProperty());
+        }
+
+        if (newValue != null) {
+          txtSessionName.textProperty().bindBidirectional(newValue.getNameProperty());
+        }
+
+
+      }
+    });
 
 
     txtSessionName.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      public void handle(KeyEvent ke) {
-        System.out.println("Key Pressed: " + ke.getText());
-        Session currentSession = lviSessions.getSelectionModel().getSelectedItem();
-        currentSession.setName(txtSessionName.getText());
+      @Override
+      public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.DOWN) {
+          lviSessionDetails.requestFocus();
+          lviSessionDetails.getSelectionModel().selectFirst();
+        }
+        else
+          if (txtSessionName.getCaretPosition() == 0 && event.getCode() == KeyCode.LEFT)
+            lviSessions.requestFocus();
+      }
+    });
 
+    lviAllSongs.setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override
+      public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.RIGHT) {
+          System.out.println ("Left or right on lviAllSongs");
+          tabView.getSelectionModel().select(1);
+          lviSessions.requestFocus();
+        }
       }
     });
 
@@ -111,6 +152,13 @@ public class MainController {
       @Override
       public void handle(KeyEvent event) {
         System.out.println("KeyListener " + event.getText() + "-" + event.getCode());
+        if (event.getCode() == KeyCode.LEFT) {
+          tabView.getSelectionModel().select(0);
+          lviAllSongs.requestFocus();
+        }
+        if (event.getCode() == KeyCode.RIGHT) {
+          txtSessionName.requestFocus();
+        }
         if (event.getText().equals("+"))
           addSession();
 
@@ -130,17 +178,22 @@ public class MainController {
       }
     });
 
-    lviSessionDetails.setOnKeyReleased(new EventHandler<KeyEvent>() {
+    lviSessionDetails.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        System.out.println("KeyListener " + event.getText());
-        if (event.getText().equals("+"))
-          addSongToSession();
+        System.out.println("KeyListener " + event.getText() + " from " + event.getSource() + "-" + lviSessionDetails);
 
-        if (event.getText().equals("-"))
+        if (event.getCode() == KeyCode.UP)
+          txtSessionName.requestFocus();
+        else
+        if (event.getCode() == KeyCode.LEFT)
+          lviSessions.requestFocus();
+        else if (event.getText().equals("+"))
+          addSongToSession();
+        else if (event.getText().equals("-"))
           removeSongFromSession();
 
-        if (event.getCode().equals(KeyCode.ENTER)) {
+        else if (event.getCode().equals(KeyCode.ENTER)) {
           Song songToEdit = lviSessionDetails.getSelectionModel().getSelectedItem();
           stepToSongEditor(songToEdit);
         }
@@ -221,25 +274,54 @@ public class MainController {
       }
     });
 
-    Button btnExport = new Button("Exporter");
-    tbaActions.getItems().add(btnExport);
-    btnExport.setOnAction(new EventHandler<ActionEvent>() {
+    Button btnExportSessionWithChords = new Button("Export session with chords");
+    tbaActions.getItems().add(btnExportSessionWithChords);
+    btnExportSessionWithChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         //saving the changes to a file
         //creating an FileOutputStream object
         Session session = lviSessions.getSelectionModel().getSelectedItem();
 
-        PptExporter writer = new PptExporter();
+        PdfExporter writer = new PdfExporter();
         Collection<Song> sessionSongs = getSongs(session);
 
-        throw new IllegalStateException("Implement selection dialog");
+        ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
+        exportConfiguration.setWithChords(true);
 
-/**        try {
-          writer.export(sessionSongs, file, new ExportConfiguration());
+        File exportFile = new File (configuration.getExportPathAsFile(), session.getName() + "_Chords.pdf");
+        exportFile.getParentFile().mkdirs();
+        try {
+          writer.export(sessionSongs, exportFile, exportConfiguration);
         } catch (ExportException e) {
           throw new IllegalStateException(e);
-        }**/
+        }
+      }
+    });
+
+    Button btnExportSessionWithoutChords = new Button("Export session without chords");
+    tbaActions.getItems().add(btnExportSessionWithoutChords);
+    btnExportSessionWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        //saving the changes to a file
+        //creating an FileOutputStream object
+        Session session = lviSessions.getSelectionModel().getSelectedItem();
+
+        PdfExporter writer = new PdfExporter();
+        Collection<Song> sessionSongs = getSongs(session);
+
+        ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
+        exportConfiguration.setWithChords(false);
+
+        try {
+          File exportFile = new File (configuration.getExportPathAsFile(), session.getName()+ ".pdf");
+          exportFile.getParentFile().mkdirs();
+          writer.export(sessionSongs, exportFile, exportConfiguration);
+        } catch (ExportException e) {
+          throw new IllegalStateException(e);
+        }
+
       }
     });
 
@@ -356,6 +438,15 @@ public class MainController {
 
     lviSessionDetails.setContextMenu(contextMenuSessionDetails);
 
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        lviAllSongs.requestFocus();
+        lviAllSongs.getSelectionModel().selectFirst();
+
+      }
+    });
+
   }
 
   private SongBook getCurrentSongBook() {
@@ -381,16 +472,11 @@ public class MainController {
       lviSessions.getSelectionModel().selectFirst();
 
     Session selectedSession = lviSessions.getSelectionModel().getSelectedItem();
-    if (selectedSession != null) {
-      Collection<Song> sessionSongs = getSongs(selectedSession);
-      System.out.println("Reload selected " + selectedSession.getName() + "-" + sessionSongs.size());
-      lviSessionDetails.setItems(FXCollections.observableArrayList(sessionSongs));
-      txtSessionName.setText(selectedSession.getName());
-    }
-    else {
-      lviSessionDetails.setItems(FXCollections.observableArrayList());
-      txtSessionName.setText("");
-    }
+    Collection<Song> sessionSongs = getSongs(selectedSession);
+    System.out.println("Reload selected " + selectedSession.getName() + "-" + sessionSongs.size());
+    lviSessionDetails.setItems(FXCollections.observableArrayList(sessionSongs));
+
+
 
   }
 
@@ -503,15 +589,18 @@ public class MainController {
       Stage stage = new Stage();
       stage.setResizable(true);
 
+
       stage.setTitle("Select song");
       Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+
       scene.getStylesheets().add("/adonai.css");
       stage.setScene(scene);
+      screenManager.layoutOnScreen(stage);
 
 
       stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
         public void handle(WindowEvent we) {
-          System.out.println(songSelectorController.getSelectedSongs().size());
+          System.out.println("Selected songs: " + songSelectorController.getSelectedSongs().size());
           Session selectedSession = lviSessions.getSelectionModel().getSelectedItem();
           for (Song next : songSelectorController.getSelectedSongs()) {
             selectedSession.getSongs().add(next.getId());

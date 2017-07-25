@@ -76,7 +76,8 @@ public class ExportEngine {
 
               SizeInfo sizeInfoText = documentBuilder.getSize(nextLinePart.getText(), ExportTokenType.TEXT);
               Double widthOfText = sizeInfoText.getWidth();
-              heightOfText = sizeInfoText.getHeight();
+              if (sizeInfoText.getHeight() > heightOfText)
+                heightOfText = sizeInfoText.getHeight();
 
               Double widthOfChord = new Double(0);
               if (nextLinePart.getChord() != null && exportConfiguration.isWithChords()) {

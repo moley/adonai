@@ -22,8 +22,8 @@ public class AdonaiApplication extends Application {
 
     ScreenManager screenManager = new ScreenManager();
 
-
-    Parent root = FXMLLoader.load(getClass().getResource("/org/adonai/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/main.fxml"));
+    Parent root = loader.load();
 
     Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
     scene.getStylesheets().add("/adonai.css");

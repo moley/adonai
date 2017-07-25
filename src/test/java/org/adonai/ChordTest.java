@@ -110,6 +110,14 @@ public class ChordTest {
   }
 
   @Test
+  public void transposeToFismoll () {
+    Chord chord = new Chord ("Em7");
+    chord.transpose(2, NoteEntryType.INCREMENT);
+    Assert.assertEquals ("F#m7", chord.toString());
+
+  }
+
+  @Test
   public void transposeUpBorder ( ){
     Chord chord = new Chord ("A");
     chord.transpose(4, NoteEntryType.INCREMENT);
