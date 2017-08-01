@@ -26,7 +26,7 @@ public class ExportConfiguration {
 
   private Double minimalChordDistance;
 
-  private Boolean openPreview;
+  private Boolean openPreview = Boolean.FALSE;
 
   public NewPageStrategy getNewPageStrategy() {
     return newPageStrategy;
