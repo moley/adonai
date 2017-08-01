@@ -1,17 +1,14 @@
 package org.adonai.ui.main;
 
-import javafx.application.Platform;
-import javafx.event.EventType;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import org.junit.Assert;
-import org.junit.Test;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Song;
 import org.adonai.ui.editor.SongEditorPage;
 import org.adonai.ui.selectsong.SelectSongPage;
+import org.junit.Assert;
+import org.junit.Test;
 
 
 public class MainMaskTest extends AbstractAdonaiUiTest {

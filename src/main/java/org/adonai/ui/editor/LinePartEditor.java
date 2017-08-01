@@ -100,8 +100,9 @@ public class LinePartEditor extends PanelHolder {
     }
   }
 
-  public LinePartEditor (final LineEditor lineEditor, final LinePart linePart, final boolean editable) {
+  public LinePartEditor (final LineEditor lineEditor, final LinePart linePart, final boolean editable, final String id) {
     this.editable = editable;
+    this.index = id;
     this.lineEditor = lineEditor;
     this.linePart = linePart;
 
@@ -144,6 +145,17 @@ public class LinePartEditor extends PanelHolder {
           if (event.getCode() == KeyCode.ESCAPE) {
             getSongEditor().getPartStructure().requestFocus();
           }
+
+          if (event.getCode() == KeyCode.DOWN) {
+            LinePart focusedLinePart = songNavigationService.stepToNextLine(getCursor());
+            getSongEditor().getPartEditor(focusedLinePart).requestFocus(false);
+          }
+
+          if (event.getCode() == KeyCode.UP) {
+            LinePart focusedLinePart = songNavigationService.stepToPreviousLine(getCursor());
+            getSongEditor().getPartEditor(focusedLinePart).requestFocus(false);
+          }
+
 
 
           if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {

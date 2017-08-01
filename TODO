@@ -1,6 +1,8 @@
 TODO 
-- Backspace removes part when not first 
-- Up/Down in editor doesn't work
+- Indent between chords without text
+- export with session sequence small / big
+- Export schematas
+
 - Automatically remove content of copy
 - Referenced part must not be removed
 - Empty new song in SongEditor: Exception in thread "JavaFX Application Thread" java.lang.NullPointerException

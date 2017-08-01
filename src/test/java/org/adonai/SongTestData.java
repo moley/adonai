@@ -27,9 +27,11 @@ public class SongTestData {
   public final static Song getSongWithTwoParts() {
     SongBuilder builder = SongBuilder.instance();
     builder = builder.withId("2").withTitle("Example 2");
-    builder = builder.withPart(SongPartType.VERS).withLine();
-    builder = builder.withLinePart("This is", "D");
+    builder = builder.withPart(SongPartType.VERS);
+    builder = builder.withLine().withLinePart("This is ", "D");
     builder = builder.withLinePart("the first testline", "G");
+    builder = builder.withLine().withLinePart("This is ", "D");
+    builder = builder.withLinePart("the second testline", "G");
 
     builder = builder.withPart(SongPartType.REFRAIN).withLine();
     builder = builder.withLinePart("And a second part", "D");

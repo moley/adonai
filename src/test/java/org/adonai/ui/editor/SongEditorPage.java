@@ -1,7 +1,11 @@
 package org.adonai.ui.editor;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
 import org.adonai.model.SongPart;
@@ -29,6 +33,39 @@ public class SongEditorPage {
   public void addPartAfter () {
     applicationTest.rightClickOn(getPartStructureListView());
     applicationTest.clickOn("#menuitemAddPartAfter");
+  }
+
+  public VBox getSongEditorContentPane () {
+    NodeQuery partEditorContentPane = applicationTest.lookup("#parteditorcontentPane");
+    return partEditorContentPane.query();
+  }
+
+  public VBox getContentElement (final int lineIndex, final int posInLine) {
+
+    String key = "editor_" + lineIndex + "_" + posInLine;
+    VBox editorContent = getSongEditorContentPane();
+    for (Node nextNode: editorContent.getChildren()) {
+      System.out.println ("Id: " + nextNode.getId());
+      HBox nextHBox = (HBox) nextNode;
+      for (Node nextHBoxEntry: nextHBox.getChildren()) {
+        VBox nextHBoxEntryHbox = (VBox) nextHBoxEntry;
+        System.out.println (nextHBoxEntryHbox.getId());
+          if (nextHBoxEntryHbox.getId().equals(key))
+            return nextHBoxEntryHbox;
+      }
+    }
+
+    throw new IllegalStateException("No content found on position " + lineIndex + "-" + posInLine);
+  }
+
+  public Label getChordLabel (final int lineIndex, final int posInLine) {
+    VBox vbox = getContentElement(lineIndex, posInLine);
+    return (Label) vbox.getChildren().get(0);
+  }
+
+  public TextField getTextTextField (final int lineIndex, final int posInLine) {
+    VBox vbox = getContentElement(lineIndex, posInLine);
+    return (TextField) vbox.getChildren().get(1);
   }
 
   public void addPartBefore () {

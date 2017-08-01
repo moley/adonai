@@ -11,6 +11,54 @@ public class SongNavigationServiceTest {
   SongNavigationService songService = new SongNavigationService();
 
   @Test
+  public void stepToPreviousLineNonFirst () {
+    Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
+    System.out.println(songWithOnePart);
+
+    SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
+    LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+
+  }
+
+  @Test
+  public void stepToPreviousLineFirst () {
+    Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
+    System.out.println(songWithOnePart);
+
+    SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
+    LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+
+  }
+
+  @Test
+  public void stepToNextLineLast () {
+    Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
+    System.out.println(songWithOnePart);
+
+    SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
+    LinePart focusedLinePart = songService.stepToNextLine(cursor);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getLastLine().getFirstLinePart(), focusedLinePart);
+
+  }
+
+  @Test
+  public void stepToNextLineNotLast () {
+    Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
+    System.out.println(songWithOnePart);
+
+    SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
+    LinePart focusedLinePart = songService.stepToNextLine(cursor);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getLastLine().getFirstLinePart(), focusedLinePart);
+
+  }
+
+
+
+
+
+  @Test
   public void stepToPreviousPartNonFirst () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
     System.out.println(songWithOnePart);

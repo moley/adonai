@@ -30,7 +30,8 @@ public class LineEditor extends PanelHolder {
 
 
 
-  public LineEditor (final PartEditor partEditor, final Line line, final boolean editable) {
+  public LineEditor (final PartEditor partEditor, final Line line, final boolean editable, final String index) {
+    this.index = index;
     this.partEditor = partEditor;
     this.editable = editable;
     this.line = line;
@@ -49,8 +50,9 @@ public class LineEditor extends PanelHolder {
   public void reload () {
     root.getChildren().clear();
     linePartEditors.clear();
+    int partIndex = 0;
     for (LinePart linePart: line.getLineParts()) {
-      LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable);
+      LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable, getIndex() + "_" + partIndex++);
       linePartEditors.add(linePartEditor);
       root.getChildren().add(linePartEditor.getPanel());
     }
@@ -93,17 +95,6 @@ public class LineEditor extends PanelHolder {
     TextField txtFieldNew = linePartEditors.get(0).getTxtText();
     return txtFieldNew.getCaretPosition();
   }
-
-  public LinePartEditor getLinePartEditor (final LinePart linePart) {
-    for (LinePartEditor next: linePartEditors) {
-      if (next.getLinePart().equals(linePart))
-        return next;
-    }
-
-    throw new IllegalStateException("LineEditor for linepart " + linePart + " not found");
-  }
-
-
 
 
 

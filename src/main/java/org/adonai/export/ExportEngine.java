@@ -90,6 +90,7 @@ public class ExportEngine {
               documentBuilder.newToken(new ExportToken(nextLinePart.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
 
               Double maximumLength = Double.max(widthOfChord, widthOfText);
+              maximumLength = Double.max(maximumLength, exportConfiguration.getMinimalChordDistance());
               if (locationInfoChord != null)
                 locationInfoChord = locationInfoCalculator.addX(locationInfoChord, maximumLength);
               locationInfoText = locationInfoCalculator.addX(locationInfoText, maximumLength);
@@ -118,6 +119,8 @@ public class ExportEngine {
     }
 
     documentBuilder.write(exportFile);
+
+
 
     if (exportFile.exists()) {
       exportFile.setWritable(true);

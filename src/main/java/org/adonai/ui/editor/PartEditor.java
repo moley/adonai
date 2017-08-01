@@ -53,6 +53,7 @@ public class PartEditor extends PanelHolder {
       songDetailsController.setPartEditor(this);
 
       contentPane.setPadding(new Insets(20, 5, 20, 5));
+      contentPane.setId("parteditorcontentPane");
       contentPane.setFillWidth(true);
 
       Tab contentTab = new Tab("Part content");
@@ -77,6 +78,7 @@ public class PartEditor extends PanelHolder {
 
       rootPane.setPrefWidth(Consts.DEFAULT_WIDTH - Consts.DEFAULT_LISTVIEW_WIDTH);
 
+      setIndex("parteditor");
       setPanel(rootPane);
       reload();
 
@@ -92,8 +94,9 @@ public class PartEditor extends PanelHolder {
     if (part.getReferencedSongPart() != null)
       shownPart = songEditor.getSong().findSongPartByUUID(part.getReferencedSongPart());
 
+    int index = 0;
     for (Line nextLine : shownPart.getLines()) {
-      LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null);
+      LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, "editor_" + index++);
       lineEditors.add(lineEditor);
       contentPane.getChildren().add(lineEditor.getPanel());
     }

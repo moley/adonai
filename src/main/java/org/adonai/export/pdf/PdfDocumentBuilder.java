@@ -1,12 +1,15 @@
 package org.adonai.export.pdf;
 
 import com.lowagie.text.*;
+import com.lowagie.text.Font;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import org.adonai.export.*;
 import org.adonai.SizeInfo;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -117,7 +120,21 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setInterPartDistance(new Double(15));
     exportConfiguration.setLeftBorder(new Double(40));
     exportConfiguration.setUpperBorder(new Double(40));
+    exportConfiguration.setOpenPreview(true);
+    exportConfiguration.setMinimalChordDistance(new Double(5));
 
     return exportConfiguration;
+  }
+
+  @Override
+  public void openPreview(File file) {
+    if (Desktop.isDesktopSupported()) {
+      try {
+        Desktop.getDesktop().open(file);
+      } catch (IOException ex) {
+        // no application registered for PDFs
+      }
+    }
+
   }
 }

@@ -28,6 +28,7 @@ import org.adonai.services.AddSongService;
 import org.adonai.ui.editor.SongEditor;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
+import org.adonai.ui.settings.SettingsController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -211,6 +212,7 @@ public class MainController {
     });
 
     Button btnSave = new Button("Save");
+    btnSave.setGraphic(Consts.createImageView("save"));
     tbaActions.getItems().add(btnSave);
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -222,6 +224,7 @@ public class MainController {
     });
 
     Button btnPlaySong = new Button("Play song");
+    btnPlaySong.setGraphic(Consts.createImageView("play"));
     tbaActions.getItems().add(btnPlaySong);
     btnPlaySong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -261,6 +264,7 @@ public class MainController {
     });
 
     Button btnCreatePlayList = new Button("Playlist");
+    btnCreatePlayList.setGraphic(Consts.createImageView("playlist"));
     tbaActions.getItems().add(btnCreatePlayList);
     btnCreatePlayList.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -275,6 +279,7 @@ public class MainController {
     });
 
     Button btnExportSessionWithChords = new Button("Export session with chords");
+    btnExportSessionWithChords.setGraphic(Consts.createImageView("export"));
     tbaActions.getItems().add(btnExportSessionWithChords);
     btnExportSessionWithChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -300,6 +305,7 @@ public class MainController {
     });
 
     Button btnExportSessionWithoutChords = new Button("Export session without chords");
+    btnExportSessionWithoutChords.setGraphic(Consts.createImageView("export"));
     tbaActions.getItems().add(btnExportSessionWithoutChords);
     btnExportSessionWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -326,6 +332,8 @@ public class MainController {
     });
 
     Button btnExportAll = new Button("Exporter all");
+    btnExportAll.setGraphic(Consts.createImageView("export"));
+
     tbaActions.getItems().add(btnExportAll);
     btnExportAll.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -342,6 +350,38 @@ public class MainController {
       }
     });
 
+    Button btnConfigurations = new Button("Configurations");
+    btnConfigurations.setGraphic(Consts.createImageView("settings"));
+    tbaActions.getItems().add(btnConfigurations);
+    btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        try {
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/settings.fxml"));
+          Parent root = loader.load();
+
+          SettingsController settingsController = loader.getController();
+
+          Stage stage = new Stage();
+          stage.setResizable(true);
+
+
+          stage.setTitle("Configurations");
+          Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+
+          scene.getStylesheets().add("/adonai.css");
+          stage.setScene(scene);
+          screenManager.layoutOnScreen(stage);
+
+          stage.show();
+
+        } catch (IOException e) {
+          throw new IllegalStateException(e);
+        }
+
+      }
+    });
+
     reload();
 
     lviSessions.getSelectionModel().selectFirst();
@@ -349,6 +389,7 @@ public class MainController {
 
 
     MenuItem menuItemNewSong = new MenuItem("New song");
+    menuItemNewSong.setGraphic(Consts.createImageView("songPlus"));
     menuItemNewSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -364,6 +405,7 @@ public class MainController {
     });
 
     MenuItem menuItemCopySong = new MenuItem("Copy song");
+    menuItemCopySong.setGraphic(Consts.createImageView("copy"));
     menuItemCopySong.setId("menuItemCopySong");
     menuItemCopySong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -382,6 +424,7 @@ public class MainController {
     });
 
     MenuItem menuItemImportSong = new MenuItem("Import song");
+    menuItemImportSong.setGraphic(Consts.createImageView("import"));
     menuItemImportSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -396,6 +439,7 @@ public class MainController {
 
     MenuItem menuItemNewSession = new MenuItem("New session");
     menuItemNewSession.setId("menuItemNewSession");
+    menuItemNewSession.setGraphic(Consts.createImageView("sessionPlus"));
     menuItemNewSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -405,6 +449,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSession = new MenuItem("Remove session");
     menuItemRemoveSession.setId("menuItemRemoveSession");
+    menuItemRemoveSession.setGraphic(Consts.createImageView("sessionMinus"));
     menuItemRemoveSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -418,6 +463,7 @@ public class MainController {
 
     MenuItem menuItemAddSongToSession = new MenuItem("Add song");
     menuItemAddSongToSession.setId("menuItemAddSongToSession");
+    menuItemAddSongToSession.setGraphic(Consts.createImageView("songPlus"));
     menuItemAddSongToSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -427,6 +473,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSongFromSession = new MenuItem("Remove session");
     menuItemRemoveSongFromSession.setId("menuItemRemoveSession");
+    menuItemRemoveSongFromSession.setGraphic(Consts.createImageView("songMinus"));
     menuItemRemoveSongFromSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {

@@ -60,6 +60,7 @@ public class SongEditor extends PanelHolder {
     colorMap.put(SongPartType.ZWISCHENSPIEL, Color.DARKGRAY);
 
     txtTitle.textProperty().bindBidirectional(song.titleProperty());
+    setIndex("songeditor");
 
 
 

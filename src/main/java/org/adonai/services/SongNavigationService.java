@@ -83,4 +83,23 @@ public class SongNavigationService {
     return linePart;
   }
 
+  public LinePart stepToPreviousLine(SongCursor songCursor) {
+    Line line = songCursor.getCurrentLine();
+    SongPart songPart = songCursor.getCurrentSongPart();
+
+    if (line.equals(songPart.getFirstLine()))
+      return line.getFirstLinePart();
+    else
+    return songPart.getPreviousLine(line).getFirstLinePart();
+  }
+
+  public LinePart stepToNextLine(SongCursor songCursor) {
+    Line line = songCursor.getCurrentLine();
+    SongPart songPart = songCursor.getCurrentSongPart();
+
+    if (line.equals(songPart.getLastLine()))
+      return line.getFirstLinePart();
+    else
+      return songPart.getNextLine(line).getFirstLinePart();
+  }
 }

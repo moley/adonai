@@ -31,6 +31,21 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
+  public void exportOnlyChordPart () throws ExportException, IOException {
+    SongBuilder songBuilder = new SongBuilder();
+    songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("", "A").withLinePart("", "D").withLinePart("", "A");
+    List<Song> songs = Arrays.asList(songBuilder.get());
+    ExportConfiguration exportConfiguration = createExportConfiguration();
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setMinimalChordDistance (new Double(5));
+    File exportFile = createExportFile(textfileWriter, "exportOnlyChordPart");
+    textfileWriter.export(songs, exportFile, exportConfiguration);
+    System.out.println("exportOnlyChordPart: \n" + FileUtils.readFileToString(exportFile, Charset.defaultCharset()));
+    List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
+    Assert.assertEquals("A    D    A", StringUtils.trimRight(lines.get(0)));
+  }
+
+  @Test
   public void exportFilterEmptyPart () throws ExportException, IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("This is a vers", "A");

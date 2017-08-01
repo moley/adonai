@@ -65,4 +65,5 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setInterSongDistance(new Double(2));
     return exportConfiguration;
   }
+
 }

@@ -1,14 +1,20 @@
 package org.adonai.ui.editor;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.adonai.AbstractAdonaiUiTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.adonai.SongTestData;
 import org.adonai.model.Song;
 
-public class SongEditorTest extends ApplicationTest {
+public class SongEditorTest extends AbstractAdonaiUiTest {
 
   private SongEditorPage songEditorPage;
 
@@ -16,9 +22,36 @@ public class SongEditorTest extends ApplicationTest {
   public void start(Stage stage) throws Exception {
     Song song = SongTestData.getSongWithTwoParts();
     Scene scene = new Scene(new SongEditor(song, false).getPanel(), 800, 600);
+    scene.getStylesheets().add("/adonai.css");
     stage.setScene(scene);
     stage.show();
     songEditorPage = new SongEditorPage( this);
+  }
+
+
+  @Test
+  public void stepDownAndUp () throws InterruptedException {
+    TextField txtField = songEditorPage.getTextTextField(0, 0);
+    TextField txtFieldSecondLine = songEditorPage.getTextTextField(1, 0);
+
+    Assert.assertTrue ("First line not focused at beginning", txtField.isFocused());
+    Assert.assertFalse ("Second line focused at beginning", txtFieldSecondLine.isFocused());
+
+    key(KeyCode.DOWN);
+
+    Assert.assertFalse ("First line focused after pressed cursor down", txtField.isFocused());
+    Assert.assertTrue ("Second line not focused after pressed cursor down", txtFieldSecondLine.isFocused());
+
+    key(KeyCode.UP);
+
+    Assert.assertTrue ("First line not focused at beginning", txtField.isFocused());
+    Assert.assertFalse ("Second line focused at beginning", txtFieldSecondLine.isFocused());
+
+
+
+
+
+
   }
 
 

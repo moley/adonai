@@ -24,6 +24,10 @@ public class ExportConfiguration {
 
   private Double leftBorder = new Double(0);
 
+  private Double minimalChordDistance;
+
+  private Boolean openPreview;
+
   public NewPageStrategy getNewPageStrategy() {
     return newPageStrategy;
   }
@@ -113,5 +117,21 @@ public class ExportConfiguration {
 
   public void setUpperBorder(Double upperBorder) {
     this.upperBorder = upperBorder;
+  }
+
+  public void setMinimalChordDistance(Double minimalChordDistance) {
+    this.minimalChordDistance = minimalChordDistance;
+  }
+
+  public Double getMinimalChordDistance() {
+    return minimalChordDistance;
+  }
+
+  public Boolean getOpenPreview() {
+    return openPreview;
+  }
+
+  public void setOpenPreview(Boolean openPreview) {
+    this.openPreview = openPreview;
   }
 }
