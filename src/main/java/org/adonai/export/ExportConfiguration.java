@@ -127,7 +127,7 @@ public class ExportConfiguration {
     return minimalChordDistance;
   }
 
-  public Boolean getOpenPreview() {
+  public Boolean isOpenPreview() {
     return openPreview;
   }
 

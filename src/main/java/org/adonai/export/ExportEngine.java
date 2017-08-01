@@ -120,6 +120,9 @@ public class ExportEngine {
 
     documentBuilder.write(exportFile);
 
+    if (mergedConfiguration.isOpenPreview())
+      documentBuilder.openPreview(exportFile);
+
 
 
     if (exportFile.exists()) {
