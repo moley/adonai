@@ -1,6 +1,7 @@
 package org.adonai.ui.main;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -25,7 +26,7 @@ public class MainMaskPage {
   public MainMaskPage (final Stage stage, final ApplicationTest applicationTest) throws IOException {
     this.stage = stage;
     this.applicationTest = applicationTest;
-    Parent root = FXMLLoader.load(getClass().getResource("/org/adonai/main.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/screens/main.fxml"));
     scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
     scene.getStylesheets().add("/adonai.css");
     stage.setScene(scene);
@@ -33,15 +34,24 @@ public class MainMaskPage {
   }
 
   public void stepToSessions () {
-    applicationTest.clickOn("#tabSessions");
+    Node node = applicationTest.lookup(".tab-pane > .tab-header-area > .headers-region > .tab").nth(1).query();
+    applicationTest.clickOn(node);
+    //applicationTest.clickOn("#paneSessions");
   }
 
   public void stepToAllSongs () {
-    applicationTest.clickOn("#tabAllSongs");
+    Node node = applicationTest.lookup(".tab-pane > .tab-header-area > .headers-region > .tab").nth(0).query();
+    applicationTest.clickOn(node);
+    //applicationTest.clickOn("#paneAllSongs");
   }
 
   public void newSession () {
-    applicationTest.rightClickOn(getSessionOverviewListView());
+    applicationTest.clickOn(getSessionOverviewListView());
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     applicationTest.clickOn("#menuItemNewSession");
   }
 
@@ -71,7 +81,7 @@ public class MainMaskPage {
   }
 
   public ListView<Session> getSessionOverviewListView () {
-    NodeQuery partStructure = applicationTest.lookup("#lviSessions");
+      NodeQuery partStructure = applicationTest.lookup("#lviSessions");
     return partStructure.query();
 
   }

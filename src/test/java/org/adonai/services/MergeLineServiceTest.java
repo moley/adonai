@@ -26,12 +26,14 @@ public class MergeLineServiceTest {
   public void mergePositionFirstLineOfSecondPartMergesPartWithPreviousPart () {
     Song songWithTwoParts = SongTestData.getSongWithTwoParts();
     SongCursor cursor = new SongCursor(songWithTwoParts, 1, 0, 0, 0);
+    System.out.println(songWithTwoParts);
     LinePart focusedLinePart = songService.mergeLine(cursor);
     System.out.println(songWithTwoParts);
     Assert.assertEquals ("Wrong focused part", focusedLinePart, cursor.getCurrentLinePart());
     Assert.assertEquals (1, songWithTwoParts.getSongParts().size());
-    Assert.assertEquals (2, songWithTwoParts.getFirstSongPart().getLines().size());
-    System.out.println(songWithTwoParts);  }
+    Assert.assertEquals (3, songWithTwoParts.getFirstSongPart().getLines().size());
+
+  }
 
   @Test
   public void mergePositionSecondLineOfFirstPartMergesLineWithPreviousLine () {

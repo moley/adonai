@@ -37,7 +37,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     List<Song> songs = Arrays.asList(songBuilder.get());
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setMinimalChordDistance (new Double(5));
+    exportConfiguration.setMinimalChordDistance (new Double(4));
     File exportFile = createExportFile(textfileWriter, "exportOnlyChordPart");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     System.out.println("exportOnlyChordPart: \n" + FileUtils.readFileToString(exportFile, Charset.defaultCharset()));

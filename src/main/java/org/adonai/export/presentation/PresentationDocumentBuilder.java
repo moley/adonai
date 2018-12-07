@@ -29,6 +29,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setWithChords(false);
     exportConfiguration.setWithPartType(false);
     exportConfiguration.setNewPageStrategy(NewPageStrategy.PER_PART);
+    exportConfiguration.setDocumentBuilderClass(getClass().getName());
+    exportConfiguration.setName("Exportschema Presentation Default");
     return exportConfiguration;
   }
 

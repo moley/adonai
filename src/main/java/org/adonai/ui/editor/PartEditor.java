@@ -42,12 +42,12 @@ public class PartEditor extends PanelHolder {
     this.songEditor = songEditor;
     try {
 
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/adonai/songpartdetails.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/screens/songpartdetails.fxml"));
       Parent songpartDetailsRoot = fxmlLoader.load();
       SongPartDetailsController songPartDetailsController = fxmlLoader.getController();
       songPartDetailsController.setPartEditor(this);
 
-      fxmlLoader = new FXMLLoader(getClass().getResource("/org/adonai/songdetails.fxml"));
+      fxmlLoader = new FXMLLoader(getClass().getResource("/screens/songdetails.fxml"));
       Parent songDetailsRoot = fxmlLoader.load();
       SongDetailsController songDetailsController = fxmlLoader.getController();
       songDetailsController.setPartEditor(this);

@@ -1,5 +1,9 @@
 package org.adonai.model;
 
+import javafx.beans.property.SimpleStringProperty;
+import org.adonai.export.DocumentBuilder;
+import org.adonai.export.ExportConfiguration;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.File;
@@ -12,6 +16,7 @@ import java.util.List;
 @XmlRootElement
 public class Configuration {
 
+  private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
 
   private List<String> screensAdmin = new ArrayList<String>();
 
@@ -23,7 +28,7 @@ public class Configuration {
 
   private List<String> extensionPaths = new ArrayList<>();
 
-  private String exportPath = "export";
+  private SimpleStringProperty exportPath = new SimpleStringProperty("export");
 
   public List<Session> getSessions() {
     return sessions;
@@ -70,7 +75,35 @@ public class Configuration {
 
   @XmlTransient
   public File getExportPathAsFile () {
-    return new File (exportPath);
+    return new File (exportPath.get());
   }
 
+  public String getExportPath () {
+    return exportPath.get();
+  }
+
+  public void setExportPath (final String newExportPath) {
+    this.exportPath.set(newExportPath);
+  }
+
+  public SimpleStringProperty exportPathProperty () {
+    return exportPath;
+  }
+
+  public List<ExportConfiguration> getExportConfigurations() {
+    return exportConfigurations;
+  }
+
+  public void setExportConfigurations(List<ExportConfiguration> exportConfigurations) {
+    this.exportConfigurations = exportConfigurations;
+  }
+
+  public ExportConfiguration findDefaultExportConfiguration (final Class<? extends DocumentBuilder> clazz) {
+    for (ExportConfiguration next: exportConfigurations) {
+      if (next.getDocumentBuilderClass().equals(clazz.getName()) && next.isDefaultConfiguration())
+        return next;
+    }
+
+    return null;
+  }
 }

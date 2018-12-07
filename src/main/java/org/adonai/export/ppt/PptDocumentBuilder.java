@@ -20,6 +20,8 @@ public class PptDocumentBuilder extends AbstractDocumentBuilder {
   @Override
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration =  new ExportConfiguration();
+    exportConfiguration.setDocumentBuilderClass(getClass().getName());
+    exportConfiguration.setName("Exportschema Powerpoint Default");
 
     return exportConfiguration;
   }

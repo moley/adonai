@@ -1,5 +1,7 @@
 package org.adonai.model;
 
+import org.adonai.export.DefaultExportConfigurationCreator;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -65,6 +67,10 @@ public class ConfigurationService {
         currentConfiguration = (Configuration) unmarshaller.unmarshal(configFile);
       else
         currentConfiguration =  new Configuration();
+
+      DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
+      defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
+
     } catch (JAXBException e) {
       throw new IllegalStateException(e);
     }

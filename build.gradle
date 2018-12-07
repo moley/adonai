@@ -27,10 +27,11 @@ dependencies {
   compile 'com.mpatric:mp3agic:0.8.4'
   compile 'org.jfxtras:jfxtras-menu:8.0-r5'
   compile 'org.jsoup:jsoup:1.10.3' //html import
+  compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
 
   testCompile 'junit:junit:4.12'
-  testCompile "org.testfx:testfx-core:4.0.6-alpha"
-  testCompile "org.testfx:testfx-junit:4.0.6-alpha"
+  testCompile "org.testfx:testfx-core:4.0.15-alpha"
+  testCompile "org.testfx:testfx-junit:4.0.15-alpha"
 
 }
 

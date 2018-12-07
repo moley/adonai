@@ -82,7 +82,7 @@ public class SongSelectorController {
   private void connectBackground ( ){
     Song selectedSong = tabSongs.getSelectionModel().getSelectedItem();
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/extensionselector.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/extensionselector.fxml"));
     Parent root = null;
     try {
       root = loader.load();
@@ -117,7 +117,7 @@ public class SongSelectorController {
   private void connectSong ( ){
     Song selectedSong = tabSongs.getSelectionModel().getSelectedItem();
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/extensionselector.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/extensionselector.fxml"));
     Parent root = null;
     try {
       root = loader.load();

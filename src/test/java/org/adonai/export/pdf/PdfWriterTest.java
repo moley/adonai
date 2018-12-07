@@ -24,6 +24,7 @@ public class PdfWriterTest extends AbstractExportTest {
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
+    exportConfiguration.setOpenPreview(false);
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
   }
 
@@ -32,17 +33,6 @@ public class PdfWriterTest extends AbstractExportTest {
     configurationService.setConfigFile(new File ("src/test/resources/export/pdf/" + exportTestdata + "/config.xml"));
     Configuration configuration = configurationService.get();
     return configuration.getSongBooks().get(0).getSongs().get(0);
-  }
-
-  private void showPreview (final File tmpExportFile) {
-    if (Desktop.isDesktopSupported()) {
-      try {
-        Desktop.getDesktop().open(tmpExportFile);
-      } catch (IOException ex) {
-        // no application registered for PDFs
-      }
-    }
-
   }
 
   @Test
@@ -56,6 +46,7 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
+    exportConfiguration.setOpenPreview(false);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
     ExportToken exportToken = exportTokenContainer.findTokenByText("ich will dir");

@@ -1,0 +1,39 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.CheckBox?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.settings.SettingsExportConfigurationController" alignment="CENTER" hgap="10" vgap="10" >
+    <padding><Insets top="20" bottom="20" left="5" right="5"/> </padding>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="20"/>
+        <ColumnConstraints percentWidth="75"/>
+        <ColumnConstraints percentWidth="5"/>
+    </columnConstraints>
+
+
+
+    <ImageView fx:id="imvType" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="LEFT"/>
+
+    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <ImageView fx:id="imvDefaultIcon" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+
+    <Label text="Open preview:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <CheckBox fx:id="chkOpenPreview" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+    <Label text="Show title:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <CheckBox fx:id="chkShowTitle" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+    <Label text="Show chords:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <CheckBox fx:id="chkShowChords" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+    <Label text="Show part:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <CheckBox fx:id="chkShowPart" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+
+
+
+
+</GridPane>

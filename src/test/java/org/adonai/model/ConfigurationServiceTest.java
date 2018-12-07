@@ -70,6 +70,7 @@ public class ConfigurationServiceTest {
 
     String fromText = FileUtils.readFileToString(tmpFile, (String)null);
 
+
     System.out.println (fromText);
 
   }

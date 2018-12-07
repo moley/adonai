@@ -9,8 +9,10 @@
     </columnConstraints>
 
 
-    <ListView fx:id="lviConfigurationList" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <StackPane fx:id="panConfigurationDetails" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <ListView fx:id="lviConfigurationList" GridPane.columnIndex="0" GridPane.rowIndex="0"
+              GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
+    <StackPane fx:id="panConfigurationDetails" GridPane.columnIndex="1" GridPane.rowIndex="0"
+               GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
 
 
 </GridPane>

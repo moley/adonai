@@ -25,6 +25,7 @@ import org.adonai.export.pdf.PdfExporter;
 import org.adonai.model.*;
 import org.adonai.screens.ScreenManager;
 import org.adonai.services.AddSongService;
+import org.adonai.services.RemoveSongService;
 import org.adonai.ui.editor.SongEditor;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
@@ -82,8 +83,6 @@ public class MainController {
     configuration = configurationService.get();
     lviSessions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     lviSessions.setPlaceholder(new Label ("No sessions available, please create one"));
-
-
 
     lviSessionDetails.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -293,6 +292,8 @@ public class MainController {
 
         ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
         exportConfiguration.setWithChords(true);
+        exportConfiguration.setOpenPreview(true);
+
 
         File exportFile = new File (configuration.getExportPathAsFile(), session.getName() + "_Chords.pdf");
         exportFile.getParentFile().mkdirs();
@@ -319,6 +320,8 @@ public class MainController {
 
         ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
         exportConfiguration.setWithChords(false);
+        exportConfiguration.setOpenPreview(true);
+
 
         try {
           File exportFile = new File (configuration.getExportPathAsFile(), session.getName()+ ".pdf");
@@ -338,14 +341,21 @@ public class MainController {
     btnExportAll.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        throw new IllegalStateException("Implement selection dialog");
 
-        /**PptExporter writer = new PptExporter();
+        PdfExporter writer = new PdfExporter();
+        Collection<Song> sessionSongs = getCurrentSongBook().getSongs();
+
+        ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
+        exportConfiguration.setWithChords(true);
+        exportConfiguration.setOpenPreview(true);
+        String name = "allSongs";
         try {
-          writer.export(configuration.getSongBooks().get(0).getSongs(), file, new ExportConfiguration());
+          File exportFile = new File (configuration.getExportPathAsFile(), name+ ".pdf");
+          exportFile.getParentFile().mkdirs();
+          writer.export(sessionSongs, exportFile, exportConfiguration);
         } catch (ExportException e) {
           throw new IllegalStateException(e);
-        }**/
+        }
 
       }
     });
@@ -357,7 +367,7 @@ public class MainController {
       @Override
       public void handle(ActionEvent event) {
         try {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/settings.fxml"));
+          FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/settings.fxml"));
           Parent root = loader.load();
 
           SettingsController settingsController = loader.getController();
@@ -404,6 +414,21 @@ public class MainController {
       }
     });
 
+    MenuItem menuItemRemoveSong = new MenuItem("Remove song");
+    menuItemRemoveSong.setGraphic(Consts.createImageView("songMinus"));
+    menuItemRemoveSong.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+
+        SongBook songBook = getCurrentSongBook();
+        Song selectedSong = getSelectedSong();
+        RemoveSongService removeSongService = new RemoveSongService();
+        Song nextSong = removeSongService.removeSong(selectedSong, songBook);
+        reload();
+        lviAllSongs.getSelectionModel().select(nextSong);
+      }
+    });
+
     MenuItem menuItemCopySong = new MenuItem("Copy song");
     menuItemCopySong.setGraphic(Consts.createImageView("copy"));
     menuItemCopySong.setId("menuItemCopySong");
@@ -433,7 +458,7 @@ public class MainController {
       }
     });
 
-    ContextMenu contextMenu = new ContextMenu(menuItemNewSong, menuItemImportSong, menuItemCopySong);
+    ContextMenu contextMenu = new ContextMenu(menuItemNewSong, menuItemRemoveSong, menuItemImportSong, menuItemCopySong);
 
     lviAllSongs.setContextMenu(contextMenu);
 
@@ -519,9 +544,15 @@ public class MainController {
       lviSessions.getSelectionModel().selectFirst();
 
     Session selectedSession = lviSessions.getSelectionModel().getSelectedItem();
-    Collection<Song> sessionSongs = getSongs(selectedSession);
-    System.out.println("Reload selected " + selectedSession.getName() + "-" + sessionSongs.size());
-    lviSessionDetails.setItems(FXCollections.observableArrayList(sessionSongs));
+    if (selectedSession == null) {
+      txtSessionName.setText("");
+      lviSessionDetails.setItems(FXCollections.observableArrayList());
+    }
+    else {
+      Collection<Song> sessionSongs = getSongs(selectedSession);
+      System.out.println("Reload selected " + selectedSession.getName() + "-" + sessionSongs.size());
+      lviSessionDetails.setItems(FXCollections.observableArrayList(sessionSongs));
+    }
 
 
 
@@ -627,7 +658,7 @@ public class MainController {
   private void addSongToSession() {
     Parent root = null;
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/adonai/songselector.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/songselector.fxml"));
       root = loader.load();
 
 

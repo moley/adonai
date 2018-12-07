@@ -11,7 +11,7 @@
             <tabs>
 
                 <Tab text="All songs" fx:id="tabAllSongs">
-                    <GridPane alignment="center" hgap="5" vgap="5">
+                    <GridPane alignment="center" hgap="5" vgap="5" fx:id="paneAllSongs">
                         <padding>
                             <Insets top="10" bottom="10" left="10" right="10"/>
                         </padding>
@@ -27,8 +27,8 @@
                 </Tab>
 
 
-                <Tab text="Sessions" fx:id="tabSessions">
-                    <GridPane alignment="center" hgap="5" vgap="5">
+                <Tab text="Sessions" fx:id="tabSessions" >
+                    <GridPane alignment="center" hgap="5" vgap="5" fx:id="paneSessions">
                         <padding>
                             <Insets top="10" bottom="10" left="10" right="10"/>
                         </padding>
