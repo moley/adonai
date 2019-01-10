@@ -1,15 +1,14 @@
 package org.adonai.reader.text;
 
+import org.adonai.model.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.adonai.model.Line;
-import org.adonai.model.LinePart;
-import org.adonai.model.Song;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TextfileReaderTest {
@@ -33,6 +32,24 @@ public class TextfileReaderTest {
   }
 
   @Test
+  public void readExample3 () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich weiss wer ich bin.txt"), "UTF-8");
+
+    Song song = textfileReader.read(content);
+    System.out.println ("Song: " + song.toString());
+
+  }
+
+  @Test
+  public void readExample2 () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich hab noch nie.txt"), "UTF-8");
+
+    Song song = textfileReader.read(content);
+    System.out.println ("Song: " + song.toString());
+
+  }
+
+  @Test
   public void readExample () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Das Glaube ich.txt"), "UTF-8");
 
@@ -41,6 +58,51 @@ public class TextfileReaderTest {
 
   }
 
+  @Test
+  public void doNotStripInMiddle () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool");
+    System.out.println(String.join("\n", allLines));
+    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
+    Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
+    Assert.assertEquals ("  ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
+    Assert.assertEquals ("F", firstPart.getFirstLine().getLineParts().get(1).getChord());
+
+  }
+
+  @Test
+  public void stripBeginning () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles ist cool");
+    System.out.println(String.join("\n", allLines));
+    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
+    Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
+    Assert.assertEquals ("ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
+    Assert.assertEquals ("F", firstPart.getFirstLine().getLineParts().get(1).getChord());
+
+  }
+
+  @Test
+  public void determiningTypes () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Hello", "", "[Pre-Chorus]", "Hello", "");
+    Song song = textfileReader.read(allLines);
+    Assert.assertEquals ("First part has wrong type", SongPartType.VERS, song.getSongParts().get(0).getSongPartType());
+    Assert.assertEquals ("Second part has wrong type", SongPartType.BRIDGE, song.getSongParts().get(1).getSongPartType());
+  }
+
+  @Test
+  public void duplicateParts () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Vers1Zeile1", "", "[Chorus]", "Chorus", "[Verse 1]", "Vers1Zeile1");
+    Song song = textfileReader.read(allLines);
+    SongPart firstPart = song.getSongParts().get(0);
+    SongPart secondPart = song.getSongParts().get(1);
+    SongPart thirdPart = song.getSongParts().get(2);
+    Assert.assertEquals("Third part does not reference first one", firstPart.getId(), thirdPart.getReferencedSongPart());
+    Assert.assertNull("Third part is reference but contains type", thirdPart.getSongPartType());
+    Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
+    Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
+    Assert.assertEquals ("First part has wrong type", SongPartType.REFRAIN, secondPart.getSongPartType());
+  }
 
 
   @Test

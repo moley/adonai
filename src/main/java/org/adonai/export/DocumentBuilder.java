@@ -19,4 +19,6 @@ public interface DocumentBuilder {
   ExportConfiguration getDefaultConfiguration ();
 
   void openPreview (final File file);
+
+  SizeInfo getPageSize ();
 }

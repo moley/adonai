@@ -134,7 +134,7 @@ public class SettingsExportController extends AbstractSettingsController {
       String icon = resources.getString(exportConfiguration.getDocumentBuilderClass() + "_icon_black");
       System.out.println ("Icon " + icon + " for " + exportConfiguration.getName());
 
-      titledPane.setGraphic(Consts.createImageView(icon));
+      titledPane.setGraphic(Consts.createImageView(icon, Consts.ICON_SIZE_SMALL));
       accExportschemas.getPanes().add(titledPane);
       configurationPerPane.put(titledPane, exportConfiguration);
     }

@@ -40,11 +40,11 @@ public class ExportTokenContainer {
 
   public ExportToken findTokenByText (String text) {
     for (ExportToken next: exportTokenList) {
-      if (next.getText().startsWith(text))
+      if (next.getText() != null && next.getText().startsWith(text))
         return next;
     }
 
-    throw new IllegalStateException("Export Token with text " + text + " not found");
+    throw new IllegalStateException("Export Token with text " + text + " not found in " + exportTokenList);
 
   }
 

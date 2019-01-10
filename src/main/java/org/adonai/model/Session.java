@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by OleyMa on 01.09.16.
  */
-public class Session {
+public class Session implements NamedElement {
 
   private Collection<Integer> songs = new ArrayList<Integer>();
   private StringProperty name = new SimpleStringProperty();
@@ -36,6 +36,6 @@ public class Session {
   }
 
   public String toString () {
-    return getName() + "(" + songs.size() + " songs)";
+    return getName() + " (" + songs.size() + " songs)";
   }
 }

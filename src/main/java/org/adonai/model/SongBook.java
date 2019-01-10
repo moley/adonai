@@ -11,15 +11,7 @@ import java.util.List;
 @XmlRootElement
 public class SongBook {
 
-
-  public SongBook () {
-    System.out.println ("" +
-      "");
-  }
-
-
   private File file;
-
 
   private List<Song> songs = new ArrayList<Song>();
 

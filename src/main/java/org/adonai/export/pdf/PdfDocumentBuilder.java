@@ -42,6 +42,10 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   }
 
 
+  public SizeInfo getPageSize () {
+    return new SizeInfo(new Double (document.getPageSize().getWidth()), new Double(document.getPageSize().getHeight()));
+  }
+
 
 
   @Override
@@ -77,14 +81,13 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
       document.open();
       Double heightFirstLine = null;
       for (ExportToken nextToken: exportTokenContainer.getExportTokenList()) {
-        if (heightFirstLine == null)
-          heightFirstLine = nextToken.getAreaInfo().getHeight();
-
         if (nextToken instanceof ExportTokenNewPage) {
           document.newPage();
           heightFirstLine = null;
         }
         else {
+          if (heightFirstLine == null)
+            heightFirstLine = nextToken.getAreaInfo().getHeight();
           PdfContentByte cb = writer.getDirectContent();
 
 
@@ -120,6 +123,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setInterPartDistance(new Double(15));
     exportConfiguration.setLeftBorder(new Double(40));
     exportConfiguration.setUpperBorder(new Double(40));
+    exportConfiguration.setLowerBorder(new Double(40));
     exportConfiguration.setOpenPreview(true);
     exportConfiguration.setMinimalChordDistance(new Double(5));
     exportConfiguration.setDocumentBuilderClass(getClass().getName());

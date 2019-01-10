@@ -7,6 +7,8 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import org.adonai.model.Additional;
+import org.adonai.model.AdditionalType;
 import org.apache.commons.io.FileUtils;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
@@ -71,10 +73,11 @@ public class PlaylistExport {
     playlistpath.mkdirs();
 
     for (Song next: configuration.getSongBooks().get(0).getSongs()) {
-      if (next.getAttachedSong() != null && ! next.getAttachedSong().isEmpty()) {
-        LOGGER.info("Add " + next.getAttachedSong() + " to playlist");
+      Additional additionalAudio = next.findAdditional(AdditionalType.AUDIO);
+      if (additionalAudio != null) {
+        LOGGER.info("Add " + additionalAudio + " to playlist");
 
-        File inputFile = new File (next.getAttachedSong());
+        File inputFile = new File (additionalAudio.getLink());
         String id = String.format("%03d", next.getId());
         File outputFile = new File (playlistpath, id + "-" + sonderzeichen(next.getTitle()) + ".mp3");
 

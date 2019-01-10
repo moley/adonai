@@ -69,7 +69,7 @@ public class SongEditorStarter extends Application {
       song.getSongParts().add(part);
       song.getSongParts().add(part2);
 
-      SongEditor songEditor = new SongEditor(song, true);
+      SongEditor songEditor = new SongEditor(song);
 
       Parent editor = songEditor.getPanel();
 

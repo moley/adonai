@@ -9,15 +9,14 @@ import java.util.List;
 /**
  * Created by OleyMa on 01.09.16.
  */
-public class Song extends AbstractSessionItem{
+public class Song extends AbstractSessionItem implements NamedElement{
 
   private List<SongPart> songParts = new ArrayList<SongPart>();
 
-  private String attachedBackground;
-
   private Integer id;
 
-  private String attachedSong;
+  private List<Additional> additionals = new ArrayList<Additional>();
+
 
   private String currentKey;
 
@@ -46,32 +45,6 @@ public class Song extends AbstractSessionItem{
   public SongPart getNextSongPart (SongPart songPart) {
     int index = getIndex(songPart);
     return (index < getSongParts().size() - 1)? getSongParts().get(index + 1): null;
-  }
-
-
-  public String getAttachedSong() {
-    return attachedSong;
-  }
-
-  public String getAttachedSongShortNotification () {
-    if (attachedSong == null)
-      return "";
-
-    File asFile = new File (attachedSong);
-    return asFile.getName() + "(" + asFile.getParentFile().getName() + ")";
-  }
-
-  public void setAttachedSong(String attachedSong) {
-    this.attachedSong = attachedSong;
-  }
-
-
-  public String getAttachedBackground() {
-    return attachedBackground;
-  }
-
-  public void setAttachedBackground(String attachedBackground) {
-    this.attachedBackground = attachedBackground;
   }
 
   public SongPart getFirstSongPart () {
@@ -136,5 +109,37 @@ public class Song extends AbstractSessionItem{
 
   public SimpleStringProperty titleProperty () {
     return titleProperty;
+  }
+
+  public Additional findAdditional (final AdditionalType additionalType) {
+    for (Additional next: additionals) {
+      if (next.getAdditionalType().equals(additionalType))
+        return next;
+    }
+    return null;
+  }
+
+  public List<Additional> getAdditionals () {
+    return additionals;
+  }
+
+  public void setAdditionals (final List<Additional> additionals) {
+    this.additionals = additionals;
+  }
+
+  public void setAdditional (final Additional additional) {
+    for (Additional next: additionals) {
+      if (next.getAdditionalType().equals(additional.getAdditionalType())) {
+        additionals.remove(next);
+        break;
+      }
+    }
+
+    additionals.add(additional);
+  }
+
+  @Override
+  public String getName() {
+    return getTitle();
   }
 }

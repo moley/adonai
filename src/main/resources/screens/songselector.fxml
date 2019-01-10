@@ -17,6 +17,6 @@
         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
     </TableView>
 
-    <Button text="Select" fx:id="btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Button text="Save" fx:id="btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <Button text="Cancel" fx:id="btnCancel" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="RIGHT"/>
 </GridPane>

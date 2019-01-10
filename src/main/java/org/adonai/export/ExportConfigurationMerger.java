@@ -22,6 +22,7 @@ public class ExportConfigurationMerger {
     mergedConfiguration.setChordTextDistance(userConfiguration.getChordTextDistance() != null ? userConfiguration.getChordTextDistance() : defaultConfiguration.getChordTextDistance());
     mergedConfiguration.setUpperBorder(userConfiguration.getUpperBorder() != null ? userConfiguration.getUpperBorder(): defaultConfiguration.getUpperBorder());
     mergedConfiguration.setLeftBorder(userConfiguration.getLeftBorder() != null ? userConfiguration.getLeftBorder(): defaultConfiguration.getLeftBorder());
+    mergedConfiguration.setLowerBorder(userConfiguration.getLowerBorder() != null ? userConfiguration.getLowerBorder(): defaultConfiguration.getLowerBorder());
     mergedConfiguration.setMinimalChordDistance(userConfiguration.getMinimalChordDistance() != null ? userConfiguration.getMinimalChordDistance(): defaultConfiguration.getMinimalChordDistance());
     mergedConfiguration.setOpenPreview(userConfiguration.isOpenPreview() != null ? userConfiguration.isOpenPreview(): defaultConfiguration.isOpenPreview());
     mergedConfiguration.setDocumentBuilderClass(defaultConfiguration.getDocumentBuilderClass());

@@ -13,7 +13,25 @@ public class StringUtils {
     return untrimmed.replaceAll("\\s+$", "");
   }
 
+  /**
+   * leading whitespaces are trimmed, spaces right are untouched
+   * @param untrimmed
+   * @return
+   */
+  public final static String trimLeft (final String untrimmed) {
+    return untrimmed.replaceAll("^\\s+","");
+  }
+
   public final static String spaces( int spaces ) {
     return CharBuffer.allocate( spaces ).toString().replace( '\0', ' ' );
+  }
+
+  /**
+   *
+   * @param name
+   * @return
+   */
+  public final static String getFirstUpper (final String name) {
+    return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
   }
 }

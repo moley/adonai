@@ -54,12 +54,12 @@ public class SettingsExportConfigurationController {
 
     if (exportConfiguration.isDefaultConfiguration()) {
       txtName.setEditable(false);
-      imvDefaultIcon.setImage(Consts.createImage("default"));
+      imvDefaultIcon.setImage(Consts.createImage("default", Consts.ICON_SIZE_SMALL));
     }
 
     String icon = resources.getString(exportConfiguration.getDocumentBuilderClass() + "_icon");
     System.out.println ("Icon " + icon + " for " + exportConfiguration.getName());
-    imvType.setImage(Consts.createImageLarge(icon));
+    imvType.setImage(Consts.createImage(icon, Consts.ICON_SIZE_LARGE));
 
 
     chkOpenPreview.selectedProperty().bindBidirectional(exportConfiguration.openPreviewProperty());

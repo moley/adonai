@@ -2,10 +2,13 @@ package org.adonai.reader.text;
 
 import org.adonai.Chord;
 import org.adonai.InvalidChordException;
+import org.adonai.StringUtils;
 import org.adonai.model.*;
 import org.adonai.ui.editor.SongRepairer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class TextfileReader {
@@ -28,6 +31,7 @@ public class TextfileReader {
   public Song read(List<String> lines) {
 
     Song song = new Song();
+    HashMap<String, SongPart> createdParts = new HashMap<>();
 
     SongPart currentSongPart = null;
 
@@ -38,7 +42,7 @@ public class TextfileReader {
         continue;
 
 
-      SongPart newSongPart = findSongPart(next); //Rest
+      SongPart newSongPart = findSongPart(createdParts, next); //Rest
       if (newSongPart != null) {
         currentChordLine = addPendingChordLine(currentChordLine, currentSongPart);
         currentSongPart = newSongPart;
@@ -78,7 +82,9 @@ public class TextfileReader {
                 Integer toOrEnmd = Integer.min(to.intValue(), next.length());
                 String text = from.intValue() < toOrEnmd ? next.substring(from.intValue(), toOrEnmd) : " ";
 
-                newLine.getLineParts().add(new LinePart(text, chord));
+                String evenutallyTrimmedText = newLine.getLineParts().isEmpty() ? StringUtils.trimLeft(text) : text;
+
+                newLine.getLineParts().add(new LinePart(evenutallyTrimmedText, chord));
               } catch (Exception e) {
                 throw new IllegalStateException("From " + from + " to " + to + "(" + i + " of " + (tokens.size() - 1) + ") in line " + linenumber + "(" + next + ")", e);
 
@@ -105,18 +111,41 @@ public class TextfileReader {
     return song;
   }
 
-  SongPart findSongPart(final String line) {
+  SongPart findSongPart(final HashMap<String, SongPart> createdParts, final String line) {
     if (line.contains("[") && line.contains("]")) {
-      String type = line.replace("[", "").replace("]", "").trim().toUpperCase();
+      String completeType = line.replace("[", "").replace("]", "").trim().toUpperCase();
+
+      String [] types = completeType.split(" ");
+      String type = types[0];
       if (type.equals("STROPHE"))
         type = SongPartType.VERS.name();
+      else if (type.startsWith("VERSE"))
+        type = SongPartType.VERS.name();
+      else if (type.startsWith("PRE-CHORUS"))
+        type = SongPartType.BRIDGE.name();
+      else if (type.startsWith("CHORUS"))
+        type = SongPartType.REFRAIN.name();
+      else if (type.startsWith("INTERLUDE"))
+        type = SongPartType.ZWISCHENSPIEL.name();
 
       SongPartType determinedSongPart = SongPartType.valueOf(type);
       if (determinedSongPart == null)
         throw new IllegalStateException("Part " + type + " not found, please add mapping");
 
+
+
       SongPart songPart = new SongPart();
-      songPart.setSongPartType(determinedSongPart);
+
+
+      if (createdParts.get(completeType) != null) { // Reference existing one, if parttype was already created
+        songPart.setReferencedSongPart(createdParts.get(completeType).getId());
+      }
+      else {
+        songPart.setSongPartType(determinedSongPart);
+      }
+
+      createdParts.put(completeType, songPart);
+
       return songPart;
     }
 

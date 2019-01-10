@@ -1,6 +1,7 @@
 package org.adonai.model;
 
 import org.adonai.export.DefaultExportConfigurationCreator;
+import org.adonai.ui.Consts;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,8 +18,7 @@ public class ConfigurationService {
   private static final Logger LOGGER = Logger.getLogger(ConfigurationService.class.getName());
 
 
-  private String userHome = System.getProperty("user.home");
-  private File leguanHome = new File (userHome, ".adonai");
+
   private File configFile;
 
 
@@ -35,12 +35,7 @@ public class ConfigurationService {
   public File getConfigFile ( ){
     if (configFile == null) {
 
-      String overridenConfigPath = System.getProperty("config");
-
-      if (overridenConfigPath != null)
-        leguanHome = new File(overridenConfigPath);
-
-      configFile = new File(leguanHome, "config.xml");
+      configFile = new File(Consts.LEGUAN_HOME, "config.xml");
       LOGGER.info("configFile = " + configFile.getAbsolutePath());
     }
     return configFile;

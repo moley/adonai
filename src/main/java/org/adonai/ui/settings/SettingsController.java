@@ -32,7 +32,7 @@ public class SettingsController {
 
   ObservableList<SettingsItem> configurations = FXCollections.observableArrayList();
 
-  @FXML ResourceBundle resources;
+
 
 
 
@@ -60,6 +60,7 @@ public class SettingsController {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(next));
       loader.setResources(ResourceBundle.getBundle("languages.adonai"));
       Parent root = loader.load();
+      ResourceBundle resources = loader.getResources();
 
 
       String id = next.substring(next.lastIndexOf("/") + 1).replace(".fxml", "");
@@ -99,7 +100,7 @@ public class SettingsController {
           setGraphic(null);
         } else {
           if (settingsItem.getIcon() != null && ! settingsItem.getIcon().trim().isEmpty()) {
-            ImageView imageView = Consts.createImageViewLarge(settingsItem.getIcon());
+            ImageView imageView = Consts.createImageView(settingsItem.getIcon(), Consts.ICON_SIZE_LARGE);
             setGraphic(imageView);
           }
           else

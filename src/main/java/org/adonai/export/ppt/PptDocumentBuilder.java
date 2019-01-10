@@ -26,6 +26,11 @@ public class PptDocumentBuilder extends AbstractDocumentBuilder {
     return exportConfiguration;
   }
 
+  @Override
+  public SizeInfo getPageSize() {
+    return null;
+  }
+
 
   @Override
   public SizeInfo getSize (final String text, final ExportTokenType exportTokenType) {

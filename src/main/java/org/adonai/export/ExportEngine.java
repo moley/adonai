@@ -61,11 +61,10 @@ public class ExportEngine {
           LocationInfo locationInfoChord = null;
           LocationInfo locationInfoText = new LocationInfo(locationInfo);
 
-          String firstChord = nextLine.getFirstChord();
-          if (firstChord != null && exportConfiguration.isWithChords()) {
+          if (exportConfiguration.isWithChords()) {
             locationInfoChord = locationInfoText;
-            locationInfoText = new LocationInfo(locationInfoChord.getX(), locationInfoChord.getY() +
-              documentBuilder.getSize(firstChord, ExportTokenType.CHORD).getHeight() + exportConfiguration.getChordTextDistance());
+            Double highestChord = getHighestChord(documentBuilder, nextLine);
+            locationInfoText = new LocationInfo(locationInfoChord.getX(), locationInfoChord.getY() + highestChord + exportConfiguration.getChordTextDistance());
           }
 
           Double heightOfText = new Double(0);
@@ -107,6 +106,11 @@ public class ExportEngine {
 
           locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), locationInfoText.getY() + heightOfText + interLineDistance);
 
+          if (!nextLine.equals(nextPart.getLastLine()) && locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - mergedConfiguration.getLowerBorder())) {
+            documentBuilder.newToken(new ExportTokenNewPage());
+            locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
+          }
+
         }
 
         locationInfo = locationInfoCalculator.addY(locationInfo, mergedConfiguration.getInterPartDistance());
@@ -131,5 +135,17 @@ public class ExportEngine {
       exportFile.setExecutable(false);
       System.out.println("Presentation created successfully in " + exportFile.getAbsolutePath());
     }
+  }
+
+  private Double getHighestChord (final DocumentBuilder documentBuilder, final Line line) {
+    Double highestChord = 0d;
+    for (LinePart next: line.getLineParts()) {
+      if (next.getChord() != null && ! next.getChord().trim().isEmpty()) {
+        Double currentHeight = documentBuilder.getSize(next.getChord(), ExportTokenType.CHORD).getHeight();
+        if (currentHeight > highestChord)
+          highestChord = currentHeight;
+      }
+    }
+    return highestChord;
   }
 }

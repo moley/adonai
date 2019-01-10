@@ -49,7 +49,7 @@ public class SongEditor extends PanelHolder {
   private TextField txtTitle = new TextField();
 
 
-  public SongEditor(Song song, final boolean saveAction) {
+  public SongEditor(Song song) {
     this.song = song;
 
     colorMap.put(SongPartType.REFRAIN, Color.DARKBLUE);
@@ -125,17 +125,6 @@ public class SongEditor extends PanelHolder {
     contextMenu.getItems().add(menuItemAddPartBefore);
     contextMenu.getItems().add(menuItemRemovePart);
     contextMenu.getItems().add(menuItemAddPartAfter);
-
-    if (saveAction) {
-      MenuItem menuItemSave = new MenuItem("Save", null);
-      menuItemSave.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-          System.out.println ("Save: " + song.toString());
-        }
-      });
-      contextMenu.getItems().add(menuItemSave);
-    }
 
     partStructure.setContextMenu(contextMenu);
 

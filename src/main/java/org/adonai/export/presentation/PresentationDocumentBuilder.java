@@ -34,5 +34,10 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     return exportConfiguration;
   }
 
+  @Override
+  public SizeInfo getPageSize() {
+    return null;
+  }
+
 
 }

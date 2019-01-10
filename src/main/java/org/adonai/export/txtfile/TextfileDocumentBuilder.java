@@ -68,4 +68,9 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
     return exportConfiguration;
   }
 
+  @Override
+  public SizeInfo getPageSize() {
+    return null;
+  }
+
 }

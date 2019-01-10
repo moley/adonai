@@ -70,7 +70,7 @@ public class SongSelectorController {
     for (Song next : configuration.getSongBooks().get(0).getSongs()) {
       if (filter.trim().isEmpty() || next.getTitle().toUpperCase().contains(filter.toUpperCase()) || next.getId().toString().equals(filter)) {
         filtered.add(next);
-        LOGGER.info(" Add " + next.getId() + "-" + next.getAttachedSong() + " to table");
+        LOGGER.info(" Add " + next.getId() + " to table");
       }
     }
     shownSongs.removeAll(shownSongs);
@@ -103,7 +103,9 @@ public class SongSelectorController {
       public void handle(WindowEvent event) {
         if (selectedSong != null && extensionSelectorController.getSelectedExtension() != null) {
           String songExtension = extensionSelectorController.getSelectedExtension().getAbsolutePath();
-          selectedSong.setAttachedBackground(songExtension);
+          if (true)
+            throw new IllegalStateException("NYI");
+          //selectedSong.setAttachedBackground(songExtension);
           LOGGER.info("connect song " + selectedSong + " with backgroundfile " + extensionSelectorController.getSelectedExtension());
           refreshListView(txtSearch.getText());
 
@@ -114,41 +116,6 @@ public class SongSelectorController {
     stage.show();
   }
 
-  private void connectSong ( ){
-    Song selectedSong = tabSongs.getSelectionModel().getSelectedItem();
-
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/extensionselector.fxml"));
-    Parent root = null;
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    ExtensionSelectorController extensionSelectorController = loader.getController();
-    extensionSelectorController.init(ExtensionType.SONG);
-
-    Scene scene = new Scene(root, 800, 600);
-    scene.getStylesheets().add("/adonai.css");
-
-    Stage stage = new Stage();
-    stage.setTitle("Connect song with " + selectedSong.getTitle());
-    stage.setScene(scene);
-    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-      @Override
-      public void handle(WindowEvent event) {
-
-        if (selectedSong != null && extensionSelectorController.getSelectedExtension() != null) {
-          String songExtension = extensionSelectorController.getSelectedExtension().getAbsolutePath();
-          selectedSong.setAttachedSong(songExtension);
-          LOGGER.info("connect song " + selectedSong + " with songfile " + extensionSelectorController.getSelectedExtension());
-          refreshListView(txtSearch.getText());
-        }
-      }
-    });
-
-    stage.show();
-  }
 
   @FXML
   public void initialize() {
@@ -183,18 +150,6 @@ public class SongSelectorController {
           Node node = ((Node) event.getTarget());
           String id = node.getId() != null ? node.getId() : node.getParent().getId();
           LOGGER.info("Node: " + node + " with id " + id);
-          if (id != null) {
-
-
-            if (id.equals(colSong.getId())) {
-              LOGGER.info("Attach song");
-              connectSong();
-            } else if (id.equals(colBackground.getId())) {
-              LOGGER.info("Attach background");
-              connectBackground();
-            }
-          }
-
         }
       }
     });

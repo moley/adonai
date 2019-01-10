@@ -1,11 +1,14 @@
 package org.adonai.services;
 
-import org.adonai.model.Line;
-import org.adonai.model.Song;
-import org.adonai.model.SongBook;
-import org.adonai.model.SongPart;
+import org.adonai.model.*;
 
 public class AddSongService {
+
+  public Song addSong (final SongBook songBook) {
+    Song newSong = new Song();
+    newSong.setTitle("NEW SONG");
+    return addSong(newSong, songBook);
+  }
 
   public Song addSong (final Song newSong, final SongBook songBook) {
     int lastNumber = 0;
@@ -25,6 +28,5 @@ public class AddSongService {
 
     return newSong;
   }
-
 
 }

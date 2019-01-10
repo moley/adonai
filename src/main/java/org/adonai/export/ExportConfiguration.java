@@ -35,6 +35,8 @@ public class ExportConfiguration {
 
   private SimpleDoubleProperty upperBorder = new SimpleDoubleProperty(0);
 
+  private SimpleDoubleProperty lowerBorder = new SimpleDoubleProperty(0);
+
   private SimpleDoubleProperty leftBorder = new SimpleDoubleProperty(0);
 
   private SimpleDoubleProperty minimalChordDistance = new SimpleDoubleProperty(0);
@@ -179,6 +181,16 @@ public class ExportConfiguration {
   public SimpleDoubleProperty upperBorderProperty () {
     return upperBorder;
   }
+
+
+  //lower border
+  public Double getLowerBorder () {
+    return lowerBorder.get();
+  }
+
+  public void setLowerBorder(Double lowerBorder) { this.lowerBorder.setValue(lowerBorder);}
+
+  public SimpleDoubleProperty lowerBorderProperty () { return lowerBorder; }
 
   //minimal chord distance
 

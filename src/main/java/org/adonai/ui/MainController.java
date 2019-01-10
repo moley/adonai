@@ -15,10 +15,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
+import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportException;
 import org.adonai.export.pdf.PdfExporter;
@@ -76,6 +79,9 @@ public class MainController {
 
   Player playMP3;
 
+  
+  private int iconSizeToolbar = Consts.ICON_SIZE_SMALL;
+  private int iconSizeContextMenu = Consts.ICON_SIZE_SMALL;
 
 
   @FXML
@@ -211,7 +217,7 @@ public class MainController {
     });
 
     Button btnSave = new Button("Save");
-    btnSave.setGraphic(Consts.createImageView("save"));
+    btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
     tbaActions.getItems().add(btnSave);
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -222,48 +228,8 @@ public class MainController {
       }
     });
 
-    Button btnPlaySong = new Button("Play song");
-    btnPlaySong.setGraphic(Consts.createImageView("play"));
-    tbaActions.getItems().add(btnPlaySong);
-    btnPlaySong.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
-        if (playMP3 != null) {
-          LOGGER.info("Stop mp3");
-          playMP3.close();
-          playMP3 = null;
-        } else {
-          Song song = lviSessionDetails.getSelectionModel().getSelectedItem();
-
-
-          if (song == null)
-            return;
-
-          LOGGER.info("Start mp3 " + song.getAttachedSong());
-
-          FileInputStream fis = null;
-          try {
-            fis = new FileInputStream(song.getAttachedSong());
-            playMP3 = new Player(fis);
-            CompletableFuture futureCount = CompletableFuture.supplyAsync(
-              () -> {
-                startMp3();
-                return 10;
-              });
-
-          } catch (FileNotFoundException e) {
-            throw new IllegalStateException(e);
-          } catch (JavaLayerException e) {
-            throw new IllegalStateException(e);
-          }
-        }
-
-
-      }
-    });
-
     Button btnCreatePlayList = new Button("Playlist");
-    btnCreatePlayList.setGraphic(Consts.createImageView("playlist"));
+    btnCreatePlayList.setGraphic(Consts.createImageView("playlist", iconSizeToolbar));
     tbaActions.getItems().add(btnCreatePlayList);
     btnCreatePlayList.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -278,7 +244,7 @@ public class MainController {
     });
 
     Button btnExportSessionWithChords = new Button("Export session with chords");
-    btnExportSessionWithChords.setGraphic(Consts.createImageView("export"));
+    btnExportSessionWithChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportSessionWithChords);
     btnExportSessionWithChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -306,7 +272,7 @@ public class MainController {
     });
 
     Button btnExportSessionWithoutChords = new Button("Export session without chords");
-    btnExportSessionWithoutChords.setGraphic(Consts.createImageView("export"));
+    btnExportSessionWithoutChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportSessionWithoutChords);
     btnExportSessionWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -334,8 +300,8 @@ public class MainController {
       }
     });
 
-    Button btnExportAll = new Button("Exporter all");
-    btnExportAll.setGraphic(Consts.createImageView("export"));
+    Button btnExportAll = new Button("Export all with chords");
+    btnExportAll.setGraphic(Consts.createImageView("export", iconSizeToolbar));
 
     tbaActions.getItems().add(btnExportAll);
     btnExportAll.setOnAction(new EventHandler<ActionEvent>() {
@@ -360,8 +326,34 @@ public class MainController {
       }
     });
 
+    Button btnExportAllWithoutCords = new Button("Export all no chords");
+    btnExportAllWithoutCords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
+
+    tbaActions.getItems().add(btnExportAllWithoutCords);
+    btnExportAllWithoutCords.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+
+        PdfExporter writer = new PdfExporter();
+        Collection<Song> sessionSongs = getCurrentSongBook().getSongs();
+
+        ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
+        exportConfiguration.setWithChords(false);
+        exportConfiguration.setOpenPreview(true);
+        String name = "allSongs";
+        try {
+          File exportFile = new File (configuration.getExportPathAsFile(), name+ ".pdf");
+          exportFile.getParentFile().mkdirs();
+          writer.export(sessionSongs, exportFile, exportConfiguration);
+        } catch (ExportException e) {
+          throw new IllegalStateException(e);
+        }
+
+      }
+    });
+
     Button btnConfigurations = new Button("Configurations");
-    btnConfigurations.setGraphic(Consts.createImageView("settings"));
+    btnConfigurations.setGraphic(Consts.createImageView("settings", iconSizeToolbar));
     tbaActions.getItems().add(btnConfigurations);
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -374,7 +366,6 @@ public class MainController {
 
           Stage stage = new Stage();
           stage.setResizable(true);
-
 
           stage.setTitle("Configurations");
           Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
@@ -399,7 +390,7 @@ public class MainController {
 
 
     MenuItem menuItemNewSong = new MenuItem("New song");
-    menuItemNewSong.setGraphic(Consts.createImageView("songPlus"));
+    menuItemNewSong.setGraphic(Consts.createImageView("songPlus", iconSizeContextMenu));
     menuItemNewSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -415,7 +406,7 @@ public class MainController {
     });
 
     MenuItem menuItemRemoveSong = new MenuItem("Remove song");
-    menuItemRemoveSong.setGraphic(Consts.createImageView("songMinus"));
+    menuItemRemoveSong.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
     menuItemRemoveSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -430,7 +421,7 @@ public class MainController {
     });
 
     MenuItem menuItemCopySong = new MenuItem("Copy song");
-    menuItemCopySong.setGraphic(Consts.createImageView("copy"));
+    menuItemCopySong.setGraphic(Consts.createImageView("copy", iconSizeContextMenu));
     menuItemCopySong.setId("menuItemCopySong");
     menuItemCopySong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -448,8 +439,26 @@ public class MainController {
       }
     });
 
+    MenuItem menuItemPlaySong = new MenuItem ("Play mp3 file");
+    menuItemPlaySong.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        playMp3();
+      }
+    });
+
+    MenuItem menuItemSetMp3 = new MenuItem("Connect with mp3 file");
+    menuItemSetMp3.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
+    menuItemSetMp3.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        connectSong();
+        reload();
+      }
+    });
+
     MenuItem menuItemImportSong = new MenuItem("Import song");
-    menuItemImportSong.setGraphic(Consts.createImageView("import"));
+    menuItemImportSong.setGraphic(Consts.createImageView("import", iconSizeContextMenu));
     menuItemImportSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -458,13 +467,14 @@ public class MainController {
       }
     });
 
-    ContextMenu contextMenu = new ContextMenu(menuItemNewSong, menuItemRemoveSong, menuItemImportSong, menuItemCopySong);
+    ContextMenu contextMenu = new ContextMenu(menuItemNewSong, menuItemRemoveSong,
+                                              menuItemImportSong, menuItemCopySong, menuItemPlaySong, menuItemSetMp3);
 
     lviAllSongs.setContextMenu(contextMenu);
 
     MenuItem menuItemNewSession = new MenuItem("New session");
     menuItemNewSession.setId("menuItemNewSession");
-    menuItemNewSession.setGraphic(Consts.createImageView("sessionPlus"));
+    menuItemNewSession.setGraphic(Consts.createImageView("sessionPlus", iconSizeContextMenu));
     menuItemNewSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -474,7 +484,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSession = new MenuItem("Remove session");
     menuItemRemoveSession.setId("menuItemRemoveSession");
-    menuItemRemoveSession.setGraphic(Consts.createImageView("sessionMinus"));
+    menuItemRemoveSession.setGraphic(Consts.createImageView("sessionMinus", iconSizeContextMenu));
     menuItemRemoveSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -488,7 +498,7 @@ public class MainController {
 
     MenuItem menuItemAddSongToSession = new MenuItem("Add song");
     menuItemAddSongToSession.setId("menuItemAddSongToSession");
-    menuItemAddSongToSession.setGraphic(Consts.createImageView("songPlus"));
+    menuItemAddSongToSession.setGraphic(Consts.createImageView("songPlus", iconSizeContextMenu));
     menuItemAddSongToSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -498,7 +508,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSongFromSession = new MenuItem("Remove session");
     menuItemRemoveSongFromSession.setId("menuItemRemoveSession");
-    menuItemRemoveSongFromSession.setGraphic(Consts.createImageView("songMinus"));
+    menuItemRemoveSongFromSession.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
     menuItemRemoveSongFromSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -527,6 +537,51 @@ public class MainController {
 
   private Song getSelectedSong () {
     return lviAllSongs.getSelectionModel().getSelectedItem();
+  }
+
+  private void connectSong ( ){
+    Song selectedSong = getSelectedSong();
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/extensionselector.fxml"));
+    Parent root = null;
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+    ExtensionSelectorController extensionSelectorController = loader.getController();
+    extensionSelectorController.init(ExtensionType.SONG);
+
+    Scene scene = new Scene(root, 800, 600);
+    scene.getStylesheets().add("/adonai.css");
+
+    Stage stage = new Stage();
+    stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
+    stage.setScene(scene);
+    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+      @Override
+      public void handle(WindowEvent event) {
+
+        if (selectedSong != null && extensionSelectorController.getSelectedExtension() != null) {
+          String songExtension = extensionSelectorController.getSelectedExtension().getAbsolutePath();
+          Additional additional = new Additional();
+          additional.setAdditionalType(AdditionalType.AUDIO);
+          additional.setLink(songExtension);
+          AdditionalsImporter additionalsImporter = new AdditionalsImporter();
+          try {
+            File additionalFile = additionalsImporter.getAdditional(additional);
+          } catch (IOException e) {
+            throw new IllegalStateException(e);
+          }
+          selectedSong.setAdditional(additional);
+          LOGGER.info("connect song " + selectedSong + " with songfile " + extensionSelectorController.getSelectedExtension());
+
+        }
+      }
+    });
+
+    stage.show();
   }
 
 
@@ -623,7 +678,7 @@ public class MainController {
   }
 
   private void stepToSongEditor(final Song songToEdit) {
-    SongEditor songEditor = new SongEditor(songToEdit, false);
+    SongEditor songEditor = new SongEditor(songToEdit);
     Parent editor = songEditor.getPanel();
 
     Scene scene = new Scene(editor, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
@@ -712,14 +767,65 @@ public class MainController {
       LOGGER.info("selectedSession " + selectedSession + "- songToRemove " + songToRemove);
   }
 
-  private void startMp3() {
-    try {
-      playMP3.play();
-    } catch (JavaLayerException e) {
-      throw new IllegalStateException(e);
-    }
+  private void playMp3 () {
+    if (playMP3 != null) {
+      LOGGER.info("Stop mp3");
+      playMP3.close();
+      playMP3 = null;
+    } else {
+      Song song = lviSessionDetails.getSelectionModel().getSelectedItem();
+      if (song == null)
+        song = getSelectedSong();
 
+
+      if (song == null)
+        return;
+
+      Additional additional = song.findAdditional(AdditionalType.AUDIO);
+      if (additional == null)
+        return;
+      LOGGER.info("Start mp3 " + additional.getLink());
+
+      FileInputStream fis = null;
+      try {
+        fis = new FileInputStream(additional.getLink());
+        playMP3 = new Player(fis);
+        CompletableFuture futureCount = CompletableFuture.supplyAsync(
+          () -> {
+            try {
+              playMP3.play();
+            } catch (JavaLayerException e) {
+              throw new IllegalStateException(e);
+            }
+            return 10;
+          });
+
+      } catch (FileNotFoundException e) {
+        throw new IllegalStateException(e);
+      } catch (JavaLayerException e) {
+        throw new IllegalStateException(e);
+      }
+    }
   }
+
+  public static class HBoxCell extends HBox {
+    Label label = new Label();
+    Button button = new Button();
+
+    HBoxCell(String labelText, String buttonText) {
+      super();
+
+      label.setText(labelText);
+      label.setMaxWidth(Double.MAX_VALUE);
+      HBox.setHgrow(label, Priority.ALWAYS);
+
+      button.setText(buttonText);
+
+      this.getChildren().addAll(label, button);
+    }
+  }
+
+
 
 
 }
