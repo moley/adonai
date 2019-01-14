@@ -32,6 +32,27 @@ public class TextfileReaderTest {
   }
 
   @Test
+  public void readExample5() throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich tauche ein.txt"), "UTF-8");
+
+    Song song = textfileReader.read(content);
+    SongPart intro = song.getSongParts().get(0);
+    Assert.assertFalse ("2x must not be shown in line content", intro.getFirstLine().toString().contains("2x"));
+    Assert.assertEquals ("2x", intro.getQuantity());
+  }
+
+  @Test
+  public void readExample4() throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Was fuer ein Gott.txt"), "UTF-8");
+
+    Song song = textfileReader.read(content);
+    System.out.println ("Song: " + song.toString());
+    SongPart refrain = song.getSongParts().get(2);
+    Assert.assertTrue (refrain.getFirstLine().getText().startsWith("Jesus hier knie ich vor dir"));
+
+  }
+
+  @Test
   public void readExample3 () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich weiss wer ich bin.txt"), "UTF-8");
 
@@ -55,6 +76,23 @@ public class TextfileReaderTest {
 
     Song song = textfileReader.read(content);
     System.out.println ("Song: " + song.toString());
+  }
+
+  @Test
+  public void quantityInChordline () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Am       F (2x)", "   Alles   ist cool");
+    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
+    Assert.assertEquals ("2x", firstPart.getQuantity());
+
+  }
+
+  @Test
+  public void quantityInTextline () {
+    List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool  (2x)");
+    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
+    Assert.assertEquals ("2x", firstPart.getQuantity());
 
   }
 

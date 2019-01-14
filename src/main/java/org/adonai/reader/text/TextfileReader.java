@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextfileReader {
 
@@ -52,6 +54,14 @@ public class TextfileReader {
         song.setTitle(next.toUpperCase());
         continue;
       }
+
+      //quantities removed and set at part
+      String bracketContent = StringUtils.getBracketContent(next);
+      if (! bracketContent.trim().isEmpty()) {
+        currentSongPart.setQuantity(bracketContent.trim());
+        next = next.replace("(" + bracketContent + ")", "");
+      }
+
 
       if (isChordLine(next)) { //read chord line
         if (currentChordLine != null)
@@ -127,6 +137,8 @@ public class TextfileReader {
         type = SongPartType.REFRAIN.name();
       else if (type.startsWith("INTERLUDE"))
         type = SongPartType.ZWISCHENSPIEL.name();
+      else if (type.equals("OUTRO"))
+        type = SongPartType.EXTRO.name();
 
       SongPartType determinedSongPart = SongPartType.valueOf(type);
       if (determinedSongPart == null)

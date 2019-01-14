@@ -15,14 +15,22 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.WindowEvent;
+import org.adonai.actions.ConfigurationAction;
+import org.adonai.actions.ExportAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.actions.add.AddSongAction;
+import org.adonai.actions.add.AddSongToSessionAction;
 import org.adonai.model.*;
+import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.editor.SongEditor;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class MainPageController {
@@ -85,6 +93,7 @@ public class MainPageController {
 
   private Song currentSong = null;
 
+
   public void initialize() {
     lviSongs.setCellFactory(new SongCellFactory());
     lviSession.setCellFactory(new SongCellFactory());
@@ -93,7 +102,8 @@ public class MainPageController {
 
     configuration = configurationService.get();
 
-    lviSongs.setItems(FXCollections.observableArrayList(configuration.getSongBooks().get(0).getSongs()));
+    refreshListViews(null);
+
     lviSessions.setItems(FXCollections.observableArrayList(configuration.getSessions()));
 
     lviSongs.toFront();
@@ -110,9 +120,54 @@ public class MainPageController {
       public void handle(ActionEvent event) {
 
         //Create or import a new song
-        if (currentContent.equals(MainPageContent.SESSION) || currentContent.equals(MainPageContent.SONGBOOK)) {
+        if (currentContent.equals(MainPageContent.SONGBOOK) || currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(configuration, getCurrentSongBook());
+          addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+
+              Song song = addSongHandler.getNewSong();
+              LOGGER.info("New song " + song + " created");
+              if (song != null) {
+                SongBook songBook = getCurrentSongBook();
+                AddSongService addSongService = new AddSongService();   //Add new song to songbook
+                addSongService.addSong(song, songBook);
+                refreshListViews(song);                                 //Refresh list data and select the new song in editor
+                selectSong(song);
+              }
+            }
+          });
+        } else if (currentContent.equals(MainPageContent.SESSION)) {
+          AddSongToSessionAction addSongToSessionAction = new AddSongToSessionAction();
+          List<Song> allSongs = getCurrentSongBook().getSongs();
+          addSongToSessionAction.open(allSongs, togSession, new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+              AddSongAction addSongHandler = new AddSongAction();
+              addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                  addSongToSessionAction.getSelectMask().getStage().close();
+
+                  Song song = addSongHandler.getNewSong();
+                  LOGGER.info("New song " + song + " created");
+                  if (song != null) {
+                    SongBook songBook = getCurrentSongBook();
+                    AddSongService addSongService = new AddSongService(); //Add new song to songbook
+                    addSongService.addSong(song, songBook);
+                    SessionService sessionService = new SessionService(); //Add new song to session
+                    sessionService.addSong(currentSession, song);
+                    refreshListViews(song);                               //Refresh list data and select the new song in editor
+                    selectSong(song);
+                  }
+                }
+              });
+
+            }
+          });
+
+        } else if (currentContent.equals(MainPageContent.SESSIONS)) {
+
         }
       }
     });
@@ -130,6 +185,30 @@ public class MainPageController {
 
     tbaActions.getItems().add(new Separator());
 
+    //Button Export with chords
+    Button btnExportWithChords = new Button ("Export with");
+    btnExportWithChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
+    tbaActions.getItems().add(btnExportWithChords);
+    btnExportWithChords.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        ExportAction exportAction = new ExportAction();
+        exportAction.export(configuration, getCurrentSongs(), getExportName(), true);
+      }
+    });
+
+    //Button Export with chords
+    Button btnExportWithoutChords = new Button ("Export without");
+    btnExportWithoutChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
+    tbaActions.getItems().add(btnExportWithoutChords);
+    btnExportWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        ExportAction exportAction = new ExportAction();
+        exportAction.export(configuration, getCurrentSongs(), getExportName(), false);
+      }
+    });
+
     //Button Save
     Button btnSave = new Button ();
     btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
@@ -141,7 +220,23 @@ public class MainPageController {
       }
     });
 
+
+    //Button Configurations
+    Button btnConfigurations = new Button();
+    btnConfigurations.setGraphic(Consts.createImageView("settings", iconSizeToolbar));
+    tbaActions.getItems().add(btnConfigurations);
+    btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+
+        ConfigurationAction configurationAction = new ConfigurationAction();
+        configurationAction.openConfigurations();
+
+      }
+    });
+
     tbaActions.getItems().add(new Separator());
+
 
     //Button Exit
     Button btnExit = new Button();
@@ -224,9 +319,15 @@ public class MainPageController {
 
   }
 
+  private void refreshButtonState () {
+    boolean sessionsAvailable = configuration.getSessions().size() > 0;
+    togSession.setVisible(sessionsAvailable);
+  }
+
   private void selectSessions () {
     currentSong = null;
     lblCurrentEntity.setText("SESSIONS" );
+    lviSessions.setItems(FXCollections.observableArrayList(configuration.getSessions()));
     lviSessions.toFront();
     lviSessions.requestFocus();
     currentContent = MainPageContent.SESSIONS;
@@ -234,15 +335,11 @@ public class MainPageController {
 
   private void selectSongbook () {
     currentSong = null;
+    currentContent = MainPageContent.SONGBOOK;
     lblCurrentEntity.setText("SONGBOOK");
+    lviSongs.setItems(FXCollections.observableArrayList(getCurrentSongs()));
     lviSongs.toFront();
     lviSongs.requestFocus();
-    currentContent = MainPageContent.SONGBOOK;
-  }
-
-  private void refreshButtonState () {
-    boolean sessionsAvailable = configuration.getSessions().size() > 0;
-    togSession.setVisible(sessionsAvailable);
   }
 
   private void selectSession (Session session) {
@@ -252,8 +349,6 @@ public class MainPageController {
     currentContent = MainPageContent.SESSION;
     currentSong = null;
     currentSession = session;
-
-    lviSession.setItems(FXCollections.observableArrayList(sessionService.getSongs(session, getCurrentSongBook())));
 
     lviSession.toFront();
     lviSession.requestFocus();
@@ -276,6 +371,38 @@ public class MainPageController {
 
   private SongBook getCurrentSongBook () {
     return configuration.getSongBooks().get(0);
+  }
+
+  private Collection<Song> getCurrentSongs () {
+    if (currentContent == MainPageContent.SONGBOOK) {
+      return getCurrentSongBook().getSongs();
+    }
+    else if (currentContent == MainPageContent.SESSION) {
+      return sessionService.getSongs(currentSession, getCurrentSongBook());
+    }
+    else
+      return Arrays.asList();
+  }
+
+  private String getExportName () {
+    if (currentContent == MainPageContent.SONGBOOK) {
+      return "songbook";
+    }
+    else if (currentContent == MainPageContent.SESSION) {
+      return currentSession.getName();
+    }
+    else
+      return "";
+  }
+
+  private void refreshListViews(Song selectSong) {
+    LOGGER.info("Refresh songbook");
+    lviSongs.setItems(FXCollections.observableArrayList(getCurrentSongs()));
+    lviSession.setItems(FXCollections.observableArrayList(getCurrentSongs()));
+    if (selectSong != null) {
+      LOGGER.info("Select song " + selectSong );
+      lviSongs.getSelectionModel().select(selectSong);
+    }
   }
 
 

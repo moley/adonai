@@ -34,4 +34,13 @@ public class StringUtils {
   public final static String getFirstUpper (final String name) {
     return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
   }
+
+  public final static String getBracketContent (final String text) {
+    int openingBracket = text.indexOf("(");
+    int closingBracket = text.indexOf(")");
+    if (openingBracket >= 0 && closingBracket >= 0)
+      return text.substring(openingBracket + 1, closingBracket);
+    else
+      return "";
+  }
 }

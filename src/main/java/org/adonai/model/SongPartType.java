@@ -9,5 +9,6 @@ public enum SongPartType {
   INSTRUMENTAL,
   SOLO,
   ZWISCHENSPIEL,
-  EXTRO
+  EXTRO,
+  RAP
 }

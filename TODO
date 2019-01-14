@@ -1,4 +1,10 @@
-TODO 
+- Add song to session
+- Add new session
+- Remove session
+- Remove song
+- Export playlist
+
+TODO
 - Indent between chords without text
 - export with session sequence small / big
 - Export schematas

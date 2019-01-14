@@ -3,6 +3,7 @@ package org.adonai.services;
 import org.adonai.model.Line;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +30,24 @@ public class SongInfoService {
     if (! firstLine.getPreview().trim().isEmpty())
       preview += " (" + firstLine.getPreview() + ")";
     return preview;
+  }
+
+  public String getStructure (final Song song, final SongPart songPart, final SongPartDescriptorStrategy songPartDescriptorStrategy) {
+
+    SongPart shownPart = songPart;
+    if (songPart.getReferencedSongPart() != null)
+      shownPart = song.findSongPartByUUID(songPart.getReferencedSongPart());
+
+    if (songPart.getSongPartType() == null)
+      return "";
+
+    if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.SHORT))
+      return shownPart.getSongPartType().name().substring(0, 1);
+    else if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.LONG))
+      return shownPart.getSongPartType().name();
+    else
+      throw new IllegalStateException("structure cannot get determined when SongPartDescriptorStrategy is " + songPartDescriptorStrategy);
+
   }
 
   public Collection<SongPart> getRealSongPartsWithoutCurrent (final Song song, final SongPart songPart) {

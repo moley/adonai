@@ -390,7 +390,7 @@ public class MainController {
 
 
     MenuItem menuItemNewSong = new MenuItem("New song");
-    menuItemNewSong.setGraphic(Consts.createImageView("songPlus", iconSizeContextMenu));
+    menuItemNewSong.setGraphic(Consts.createImageView("plus", iconSizeContextMenu));
     menuItemNewSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -406,7 +406,7 @@ public class MainController {
     });
 
     MenuItem menuItemRemoveSong = new MenuItem("Remove song");
-    menuItemRemoveSong.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
+    menuItemRemoveSong.setGraphic(Consts.createImageView("minus", iconSizeContextMenu));
     menuItemRemoveSong.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -448,7 +448,7 @@ public class MainController {
     });
 
     MenuItem menuItemSetMp3 = new MenuItem("Connect with mp3 file");
-    menuItemSetMp3.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
+    menuItemSetMp3.setGraphic(Consts.createImageView("minus", iconSizeContextMenu));
     menuItemSetMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -474,7 +474,7 @@ public class MainController {
 
     MenuItem menuItemNewSession = new MenuItem("New session");
     menuItemNewSession.setId("menuItemNewSession");
-    menuItemNewSession.setGraphic(Consts.createImageView("sessionPlus", iconSizeContextMenu));
+    menuItemNewSession.setGraphic(Consts.createImageView("plus", iconSizeContextMenu));
     menuItemNewSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -484,7 +484,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSession = new MenuItem("Remove session");
     menuItemRemoveSession.setId("menuItemRemoveSession");
-    menuItemRemoveSession.setGraphic(Consts.createImageView("sessionMinus", iconSizeContextMenu));
+    menuItemRemoveSession.setGraphic(Consts.createImageView("minus", iconSizeContextMenu));
     menuItemRemoveSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -498,7 +498,7 @@ public class MainController {
 
     MenuItem menuItemAddSongToSession = new MenuItem("Add song");
     menuItemAddSongToSession.setId("menuItemAddSongToSession");
-    menuItemAddSongToSession.setGraphic(Consts.createImageView("songPlus", iconSizeContextMenu));
+    menuItemAddSongToSession.setGraphic(Consts.createImageView("plus", iconSizeContextMenu));
     menuItemAddSongToSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -508,7 +508,7 @@ public class MainController {
 
     MenuItem menuItemRemoveSongFromSession = new MenuItem("Remove session");
     menuItemRemoveSongFromSession.setId("menuItemRemoveSession");
-    menuItemRemoveSongFromSession.setGraphic(Consts.createImageView("songMinus", iconSizeContextMenu));
+    menuItemRemoveSongFromSession.setGraphic(Consts.createImageView("minus", iconSizeContextMenu));
     menuItemRemoveSongFromSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {

@@ -14,6 +14,47 @@ import java.util.List;
 public class PdfWriterTest extends AbstractExportTest {
 
   @Test
+  public void exportSongPartDescriptorStrategyLong () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+    List<Song> songs = getExportTestData();
+    System.out.println (songs.get(0).toString());
+    PdfExporter pdfExporter = new PdfExporter();
+    ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.setChordTextDistance(new Double(5));
+    exportConfiguration.setInterLineDistance(new Double(5));
+    exportConfiguration.setInterPartDistance(new Double(5));
+    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setLeftBorder(new Double(5));
+    exportConfiguration.setUpperBorder(new Double(5));
+
+    exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+    exportConfiguration.setOpenPreview(true);
+    pdfExporter.export(songs, tmpExportFile, exportConfiguration);
+  }
+
+  @Test
+  public void exportSongPartDescriptorStrategyShort () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+    List<Song> songs = getExportTestData();
+    System.out.println (songs.get(0).toString());
+    PdfExporter pdfExporter = new PdfExporter();
+    ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setChordTextDistance(new Double(5));
+    exportConfiguration.setInterLineDistance(new Double(5));
+    exportConfiguration.setInterPartDistance(new Double(5));
+    exportConfiguration.setLeftBorder(new Double(5));
+    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.SHORT);
+    exportConfiguration.setOpenPreview(true);
+    pdfExporter.export(songs, tmpExportFile, exportConfiguration);
+  }
+
+  @Test
   public void export () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();

@@ -8,6 +8,7 @@ public class ChordPart {
   Note note;
   boolean moll;
   boolean major;
+  boolean add;
   Integer intervall;
   boolean sus;
 
@@ -25,6 +26,9 @@ public class ChordPart {
     if (sus)
       asString +="sus";
 
+    if (add)
+      asString +="add";
+
     if (intervall != null)
       asString += intervall;
 
@@ -34,10 +38,13 @@ public class ChordPart {
 
   }
 
-  public ChordPart (final String chordpartAsString) throws InvalidChordException {
+  public ChordPart (String chordpartAsString) throws InvalidChordException {
     String trimmed = chordpartAsString.replace(String.valueOf((char) 160), " ").trim();
     if (trimmed.isEmpty())
       throw new InvalidChordException("Empty string");
+
+    if (trimmed.startsWith("B") && ! trimmed.startsWith("Bb"))
+      trimmed = trimmed.replace("B", "H");
 
     for (NoteEntry noteEntry: Note.getLengthOrderedNotes()) {
 
@@ -64,6 +71,11 @@ public class ChordPart {
     if (! trimmed.isEmpty() && trimmed.startsWith("maj")) {
       trimmed = trimmed.substring(3);
       major = true;
+    }
+
+    if (! trimmed.isEmpty() && trimmed.startsWith("add")) {
+      trimmed = trimmed.substring(3);
+      add = true;
     }
 
     if (! trimmed.isEmpty() && trimmed.startsWith("sus")) {

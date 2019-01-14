@@ -9,6 +9,23 @@ import java.util.Collection;
 
 public class SongTestData {
 
+  public final static Song getSongWithTwoPartsAndOneReference() {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withId("1").withTitle("Example 1");
+    builder = builder.withPart(SongPartType.VERS).withPartId("1").withLine();
+    builder = builder.withLinePart("This is", "D");
+    builder = builder.withLinePart("the first testline", "G");
+    builder = builder.withLine().withLinePart("This is the second", "A");
+
+    builder = builder.withPart(SongPartType.REFRAIN).withLine();
+    builder = builder.withLinePart("And a second part", "D");
+    builder = builder.withLinePart("with a second line", "G");
+    builder = builder.withLine().withLinePart("This is the second of second part", "A");
+
+    builder = builder.withPartReference("1");
+    return builder.get();
+  }
+
   public final static Song getSongWithTwoPartsTwoLines() {
     SongBuilder builder = SongBuilder.instance();
     builder = builder.withId("1").withTitle("Example 1");

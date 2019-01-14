@@ -31,6 +31,19 @@ public class SongBuilder {
     return this;
   }
 
+  public SongBuilder withPartId (final String id) {
+    currentSongPart.setId(id);
+    return this;
+  }
+
+  public SongBuilder withPartReference (final String referencedId) {
+    currentSongPart = new SongPart();
+    currentSongPart.setReferencedSongPart(referencedId);
+    song.getSongParts().add(currentSongPart);
+    return this;
+
+  }
+
   public SongBuilder withLine () {
     currentLine = new Line();
     currentSongPart.getLines().add(currentLine);

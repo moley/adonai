@@ -2,12 +2,10 @@ package org.adonai.export;
 
 import org.adonai.AreaInfo;
 import org.adonai.LocationInfo;
-import org.adonai.model.Line;
-import org.adonai.model.LinePart;
+import org.adonai.model.*;
 import org.adonai.LocationInfoCalculator;
 import org.adonai.SizeInfo;
-import org.adonai.model.Song;
-import org.adonai.model.SongPart;
+import org.adonai.services.SongInfoService;
 
 import java.io.File;
 import java.util.Collection;
@@ -32,8 +30,12 @@ public class ExportEngine {
 
     LocationInfo locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
 
+    SongInfoService songInfoService = new SongInfoService();
+
 
     for (Song nextSong : songs) {
+
+      Double maxStructureWidth = getLongestStructureText(documentBuilder, nextSong, mergedConfiguration);
 
       if (documentBuilder.getExportTokenContainer().hasTokens() && mergedConfiguration.getNewPageStrategy().equals(NewPageStrategy.PER_SONG)) {
         documentBuilder.newToken(new ExportTokenNewPage());
@@ -47,7 +49,11 @@ public class ExportEngine {
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
       }
 
+      locationInfo = locationInfoCalculator.addY(locationInfo, mergedConfiguration.getTitleSongDistance());
+
       for (SongPart nextPart : nextSong.getSongParts()) {
+
+
 
         if (! nextPart.hasText() && mergedConfiguration.isWithChords() == false)
           continue;
@@ -57,7 +63,12 @@ public class ExportEngine {
           locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
         }
 
+        LocationInfo locationInfoStructure = locationInfo;
+
+
         for (Line nextLine : nextPart.getLines()) {
+          locationInfo = locationInfoCalculator.addX(locationInfo, maxStructureWidth);
+
           LocationInfo locationInfoChord = null;
           LocationInfo locationInfoText = new LocationInfo(locationInfo);
 
@@ -65,6 +76,17 @@ public class ExportEngine {
             locationInfoChord = locationInfoText;
             Double highestChord = getHighestChord(documentBuilder, nextLine);
             locationInfoText = new LocationInfo(locationInfoChord.getX(), locationInfoChord.getY() + highestChord + exportConfiguration.getChordTextDistance());
+          }
+
+          if (nextLine.equals(nextPart.getFirstLine())) {
+            if (mergedConfiguration.getSongPartDescriptorType() != null && ! mergedConfiguration.getSongPartDescriptorType().equals(SongPartDescriptorStrategy.NONE)) {
+
+              String structure = songInfoService.getStructure(nextSong, nextPart, mergedConfiguration.getSongPartDescriptorType());
+              SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
+              locationInfoStructure = new LocationInfo(locationInfoStructure.getX(), locationInfoText.getY());
+
+              documentBuilder.newToken(new ExportToken(structure, new AreaInfo(locationInfoStructure, sizeInfoStructure), ExportTokenType.STRUCTURE));
+            }
           }
 
           Double heightOfText = new Double(0);
@@ -137,15 +159,46 @@ public class ExportEngine {
     }
   }
 
+  /**
+   * get chord, which need the most y
+   *
+   * @param documentBuilder
+   * @param line
+   * @return
+   */
   private Double getHighestChord (final DocumentBuilder documentBuilder, final Line line) {
-    Double highestChord = 0d;
+    Double maxChordHeight = 0d;
     for (LinePart next: line.getLineParts()) {
       if (next.getChord() != null && ! next.getChord().trim().isEmpty()) {
         Double currentHeight = documentBuilder.getSize(next.getChord(), ExportTokenType.CHORD).getHeight();
-        if (currentHeight > highestChord)
-          highestChord = currentHeight;
+        if (currentHeight > maxChordHeight)
+          maxChordHeight = currentHeight;
       }
     }
-    return highestChord;
+    return maxChordHeight;
+  }
+
+  /**
+   * get longest width of structure text
+   * @param documentBuilder     documentbuilder
+   * @param song                song
+   * @param exportConfiguration exportConfiguration
+   * @return longest structure text
+   */
+  private Double getLongestStructureText (final DocumentBuilder documentBuilder, final Song song, ExportConfiguration exportConfiguration) {
+    Double maxStructureWidth = 0d;
+
+    SongInfoService songInfoService = new SongInfoService();
+
+    for (SongPart next: song.getSongParts()) {
+      String structureText = songInfoService.getStructure(song, next, exportConfiguration.getSongPartDescriptorType());
+      Double currentWeight = documentBuilder.getSize(structureText, ExportTokenType.STRUCTURE).getWidth();
+      if (currentWeight > maxStructureWidth)
+        maxStructureWidth = currentWeight + exportConfiguration.getStructureDistance();
+    }
+
+    return maxStructureWidth ;
+
+
   }
 }

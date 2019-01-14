@@ -33,7 +33,8 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
 
         if (item != null) {
           HBox hbox = new HBox();
-          Label label = new Label(String.format("%3d - %s", item.getId(), item.getTitle()));
+          String labelText = item.getId() != null ? String.format("%3d - %s", item.getId(), item.getTitle()) : item.getTitle();
+          Label label = new Label(labelText);
           label.setMinWidth(800);
           label.setMinHeight(40);
 

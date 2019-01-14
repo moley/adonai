@@ -8,6 +8,7 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import org.adonai.export.*;
 import org.adonai.SizeInfo;
+import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.awt.*;
 import java.io.File;
@@ -65,7 +66,9 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     else if (exportTokenType.equals(ExportTokenType.TEXT))
       return 12;
     else if (exportTokenType.equals(ExportTokenType.TITLE))
-      return 18;
+      return 6;
+    else if (exportTokenType.equals(ExportTokenType.STRUCTURE))
+      return 6;
     else
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
   }
@@ -95,7 +98,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
           cb.beginText();
           Double realY = pagesizeA4.getHeight() - nextToken.getAreaInfo().getY() - heightFirstLine;
           cb.moveText(nextToken.getAreaInfo().getX().floatValue(), realY.floatValue());
-          cb.setFontAndSize(nextToken.getExportTokenType().equals(ExportTokenType.TEXT) ? bf : bfBold, getFontsize(nextToken.getExportTokenType()));
+          cb.setFontAndSize(nextToken.getExportTokenType().isBold() ? bfBold : bf, getFontsize(nextToken.getExportTokenType()));
           cb.showText(nextToken.getText());
           cb.endText();
 
@@ -118,9 +121,12 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration =  new ExportConfiguration();
     exportConfiguration.setWithTitle(true);
+    exportConfiguration.setTitleSongDistance(new Double(5));
     exportConfiguration.setInterLineDistance(new Double(5));
     exportConfiguration.setChordTextDistance(new Double(4));
     exportConfiguration.setInterPartDistance(new Double(15));
+    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setLeftBorder(new Double(40));
     exportConfiguration.setUpperBorder(new Double(40));
     exportConfiguration.setLowerBorder(new Double(40));

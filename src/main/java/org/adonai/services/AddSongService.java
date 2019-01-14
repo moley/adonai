@@ -4,10 +4,10 @@ import org.adonai.model.*;
 
 public class AddSongService {
 
-  public Song addSong (final SongBook songBook) {
+  public Song createSong (String title) {
     Song newSong = new Song();
-    newSong.setTitle("NEW SONG");
-    return addSong(newSong, songBook);
+    newSong.setTitle(title != null ? title.toUpperCase(): "NEW SONG");
+    return newSong;
   }
 
   public Song addSong (final Song newSong, final SongBook songBook) {

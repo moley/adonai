@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.adonai.SizeInfo;
+import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.util.UUID;
 
@@ -25,6 +26,8 @@ public class ExportConfiguration {
 
   private NewPageStrategy newPageStrategy = NewPageStrategy.PER_SONG;
 
+  private SongPartDescriptorStrategy songPartDescriptorType = SongPartDescriptorStrategy.NONE;
+
   private SimpleDoubleProperty interPartDistance = new SimpleDoubleProperty(0);
 
   private SimpleDoubleProperty interSongDistance = new SimpleDoubleProperty(0);
@@ -32,6 +35,8 @@ public class ExportConfiguration {
   private SimpleDoubleProperty interLineDistance = new SimpleDoubleProperty(0);
 
   private SimpleDoubleProperty chordTextDistance = new SimpleDoubleProperty(0);
+
+  private SimpleDoubleProperty structureDistance = new SimpleDoubleProperty(0);
 
   private SimpleDoubleProperty upperBorder = new SimpleDoubleProperty(0);
 
@@ -41,7 +46,11 @@ public class ExportConfiguration {
 
   private SimpleDoubleProperty minimalChordDistance = new SimpleDoubleProperty(0);
 
+  private SimpleDoubleProperty titleSongDistance = new SimpleDoubleProperty(0);
+
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
+
+  private SizeInfo pageSize;
 
   public NewPageStrategy getNewPageStrategy() {
     return newPageStrategy;
@@ -50,8 +59,6 @@ public class ExportConfiguration {
   public void setNewPageStrategy(NewPageStrategy newPageStrategy) {
     this.newPageStrategy = newPageStrategy;
   }
-
-  private SizeInfo pageSize;
 
   //// with chords
   public Boolean isWithChords() {
@@ -101,6 +108,31 @@ public class ExportConfiguration {
   public SimpleDoubleProperty interSongDistanceProperty () {
     return interSongDistance;
   }
+
+  //structure distance (distance between structure and text/chords)
+  public Double getStructureDistance () {
+    return structureDistance.getValue();
+  }
+
+  public void setStructureDistance (Double structureDistance) {
+    this.structureDistance.setValue(structureDistance);
+  }
+
+  public SimpleDoubleProperty structureDistanceProperty () {return structureDistance;}
+
+  //distance between title and song
+  public Double getTitleSongDistance () {
+    return titleSongDistance.getValue();
+  }
+
+  public void setTitleSongDistance (Double titleSongDistance) {
+    this.titleSongDistance.setValue(titleSongDistance);
+  }
+
+  public SimpleDoubleProperty titleSongDistacneProperty () {
+    return titleSongDistance;
+  }
+
 
   //inter part distance
   public Double getInterPartDistance() {
@@ -255,5 +287,13 @@ public class ExportConfiguration {
 
   public void setDefaultConfiguration(Boolean defaultConfiguration) {
     this.defaultConfiguration = defaultConfiguration;
+  }
+
+  public SongPartDescriptorStrategy getSongPartDescriptorType() {
+    return songPartDescriptorType;
+  }
+
+  public void setSongPartDescriptorType(SongPartDescriptorStrategy songPartDescriptorType) {
+    this.songPartDescriptorType = songPartDescriptorType;
   }
 }

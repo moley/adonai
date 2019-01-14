@@ -10,6 +10,7 @@ import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.select.SelectController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +21,9 @@ public class SelectAction<T> {
 
   private Mask<SelectController> selectMask;
 
-  public void open (List<T> objects,  Control control, EventHandler<WindowEvent> onCloseEventHandler) {
+  public void open (final List<T> objects, final Control control, final EventHandler<WindowEvent> onCloseEventHandler) {
+    List<T> objectsToAdd = new ArrayList<T>();
+    objectsToAdd.addAll(objects);
     MaskLoader<SelectController> maskLoader = new MaskLoader<SelectController>();
     selectMask = maskLoader.load("select");
     selectMask.setSize(SEARCHDIALOG_WIDTH, SEARCHDIALOG_HEIGHT);
