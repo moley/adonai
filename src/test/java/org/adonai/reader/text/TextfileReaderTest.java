@@ -57,7 +57,50 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich weiss wer ich bin.txt"), "UTF-8");
 
     Song song = textfileReader.read(content);
-    System.out.println ("Song: " + song.toString());
+    //[Intro]
+    //[Verse 1]
+    //[Chorus 1]
+    //[Verse 2]
+    //[Chorus 2]
+    //[Bridge 1]
+    //[Bridge 2]
+    //[Chorus 3]
+    //[Interlude]
+    //[Bridge 1]
+    //[Bridge 1]
+    //[Bridge 1]
+    //[Bridge 3]
+    //[Chorus 2]
+    SongPart introPart = song.getSongParts().get(0);
+    SongPart vers1Part = song.getSongParts().get(1);
+    SongPart chorus1Part = song.getSongParts().get(2);
+    SongPart vers2Part = song.getSongParts().get(3);
+    SongPart chorus2Part = song.getSongParts().get(4);
+    SongPart bridge1Part = song.getSongParts().get(5);
+    SongPart bridge2Part = song.getSongParts().get(6);
+    SongPart chorus3Part = song.getSongParts().get(7);
+    SongPart interludePart = song.getSongParts().get(8);
+    SongPart bridge1Ref1 = song.getSongParts().get(9);
+    SongPart bridge1Ref2 = song.getSongParts().get(10);
+    SongPart bridge1Ref3 = song.getSongParts().get(11);
+    SongPart bridge3Part = song.getSongParts().get(12);
+    SongPart chorus2Ref = song.getSongParts().get(13);
+
+    Assert.assertEquals (SongPartType.INTRO, introPart.getSongPartType());
+    Assert.assertEquals (SongPartType.VERS, vers1Part.getSongPartType());
+    Assert.assertEquals (SongPartType.REFRAIN, chorus1Part.getSongPartType());
+    Assert.assertEquals (SongPartType.VERS, vers2Part.getSongPartType());
+    Assert.assertEquals (SongPartType.REFRAIN, chorus2Part.getSongPartType());
+    Assert.assertEquals (SongPartType.BRIDGE, bridge1Part.getSongPartType());
+    Assert.assertEquals (SongPartType.BRIDGE, bridge2Part.getSongPartType());
+    Assert.assertEquals (SongPartType.REFRAIN, chorus3Part.getSongPartType());
+    Assert.assertEquals (SongPartType.ZWISCHENSPIEL, interludePart.getSongPartType());
+    Assert.assertEquals (SongPartType.BRIDGE, bridge3Part.getSongPartType());
+    Assert.assertEquals(bridge1Part.getId(), bridge1Ref1.getReferencedSongPart());
+    Assert.assertEquals(bridge1Part.getId(), bridge1Ref2.getReferencedSongPart());
+    Assert.assertEquals(bridge1Part.getId(), bridge1Ref3.getReferencedSongPart());
+    Assert.assertEquals(chorus2Part.getId(), chorus2Ref.getReferencedSongPart());
+
 
   }
 

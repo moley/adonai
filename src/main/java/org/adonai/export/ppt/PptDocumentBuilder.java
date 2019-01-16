@@ -1,5 +1,6 @@
 package org.adonai.export.ppt;
 
+import org.adonai.export.ReferenceStrategy;
 import org.apache.poi.xslf.usermodel.*;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
@@ -21,6 +22,7 @@ public class PptDocumentBuilder extends AbstractDocumentBuilder {
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration =  new ExportConfiguration();
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
+    exportConfiguration.setReferenceStrategy(ReferenceStrategy.HIDE);
     exportConfiguration.setName("Exportschema Powerpoint Default");
 
     return exportConfiguration;

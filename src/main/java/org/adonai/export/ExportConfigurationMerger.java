@@ -13,6 +13,7 @@ public class ExportConfigurationMerger {
     ExportConfiguration merged = new ExportConfiguration();
     merged.setSongPartDescriptorType(userConf.getSongPartDescriptorType() != null ? userConf.getSongPartDescriptorType(): defConf.getSongPartDescriptorType());
     merged.setNewPageStrategy(userConf.getNewPageStrategy() != null ? userConf.getNewPageStrategy() : defConf.getNewPageStrategy());
+    merged.setReferenceStrategy(userConf.getReferenceStrategy() != null ? userConf.getReferenceStrategy() : defConf.getReferenceStrategy());
     merged.setPageSize(userConf.getPageSize() != null ? userConf.getPageSize() : defConf.getPageSize());
     merged.setWithChords(userConf.isWithChords() != null ? userConf.isWithChords() : defConf.isWithChords());
     merged.setWithTitle(userConf.getWithTitle() != null ? userConf.getWithTitle(): defConf.getWithTitle());

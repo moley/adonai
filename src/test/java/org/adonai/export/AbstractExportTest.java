@@ -42,10 +42,27 @@ public class AbstractExportTest {
     return builder.get();
   }
 
+  public final Song getSongWithReference () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withId("3").withTitle("SongWithReference");
+    builder = builder.withPart(SongPartType.VERS).withPartId("1").withLine();
+    builder = builder.withLinePart("Vers1", "G");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine();
+    builder = builder.withLinePart("Refrain ", "G");
+    builder = builder.withPart(SongPartType.VERS).withLine();
+    builder = builder.withLinePart("Vers2 ", "G");
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withLine();
+    builder = builder.withLinePart("Vers3 ", "G");
+    return builder.get();
+
+  }
+
   public final List<Song> getExportTestData () {
     List<Song> songs = new ArrayList<Song>();
     songs.add(getSong1());
     songs.add(getSong2());
+    songs.add(getSongWithReference());
 
     return songs;
 

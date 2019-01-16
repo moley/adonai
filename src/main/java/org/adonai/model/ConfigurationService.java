@@ -2,12 +2,16 @@ package org.adonai.model;
 
 import org.adonai.export.DefaultExportConfigurationCreator;
 import org.adonai.ui.Consts;
+import org.adonai.ui.editor.SongRepairer;
+import org.apache.commons.io.FileUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -66,6 +70,13 @@ public class ConfigurationService {
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
       defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
 
+      SongRepairer songRepairer = new SongRepairer();
+      for (SongBook nextSongbook: currentConfiguration.getSongBooks()) {
+        for (Song nextSong: nextSongbook.getSongs()) {
+          songRepairer.repairSong(nextSong);
+        }
+      }
+
     } catch (JAXBException e) {
       throw new IllegalStateException(e);
     }
@@ -88,8 +99,14 @@ public class ConfigurationService {
       if (! getConfigFile().getParentFile().exists())
         getConfigFile().getParentFile().mkdirs();
 
+      if (getConfigFile().exists()) {
+        File savedConfigFile = new File (getConfigFile().getParentFile(), getConfigFile().getName() + new Date().toString());
+        FileUtils.copyFile(getConfigFile(), savedConfigFile);
+
+      }
+
       marshaller.marshal(configuration, getConfigFile());
-    } catch (JAXBException e) {
+    } catch (JAXBException | IOException e) {
       throw new IllegalStateException(e);
     }
   }

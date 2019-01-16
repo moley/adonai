@@ -119,8 +119,26 @@ public class MainPageController {
       @Override
       public void handle(ActionEvent event) {
 
-        //Create or import a new song
-        if (currentContent.equals(MainPageContent.SONGBOOK) || currentContent.equals(MainPageContent.SONG)) {
+        //In Song details reimport content of current song
+        if (currentContent.equals(MainPageContent.SONG)) {
+          AddSongAction addSongHandler = new AddSongAction();
+          addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+
+              Song song = addSongHandler.getNewSong();
+              LOGGER.info("New song " + song + " created");
+              if (song != null) {
+                currentSong.getSongParts().clear();
+                currentSong.getSongParts().addAll(song.getSongParts());
+                refreshListViews(song);                                 //Refresh list data and select the new song in editor
+                selectSong(song);
+              }
+            }
+          });
+        }
+        else //In Songbook add new song
+        if (currentContent.equals(MainPageContent.SONGBOOK)) {
           AddSongAction addSongHandler = new AddSongAction();
           addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override
@@ -137,7 +155,7 @@ public class MainPageController {
               }
             }
           });
-        } else if (currentContent.equals(MainPageContent.SESSION)) {
+        } else if (currentContent.equals(MainPageContent.SESSION)) { // in session add new song and add to session
           AddSongToSessionAction addSongToSessionAction = new AddSongToSessionAction();
           List<Song> allSongs = getCurrentSongBook().getSongs();
           addSongToSessionAction.open(allSongs, togSession, new EventHandler<WindowEvent>() {
@@ -393,6 +411,9 @@ public class MainPageController {
     }
     else if (currentContent == MainPageContent.SESSION) {
       return currentSession.getName();
+    }
+    else if (currentContent == MainPageContent.SONG) {
+      return currentSong.getName();
     }
     else
       return "";

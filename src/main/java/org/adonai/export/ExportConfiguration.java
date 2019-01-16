@@ -18,11 +18,14 @@ public class ExportConfiguration {
 
   private Boolean defaultConfiguration = Boolean.FALSE;
 
+
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withPartType = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withTitle = new SimpleBooleanProperty(false);
+
+  private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
 
   private NewPageStrategy newPageStrategy = NewPageStrategy.PER_SONG;
 
@@ -51,6 +54,7 @@ public class ExportConfiguration {
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
 
   private SizeInfo pageSize;
+
 
   public NewPageStrategy getNewPageStrategy() {
     return newPageStrategy;
@@ -295,5 +299,13 @@ public class ExportConfiguration {
 
   public void setSongPartDescriptorType(SongPartDescriptorStrategy songPartDescriptorType) {
     this.songPartDescriptorType = songPartDescriptorType;
+  }
+
+  public ReferenceStrategy getReferenceStrategy() {
+    return referenceStrategy;
+  }
+
+  public void setReferenceStrategy(ReferenceStrategy referenceStrategy) {
+    this.referenceStrategy = referenceStrategy;
   }
 }

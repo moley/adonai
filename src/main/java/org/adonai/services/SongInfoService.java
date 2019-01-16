@@ -20,7 +20,10 @@ public class SongInfoService {
       preview = "Copy of ";
     }
 
-    preview += realPart.getSongPartTypeLabel();
+    preview += (realPart != null ? realPart.getSongPartTypeLabel(): "INVALID PART");
+
+    if (realPart == null)
+      return preview;
 
     Line firstLine = realPart.getFirstLine();
 

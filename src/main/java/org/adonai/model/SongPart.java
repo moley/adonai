@@ -169,4 +169,5 @@ public class SongPart {
   public SimpleStringProperty remarksProperty () {
     return remarks;
   }
+
 }

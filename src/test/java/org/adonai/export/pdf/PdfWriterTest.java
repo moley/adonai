@@ -14,6 +14,30 @@ import java.util.List;
 public class PdfWriterTest extends AbstractExportTest {
 
   @Test
+  public void exportSongParteFerence () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+    Song song = getSongWithReference();
+    System.out.println (song.toString());
+    PdfExporter pdfExporter = new PdfExporter();
+
+    ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.setChordTextDistance(new Double(5));
+    exportConfiguration.setInterLineDistance(new Double(5));
+    exportConfiguration.setInterPartDistance(new Double(5));
+    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setLeftBorder(new Double(5));
+    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+
+    exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+    exportConfiguration.setOpenPreview(true);
+    pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
+
+  }
+
+  @Test
   public void exportSongPartDescriptorStrategyLong () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
@@ -75,6 +99,12 @@ public class PdfWriterTest extends AbstractExportTest {
       throw new IllegalStateException("Modelfile " + configurationService.getConfigFile().getAbsolutePath() + " does not exist");
     Configuration configuration = configurationService.get();
     return configuration.getSongBooks().get(0).getSongs().get(0);
+  }
+
+
+  @Test
+  public void showReferencedPart () {
+
   }
 
   @Test

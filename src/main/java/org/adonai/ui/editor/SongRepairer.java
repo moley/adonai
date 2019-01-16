@@ -14,6 +14,7 @@ public class SongRepairer {
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
     for (SongPart nextPart : song.getSongParts()) {
 
+      //in referenced parts we don't have content
       if (nextPart.getReferencedSongPart() != null)
         nextPart.getLines().clear();
 

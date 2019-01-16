@@ -148,15 +148,13 @@ public class TextfileReader {
 
       SongPart songPart = new SongPart();
 
-
       if (createdParts.get(completeType) != null) { // Reference existing one, if parttype was already created
         songPart.setReferencedSongPart(createdParts.get(completeType).getId());
       }
       else {
         songPart.setSongPartType(determinedSongPart);
+        createdParts.put(completeType, songPart);
       }
-
-      createdParts.put(completeType, songPart);
 
       return songPart;
     }

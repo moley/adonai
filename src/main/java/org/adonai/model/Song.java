@@ -34,7 +34,7 @@ public class Song extends AbstractSessionItem implements NamedElement{
         return next;
     }
 
-    throw new IllegalStateException("Did not find part with id " + uuid + " in song " + toString());
+    return null;
   }
 
   public SongPart getPreviousSongPart (SongPart songPart) {
