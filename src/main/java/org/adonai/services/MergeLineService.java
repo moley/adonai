@@ -27,7 +27,7 @@ public class MergeLineService {
       Line previousLine = songPart.getPreviousLine(currentLine);
       previousLine.getLineParts().addAll(currentLine.getLineParts());
       songPart.getLines().remove(currentLine);
-    } else {
+    } /**else {
 
       if (! songPart.equals(song.getFirstSongPart())) {
         //connect all lines of current song part to previous songpart
@@ -36,7 +36,7 @@ public class MergeLineService {
         song.getSongParts().remove(songPart);
       }
 
-    }
+    }**/
 
     return currentLinePart;
 

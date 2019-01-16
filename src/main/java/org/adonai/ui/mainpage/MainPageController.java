@@ -380,6 +380,9 @@ public class MainPageController {
     else if (currentContent == MainPageContent.SESSION) {
       return sessionService.getSongs(currentSession, getCurrentSongBook());
     }
+    else if (currentContent == MainPageContent.SONG) {
+      return Arrays.asList(currentSong);
+    }
     else
       return Arrays.asList();
   }

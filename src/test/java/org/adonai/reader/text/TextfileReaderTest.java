@@ -137,6 +137,7 @@ public class TextfileReaderTest {
     SongPart thirdPart = song.getSongParts().get(2);
     Assert.assertEquals("Third part does not reference first one", firstPart.getId(), thirdPart.getReferencedSongPart());
     Assert.assertNull("Third part is reference but contains type", thirdPart.getSongPartType());
+    Assert.assertEquals ("Referenced part must not contain lines", 0, thirdPart.getLines().size());
     Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
     Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
     Assert.assertEquals ("First part has wrong type", SongPartType.REFRAIN, secondPart.getSongPartType());

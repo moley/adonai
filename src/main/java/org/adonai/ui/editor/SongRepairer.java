@@ -14,6 +14,8 @@ public class SongRepairer {
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
     for (SongPart nextPart : song.getSongParts()) {
 
+      if (nextPart.getReferencedSongPart() != null)
+        nextPart.getLines().clear();
 
       Collection<Line> emptyLines = new ArrayList<Line>();
 
@@ -37,7 +39,7 @@ public class SongRepairer {
 
       nextPart.getLines().removeAll(emptyLines);
 
-      if (nextPart.getLines().isEmpty())
+      if (nextPart.getLines().isEmpty() && nextPart.getReferencedSongPart() == null)
         emptySongParts.add(nextPart);
 
 

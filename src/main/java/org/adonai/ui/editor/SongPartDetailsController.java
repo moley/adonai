@@ -54,6 +54,8 @@ public class SongPartDetailsController {
 
 
     SongPart songPart = getCurrentPart();
+    SongPart referencedPart = songPart.getReferencedSongPart() != null ? getCurrentSong().findSongPartByUUID(songPart.getReferencedSongPart()): null;
+
 
     txtQuantity.textProperty().bindBidirectional(songPart.quantityProperty());
     txtRemarks.textProperty().bindBidirectional(songPart.remarksProperty());
@@ -70,6 +72,8 @@ public class SongPartDetailsController {
     SongPartCellFactory songPartCellFactory = new SongPartCellFactory(getCurrentSong());
     cboCopyExisting.setCellFactory(songPartCellFactory);
     cboCopyExisting.setButtonCell((ListCell) songPartCellFactory.call(null));
+    if (referencedPart != null)
+      cboCopyExisting.getSelectionModel().select(referencedPart);
 
     cboSongPartType.setItems(FXCollections.observableArrayList(SongPartType.values()));
     if (songPart.getSongPartType() != null)

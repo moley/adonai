@@ -6,18 +6,22 @@ buildscript {
 
 plugins {
   id 'org.unbroken-dome.xjc' version '1.4.1'
-}
-
-apply {
-  plugin 'java'
-  plugin 'application'
+  id 'java'
+  id 'application'
+  id 'org.openjfx.javafxplugin' version '0.0.6'
 }
 
 repositories {
   mavenCentral()
 }
 
-sourceCompatibility = 1.8
+javafx {
+  modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics']
+  version = "12-ea+8"
+}
+
+sourceCompatibility = JavaVersion.VERSION_12
+targetCompatibility = JavaVersion.VERSION_12
 
 dependencies {
   compile 'org.apache.poi:poi:3.15-beta2'//word/ppt export
@@ -30,6 +34,12 @@ dependencies {
   compile 'org.jfxtras:jfxtras-menu:8.0-r5'
   compile 'org.jsoup:jsoup:1.10.3' //html import
   compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
+  compile 'javax.xml.bind:jaxb-api:2.3.0'
+  compile 'javax.activation:activation:1.1'
+  runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
+
+  runtime 'org.openjfx:javafx-controls:12-ea+8'
+  runtime 'org.openjfx:javafx-graphics:12-ea+8'
 
   testCompile 'junit:junit:4.12'
   testCompile "org.testfx:testfx-core:4.0.15-alpha"
@@ -45,10 +55,13 @@ mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 task install(type: Copy, dependsOn: distZip) {
   def zipFile = file('build/distributions/adonai.zip')
-  def outputDir = file("/Users/OleyMa/programs/adonai")
+  def outputDir = file(System.getProperty("user.home") + "/programs/adonai")
+  println "OutputDir = $outputDir.absolutePath"
 
   from zipTree(zipFile)
   into outputDir
+  group = 'distribution'
+  description = 'Installs the program into my output dir'
 }
 
 tasks.compileJava.dependsOn tasks.xjcGenerate
