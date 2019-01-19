@@ -23,7 +23,7 @@ public class MaskLoader<T> {
       Parent root = loader.load();
       T controller = loader.getController();
 
-      Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
+      Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, true);
       scene.getStylesheets().add("/adonai.css");
       Stage stage = new Stage();
       stage.setScene(scene);
@@ -34,7 +34,7 @@ public class MaskLoader<T> {
       stage.setResizable(false);
       stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
         if (KeyCode.ESCAPE == event.getCode()) {
-          stage.close();
+          UiUtils.close(stage);
         }
       });
       stage.initStyle(StageStyle.UNDECORATED);

@@ -3,15 +3,19 @@ package org.adonai;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import org.adonai.testdata.TestDataCreator;
+import org.adonai.ui.CreateTestDataUiTests;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
+
+import static org.adonai.ui.Consts.ADONAI_HOME_PROP;
 
 public abstract class AbstractAdonaiUiTest extends ApplicationTest {
 
   @Override
   public void start(Stage stage) throws Exception {
-    System.setProperty("config", new File("src/test/resources/uitests").getAbsolutePath());
+    TestDataCreator.main(new String [0]);
   }
 
   public void key (KeyCode ... keyCode) {

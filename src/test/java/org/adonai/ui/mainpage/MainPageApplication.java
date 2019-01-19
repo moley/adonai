@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.adonai.screens.ScreenManager;
 import org.adonai.ui.Consts;
 
 public class MainPageApplication extends Application {
@@ -19,11 +21,14 @@ public class MainPageApplication extends Application {
 
     scene.getStylesheets().add("/adonai.css");
 
-    primaryStage.setScene(scene);
+    ScreenManager screenManager = new ScreenManager();
+    screenManager.layoutOnScreen(primaryStage);
 
-    primaryStage.setFullScreen(true);
-    primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    primaryStage.setFullScreenExitHint("");
+    primaryStage.setScene(scene);
+    primaryStage.initStyle(StageStyle.UNDECORATED);
+    //primaryStage.setFullScreen(true);
+    //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    //primaryStage.setFullScreenExitHint("");
 
     primaryStage.show();
 

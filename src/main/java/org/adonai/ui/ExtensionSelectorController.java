@@ -45,8 +45,9 @@ public class ExtensionSelectorController {
 
 
   private void refreshListView(final String filter) {
-    if (extensionIndex != null)
+    if (extensionIndex != null) {
       lviExtensions.setItems(FXCollections.observableArrayList(extensionIndex.getFiles(currentType, filter)));
+    }
   }
 
   @FXML

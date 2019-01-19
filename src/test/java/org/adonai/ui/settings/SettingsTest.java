@@ -16,7 +16,7 @@ public class SettingsTest extends AbstractAdonaiUiTest {
 
   @Test
   public void cloneDefault () throws InterruptedException {
-    Thread.sleep(1000);
+    throw new IllegalStateException("TODO");
 
   }
 

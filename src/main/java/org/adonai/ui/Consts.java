@@ -24,28 +24,38 @@ public class Consts {
   public final static int DEFAULT_HEIGHT = 800;
 
 
-  public final static String DEFAULT_BUNDLE = "adonai";
-
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
   public final static String USER_HOME = System.getProperty(ADONAI_HOME_PROP) != null ? System.getProperty(ADONAI_HOME_PROP) : System.getProperty("user.home");
   public final static File LEGUAN_HOME = new File (USER_HOME, ".adonai");
   public final static File ADDITIONALS_PATH = new File (LEGUAN_HOME, "additionals");
 
+  private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
+
   public final static ImageView createImageView (final String name, int iconSize) {
-    LOGGER.info("createImageView " + name);
-    return new ImageView(createImage(name, iconSize));
+    ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
+    return imageView;
   }
 
   public final static Image createImage (String name, int iconSize) {
-    LOGGER.info("createImage " + name);
-    return new Image("/icons/" + name + ".png", iconSize, iconSize, true, true, true);
+    ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
+    return imageView.getImage();
   }
 
-  public final static Locale getSystemLocale () {
-    String country = System.getProperty("user.country");
-    return new Locale(String.format("%s_%s", country.toLowerCase(),country.toUpperCase()));
+  public final static ImageView getOrLoadImage (final ImageKey imageKey) {
+    Image cachedImage = imagesCache.get(imageKey);
+    if (cachedImage == null) {
+      LOGGER.info("create image " + imageKey.getName());
+      cachedImage = new Image("/icons/" + imageKey.getName() + ".png", imageKey.getIconSize(), imageKey.getIconSize(), true, true, true);
+      imagesCache.put(imageKey, cachedImage);
+    }
+    else
+      LOGGER.info("load image " + imageKey.getName() + " from cache");
+
+    return new ImageView(cachedImage);
+
   }
+
 
 
 }

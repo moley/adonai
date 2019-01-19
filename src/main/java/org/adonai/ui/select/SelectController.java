@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.adonai.ui.UiUtils;
 
 
 public class SelectController<T> {
@@ -15,12 +16,18 @@ public class SelectController<T> {
   @FXML
   ListView<T> lviSelectItems;
 
+  private T selectedItem;
+
   public T getSelectedItem () {
-    return lviSelectItems.getSelectionModel().getSelectedItem();
+    return selectedItem;
   }
 
   public ListView<T> getLviSelectItems () {
     return lviSelectItems;
+  }
+
+  public void clearSelection () {
+    this.selectedItem = null;
   }
 
   public void initialize() {
@@ -28,6 +35,7 @@ public class SelectController<T> {
       @Override
       public void handle(MouseEvent event) {
         if (event.getClickCount() == 2) {
+          selectedItem = getLviSelectItems().getSelectionModel().getSelectedItem();
           close();
         }
       }
@@ -36,8 +44,10 @@ public class SelectController<T> {
     lviSelectItems.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER))
+        if (event.getCode().equals(KeyCode.ENTER)) {
+          selectedItem = getLviSelectItems().getSelectionModel().getSelectedItem();
           close();
+        }
       }
     });
 
@@ -48,8 +58,7 @@ public class SelectController<T> {
   }
 
   public void close() {
-    Stage stage = getStage();
-    stage.fireEvent( new WindowEvent( stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+    UiUtils.close(getStage());
   }
 
 }

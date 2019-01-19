@@ -16,7 +16,7 @@ repositories {
 }
 
 javafx {
-  modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics']
+  modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing']
   version = "12-ea+8"
 }
 
@@ -40,6 +40,7 @@ dependencies {
 
   runtime 'org.openjfx:javafx-controls:12-ea+8'
   runtime 'org.openjfx:javafx-graphics:12-ea+8'
+  runtime 'org.openjfx:javafx-swing:12-ea+8'
 
   testCompile 'junit:junit:4.12'
   testCompile "org.testfx:testfx-core:4.0.15-alpha"

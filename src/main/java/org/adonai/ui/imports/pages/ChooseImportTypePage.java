@@ -10,7 +10,6 @@ import org.adonai.ui.imports.SongImportController;
 
 public class ChooseImportTypePage extends WizardPage {
   private RadioButton fromTextFile;
-  private RadioButton fromWorshipTogether;
   private RadioButton newSong;
   private ToggleGroup options = new ToggleGroup();
 
@@ -20,7 +19,6 @@ public class ChooseImportTypePage extends WizardPage {
     super(TITLE, controller);
 
     fromTextFile.setToggleGroup(options);
-    fromWorshipTogether.setToggleGroup(options);
     newSong.setToggleGroup(options);
     options.selectToggle(fromTextFile);
 
@@ -28,11 +26,10 @@ public class ChooseImportTypePage extends WizardPage {
 
   Parent getContent() {
     fromTextFile = new RadioButton("Import from clipboard");
-    fromWorshipTogether = new RadioButton("Import from http://www.worshiptogether.com");
     newSong = new RadioButton("New song");
     return new VBox(
       10,
-      new Label("How do you want to import your song"), fromTextFile, fromWorshipTogether, newSong);
+      new Label("How do you want to import your song"), fromTextFile, newSong);
   }
 
   void nextPage() {
@@ -40,8 +37,6 @@ public class ChooseImportTypePage extends WizardPage {
     Toggle selectedToggle = options.getSelectedToggle();
     if (selectedToggle.equals(fromTextFile)) {
       navTo(ImportFromClipBoardPage.TITLE);
-    } else if (selectedToggle.equals(fromWorshipTogether)) {
-      navTo(ImportFromWorkshipTogetherPage.TITLE);
     } else if (selectedToggle.equals(newSong)){
       navTo(NewSongPage.TITLE);
     } else throw new IllegalStateException("Invalid type selected adding song");

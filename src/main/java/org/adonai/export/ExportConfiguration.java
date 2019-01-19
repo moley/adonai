@@ -25,6 +25,8 @@ public class ExportConfiguration {
 
   private SimpleBooleanProperty withTitle = new SimpleBooleanProperty(false);
 
+  private SimpleBooleanProperty withContentPage = new SimpleBooleanProperty(false);
+
   private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
 
   private NewPageStrategy newPageStrategy = NewPageStrategy.PER_SONG;
@@ -63,6 +65,20 @@ public class ExportConfiguration {
   public void setNewPageStrategy(NewPageStrategy newPageStrategy) {
     this.newPageStrategy = newPageStrategy;
   }
+
+  //// with content page
+  public Boolean isWithContentPage () {
+    return withContentPage.get();
+  }
+
+  public SimpleBooleanProperty withContentPageProperty () {
+    return withContentPage;
+  }
+
+  public void setWithContentPage (final Boolean withContentPage) {
+    this.withContentPage.set(withContentPage);
+  }
+
 
   //// with chords
   public Boolean isWithChords() {

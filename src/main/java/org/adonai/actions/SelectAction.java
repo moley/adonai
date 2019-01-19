@@ -4,8 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Control;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.select.SelectController;
@@ -17,11 +21,12 @@ import java.util.List;
 public class SelectAction<T> {
 
   public final static int SEARCHDIALOG_WIDTH = 400;
-  public final static int SEARCHDIALOG_HEIGHT = 300;
+  public final static int SEARCHDIALOG_HEIGHT = 600;
 
   private Mask<SelectController> selectMask;
 
-  public void open (final List<T> objects, final Control control, final EventHandler<WindowEvent> onCloseEventHandler) {
+  public void open (final List<T> objects, final Double x, final Double y, Callback<ListView<T>, ListCell<T>> cellFactory,
+                    final EventHandler<WindowEvent> onCloseEventHandler) {
     List<T> objectsToAdd = new ArrayList<T>();
     objectsToAdd.addAll(objects);
     MaskLoader<SelectController> maskLoader = new MaskLoader<SelectController>();
@@ -29,12 +34,16 @@ public class SelectAction<T> {
     selectMask.setSize(SEARCHDIALOG_WIDTH, SEARCHDIALOG_HEIGHT);
     selectMask.getStage().initModality(Modality.APPLICATION_MODAL);
 
-    Bounds controlBounds = control.localToScreen(control.getLayoutBounds());
-    selectMask.getStage().setX(controlBounds.getMaxX() + 20);
-    selectMask.getStage().setY(controlBounds.getMaxY() - SEARCHDIALOG_HEIGHT);
+    selectMask.getStage().setX(x);
+    selectMask.getStage().setY(y);
     SelectController<T> controller = selectMask.getController();
+    if (cellFactory != null)
+      controller.getLviSelectItems().setCellFactory(cellFactory);
+
+    controller.clearSelection();
     controller.getLviSelectItems().setItems(FXCollections.observableArrayList(objects));
     controller.getLviSelectItems().getSelectionModel().selectFirst();
+    controller.getLviSelectItems().getStyleClass().add("selectlist");
 
     selectMask.getStage().setOnCloseRequest(onCloseEventHandler);
 

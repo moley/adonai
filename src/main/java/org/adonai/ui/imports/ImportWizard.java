@@ -2,11 +2,10 @@ package org.adonai.ui.imports;
 
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.adonai.actions.openAdditionals.OpenAudioAction;
-import org.adonai.model.SongBook;
-import org.adonai.ui.imports.pages.*;
-import org.adonai.model.Song;
-import org.adonai.services.AddSongService;
+import org.adonai.ui.imports.pages.ChooseImportTypePage;
+import org.adonai.ui.imports.pages.ImportFromClipBoardPage;
+import org.adonai.ui.imports.pages.NewSongPage;
+import org.adonai.ui.imports.pages.PreviewPage;
 
 import java.util.logging.Logger;
 
@@ -24,7 +23,6 @@ public class ImportWizard extends Wizard {
     super(new ChooseImportTypePage(importController),
       new NewSongPage(importController),
       new ImportFromClipBoardPage(importController),
-      new ImportFromWorkshipTogetherPage(importController),
       new PreviewPage(importController));
     this.importController = importController;
     this.owner = owner;

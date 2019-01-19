@@ -69,8 +69,10 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
           }
           setGraphic(hbox);
         }
-        else
+        else {
+          setText(null);
           setGraphic(null);
+        }
 
       }
     };

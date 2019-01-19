@@ -13,11 +13,11 @@ public class ExtensionIndex {
 
   private Collection<Extension> files = new ArrayList<Extension>();
 
-  public ExtensionIndex (Collection<String> paths) {
+  private Collection<String> paths = new ArrayList<String>();
 
-    for (String next: paths) {
-      readPath(new File (next));
-    }
+  public ExtensionIndex (Collection<String> paths) {
+    this.paths = paths;
+
 
   }
 
@@ -34,6 +34,10 @@ public class ExtensionIndex {
   }
 
   public Collection<Extension> getFiles () {
+    files.clear();
+    for (String next: paths) {
+      readPath(new File (next));
+    }
     return files;
   }
 

@@ -32,6 +32,22 @@ public class ExportEngine {
 
     SongInfoService songInfoService = new SongInfoService();
 
+    if (mergedConfiguration.isWithContentPage()) {
+
+      for (Song nextSong : songs) {
+        String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle();
+        SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
+        documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
+        locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() + mergedConfiguration.getInterLineDistance());
+
+      }
+
+      documentBuilder.newToken(new ExportTokenNewPage());
+
+    }
+
+
+    locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
 
     for (Song nextSong : songs) {
 

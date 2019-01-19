@@ -121,6 +121,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration =  new ExportConfiguration();
     exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithContentPage(true);
     exportConfiguration.setTitleSongDistance(new Double(5));
     exportConfiguration.setInterLineDistance(new Double(5));
     exportConfiguration.setChordTextDistance(new Double(4));

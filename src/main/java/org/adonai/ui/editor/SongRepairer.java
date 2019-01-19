@@ -1,14 +1,20 @@
 package org.adonai.ui.editor;
 
-import org.adonai.model.Line;
-import org.adonai.model.LinePart;
-import org.adonai.model.Song;
-import org.adonai.model.SongPart;
+import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.model.*;
+import org.adonai.ui.mainpage.MainPageController;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class SongRepairer {
+
+  private static final Logger LOGGER = Logger.getLogger(SongRepairer.class.getName());
+
+  private AdditionalsImporter additionalsImporter = new AdditionalsImporter();
 
   public void repairSong(final Song song) {
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
@@ -43,6 +49,18 @@ public class SongRepairer {
       if (nextPart.getLines().isEmpty() && nextPart.getReferencedSongPart() == null)
         emptySongParts.add(nextPart);
 
+
+    }
+
+    if (song.findAdditional(AdditionalType.AUDIO) != null) {
+      Additional additional = song.findAdditional(AdditionalType.AUDIO);
+
+      try {
+        File additionalFile = additionalsImporter.getAdditional(additional);
+        LOGGER.info("Mp3 " + additional.getLink() + "-" + additionalFile.getAbsolutePath());
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
 
     }
 

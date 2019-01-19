@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.adonai.screens.ScreenManager;
 
 import java.io.IOException;
 
@@ -17,16 +16,15 @@ public class JavaFxApplication extends Application {
   @Override
   public void start(Stage primaryStage) throws IOException {
 
-    ScreenManager screenManager = new ScreenManager();
-
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/main.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/mainpage.fxml"));
     Parent root = loader.load();
 
     Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
     scene.getStylesheets().add("/adonai.css");
-    screenManager.layoutOnScreen(primaryStage);
+    //primaryStage.setFullScreen(true);
+    //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    //primaryStage.setFullScreenExitHint("");
 
-    primaryStage.setTitle("Adonai");
     primaryStage.setScene(scene);
     primaryStage.show();
 

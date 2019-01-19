@@ -5,21 +5,22 @@ import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by OleyMa on 01.09.16.
  */
 public class Session implements NamedElement {
 
-  private Collection<Integer> songs = new ArrayList<Integer>();
+  private List<Integer> songs = new ArrayList<Integer>();
   private StringProperty name = new SimpleStringProperty();
 
 
-  public Collection<Integer> getSongs() {
+  public List<Integer> getSongs() {
     return songs;
   }
 
-  public void setSongs(Collection<Integer> songs) {
+  public void setSongs(List<Integer> songs) {
     this.songs = songs;
   }
 
