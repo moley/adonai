@@ -2,7 +2,6 @@ package org.adonai.ui.main;
 
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class MainMaskSessionTest extends AbstractAdonaiUiTest {
@@ -12,7 +11,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     super.start(stage);
-    mainMaskPage = new MainMaskPage(stage, this);
+    mainMaskPage = new MainMaskPage(this);
   }
 
   @Test

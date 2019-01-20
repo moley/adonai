@@ -94,10 +94,10 @@
  -fx-focus-color: transparent;
  -fx-background-color: white;
 }
-.list-cell:even > .selectlist {
+.selectlist .list-cell:even {
     -fx-background-color: white;
 }
-.list-cell:odd > .selectlist{
+.selectlist .list-cell:odd > {
     -fx-background-color: white;
 }
 

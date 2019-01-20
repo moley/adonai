@@ -150,9 +150,11 @@ public class ExportEngine {
 
             locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), locationInfoText.getY() + heightOfText + interLineDistance);
 
-            if (!nextLine.equals(nextPart.getLastLine()) && locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - mergedConfiguration.getLowerBorder())) {
-              documentBuilder.newToken(new ExportTokenNewPage());
-              locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
+            if (documentBuilder.getPageSize() != null) {
+              if (!nextLine.equals(nextPart.getLastLine()) && locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - mergedConfiguration.getLowerBorder())) {
+                documentBuilder.newToken(new ExportTokenNewPage());
+                locationInfo = new LocationInfo(mergedConfiguration.getLeftBorder(), mergedConfiguration.getUpperBorder());
+              }
             }
 
           }
@@ -162,8 +164,10 @@ public class ExportEngine {
 
         }
 
-        locationInfo = locationInfoCalculator.addY(locationInfo, mergedConfiguration.getInterSongDistance());
+
       }
+
+      locationInfo = locationInfoCalculator.addY(locationInfo, mergedConfiguration.getInterSongDistance());
 
 
     }
@@ -209,6 +213,10 @@ public class ExportEngine {
    * @return longest structure text
    */
   private Double getLongestStructureText (final DocumentBuilder documentBuilder, final Song song, ExportConfiguration exportConfiguration) {
+
+    if (exportConfiguration.getSongPartDescriptorType() == null || exportConfiguration.getSongPartDescriptorType().equals(SongPartDescriptorStrategy.NONE))
+      return Double.valueOf(0);
+
     Double maxStructureWidth = 0d;
 
     SongInfoService songInfoService = new SongInfoService();

@@ -12,8 +12,7 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     super.start(stage);
-    mainMaskPage = new MainMaskPage(stage, this);
-    mainMaskPage.stepToSessions();
+    mainMaskPage = new MainMaskPage( this);
   }
   @Test
   public void addNewSongToSession () {

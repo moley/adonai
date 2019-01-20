@@ -41,7 +41,7 @@ public class SongInfoService {
     if (songPart.getReferencedSongPart() != null)
       shownPart = song.findSongPartByUUID(songPart.getReferencedSongPart());
 
-    if (songPart.getSongPartType() == null)
+    if (shownPart.getSongPartType() == null)
       return "";
 
     if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.SHORT))
@@ -49,7 +49,7 @@ public class SongInfoService {
     else if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.LONG))
       return shownPart.getSongPartType().name();
     else
-      throw new IllegalStateException("structure cannot get determined when SongPartDescriptorStrategy is " + songPartDescriptorStrategy);
+      return "";
 
   }
 

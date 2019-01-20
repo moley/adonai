@@ -22,18 +22,14 @@ public class MainMaskPage extends AbstractPage {
   ApplicationTest applicationTest;
 
 
-  public MainMaskPage (final Stage stage, final ApplicationTest applicationTest) throws IOException {
+  public MainMaskPage (final ApplicationTest applicationTest) throws IOException {
     this.applicationTest = applicationTest;
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
     mask = maskLoader.load("mainpage");
+    mask.getStage().setAlwaysOnTop(false);
     mask.getStage().show();
   }
 
-  public void selectSessions () {
-    Node node = applicationTest.lookup(".tab-pane > .tab-header-area > .headers-region > .tab").nth(1).query();
-    applicationTest.clickOn(node);
-    //applicationTest.clickOn("#paneSessions");
-  }
 
   public Node getBtnSongbook () {
     return applicationTest.lookup(nodeWithId("togSongbooks")).query();
@@ -67,7 +63,7 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("btnMinus")).query();
   }
 
-  public void stepToSongbook () throws InterruptedException {
+  public void stepToSongbook ()  {
     applicationTest.clickOn(getBtnSongbook());
     Assert.assertTrue (getLviSongs().isVisible());
   }
@@ -90,10 +86,6 @@ public class MainMaskPage extends AbstractPage {
 
   public void remove () {
     applicationTest.clickOn(getBtnMinus());
-  }
-
-  public Mask<MainPageController> getMask () {
-    return mask;
   }
 
   public List<Session> getSessions () {

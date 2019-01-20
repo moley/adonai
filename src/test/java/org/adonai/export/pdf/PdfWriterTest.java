@@ -13,6 +13,8 @@ import java.util.List;
 
 public class PdfWriterTest extends AbstractExportTest {
 
+  private boolean openPreview = false;
+
   @Test
   public void exportSongParteFerence () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
@@ -32,7 +34,7 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-    exportConfiguration.setOpenPreview(true);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
 
   }
@@ -54,7 +56,7 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-    exportConfiguration.setOpenPreview(true);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
   }
 
@@ -74,7 +76,7 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.SHORT);
-    exportConfiguration.setOpenPreview(true);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
   }
 
@@ -87,7 +89,7 @@ public class PdfWriterTest extends AbstractExportTest {
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(false);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
   }
 
@@ -116,7 +118,7 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(false);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
     ExportToken prelastexportToken = exportTokenContainer.getExportTokenList().get(exportTokenContainer.getExportTokenList().size() - 2);
@@ -135,7 +137,7 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(false);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
     ExportToken exportToken = exportTokenContainer.findTokenByText("ich will dir");
@@ -153,11 +155,13 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(false);
+    exportConfiguration.setWithContentPage(false);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
     ExportToken exportTokenThirdLine = exportTokenContainer.findTokenByText("Let every");
-    Assert.assertTrue (exportTokenThirdLine.getAreaInfo().getX() + " is not low enough",  exportTokenThirdLine.getAreaInfo().getY() > 136);
+    Assert.assertTrue ("Y value " + exportTokenThirdLine.getAreaInfo().getY() + " is not low enough",
+      exportTokenThirdLine.getAreaInfo().getY() > 119);
   }
 
   @Test
@@ -168,13 +172,15 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(false);
+    exportConfiguration.setWithContentPage(false);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Du machst Himmel und Erde einmal neu");
+    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Doch dein Reich ist schon da");
     System.out.println (exportTokenSecondSide.getAreaInfo().getY());
     System.out.println (exportConfiguration.getUpperBorder());
-    Assert.assertTrue ("Y-Position of second side token invalid", exportTokenSecondSide.getAreaInfo().getY() < 50);
+    Assert.assertTrue ("Y-Position of second side token invalid" + exportTokenSecondSide.getAreaInfo().getY(),
+      exportTokenSecondSide.getAreaInfo().getY() < 50);
 
   }
 }

@@ -59,7 +59,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     System.out.println("exportFilterEmptyPart: \n" + FileUtils.readFileToString(exportFile, Charset.defaultCharset()));
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
     Assert.assertEquals("This is a vers", StringUtils.trimRight(lines.get(0)));
-    Assert.assertEquals("This is a second vers", StringUtils.trimRight(lines.get(2)));
+    Assert.assertEquals("<" + StringUtils.trimRight(lines.get(2)) + "> is invalid", "This is a second vers", StringUtils.trimRight(lines.get(2)));
 
 
   }

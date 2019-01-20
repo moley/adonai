@@ -11,7 +11,7 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     super.start(stage);
-    mainMaskPage = new MainMaskPage(stage, this);
+    mainMaskPage = new MainMaskPage( this);
   }
 
   @Test

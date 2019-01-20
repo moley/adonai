@@ -400,9 +400,9 @@ public class MainPageController {
     spDetails.getChildren().clear();
     spDetails.getChildren().add(lviSession);
     lviSession.requestFocus();
-    lviSession.getSelectionModel().selectFirst();
     lblCurrentEntity.setText("SESSION '" + currentSession.getName() + "'");
     refreshListViews(null);
+    lviSession.getSelectionModel().selectFirst();
     togSession.setSelected(true);
 
   }

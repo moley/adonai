@@ -45,6 +45,7 @@ dependencies {
   testCompile 'junit:junit:4.12'
   testCompile "org.testfx:testfx-core:4.0.15-alpha"
   testCompile "org.testfx:testfx-junit:4.0.15-alpha"
+  testRuntime "org.testfx:openjfx-monocle:8u76-b04"
 }
 
 xjcGenerate {
@@ -66,5 +67,3 @@ task install(type: Copy, dependsOn: distZip) {
 }
 
 tasks.compileJava.dependsOn tasks.xjcGenerate
-
-

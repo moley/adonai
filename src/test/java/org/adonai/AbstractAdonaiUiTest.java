@@ -5,6 +5,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.CreateTestDataUiTests;
+import org.junit.BeforeClass;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public abstract class AbstractAdonaiUiTest extends ApplicationTest {
   public void start(Stage stage) throws Exception {
     TestDataCreator.main(new String [0]);
   }
+
 
   public void key (KeyCode ... keyCode) {
     Platform.runLater(new Runnable() {
