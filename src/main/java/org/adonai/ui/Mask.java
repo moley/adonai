@@ -36,6 +36,11 @@ public class Mask<T> {
     getStage().setHeight(height);
   }
 
+  public void setPosition (final double x, final double y) {
+    getStage().setX(x);
+    getStage().setY(y);
+  }
+
 
   public T getController() {
     return controller;

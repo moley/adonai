@@ -1,4 +1,4 @@
-package org.adonai.ui.main;
+package org.adonai.ui.mainpage;
 
 import org.adonai.AbstractAdonaiUiTest;
 

@@ -151,7 +151,8 @@ public class SongEditor extends PanelHolder {
       }
     });
 
-    currentPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
+    if (currentPartEditor != null)
+      currentPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
   }
 
   public ListView getPartStructure () {
@@ -198,8 +199,10 @@ public class SongEditor extends PanelHolder {
       partStructure.getSelectionModel().selectFirst();
 
     SongPart selectedSongPart = partStructure.getSelectionModel().getSelectedItem();
-    currentPartEditor = new PartEditor(this, selectedSongPart, selectedSongPart.getReferencedSongPart() == null);
-    content.getChildren().add(currentPartEditor.getPanel());
+    if (selectedSongPart != null) {
+      currentPartEditor = new PartEditor(this, selectedSongPart, selectedSongPart.getReferencedSongPart() == null);
+      content.getChildren().add(currentPartEditor.getPanel());
+    }
 
   }
 

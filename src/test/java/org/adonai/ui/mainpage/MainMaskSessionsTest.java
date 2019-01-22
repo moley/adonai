@@ -1,4 +1,4 @@
-package org.adonai.ui.main;
+package org.adonai.ui.mainpage;
 
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
@@ -13,6 +13,7 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   public void start(Stage stage) throws Exception {
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
+    mainMaskPage.openStage();
   }
   @Test
   public void addNewSongToSession () {

@@ -11,8 +11,11 @@ import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Song;
+import org.adonai.screens.ScreenManager;
 import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
+import org.adonai.ui.Mask;
+import org.adonai.ui.MaskLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,28 +25,23 @@ public class ConnectSongWithMp3Action {
 
   private static final Logger LOGGER = Logger.getLogger(OpenAudioAction.class.getName());
 
+  public final static int CONNECTSONGDIALOG_WIDTH = 800;
+  public final static int CONNECTSONGDIALOG_HEIGHT = 600;
 
-  public void connect (Song selectedSong) {
+
+  public void connect (final Double x, final Double y, Song selectedSong) {
 
     if (selectedSong == null)
       return;
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/extensionselector.fxml"));
-    Parent root = null;
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    ExtensionSelectorController extensionSelectorController = loader.getController();
+    MaskLoader<ExtensionSelectorController> maskLoader = new MaskLoader<>();
+    Mask<ExtensionSelectorController> mask = maskLoader.load("extensionselector");
+    ExtensionSelectorController extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG);
-
-    Scene scene = new Scene(root, 800, 600);
-    scene.getStylesheets().add("/adonai.css");
-
-    Stage stage = new Stage();
+    Stage stage = mask.getStage();
+    mask.setSize(CONNECTSONGDIALOG_WIDTH, CONNECTSONGDIALOG_HEIGHT);
+    mask.setPosition(x, y);
     stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
-    stage.setScene(scene);
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
       @Override

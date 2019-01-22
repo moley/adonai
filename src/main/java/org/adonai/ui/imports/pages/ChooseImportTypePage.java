@@ -26,7 +26,9 @@ public class ChooseImportTypePage extends WizardPage {
 
   Parent getContent() {
     fromTextFile = new RadioButton("Import from clipboard");
+    fromTextFile.setId("rbFromTextFile");
     newSong = new RadioButton("New song");
+    newSong.setId("rbNewSong");
     return new VBox(
       10,
       new Label("How do you want to import your song"), fromTextFile, newSong);

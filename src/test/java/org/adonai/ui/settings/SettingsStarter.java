@@ -7,13 +7,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.screens.ScreenManager;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 

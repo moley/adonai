@@ -38,7 +38,6 @@ public class ScreenManager {
     stage.setY(externalOrPrimary.getVisualBounds().getMinY());
     stage.setWidth(externalOrPrimary.getVisualBounds().getWidth());
     stage.setHeight(externalOrPrimary.getVisualBounds().getHeight());
-
   }
 
 

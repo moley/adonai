@@ -4,17 +4,22 @@ import org.adonai.model.*;
 import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TestDataCreator {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     AddSongService addSongService = new AddSongService();
     SessionService sessionService = new SessionService();
 
-    System.setProperty(Consts.ADONAI_HOME_PROP, new File("").getAbsoluteFile().getAbsolutePath());
+    File testData = new File("build/testdata");
+    FileUtils.deleteDirectory(testData);
+
+    System.setProperty(Consts.ADONAI_HOME_PROP, testData.getAbsoluteFile().getAbsolutePath());
     ConfigurationService configurationService = new ConfigurationService();
 
     SongBook songBook = new SongBook();
@@ -44,6 +49,20 @@ public class TestDataCreator {
     sessionService.addSong(session2, song3);
     sessionService.addSong(session2, song4);
     configuration.getSessions().add(session2);
+
+
+    File exportDir = new File (testData, "export");
+    File extensionPath = new File (testData, "additionals");
+    exportDir.mkdirs();
+    extensionPath.mkdirs();
+
+    configuration.setExportPath(exportDir.getAbsolutePath());
+    configuration.getExportPathAsFile().mkdirs();
+    configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
+
+    new File (extensionPath, "SomeMp3.mp3").createNewFile();
+    new File (extensionPath, "AnotherMp3.mp3").createNewFile();
+
     configurationService.set(configuration);
 
   }

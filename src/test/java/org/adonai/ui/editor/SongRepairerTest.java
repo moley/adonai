@@ -1,10 +1,10 @@
 package org.adonai.ui.editor;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.adonai.model.Song;
 import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPartType;
-import org.adonai.model.Song;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class SongRepairerTest {
 

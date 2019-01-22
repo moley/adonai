@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class Configuration {
 
   private List<SongBook> songBooks = new ArrayList<>();
 
-  private List<String> extensionPaths = new ArrayList<>();
+  private List<String> extensionPaths = new ArrayList<>(Arrays.asList());
 
   private SimpleStringProperty exportPath = new SimpleStringProperty("export");
 
@@ -47,9 +48,6 @@ public class Configuration {
   }
 
   public List<String> getExtensionPaths() {
-    if (extensionPaths.isEmpty()) {
-      extensionPaths.add(new File("/Users/OleyMa/Music/iTunes/iTunes Media/Music").getAbsolutePath()); //TODO
-    }
     return extensionPaths;
   }
 

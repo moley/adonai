@@ -22,6 +22,7 @@ import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditor;
 
 import java.util.ArrayList;
@@ -119,10 +120,14 @@ public class MainPageController {
       @Override
       public void handle(ActionEvent event) {
 
+        Bounds controlBounds = UiUtils.getBounds(btnAdd);
+        Double x = controlBounds.getMinX() + 10;
+        Double y = controlBounds.getMinY() - 20 - AddSongAction.ADD_SONG_DIALOG_HEIGHT;
+
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(x, y, getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
 
@@ -140,7 +145,7 @@ public class MainPageController {
         else //In Songbook add new song
         if (currentContent.equals(MainPageContent.SONGBOOK)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(x, y, getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
 
@@ -158,11 +163,11 @@ public class MainPageController {
         } else if (currentContent.equals(MainPageContent.SESSION)) { // in session add new song and add to session
           SelectAction<Song> selectSong = new SelectAction<Song>();
           List<Song> allSongs = getCurrentSongBook().getSongs();
-          Bounds controlBounds = tbaActions.localToScreen(tbaActions.getLayoutBounds());
 
-          Double x = controlBounds.getMinX() + 10;
-          Double y = controlBounds.getMinY() - 10 - SelectAction.SEARCHDIALOG_HEIGHT;
-          selectSong.open(allSongs, x, y,  new SongCellFactory(), new EventHandler<WindowEvent>() {
+          Double xSession = controlBounds.getMinX() + 10;
+          Double ySession = controlBounds.getMinY() - 20 - SelectAction.SEARCHDIALOG_HEIGHT;
+
+          selectSong.open(allSongs, xSession, ySession,  new SongCellFactory(), new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
               Song selectedSong = selectSong.getSelectedItem();
@@ -211,13 +216,17 @@ public class MainPageController {
     });
     tbaActions.getItems().add(new Separator());
     Button btnMp3 = new Button();
+    btnMp3.setId("btnMp3");
     btnMp3.setGraphic(Consts.createImageView(AdditionalType.AUDIO.name().toLowerCase(), iconSizeToolbar));
     tbaActions.getItems().add(btnMp3);
     btnMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
-        connectSongWithMp3Action.connect(getSelectedSong());
+        Bounds controlBounds = UiUtils.getBounds(btnMp3);
+        Double x = controlBounds.getMinX() + 10;
+        Double y = controlBounds.getMinY() - 20 - ConnectSongWithMp3Action.CONNECTSONGDIALOG_HEIGHT;
+        connectSongWithMp3Action.connect(x, y, getSelectedSong());
       }
     });
 

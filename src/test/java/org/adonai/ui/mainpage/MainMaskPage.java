@@ -1,15 +1,14 @@
-package org.adonai.ui.main;
+package org.adonai.ui.mainpage;
 
-import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
-import org.adonai.ui.mainpage.MainPageController;
 import org.junit.Assert;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -18,28 +17,31 @@ import java.util.List;
 
 public class MainMaskPage extends AbstractPage {
 
-  Mask<MainPageController> mask;
   ApplicationTest applicationTest;
 
 
   public MainMaskPage (final ApplicationTest applicationTest) throws IOException {
     this.applicationTest = applicationTest;
+  }
+
+  public void openStage () {
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
-    mask = maskLoader.load("mainpage");
+    Mask mask = maskLoader.load("mainpage");
     mask.getStage().setAlwaysOnTop(false);
     mask.getStage().show();
   }
 
 
-  public Node getBtnSongbook () {
+  public ToggleButton getBtnSongbook () {
     return applicationTest.lookup(nodeWithId("togSongbooks")).query();
   }
 
-  public Node getBtnSessions () {
+
+  public ToggleButton getBtnSessions () {
     return applicationTest.lookup(nodeWithId("togSessions")).query();
   }
 
-  public Node getBtnSession () {
+  public ToggleButton getBtnSession () {
     return applicationTest.lookup(nodeWithId("togSession")).query();
   }
 
@@ -55,12 +57,16 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("lviSession")).query();
   }
 
-  public Node getBtnPlus() {
+  public Button getBtnPlus() {
     return applicationTest.lookup(nodeWithId("btnPlus")).query();
   }
 
-  public Node getBtnMinus() {
+  public Button getBtnMinus() {
     return applicationTest.lookup(nodeWithId("btnMinus")).query();
+  }
+
+  public Button getBtnMp3() {
+    return applicationTest.lookup(nodeWithId("btnMp3")).query();
   }
 
   public void stepToSongbook ()  {
@@ -89,7 +95,11 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public List<Session> getSessions () {
-    return ((ListView)getLviSessions()).getItems();
+    return getLviSessions().getItems();
+  }
+
+  public List<Song> getSongsInSongbook () {
+    return getLviSongs().getItems();
   }
 
 

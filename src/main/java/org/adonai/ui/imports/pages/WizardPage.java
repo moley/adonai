@@ -22,6 +22,10 @@ public abstract class WizardPage extends VBox {
   protected SongImportController controller;
 
   WizardPage(String title, final SongImportController controller) {
+    finishButton.setId("btnFinish");
+    priorButton.setId("btnPrevious");
+    nextButton.setId("btnNext");
+    cancelButton.setId("btnCancel");
     this.controller = controller;
     Label label = new Label(title);
     label.setStyle("-fx-font-weight: bold; -fx-padding: 0 0 5 0;");
