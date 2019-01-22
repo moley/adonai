@@ -1,5 +1,6 @@
 package org.adonai.ui.mainpage;
 
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.ui.imports.ImportSongWizardPage;
@@ -30,5 +31,15 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
     Assert.assertEquals("Number of songs in songbook did not increase", sizeSessionsBefore + 1, sizeSessionsAfter);
     String newSongTitle = mainMaskPage.getSongsInSongbook().get(mainMaskPage.getSongsInSongbook().size() - 1).getTitle();
     Assert.assertEquals ("Title invalid", TITLE_TEST.toUpperCase(), newSongTitle);
+  }
+
+  @Test
+  public void stepToSongDetails () {
+    mainMaskPage.stepToSongbook();
+    Assert.assertEquals ("SONGBOOK", mainMaskPage.getCurrentContentText());
+    doubleClickOn(mainMaskPage.getLviSongs(), MouseButton.PRIMARY);
+    Assert.assertEquals ("SONG 'Song1'", mainMaskPage.getCurrentContentText());
+    Assert.assertTrue ("SongEditorPane is not visible", mainMaskPage.getSongEditorPane().isVisible());
+
   }
 }

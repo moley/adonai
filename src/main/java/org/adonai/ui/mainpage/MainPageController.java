@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -25,6 +27,7 @@ import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditor;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -222,11 +225,14 @@ public class MainPageController {
     btnMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
-        Bounds controlBounds = UiUtils.getBounds(btnMp3);
-        Double x = controlBounds.getMinX() + 10;
-        Double y = controlBounds.getMinY() - 20 - ConnectSongWithMp3Action.CONNECTSONGDIALOG_HEIGHT;
-        connectSongWithMp3Action.connect(x, y, getSelectedSong());
+
+        if (! currentContent.equals(MainPageContent.SESSIONS)) {
+          ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
+          Bounds controlBounds = UiUtils.getBounds(btnMp3);
+          Double x = controlBounds.getMinX() + 10;
+          Double y = controlBounds.getMinY() - 20 - ConnectSongWithMp3Action.CONNECTSONGDIALOG_HEIGHT;
+          connectSongWithMp3Action.connect(x, y, getSelectedSong());
+        }
       }
     });
 
@@ -347,6 +353,7 @@ public class MainPageController {
     lviSession.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
+        LOGGER.info("mouseClicked on lviSession " + event.getClickCount());
         if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
           selectSong(lviSession.getSelectionModel().getSelectedItem());
         }
@@ -356,6 +363,7 @@ public class MainPageController {
     lviSongs.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
+        LOGGER.info("mouseClicked on lviSongs " + event.getClickCount());
         if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
           selectSong(lviSongs.getSelectionModel().getSelectedItem());
         }
@@ -422,12 +430,23 @@ public class MainPageController {
     currentContent = MainPageContent.SONG;
     SongEditor songEditor = new SongEditor(song);
     Parent songEditorPanel = songEditor.getPanel();
+    songEditorPanel.setVisible(true);
+
     VBox.setVgrow(songEditorPanel, Priority.ALWAYS);
+    songEditorPanel.setStyle("-fx-background-color: #000000;");
+    panSongDetails.setStyle("-fx-background-color: #000000;");
     panSongDetails.getChildren().clear();
     panSongDetails.getChildren().add(songEditorPanel);
     panSongDetails.toFront();
     panSongDetails.requestFocus();
+    spDetails.getChildren().clear();
+    spDetails.getChildren().add(panSongDetails);
+
     lblCurrentEntity.setText("SONG '" + currentSong.getName() + "'");
+
+
+    LOGGER.info("panSongDetails: " + panSongDetails.getWidth() + "-" + panSongDetails.getHeight());
+    LOGGER.info("lviSongs: " + lviSongs.getWidth() + "-" + lviSongs.getHeight());
 
   }
 

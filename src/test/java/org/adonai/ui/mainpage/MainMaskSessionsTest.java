@@ -32,4 +32,11 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
     int sizeSessionsAfter = mainMaskPage.getSessions().size();
     Assert.assertEquals("Number of sessions did not decrease", sizeSessionsBefore - 1, sizeSessionsAfter);
   }
+
+  @Test
+  public void applyMp3 () {
+    mainMaskPage.stepToSessions();
+    mainMaskPage.applyMp3();
+    //TODO check mp3 icon
+  }
 }

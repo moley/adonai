@@ -3,12 +3,11 @@ package org.adonai.actions.add;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.ui.Consts;
-import org.adonai.ui.MaskLoader;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
 
@@ -29,6 +28,8 @@ public class AddSongAction {
     Stage stage = new Stage();
     stage.setWidth(ADD_SONG_DIALOG_WIDTH);
     stage.setHeight(ADD_SONG_DIALOG_HEIGHT);
+    stage.setResizable(false);
+    stage.initStyle(StageStyle.UNDECORATED);
     stage.setX(x);
     stage.setY(y);
 

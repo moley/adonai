@@ -1,9 +1,11 @@
 package org.adonai.ui.mainpage;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
@@ -49,8 +51,16 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("lviSongs")).query();
   }
 
+  public BorderPane getSongEditorPane () {
+    return applicationTest.lookup(nodeWithId("songeditor")).query();
+  }
+
   public ListView<Session> getLviSessions () {
     return applicationTest.lookup(nodeWithId("lviSessions")).query();
+  }
+
+  public Label getLblCurrentEntity () {
+    return applicationTest.lookup(nodeWithId("lblCurrentEntity")).query();
   }
 
   public ListView<Song> getLviSession () {
@@ -74,6 +84,10 @@ public class MainMaskPage extends AbstractPage {
     Assert.assertTrue (getLviSongs().isVisible());
   }
 
+  public String getCurrentContentText () {
+    return getLblCurrentEntity().getText();
+  }
+
   public void stepToSessions () {
     applicationTest.clickOn(getBtnSessions(), MouseButton.PRIMARY);
     Assert.assertTrue (getLviSessions().isVisible());
@@ -92,6 +106,10 @@ public class MainMaskPage extends AbstractPage {
 
   public void remove () {
     applicationTest.clickOn(getBtnMinus());
+  }
+
+  public void applyMp3 () {
+    applicationTest.clickOn(getBtnMp3());
   }
 
   public List<Session> getSessions () {
