@@ -19,8 +19,8 @@
               GridPane.rowIndex="1" GridPane.fillWidth="true"/>
 
     <Label text="Transpose info" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <Spinner fx:id="spTransposeInfo" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="1" GridPane.fillWidth="true"/>
+    <Spinner fx:id="spTransposeInfo" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="2" GridPane.fillWidth="true"/>
 
 
 

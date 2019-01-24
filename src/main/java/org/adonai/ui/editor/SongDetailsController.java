@@ -37,7 +37,8 @@ public class SongDetailsController {
     Song currentSong = partEditor.getSongEditor().getSong();
 
     //set transpose info: negative value is needed when using capo
-    spTransposeInfo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-8, 8, currentSong.getTransposeInfo()));
+    int initialValue = currentSong.getTransposeInfo() != null ? currentSong.getTransposeInfo(): 0;
+    spTransposeInfo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-8, 8, initialValue));
 
     //set current key
     if (currentSong.getCurrentKey() != null) {

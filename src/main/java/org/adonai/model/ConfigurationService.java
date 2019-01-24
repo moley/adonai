@@ -10,7 +10,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -27,6 +30,9 @@ public class ConfigurationService {
 
 
   private static Configuration currentConfiguration;
+
+  private static String lastSavedConfigurationAsString;
+
 
   public void save () {
     set(get());
@@ -51,6 +57,22 @@ public class ConfigurationService {
     return currentConfiguration;
   }
 
+  public boolean hasChanged () {
+    JAXBContext jc = null;
+    try {
+
+      jc = JAXBContext.newInstance(Configuration.class);
+      Marshaller marshaller = jc.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      StringWriter stringWriter = new StringWriter();
+      marshaller.marshal(currentConfiguration, stringWriter);
+      String currentString = stringWriter.toString();
+      return ! currentString.equals(lastSavedConfigurationAsString);
+    } catch (JAXBException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
   public Configuration get() {
     if (currentConfiguration != null)
       return currentConfiguration;
@@ -67,6 +89,8 @@ public class ConfigurationService {
       else
         currentConfiguration =  new Configuration();
 
+
+
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
       defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
 
@@ -76,6 +100,12 @@ public class ConfigurationService {
           songRepairer.repairSong(nextSong);
         }
       }
+
+      Marshaller marshaller = jc.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      StringWriter stringWriter = new StringWriter();
+      marshaller.marshal(currentConfiguration, stringWriter);
+      lastSavedConfigurationAsString = stringWriter.toString();
 
     } catch (JAXBException e) {
       throw new IllegalStateException(e);
@@ -106,6 +136,10 @@ public class ConfigurationService {
       }
 
       marshaller.marshal(configuration, getConfigFile());
+      StringWriter stringWriter = new StringWriter();
+      marshaller.marshal(configuration, stringWriter);
+      lastSavedConfigurationAsString = stringWriter.toString();
+      currentConfiguration = configuration;
     } catch (JAXBException | IOException e) {
       throw new IllegalStateException(e);
     }

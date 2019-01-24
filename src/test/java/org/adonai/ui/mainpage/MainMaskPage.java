@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
-import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.junit.Assert;
@@ -17,7 +16,6 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class MainMaskPage extends AbstractPage {
 

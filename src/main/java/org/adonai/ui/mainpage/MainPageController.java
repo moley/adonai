@@ -28,9 +28,7 @@ import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditor;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -299,7 +297,19 @@ public class MainPageController {
     btnExit.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        System.exit(0);
+
+        if (configurationService.hasChanged()) {
+          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+          alert.setTitle("Quit adonai");
+          alert.setHeaderText("You have unsaved changes!");
+          alert.setContentText("Press OK to save and quit or Cancel to stay");
+
+          Optional<ButtonType> result = alert.showAndWait();
+          if (result.get() == ButtonType.OK){
+            configurationService.set(configuration);
+            System.exit(0);
+          }
+        }
       }
     });
 
