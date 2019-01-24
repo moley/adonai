@@ -238,28 +238,28 @@ public class MainPageController {
 
     tbaActions.getItems().add(new Separator());
 
-    //Button Export with chords
-    Button btnExportWithChords = new Button ("Export with");
+    //Button Export origin
+    Button btnExportWithChords = new Button ("Export origin");
     btnExportWithChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportWithChords);
     btnExportWithChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         ExportAction exportAction = new ExportAction();
-        exportAction.export(configuration, getCurrentSongs(), getExportName(), true);
+        exportAction.export(configuration, getCurrentSongs(), getExportName(), true, false);
 
       }
     });
 
-    //Button Export with chords
-    Button btnExportWithoutChords = new Button ("Export without");
+    //Button Export transposed
+    Button btnExportWithoutChords = new Button ("Export transposed");
     btnExportWithoutChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportWithoutChords);
     btnExportWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         ExportAction exportAction = new ExportAction();
-        exportAction.export(configuration, getCurrentSongs(), getExportName(), false);
+        exportAction.export(configuration, getCurrentSongs(), getExportName(), true, true);
       }
     });
 

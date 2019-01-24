@@ -16,12 +16,14 @@ public class ExportAction {
 
   public void export (Configuration configuration, Collection<Song> songs,
                       String name,
-                      boolean withChords) {
+                      boolean withChords,
+                      boolean withTransposeInfo) {
     PdfExporter writer = new PdfExporter();
 
     ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(withChords);
     exportConfiguration.setOpenPreview(true);
+    exportConfiguration.setWithTransposeInfo(withTransposeInfo);
     File exportFile = new File(configuration.getExportPathAsFile(), name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();
     try {
