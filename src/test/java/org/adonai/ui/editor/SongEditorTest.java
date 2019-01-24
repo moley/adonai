@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.SongTestData;
 import org.adonai.model.Song;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -36,6 +36,19 @@ public class Chord {
     basePart.transpose(diff, noteEntryType);
   }
 
+  /**
+   * transposes a chord
+   * @param diff
+   */
+  public void transpose (final int diff) {
+    NoteEntryType noteEntryType = diff >= 0 ? NoteEntryType.INCREMENT : NoteEntryType.DECREMENT;
+    if (leftPart != null)
+      leftPart.transpose(diff, noteEntryType);
+
+    if (basePart != null)
+      basePart.transpose(diff, noteEntryType);
+  }
+
 
 
 }

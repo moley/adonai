@@ -38,6 +38,16 @@ public class ExportTokenContainer {
     return max;
   }
 
+  public List<ExportToken> findTokensByTokenType (ExportTokenType exportTokenType) {
+    List<ExportToken> exportTokens = new ArrayList<ExportToken>();
+    for (ExportToken next: exportTokenList) {
+      if (next.getExportTokenType().equals(exportTokenType))
+        exportTokens.add(next);
+    }
+
+    return exportTokens;
+  }
+
   public ExportToken findTokenByText (String text) {
     for (ExportToken next: exportTokenList) {
       if (next.getText() != null && next.getText().startsWith(text))

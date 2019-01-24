@@ -4,9 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import org.adonai.Key;
 import org.adonai.model.Song;
 import org.adonai.services.SongTransposeService;
@@ -23,6 +21,9 @@ public class SongDetailsController {
   @FXML
   private ComboBox<Key> cboOriginalKey;
 
+  @FXML
+  private Spinner<Integer> spTransposeInfo;
+
 
 
 
@@ -35,18 +36,31 @@ public class SongDetailsController {
 
     Song currentSong = partEditor.getSongEditor().getSong();
 
+    //set transpose info: negative value is needed when using capo
+    spTransposeInfo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-8, 8, currentSong.getTransposeInfo()));
+
+    //set current key
     if (currentSong.getCurrentKey() != null) {
       cboCurrentKey.getSelectionModel().select(Key.fromString(currentSong.getCurrentKey()));
     }
     else
       cboCurrentKey.getSelectionModel().clearSelection();
 
+    //set original key
     if (currentSong.getOriginalKey() != null) {
       cboOriginalKey.getSelectionModel().select(Key.fromString(currentSong.getOriginalKey()));
     }
     else
       cboOriginalKey.getSelectionModel().clearSelection();
 
+    spTransposeInfo.valueProperty().addListener(new ChangeListener<Integer>() {
+      @Override
+      public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+        currentSong.setTransposeInfo(newValue);
+      }
+    });
+
+    //save original key listener
     cboOriginalKey.valueProperty().addListener(new ChangeListener<Key>() {
       @Override
       public void changed(ObservableValue<? extends Key> observable, Key oldValue, Key newValue) {
@@ -54,13 +68,9 @@ public class SongDetailsController {
       }
     });
 
-    cboOriginalKey.valueProperty().addListener(new ChangeListener<Key>() {
-      @Override
-      public void changed(ObservableValue<? extends Key> observable, Key oldValue, Key newValue) {
-        currentSong.setOriginalKey(newValue.name());
-      }
-    });
 
+
+    //save current key listener
     cboCurrentKey.valueProperty().addListener(new ChangeListener<Key>() {
       @Override
       public void changed(ObservableValue<? extends Key> observable, Key oldValue, Key newValue) {

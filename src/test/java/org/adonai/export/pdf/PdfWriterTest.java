@@ -15,8 +15,10 @@ public class PdfWriterTest extends AbstractExportTest {
 
   private boolean openPreview = false;
 
+
+
   @Test
-  public void exportSongParteFerence () throws IOException, ExportException {
+  public void exportSongPartReference () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     Song song = getSongWithReference();
     System.out.println (song.toString());
@@ -103,9 +105,47 @@ public class PdfWriterTest extends AbstractExportTest {
     return configuration.getSongBooks().get(0).getSongs().get(0);
   }
 
+  @Test
+  public void exportSongWithoutTransposeInfo () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+    Song song = getSong1();
+    song.setTransposeInfo(-2);
+    PdfExporter pdfExporter = new PdfExporter();
+    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setOpenPreview(openPreview);
+    exportConfiguration.setWithTransposeInfo(false);
+    pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
+    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
+    List<ExportToken> chordTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.CHORD);
+    Assert.assertEquals ("Chords (1) invalid", "G", chordTokens.get(0).getText());
+    Assert.assertEquals ("Chords (2) invalid", "Gsus", chordTokens.get(1).getText());
+    Assert.assertEquals ("Chords (3) invalid", "G", chordTokens.get(2).getText());
+
+    List<ExportToken> titleTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.TITLE);
+    Assert.assertFalse ("Transpose info not shown", titleTokens.get(0).getText().contains("(capo on"));
+
+  }
 
   @Test
-  public void showReferencedPart () {
+  public void exportSongWithTransposeInfo () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+    Song song = getSong1();
+    song.setTransposeInfo(-2);
+    PdfExporter pdfExporter = new PdfExporter();
+    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
+    exportConfiguration.setWithChords(true);
+    exportConfiguration.setOpenPreview(openPreview);
+    exportConfiguration.setWithTransposeInfo(true);
+    pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
+    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
+    List<ExportToken> chordTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.CHORD);
+    Assert.assertEquals ("Chords (1) invalid", "F", chordTokens.get(0).getText());
+    Assert.assertEquals ("Chords (2) invalid", "Fsus", chordTokens.get(1).getText());
+    Assert.assertEquals ("Chords (3) invalid", "F", chordTokens.get(2).getText());
+
+    List<ExportToken> titleTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.TITLE);
+    Assert.assertTrue ("Transpose info not shown (" + titleTokens.get(0).getText() + ")", titleTokens.get(0).getText().contains("(capo on 2.fret)"));
 
   }
 

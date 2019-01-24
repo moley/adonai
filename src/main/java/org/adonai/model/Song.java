@@ -22,6 +22,8 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   private String originalKey;
 
+  private Integer transposeInfo;
+
   private SimpleStringProperty titleProperty = new SimpleStringProperty();
 
   public int getIndex (final SongPart songPart) {
@@ -141,5 +143,13 @@ public class Song extends AbstractSessionItem implements NamedElement{
   @Override
   public String getName() {
     return getTitle();
+  }
+
+  public Integer getTransposeInfo() {
+    return transposeInfo;
+  }
+
+  public void setTransposeInfo(Integer transposeInfo) {
+    this.transposeInfo = transposeInfo;
   }
 }

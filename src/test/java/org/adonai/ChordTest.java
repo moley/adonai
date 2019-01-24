@@ -150,6 +150,19 @@ public class ChordTest {
     Chord chord = new Chord ("C");
     chord.transpose(-1, NoteEntryType.INCREMENT);
     Assert.assertEquals ("H", chord.toString());
+  }
 
+  @Test
+  public void transposeDownAbsolute () {
+    Chord chord = new Chord("G");
+    chord.transpose(-2);
+    Assert.assertEquals ("F", chord.toString());
+  }
+
+  @Test
+  public void transposeUpAbsolute () {
+    Chord chord = new Chord("G");
+    chord.transpose(2);
+    Assert.assertEquals ("A", chord.toString());
   }
 }

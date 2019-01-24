@@ -1,5 +1,6 @@
 package org.adonai.testdata;
 
+import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.*;
 import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
@@ -8,10 +9,15 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class TestDataCreator {
 
+  protected static final Logger LOGGER = Logger.getLogger(TestDataCreator.class.getName());
+
   public static void main(String[] args) throws IOException {
+
+    LOGGER.info("Create testdata");
 
     AddSongService addSongService = new AddSongService();
     SessionService sessionService = new SessionService();

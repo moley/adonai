@@ -89,9 +89,6 @@ public class SongEditorPage {
 
 
 
-  public void closeView () {
-
-  }
 
 
 }

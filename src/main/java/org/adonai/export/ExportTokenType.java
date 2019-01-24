@@ -4,7 +4,8 @@ public enum ExportTokenType {
   CHORD (true),
   TEXT (false),
   TITLE (true),
-  STRUCTURE (false);
+  STRUCTURE (false),
+  NEW_PAGE (false);
 
   private boolean bold;
 

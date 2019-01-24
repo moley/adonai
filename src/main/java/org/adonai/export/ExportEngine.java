@@ -1,10 +1,7 @@
 package org.adonai.export;
 
-import org.adonai.AreaInfo;
-import org.adonai.LocationInfo;
+import org.adonai.*;
 import org.adonai.model.*;
-import org.adonai.LocationInfoCalculator;
-import org.adonai.SizeInfo;
 import org.adonai.services.SongInfoService;
 
 import java.io.File;
@@ -59,7 +56,18 @@ public class ExportEngine {
       }
 
       if (mergedConfiguration.getWithTitle()) {
-        String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle();
+        String realKey = nextSong.getCurrentKey() != null ? nextSong.getCurrentKey() : nextSong.getOriginalKey();
+        realKey = realKey != null ? "(" + realKey + ")": "";
+        String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + realKey;
+
+        if (exportConfiguration.isWithTransposeInfo() && nextSong.getTransposeInfo() != null) {
+
+           if (nextSong.getTransposeInfo() < 0)
+              idAndTitle += " (capo on " + Math.abs(nextSong.getTransposeInfo()) + ".fret)";
+           else
+             throw new IllegalStateException("Positive transposeinfo not yet supported");
+
+        }
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
         documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
@@ -97,7 +105,7 @@ public class ExportEngine {
 
             if (exportConfiguration.isWithChords()) {
               locationInfoChord = locationInfoText;
-              Double highestChord = getHighestChord(documentBuilder, nextLine);
+              Double highestChord = getHighestChord(documentBuilder, nextLine, nextSong, mergedConfiguration);
               locationInfoText = new LocationInfo(locationInfoChord.getX(), locationInfoChord.getY() + highestChord + exportConfiguration.getChordTextDistance());
             }
 
@@ -124,9 +132,12 @@ public class ExportEngine {
                   heightOfText = sizeInfoText.getHeight();
 
                 Double widthOfChord = new Double(0);
-                if (nextLinePart.getChord() != null && exportConfiguration.isWithChords()) {
-                  SizeInfo sizeinfoChord = documentBuilder.getSize(nextLinePart.getChord(), ExportTokenType.CHORD);
-                  documentBuilder.newToken(new ExportToken(nextLinePart.getChord(), new AreaInfo(locationInfoChord, sizeinfoChord), ExportTokenType.CHORD));
+                if (nextLinePart.getChord() != null && ! nextLinePart.getChord().trim().isEmpty() && exportConfiguration.isWithChords()) {
+
+                  String eventuallyTransformedChord = transposeChordOnDemand(nextLinePart, nextSong, mergedConfiguration);
+
+                  SizeInfo sizeinfoChord = documentBuilder.getSize(eventuallyTransformedChord, ExportTokenType.CHORD);
+                  documentBuilder.newToken(new ExportToken(eventuallyTransformedChord, new AreaInfo(locationInfoChord, sizeinfoChord), ExportTokenType.CHORD));
 
                   widthOfChord = sizeinfoChord.getWidth();
                 }
@@ -186,6 +197,16 @@ public class ExportEngine {
     }
   }
 
+  private String transposeChordOnDemand (LinePart linePart, Song song, ExportConfiguration exportConfiguration) {
+    Chord chord = new Chord(linePart.getChord());
+    if (exportConfiguration.isWithTransposeInfo()) {
+      chord.transpose(song.getTransposeInfo());
+      return chord.toString();
+    }
+    else
+      return chord.toString();
+  }
+
   /**
    * get chord, which need the most y
    *
@@ -193,11 +214,12 @@ public class ExportEngine {
    * @param line
    * @return
    */
-  private Double getHighestChord (final DocumentBuilder documentBuilder, final Line line) {
+  private Double getHighestChord (final DocumentBuilder documentBuilder, final Line line, Song song, ExportConfiguration mergedConfiguration) {
     Double maxChordHeight = 0d;
     for (LinePart next: line.getLineParts()) {
       if (next.getChord() != null && ! next.getChord().trim().isEmpty()) {
-        Double currentHeight = documentBuilder.getSize(next.getChord(), ExportTokenType.CHORD).getHeight();
+        String eventuallyTransformedChord = transposeChordOnDemand(next, song, mergedConfiguration);
+        Double currentHeight = documentBuilder.getSize(eventuallyTransformedChord, ExportTokenType.CHORD).getHeight();
         if (currentHeight > maxChordHeight)
           maxChordHeight = currentHeight;
       }
