@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class TestDataCreator {
@@ -56,6 +57,18 @@ public class TestDataCreator {
     sessionService.addSong(session2, song3);
     sessionService.addSong(session2, song4);
     configuration.getSessions().add(session2);
+
+
+    User user1 = new User();
+    user1.setMail("user1@gmail.com");
+    user1.setUsername("user1");
+
+    User user2 = new User();
+    user2.setMail("user2@gmail.com");
+    user2.setUsername("user2");
+
+    configuration.getUsers().addAll(Arrays.asList(user1, user2));
+
 
 
     File exportDir = new File (testData, "export");

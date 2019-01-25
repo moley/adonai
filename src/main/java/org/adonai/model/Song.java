@@ -2,6 +2,7 @@ package org.adonai.model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+import javax.xml.bind.annotation.XmlIDREF;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class Song extends AbstractSessionItem implements NamedElement{
   private String originalKey;
 
   private Integer transposeInfo;
+
+  private User leadVoice;
 
   private SimpleStringProperty titleProperty = new SimpleStringProperty();
 
@@ -151,5 +154,14 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public void setTransposeInfo(Integer transposeInfo) {
     this.transposeInfo = transposeInfo;
+  }
+
+  @XmlIDREF
+  public User getLeadVoice() {
+    return leadVoice;
+  }
+
+  public void setLeadVoice(User leadVoice) {
+    this.leadVoice = leadVoice;
   }
 }

@@ -17,6 +17,8 @@ import java.util.List;
 @XmlRootElement
 public class Configuration {
 
+  private List<User> users = new ArrayList<User>();
+
   private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
 
   private List<String> screensAdmin = new ArrayList<String>();
@@ -103,5 +105,13 @@ public class Configuration {
     }
 
     return null;
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
   }
 }

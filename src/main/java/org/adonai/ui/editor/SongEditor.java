@@ -12,10 +12,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.adonai.model.LinePart;
-import org.adonai.model.Song;
-import org.adonai.model.SongPart;
-import org.adonai.model.SongPartType;
+import org.adonai.model.*;
 import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
@@ -48,8 +45,10 @@ public class SongEditor extends PanelHolder {
   private SongInfoService songInfoService = new SongInfoService();
   private TextField txtTitle = new TextField();
 
+  private Configuration configuration;
 
-  public SongEditor(Song song) {
+  public SongEditor(Configuration configuration, Song song) {
+    this.configuration = configuration;
     this.song = song;
 
     colorMap.put(SongPartType.REFRAIN, Color.DARKBLUE);
@@ -242,6 +241,10 @@ public class SongEditor extends PanelHolder {
 
   public void log() {
     System.out.println("After save:" + song.toString());
+  }
+
+  public Configuration getConfiguration() {
+    return configuration;
   }
 
 

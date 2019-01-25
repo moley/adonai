@@ -259,6 +259,21 @@ public class MainPageController {
       }
     });
 
+    Button btnUserAdmin = new Button("Users");
+    btnUserAdmin.setId("btnUserAdmin");
+    btnUserAdmin.setGraphic(Consts.createImageView("user", iconSizeToolbar));
+    tbaActions.getItems().add(btnUserAdmin);
+    btnUserAdmin.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        Bounds controlBounds = UiUtils.getBounds(btnUserAdmin);
+        Double x = controlBounds.getMinX() + 10;
+        Double y = controlBounds.getMinY() - 20 - UsersAdminAction.HEIGHT;
+        UsersAdminAction usersAdminAction = new UsersAdminAction();
+        usersAdminAction.open(configuration, x, y);
+      }
+    });
+
     //Button Save
     Button btnSave = new Button ();
     btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
@@ -278,9 +293,12 @@ public class MainPageController {
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        Bounds controlBounds = UiUtils.getBounds(btnConfigurations);
+        Double x = controlBounds.getMinX() - (ConfigurationAction.CONFIGDIALOG_WIDTH / 2);
+        Double y = controlBounds.getMinY() - 20 - ConfigurationAction.CONFIGDIALOG_HEIGHT;
 
         ConfigurationAction configurationAction = new ConfigurationAction();
-        configurationAction.openConfigurations();
+        configurationAction.openConfigurations(x, y);
 
       }
     });
@@ -437,7 +455,7 @@ public class MainPageController {
     LOGGER.info("Select song " + song);
     currentSong = song;
     currentContent = MainPageContent.SONG;
-    SongEditor songEditor = new SongEditor(song);
+    SongEditor songEditor = new SongEditor(configuration, song);
     Parent songEditorPanel = songEditor.getPanel();
     songEditorPanel.setVisible(true);
 

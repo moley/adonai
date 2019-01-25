@@ -26,7 +26,7 @@ public class PreviewPage extends WizardPage {
         System.out.println ("Visibility change: " + oldValue + "->" + newValue);
         if (oldValue == null && newValue != null) {
           System.out.println ("Preview for " + controller.getSongToImport().toString() );
-          SongEditor songEditor = new SongEditor(controller.getSongToImport());
+          SongEditor songEditor = new SongEditor(null, controller.getSongToImport());
           rootpanel.getChildren().clear();
           rootpanel.getChildren().add(songEditor.getPanel());
         }

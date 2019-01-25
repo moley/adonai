@@ -18,7 +18,7 @@ public class SongEditorTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     Song song = SongTestData.getSongWithTwoParts();
-    Scene scene = new Scene(new SongEditor(song).getPanel(), 800, 600);
+    Scene scene = new Scene(new SongEditor(null, song).getPanel(), 800, 600);
     scene.getStylesheets().add("/adonai.css");
     stage.setScene(scene);
     stage.show();
