@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -27,9 +25,7 @@ import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditor;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class MainPageController {
@@ -238,6 +234,7 @@ public class MainPageController {
 
     //Button Export origin
     Button btnExportWithChords = new Button ("Export origin");
+    btnExportWithChords.setId("btnExportWithChords");
     btnExportWithChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportWithChords);
     btnExportWithChords.setOnAction(new EventHandler<ActionEvent>() {
@@ -251,6 +248,7 @@ public class MainPageController {
 
     //Button Export transposed
     Button btnExportWithoutChords = new Button ("Export transposed");
+    btnExportWithoutChords.setId("btnExportWithoutChords");
     btnExportWithoutChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
     tbaActions.getItems().add(btnExportWithoutChords);
     btnExportWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
@@ -300,16 +298,17 @@ public class MainPageController {
 
         if (configurationService.hasChanged()) {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-          alert.setTitle("Quit adonai");
+          alert.setTitle("Exit adonai");
           alert.setHeaderText("You have unsaved changes!");
-          alert.setContentText("Press OK to save and quit or Cancel to stay");
+          alert.setContentText("Do you want to save your changes?");
 
           Optional<ButtonType> result = alert.showAndWait();
           if (result.get() == ButtonType.OK){
             configurationService.set(configuration);
-            System.exit(0);
           }
         }
+
+        System.exit(0);
       }
     });
 

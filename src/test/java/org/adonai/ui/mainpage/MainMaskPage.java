@@ -6,6 +6,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
@@ -14,7 +16,9 @@ import org.adonai.ui.MaskLoader;
 import org.junit.Assert;
 import org.testfx.framework.junit.ApplicationTest;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainMaskPage extends AbstractPage {
@@ -74,6 +78,14 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("btnPlus")).query();
   }
 
+  public Button getBtnExportWith() {
+    return applicationTest.lookup(nodeWithId("btnExportWithChords")).query();
+  }
+
+  public Button getBtnExportWithout() {
+    return applicationTest.lookup(nodeWithId("btnExportWithoutChords")).query();
+  }
+
   public Button getBtnMinus() {
     return applicationTest.lookup(nodeWithId("btnMinus")).query();
   }
@@ -107,6 +119,14 @@ public class MainMaskPage extends AbstractPage {
     applicationTest.clickOn(getBtnPlus());
   }
 
+  public void exportWithChords () {
+    applicationTest.clickOn(getBtnExportWith());
+  }
+
+  public void exportWithoutChords () {
+    applicationTest.clickOn(getBtnExportWithout());
+  }
+
   public void remove () {
     applicationTest.clickOn(getBtnMinus());
   }
@@ -121,6 +141,17 @@ public class MainMaskPage extends AbstractPage {
 
   public List<Song> getSongsInSongbook () {
     return getLviSongs().getItems();
+  }
+
+  public List<File> getExportedFiles () {
+    Configuration configuration = new ConfigurationService().get();
+    return Arrays.asList(configuration.getExportPathAsFile().listFiles());
+  }
+
+  public boolean exportFileExists (String name) {
+    Configuration configuration = new ConfigurationService().get();
+    File expectedFile = new File (configuration.getExportPathAsFile(), name);
+    return expectedFile.exists();
   }
 
 

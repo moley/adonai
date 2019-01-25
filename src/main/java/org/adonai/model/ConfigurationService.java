@@ -89,8 +89,6 @@ public class ConfigurationService {
       else
         currentConfiguration =  new Configuration();
 
-
-
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
       defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
 

@@ -1,6 +1,7 @@
 package org.adonai.actions;
 
 import org.adonai.export.ExportConfiguration;
+import org.adonai.export.ExportConfigurationMerger;
 import org.adonai.export.ExportException;
 import org.adonai.export.pdf.PdfExporter;
 import org.adonai.model.Configuration;
@@ -14,15 +15,22 @@ import java.util.Collection;
 
 public class ExportAction {
 
+  private ExportConfigurationMerger exportConfigurationMerger = new ExportConfigurationMerger();
+
+
   public void export (Configuration configuration, Collection<Song> songs,
                       String name,
                       boolean withChords,
                       boolean withTransposeInfo) {
     PdfExporter writer = new PdfExporter();
 
-    ExportConfiguration exportConfiguration = writer.getPdfDocumentBuilder().getDefaultConfiguration();
+    // TODO User specific configuration
+    //  ExportConfiguration mergedConfiguration = exportConfigurationMerger.getMergedExportConfiguration(documentBuilder.getDefaultConfiguration(), exportConfiguration);
+
+
+
+    ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
     exportConfiguration.setWithChords(withChords);
-    exportConfiguration.setOpenPreview(true);
     exportConfiguration.setWithTransposeInfo(withTransposeInfo);
     File exportFile = new File(configuration.getExportPathAsFile(), name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();

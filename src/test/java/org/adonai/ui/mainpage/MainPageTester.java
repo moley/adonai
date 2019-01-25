@@ -8,7 +8,7 @@ import java.io.IOException;
 public class MainPageTester {
   public static void main(String[] args) throws IOException {
     System.setProperty("adonai.home", new File("build/testdata").getAbsoluteFile().getAbsolutePath());
-    TestDataCreator.main(args);
+    new TestDataCreator().createTestData(true);
     MainPageApplication.main(args);
   }
 }

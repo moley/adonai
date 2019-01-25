@@ -21,7 +21,7 @@ public abstract class AbstractAdonaiUiTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws Exception {
 
-    TestDataCreator.main(new String [0]);
+    new TestDataCreator().createTestData(false);
   }
 
 

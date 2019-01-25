@@ -3,6 +3,8 @@ package org.adonai.ui.mainpage;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,7 +50,14 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
 
   @Test
   public void exportSongsInCurrentSession () {
-    throw new IllegalStateException("TODO");
+    mainMaskPage.stepToSession(0);
+    System.out.println (mainMaskPage.getExportedFiles());
+    Assert.assertFalse (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
+    mainMaskPage.exportWithChords();
+    Assert.assertTrue (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
+
+
+
   }
 
 

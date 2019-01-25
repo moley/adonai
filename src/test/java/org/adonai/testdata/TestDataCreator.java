@@ -1,6 +1,7 @@
 package org.adonai.testdata;
 
 import org.adonai.AbstractAdonaiUiTest;
+import org.adonai.export.ExportConfiguration;
 import org.adonai.model.*;
 import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
@@ -15,8 +16,8 @@ public class TestDataCreator {
 
   protected static final Logger LOGGER = Logger.getLogger(TestDataCreator.class.getName());
 
-  public static void main(String[] args) throws IOException {
 
+  public void createTestData (final boolean preview) throws IOException {
     LOGGER.info("Create testdata");
 
     AddSongService addSongService = new AddSongService();
@@ -30,7 +31,7 @@ public class TestDataCreator {
 
     SongBook songBook = new SongBook();
 
-    Configuration configuration = new Configuration();
+    Configuration configuration = configurationService.get();
     configuration.getSongBooks().add(songBook);
 
     Song song1 = createSong("Song1");
@@ -62,6 +63,7 @@ public class TestDataCreator {
     exportDir.mkdirs();
     extensionPath.mkdirs();
 
+
     configuration.setExportPath(exportDir.getAbsolutePath());
     configuration.getExportPathAsFile().mkdirs();
     configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
@@ -70,6 +72,13 @@ public class TestDataCreator {
     new File (extensionPath, "AnotherMp3.mp3").createNewFile();
 
     configurationService.set(configuration);
+
+    for (ExportConfiguration nextConfiguration1 : configuration.getExportConfigurations()) {
+      nextConfiguration1.setOpenPreview(preview);
+    }
+
+    configurationService.set(configuration);
+    configurationService.close();
 
   }
 
