@@ -40,9 +40,7 @@ public class UsersController {
     lviUsers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
       @Override
       public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-        if (newValue != null) {
-          select(newValue);
-        }
+        select(oldValue, newValue);
       }
     });
     this.lviUsers.getSelectionModel().selectFirst();
@@ -57,6 +55,7 @@ public class UsersController {
         refresh();
         lviUsers.requestFocus();
         lviUsers.getSelectionModel().select(newUser);
+        txtUsername.requestFocus();
 
       }
     });
@@ -64,14 +63,23 @@ public class UsersController {
     btnRemoveUser.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        int toSelect = Math.max(0, lviUsers.getSelectionModel().getSelectedIndex() - 1);
         configuration.getUsers().remove(lviUsers.getSelectionModel().getSelectedItem());
         refresh();
+        if (! lviUsers.getItems().isEmpty()) {
+          lviUsers.requestFocus();
+          lviUsers.getSelectionModel().select(toSelect);
+        }
       }
     });
 
   }
 
-  public void select (User user) {
-    this.txtUsername.textProperty().bindBidirectional(user.usernameProperty());
+  public void select (User oldUser, User user) {
+    if (oldUser != null)
+      this.txtUsername.textProperty().unbindBidirectional(oldUser.usernameProperty());
+
+    if (user != null)
+      this.txtUsername.textProperty().bindBidirectional(user.usernameProperty());
   }
 }

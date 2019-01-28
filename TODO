@@ -1,3 +1,4 @@
+- Ctrl + RIGHT / Crtl + LEFT -> Move chord to right/left
 - Add song to session
 - Add new session
 - Remove session
@@ -9,7 +10,6 @@ TODO
 - export with session sequence small / big
 - Export schematas
 
-- Automatically remove content of copy
 - Referenced part must not be removed
 - Empty new song in SongEditor: Exception in thread "JavaFX Application Thread" java.lang.NullPointerException
                                	at SongEditor.reloadDetail(SongEditor.java:193)

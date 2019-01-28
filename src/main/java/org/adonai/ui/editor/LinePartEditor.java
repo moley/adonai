@@ -10,13 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import org.adonai.services.MergeLineService;
-import org.adonai.services.SongCursor;
+import org.adonai.services.*;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
-import org.adonai.services.SongNavigationService;
-import org.adonai.services.SplitLineService;
 
 public class LinePartEditor extends PanelHolder {
 
@@ -36,6 +33,8 @@ public class LinePartEditor extends PanelHolder {
 
   private VBox root = new VBox();
 
+
+  private MoveChordService moveChordService = new MoveChordService();
 
   private SplitLineService splitLineService = new SplitLineService();
 
@@ -156,6 +155,18 @@ public class LinePartEditor extends PanelHolder {
             getSongEditor().getPartEditor(focusedLinePart).requestFocus(false);
           }
 
+          if (event.isControlDown() && event.getCode() == KeyCode.RIGHT) {
+            LinePart linePart = getCursor().getCurrentLinePart();
+            moveChordService.toRight(getCursor());
+            getSongEditor().reload().getPartEditor(linePart).requestFocus(false);
+
+          }
+
+          if (event.isControlDown() && event.getCode() == KeyCode.LEFT) {
+            LinePart linePart = getCursor().getCurrentLinePart();
+            moveChordService.toLeft(getCursor());
+            getSongEditor().reload().getPartEditor(linePart).requestFocus(false);
+          }
 
 
           if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
