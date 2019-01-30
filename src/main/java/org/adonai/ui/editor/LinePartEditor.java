@@ -135,10 +135,18 @@ public class LinePartEditor extends PanelHolder {
         }
       });
 
+      txtText.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+          System.out.println("onKeyReleased - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
+
+        }
+      });
+
       txtText.setOnKeyPressed(new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
-          System.out.println("onKeyPressed - Ctrl: " + event.isControlDown() + "-" + event.getCode() + "-" + event.getText());
+          System.out.println("onKeyPressed - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
 
 
           if (event.getCode() == KeyCode.ESCAPE) {
