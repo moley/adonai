@@ -12,7 +12,7 @@ public class RemovePartService {
    */
   public SongPart removePart (final SongCursor songCursor) {
 
-    // wenn einzige Zeile, dann Part clearen, ansonsten löschen
+    // if single line, then clear the part, else delete the part
     Song song = songCursor.getCurrentSong();
     SongPart removeSongPart = songCursor.getCurrentSongPart();
     SongPart focusLinePart;
@@ -31,8 +31,6 @@ public class RemovePartService {
 
       song.getSongParts().remove(removeSongPart);
     }
-
-    //wenn leer, dann leeren SongPart einfüllen
 
     return focusLinePart;
   }

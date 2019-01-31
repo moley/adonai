@@ -11,5 +11,5 @@ out/
 .project
 .classpath
 .settings/
-export/
+./export/
 .adonai/

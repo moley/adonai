@@ -90,10 +90,10 @@ public class PlaylistExport {
   }
 
   private String sonderzeichen (final String withoutSonderzeichen){
-    String filtered = withoutSonderzeichen.replaceAll("Ö", "OE");
-    filtered = filtered.replace("Ä", "AE");
-    filtered = filtered.replace("Ü", "UE");
-    filtered = filtered.replace("Ü", "UE");
+    String filtered = withoutSonderzeichen.replaceAll("Ã–", "OE");
+    filtered = filtered.replace("Ã„", "AE");
+    filtered = filtered.replace("Ãœ", "UE");
+    filtered = filtered.replace("ÃŸ", "SS");
     filtered = filtered.replace("'", "");
     filtered = filtered.replace("[^a-zA-Z0-9 ]+","");
     return filtered;
