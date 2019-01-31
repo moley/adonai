@@ -17,7 +17,7 @@ public class WordReaderTest {
 
   @Test
   public void tabInChordLine () throws InvalidChordException {
-    String chordLine = "G                                C               G             D            G";
+    String chordLine = "G                                C               G             D            G";
     WordReader reader = new WordReader();
     reader.getChords(chordLine);
   }
