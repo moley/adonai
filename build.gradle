@@ -48,6 +48,9 @@ dependencies {
   testRuntime "org.testfx:openjfx-monocle:8u76-b04"
 }
 
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
 xjcGenerate {
   source = fileTree('src/main/schema') { include 'zef2005.xsd' }
 }
