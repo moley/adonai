@@ -1,12 +1,16 @@
 package org.adonai.ui.settings;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SettingsTest extends AbstractAdonaiUiTest {
 
   private SettingsMaskPage settingsMaskPage;
+
+
 
   @Override
   public void start(Stage stage) throws Exception {

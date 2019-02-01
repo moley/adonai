@@ -3,8 +3,7 @@ package org.adonai.ui.mainpage;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
-import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
+import org.adonai.testdata.TestDataCreator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,8 +11,12 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
 
   private MainMaskPage mainMaskPage;
 
+
+
   @Override
   public void start(Stage stage) throws Exception {
+    TestDataCreator testDataCreator = new TestDataCreator();
+    testDataCreator.createTestData(false);
     super.start(stage);
     mainMaskPage = new MainMaskPage(this);
     mainMaskPage.openStage();
