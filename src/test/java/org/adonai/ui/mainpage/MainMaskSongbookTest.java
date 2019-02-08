@@ -18,6 +18,7 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
 
   @Override
   public void start(Stage stage) throws Exception {
+    System.out.println ("java.class.path=" + System.getProperty("java.class.path"));
     TestDataCreator testDataCreator = new TestDataCreator();
     testDataCreator.createTestData(false);
     super.start(stage);

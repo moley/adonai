@@ -70,4 +70,6 @@ task install(type: Copy, dependsOn: distZip) {
 }
 
 tasks.compileJava.dependsOn tasks.xjcGenerate
-
+test {
+    exclude 'org/adonai/ui/**' //TODOenable when working standalone
+}
