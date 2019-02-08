@@ -8,6 +8,7 @@ plugins {
   id 'org.unbroken-dome.xjc' version '1.4.1'
   id 'java'
   id 'application'
+  id 'jacoco'
   id 'org.openjfx.javafxplugin' version '0.0.6'
 }
 
