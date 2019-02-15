@@ -74,3 +74,12 @@ tasks.compileJava.dependsOn tasks.xjcGenerate
 test {
     exclude 'org/adonai/ui/**' //TODOenable when working standalone
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
