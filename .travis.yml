@@ -11,11 +11,9 @@ install: true
 
 script:
   - ./gradlew check
+  - ./gradlew codeCoverageReport --stacktrace
 
 after_success:
-  # Generate coverage report and upload to coveralls
-  - ./gradlew jacocoTestReport coveralls
-  # Also upload to codecov
   - bash <(curl -s https://codecov.io/bash)
 
 before_cache:
