@@ -3,9 +3,11 @@ package org.adonai.actions;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
 import org.adonai.export.ExportException;
+import org.adonai.export.ReferenceStrategy;
 import org.adonai.export.pdf.PdfExporter;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
+import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -32,6 +34,10 @@ public class ExportAction {
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
     exportConfiguration.setWithChords(withChords);
     exportConfiguration.setWithTransposeInfo(withTransposeInfo);
+    exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+    exportConfiguration.setStructureDistance(new Double(5));
+
     File exportFile = new File(configuration.getExportPathAsFile(), name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();
     try {

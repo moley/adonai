@@ -61,7 +61,7 @@ mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 task install(type: Copy, dependsOn: distZip) {
   def zipFile = file('build/distributions/adonai.zip')
-  def outputDir = file(System.getProperty("user.home") + "/programs/adonai")
+  def outputDir = file(System.getProperty("user.home") + "/programs")
   println "OutputDir = $outputDir.absolutePath"
 
   from zipTree(zipFile)
