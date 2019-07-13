@@ -37,6 +37,11 @@ public class SongInfoService {
 
   public String getStructure (final Song song, final SongPart songPart, final SongPartDescriptorStrategy songPartDescriptorStrategy) {
 
+
+    String quantityString = songPart.getQuantity() != null ? songPart.getQuantity().trim(): "";
+    if (! quantityString.endsWith("x") && ! quantityString.isEmpty())
+      quantityString = quantityString + "x";
+
     SongPart shownPart = songPart;
     if (songPart.getReferencedSongPart() != null)
       shownPart = song.findSongPartByUUID(songPart.getReferencedSongPart());
@@ -45,9 +50,9 @@ public class SongInfoService {
       return "";
 
     if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.SHORT))
-      return shownPart.getSongPartType().name().substring(0, 1);
+      return (shownPart.getSongPartType().name().substring(0, 1) + " " + quantityString).trim();
     else if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.LONG))
-      return shownPart.getSongPartType().name();
+      return (shownPart.getSongPartType().name() + " " + quantityString).trim();
     else
       return "";
 

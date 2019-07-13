@@ -28,6 +28,24 @@ public class SongInfoServiceTest {
   }
 
   @Test
+  public void getStructureRealShortWithQuantity () {
+    Song song = SongTestData.getSongWithTwoPartsAndOneReference();
+    SongPart songPart = song.getSongParts().get(0);
+    songPart.setQuantity("3");
+    Assert.assertNull (songPart.getReferencedSongPart());
+    Assert.assertEquals ("V 3x", songInfoService.getStructure(song, songPart, SongPartDescriptorStrategy.SHORT));
+  }
+
+  @Test
+  public void getStructureRefLongWithQuantity () {
+    Song song = SongTestData.getSongWithTwoPartsAndOneReference();
+    SongPart songPart = song.getSongParts().get(2);
+    songPart.setQuantity("2x");
+    Assert.assertNotNull (songPart.getReferencedSongPart());
+    Assert.assertEquals ("VERS 2x", songInfoService.getStructure(song, songPart, SongPartDescriptorStrategy.LONG));
+  }
+
+  @Test
   public void getStructureRefLong () {
     Song song = SongTestData.getSongWithTwoPartsAndOneReference();
     SongPart songPart = song.getSongParts().get(2);
