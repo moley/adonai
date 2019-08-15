@@ -7,8 +7,13 @@ jdk: oraclejdk11
 services: 
   - xvfb
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
 script:
-  - xvfb-run ./gradlew check
+  - ./gradlew check
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
