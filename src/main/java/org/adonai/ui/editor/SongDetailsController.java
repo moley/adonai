@@ -41,6 +41,7 @@ public class SongDetailsController {
     cboCurrentKey.setItems(FXCollections.observableArrayList(Key.values()));
 
     cboOriginalKey.setItems(FXCollections.observableArrayList(Key.values()));
+
     cboLeadVoice.setItems(FXCollections.observableArrayList(configuration.getUsers()));
 
     //set transpose info: negative value is needed when using capo

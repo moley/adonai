@@ -7,6 +7,12 @@ public class AddSongService {
   public Song createSong (String title) {
     Song newSong = new Song();
     newSong.setTitle(title != null ? title.toUpperCase(): "NEW SONG");
+    SongPart songPart = new SongPart();
+    songPart.setSongPartType(SongPartType.INTRO);
+    Line newLine = new Line();
+    newLine.getLineParts().add(new LinePart());
+    songPart.getLines().add(newLine);
+    newSong.getSongParts().add(songPart);
     return newSong;
   }
 
