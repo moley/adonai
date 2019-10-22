@@ -59,7 +59,7 @@ xjcGenerate {
 mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 
-task install(type: Copy, dependsOn: distZip) {
+task installLocal(type: Copy, dependsOn: distZip) {
   def zipFile = file('build/distributions/adonai.zip')
   def outputDir = file(System.getProperty("user.home") + "/programs")
   println "OutputDir = $outputDir.absolutePath"

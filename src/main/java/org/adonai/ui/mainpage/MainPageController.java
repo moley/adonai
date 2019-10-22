@@ -206,7 +206,7 @@ public class MainPageController {
           refreshListViews(null);
         } else if (currentContent.equals(MainPageContent.SONGBOOK)) {
           RemoveSongService removeSongService = new RemoveSongService();
-          removeSongService.removeSong(lviSession.getSelectionModel().getSelectedItem(), getCurrentSongBook());
+          removeSongService.removeSong(lviSongs.getSelectionModel().getSelectedItem(), getCurrentSongBook());
           refreshListViews(null);
         }
       }
