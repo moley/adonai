@@ -2,10 +2,12 @@ package org.adonai.ui.mainpage;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -74,6 +76,8 @@ public class MainPageController {
 
   @FXML
   private Label lblCurrentEntity;
+
+  private FilteredList<Song> filteredSongList;
 
   private ConfigurationService configurationService = new ConfigurationService();
 
@@ -335,9 +339,11 @@ public class MainPageController {
       @Override
       public void handle(KeyEvent event) {
             LOGGER.info("KeyHandler " + event.getCode().toString());
+
             if (event.getCode().equals(KeyCode.SPACE)) {
               SearchAction searchAction = new SearchAction();
-              searchAction.open();
+              Point2D point2D = lviSongs.localToScreen(lviSongs.getWidth() - 305, lviSongs.getHeight() - 55);
+              searchAction.open(filteredSongList, "", point2D.getX(), point2D.getY());
             }
           }
     });
@@ -532,7 +538,8 @@ public class MainPageController {
 
   private void refreshListViews(Song selectSong) {
     LOGGER.info("Refresh views");
-    lviSongs.setItems(FXCollections.observableArrayList(getCurrentSongBook().getSongs()));
+    filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()), s->true);
+    lviSongs.setItems(filteredSongList);
     List<Song> sessionSongs = currentSession != null ? sessionService.getSongs(currentSession, getCurrentSongBook()): new ArrayList<>();
     lviSession.setItems(FXCollections.observableArrayList(sessionSongs));
     lviSessions.setItems(FXCollections.observableArrayList(configuration.getSessions()));

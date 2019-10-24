@@ -37,7 +37,9 @@ dependencies {
   compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
   compile 'javax.xml.bind:jaxb-api:2.3.0'
   compile 'javax.activation:activation:1.1'
+  //compile 'org.controlsfx:controlsfx:11.0.0'
   runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
+
 
   runtime 'org.openjfx:javafx-controls:12-ea+8'
   runtime 'org.openjfx:javafx-graphics:12-ea+8'
