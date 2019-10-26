@@ -13,7 +13,7 @@ public class LinePart {
   private SimpleStringProperty chord = new SimpleStringProperty();
 
   public LinePart () {
-
+    this.text.set(" ");
   }
 
   public LinePart (final Chord chord) {
