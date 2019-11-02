@@ -16,13 +16,19 @@ public class AddSongService {
     return newSong;
   }
 
-  public Song addSong (final Song newSong, final SongBook songBook) {
+  public Integer getNextNumber (final SongBook songBook) {
     int lastNumber = 0;
     if (! songBook.getSongs().isEmpty())
       lastNumber = songBook.getSongs().get(songBook.getSongs().size() - 1).getId();
 
     int newNumber = lastNumber + 1;
-    newSong.setId(newNumber);
+
+    return newNumber;
+  }
+
+  public Song addSong (final Song newSong, final SongBook songBook) {
+
+    newSong.setId(getNextNumber(songBook));
 
     SongPart newSongpart = new SongPart();
     newSong.getSongParts().add(newSongpart);

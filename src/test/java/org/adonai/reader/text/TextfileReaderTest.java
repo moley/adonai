@@ -32,10 +32,24 @@ public class TextfileReaderTest {
   }
 
   @Test
+  public void readExampleWithoutPartTypes () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/SongWithoutPartTypes.txt"), "UTF-8");
+    TextfileReaderParam param = new TextfileReaderParam();
+    param.setEmptyLineIsNewPart(true);
+    Song song = textfileReader.read(content, param);
+    Assert.assertEquals(2, song.getSongParts().size());
+    Assert.assertEquals ("First line in verse", song.getSongParts().get(0).getFirstLine().getText());
+    Assert.assertEquals ("second line in verse", song.getSongParts().get(0).getLastLine().getText());
+    Assert.assertEquals ("And then the refrain", song.getSongParts().get(1).getFirstLine().getText());
+    Assert.assertEquals ("without any type", song.getSongParts().get(1).getLastLine().getText());
+
+  }
+
+  @Test
   public void readExample5() throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich tauche ein.txt"), "UTF-8");
 
-    Song song = textfileReader.read(content);
+    Song song = textfileReader.read(content, new TextfileReaderParam());
     SongPart intro = song.getSongParts().get(0);
     Assert.assertFalse ("2x must not be shown in line content", intro.getFirstLine().toString().contains("2x"));
     Assert.assertEquals ("2x", intro.getQuantity());
@@ -45,7 +59,7 @@ public class TextfileReaderTest {
   public void readExample4() throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Was fuer ein Gott.txt"), "UTF-8");
 
-    Song song = textfileReader.read(content);
+    Song song = textfileReader.read(content, new TextfileReaderParam());
     System.out.println ("Song: " + song.toString());
     SongPart refrain = song.getSongParts().get(2);
     Assert.assertTrue (refrain.getFirstLine().getText().startsWith("Jesus hier knie ich vor dir"));
@@ -56,7 +70,7 @@ public class TextfileReaderTest {
   public void readExample3 () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich weiss wer ich bin.txt"), "UTF-8");
 
-    Song song = textfileReader.read(content);
+    Song song = textfileReader.read(content, new TextfileReaderParam());
     //[Intro]
     //[Verse 1]
     //[Chorus 1]
@@ -108,7 +122,7 @@ public class TextfileReaderTest {
   public void readExample2 () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich hab noch nie.txt"), "UTF-8");
 
-    Song song = textfileReader.read(content);
+    Song song = textfileReader.read(content, new TextfileReaderParam());
     System.out.println ("Song: " + song.toString());
 
   }
@@ -117,14 +131,14 @@ public class TextfileReaderTest {
   public void readExample () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Das Glaube ich.txt"), "UTF-8");
 
-    Song song = textfileReader.read(content);
+    Song song = textfileReader.read(content, new TextfileReaderParam());
     System.out.println ("Song: " + song.toString());
   }
 
   @Test
   public void quantityInChordline () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F (2x)", "   Alles   ist cool");
-    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
     Assert.assertEquals ("2x", firstPart.getQuantity());
 
@@ -133,7 +147,7 @@ public class TextfileReaderTest {
   @Test
   public void quantityInTextline () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool  (2x)");
-    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
     Assert.assertEquals ("2x", firstPart.getQuantity());
 
@@ -143,7 +157,7 @@ public class TextfileReaderTest {
   public void doNotStripInMiddle () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool");
     System.out.println(String.join("\n", allLines));
-    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
     Assert.assertEquals ("  ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
@@ -155,7 +169,7 @@ public class TextfileReaderTest {
   public void stripBeginning () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles ist cool");
     System.out.println(String.join("\n", allLines));
-    SongPart firstPart = textfileReader.read(allLines).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
     Assert.assertEquals ("ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
@@ -166,7 +180,7 @@ public class TextfileReaderTest {
   @Test
   public void determiningTypes () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Hello", "", "[Pre-Chorus]", "Hello", "");
-    Song song = textfileReader.read(allLines);
+    Song song = textfileReader.read(allLines, new TextfileReaderParam());
     Assert.assertEquals ("First part has wrong type", SongPartType.VERS, song.getSongParts().get(0).getSongPartType());
     Assert.assertEquals ("Second part has wrong type", SongPartType.BRIDGE, song.getSongParts().get(1).getSongPartType());
   }
@@ -174,7 +188,7 @@ public class TextfileReaderTest {
   @Test
   public void duplicateParts () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Vers1Zeile1", "", "[Chorus]", "Chorus", "[Verse 1]", "Vers1Zeile1");
-    Song song = textfileReader.read(allLines);
+    Song song = textfileReader.read(allLines, new TextfileReaderParam());
     SongPart firstPart = song.getSongParts().get(0);
     SongPart secondPart = song.getSongParts().get(1);
     SongPart thirdPart = song.getSongParts().get(2);
@@ -196,7 +210,7 @@ public class TextfileReaderTest {
 
   @Test
   public void twoChordLines () {
-    Song imported = textfileReader.read(createLine("A G/H C","C H Am"));
+    Song imported = textfileReader.read(createLine("A G/H C","C H Am"), new TextfileReaderParam());
     Line firstLine = imported.getFirstSongPart().getLines().get(0);
     Line secondLine = imported.getFirstSongPart().getLines().get(1);
 
@@ -208,7 +222,7 @@ public class TextfileReaderTest {
 
   @Test
   public void twoTextLines () {
-    Song imported = textfileReader.read(createLine("First line","second line"));
+    Song imported = textfileReader.read(createLine("First line","second line"), new TextfileReaderParam());
     System.out.println (imported);
     Assert.assertEquals ("First line", imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getText());
     Assert.assertNull(imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getChord());
@@ -225,7 +239,7 @@ public class TextfileReaderTest {
 
   @Test
   public void withoutText () {
-    Song imported = textfileReader.read(createLine("A G/H C",null));
+    Song imported = textfileReader.read(createLine("A G/H C",null), new TextfileReaderParam());
     System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
@@ -242,7 +256,7 @@ public class TextfileReaderTest {
 
   @Test
   public void withoutChords () {
-    Song imported = textfileReader.read(createLine("Dies ist ein Test",null));
+    Song imported = textfileReader.read(createLine("Dies ist ein Test",null), new TextfileReaderParam());
     System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart = line.getLineParts().get(0);
@@ -255,7 +269,7 @@ public class TextfileReaderTest {
   @Test
   public void chordLongerThanText () {
     Song imported = textfileReader.read(createLine(      "F                          G  a  G/H",
-      "Und an Christus, Seinen Sohn"));
+      "Und an Christus, Seinen Sohn"),new TextfileReaderParam());
 
     //F                          G  a  G/H
     //Und an Christus, Seinen Sohn
@@ -285,7 +299,7 @@ public class TextfileReaderTest {
   @Test
   public void textLongerThanChord () {
     Song imported = textfileReader.read(createLine(      "F                          G",
-      "Und an Christus, Seinen Sohn"));
+      "Und an Christus, Seinen Sohn"), new TextfileReaderParam());
 
     //F
     //Und an Christus, Seinen Sohn
@@ -306,7 +320,7 @@ public class TextfileReaderTest {
   @Test
   public void chordStartsLater () {
     Song imported = textfileReader.read(createLine("       F                G",
-                                                                "Und an Christus, Seinen Sohn"));
+                                                                "Und an Christus, Seinen Sohn"), new TextfileReaderParam());
 
     //Und an Christus, Seinen Sohn
     System.out.println (imported);

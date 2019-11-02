@@ -22,7 +22,8 @@ public class TextfileReader {
       for (Chord nextChord: chords) {
         chordline.getLineParts().add(new LinePart(nextChord));
       }
-      songPart.getLines().add(chordline);
+      if (songPart != null)
+        songPart.getLines().add(chordline);
 
     }
 
@@ -30,7 +31,7 @@ public class TextfileReader {
 
   }
 
-  public Song read(List<String> lines) {
+  public Song read(List<String> lines, TextfileReaderParam textfileReaderParam) {
 
     Song song = new Song();
     HashMap<String, SongPart> createdParts = new HashMap<>();
@@ -40,8 +41,11 @@ public class TextfileReader {
     String currentChordLine = null;
     for (int linenumber = 0; linenumber < lines.size(); linenumber++) {
       String next = lines.get(linenumber);
-      if (next.trim().isEmpty())
+      if (next.trim().isEmpty()) {
+        if (textfileReaderParam.isEmptyLineIsNewPart())
+          currentSongPart = null;
         continue;
+      }
 
 
       SongPart newSongPart = findSongPart(createdParts, next); //Rest
@@ -50,9 +54,18 @@ public class TextfileReader {
         currentSongPart = newSongPart;
         song.getSongParts().add(currentSongPart);
         continue;
-      } else if (currentSongPart == null) { //Beginning: Title
-        song.setTitle(next.toUpperCase());
-        continue;
+      } else if (currentSongPart == null) {
+        if (song.getTitle() == null) { //No title set, seems to be title
+          song.setTitle(next.toUpperCase());
+          continue;
+        }
+        else { //part beginning without type
+          if (textfileReaderParam.isEmptyLineIsNewPart()) {
+            newSongPart = new SongPart();
+            currentSongPart = newSongPart;
+            song.getSongParts().add(currentSongPart);
+          }
+        }
       }
 
       //quantities removed and set at part
@@ -61,6 +74,9 @@ public class TextfileReader {
         currentSongPart.setQuantity(bracketContent.trim());
         next = next.replace("(" + bracketContent + ")", "");
       }
+
+      if (next.trim().isEmpty())
+        continue;
 
 
       if (isChordLine(next)) { //read chord line

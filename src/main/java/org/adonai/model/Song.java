@@ -19,6 +19,8 @@ public class Song extends AbstractSessionItem implements NamedElement{
   private List<Additional> additionals = new ArrayList<Additional>();
 
 
+  private Status status;
+
   private String currentKey;
 
   private String originalKey;
@@ -163,5 +165,13 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public void setLeadVoice(User leadVoice) {
     this.leadVoice = leadVoice;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
   }
 }

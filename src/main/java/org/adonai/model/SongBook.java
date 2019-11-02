@@ -31,6 +31,14 @@ public class SongBook {
     return null;
   }
 
+  public Song findSongByName(String name) {
+    for (Song next: songs) {
+      if (next.getName().equalsIgnoreCase(name))
+        return next;
+    }
+    return null;
+  }
+
   public File getFile() {
     return file;
   }

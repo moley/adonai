@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import org.adonai.reader.text.TextfileReaderParam;
 import org.adonai.ui.imports.SongImportController;
 import org.adonai.reader.text.TextfileReader;
 
@@ -35,7 +36,8 @@ public class ImportFromClipBoardPage extends WizardPage {
 
   void nextPage() {
     TextfileReader textfileReader = new TextfileReader();
-    controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n"))));
+    TextfileReaderParam param = new TextfileReaderParam();
+    controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n")), param));
     navTo(PreviewPage.TITLE);
   }
 }
