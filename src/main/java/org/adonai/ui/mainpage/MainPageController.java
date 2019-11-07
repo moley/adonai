@@ -19,6 +19,7 @@ import javafx.stage.WindowEvent;
 import org.adonai.actions.*;
 import org.adonai.actions.add.AddSongAction;
 import org.adonai.model.*;
+import org.adonai.online.DropboxAdapter;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
@@ -286,6 +287,30 @@ public class MainPageController {
       @Override
       public void handle(ActionEvent event) {
         configurationService.set(configuration);
+      }
+    });
+
+    //Button Backup
+    Button btnToCloud = new Button ();
+    btnToCloud.setGraphic(Consts.createImageView("backup", iconSizeToolbar));
+    tbaActions.getItems().add(btnToCloud);
+    btnToCloud.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        DropboxAdapter dropboxAdapter = new DropboxAdapter();
+        dropboxAdapter.upload(configurationService.getConfigFile());
+      }
+    });
+
+    //Button Recover
+    Button btnFromCloud = new Button ();
+    btnFromCloud.setGraphic(Consts.createImageView("recover", iconSizeToolbar));
+    tbaActions.getItems().add(btnFromCloud);
+    btnFromCloud.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        DropboxAdapter dropboxAdapter = new DropboxAdapter();
+        dropboxAdapter.download(configurationService.getConfigFile().getParentFile());
       }
     });
 

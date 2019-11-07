@@ -1,12 +1,10 @@
 package org.adonai.ui;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.io.File;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Created by OleyMa on 25.10.16.
@@ -20,8 +18,8 @@ public class Consts {
   public final static int ICON_SIZE_LARGE = 70;
 
   public final static int DEFAULT_LISTVIEW_WIDTH = 450;
-  public final static int DEFAULT_WIDTH = 1400;
-  public final static int DEFAULT_HEIGHT = 800;
+  public final static int DEFAULT_WIDTH = 1800;
+  public final static int DEFAULT_HEIGHT = 1200;
 
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
