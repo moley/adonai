@@ -5,6 +5,7 @@ import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.WriteMode;
 import com.dropbox.core.v2.users.FullAccount;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,7 @@ public class DropboxAdapter implements OnlineAdapter {
       FullAccount fullAccount = clientV2.users().getCurrentAccount();
 
       try (InputStream in = new FileInputStream(configFile)) {
-        FileMetadata metadata = clientV2.files().uploadBuilder("/" + configFile.getName()).uploadAndFinish(in);
+        FileMetadata metadata = clientV2.files().uploadBuilder("/" + configFile.getName()).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
         System.out.println (metadata.getId());
       } catch (FileNotFoundException e) {
         throw new IllegalStateException(e);
