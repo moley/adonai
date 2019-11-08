@@ -22,6 +22,7 @@ import org.adonai.model.*;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
+import org.adonai.services.RenumberService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
@@ -264,6 +265,9 @@ public class MainPageController {
       }
     });
 
+
+
+
     Button btnUserAdmin = new Button("Users");
     btnUserAdmin.setId("btnUserAdmin");
     btnUserAdmin.setGraphic(Consts.createImageView("user", iconSizeToolbar));
@@ -311,6 +315,18 @@ public class MainPageController {
       public void handle(ActionEvent event) {
         DropboxAdapter dropboxAdapter = new DropboxAdapter();
         dropboxAdapter.download(configurationService.getConfigFile().getParentFile());
+      }
+    });
+
+    Button btnRenumber = new Button ();
+    btnRenumber.setGraphic(Consts.createImageView("number", iconSizeToolbar));
+    tbaActions.getItems().add(btnRenumber);
+    btnRenumber.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        SongBook songBook = getCurrentSongBook();
+        RenumberService renumberService = new RenumberService();
+        renumberService.renumber(songBook);
       }
     });
 
