@@ -17,6 +17,9 @@
                 <VBox fx:id="panSongDetails">
                     <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
+                <VBox fx:id="panSessionDetails">
+                    <VBox.vgrow>ALWAYS</VBox.vgrow>
+                </VBox>
                 <ListView fx:id="lviSongs"/>
                 <ListView fx:id="lviSession"/>
                 <ListView fx:id="lviSessions"/>

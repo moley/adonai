@@ -1,9 +1,9 @@
 package org.adonai.actions;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.actions.openAdditionals.OpenAudioAction;
@@ -11,15 +11,10 @@ import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Song;
-import org.adonai.screens.ScreenManager;
 import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Logger;
 
 public class ConnectSongWithMp3Action {
 

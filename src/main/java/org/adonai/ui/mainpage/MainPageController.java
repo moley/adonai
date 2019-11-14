@@ -1,6 +1,8 @@
 package org.adonai.ui.mainpage;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -74,6 +76,9 @@ public class MainPageController {
   @FXML
   private VBox panSongDetails;
 
+  @FXML
+  private VBox panSessionDetails;
+
   private MainPageContent currentContent;
 
   @FXML
@@ -95,6 +100,8 @@ public class MainPageController {
 
   private Song currentSong = null;
 
+  private TextField txtSessionName = new TextField();
+
 
   public void initialize() {
     lviSongs.setCellFactory(new SongCellFactory());
@@ -103,6 +110,17 @@ public class MainPageController {
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
 
     panSongDetails.setBackground(Background.EMPTY);
+
+    panSessionDetails.setBackground(Background.EMPTY);
+
+    panSessionDetails.getChildren().add(txtSessionName);
+    panSessionDetails.getChildren().add(lviSession);
+
+    txtSessionName.textProperty().addListener(new ChangeListener<String>() {
+      @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        getCurrentSession().setName(newValue);
+      }
+    });
 
     configuration = configurationService.get();
     selectSongbook();
@@ -488,8 +506,10 @@ public class MainPageController {
     currentSong = null;
     currentSession = session;
 
+    txtSessionName.setText(session.getName());
+
     spDetails.getChildren().clear();
-    spDetails.getChildren().add(lviSession);
+    spDetails.getChildren().add(panSessionDetails);
     lviSession.requestFocus();
     lblCurrentEntity.setText("SESSION '" + currentSession.getName() + "'");
     refreshListViews(null);
