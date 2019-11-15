@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
@@ -12,7 +13,7 @@ import org.apache.commons.io.FileUtils;
 
 public class CreatePlaylistService {
 
-  public void create (final File file, final List<Song> songs) throws IOException {
+  public void create (final File file, final Collection<Song> songs) throws IOException {
 
     List<String> lines = new ArrayList<String>();
     lines.add("#EXTM3U");

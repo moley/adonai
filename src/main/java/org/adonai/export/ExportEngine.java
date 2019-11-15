@@ -197,7 +197,7 @@ public class ExportEngine {
 
   private String transposeChordOnDemand (LinePart linePart, Song song, ExportConfiguration mergedConfiguration) {
     Chord chord = new Chord(linePart.getChord());
-    if (mergedConfiguration.isWithTransposeInfo()) {
+    if (mergedConfiguration.isWithTransposeInfo() && song.getTransposeInfo() != null) {
       chord.transpose(song.getTransposeInfo());
       return chord.toString();
     }
