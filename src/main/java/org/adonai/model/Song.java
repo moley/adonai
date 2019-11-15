@@ -90,11 +90,6 @@ public class Song extends AbstractSessionItem implements NamedElement{
   public String toString () {
     String content = "";
     content += id + "-" + getTitle() + "\n";
-    for (SongPart next: songParts) {
-      content += next.toString();
-      content += "\n";
-    }
-
     return content;
   }
 

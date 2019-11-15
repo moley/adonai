@@ -1,6 +1,7 @@
 package org.adonai.actions;
 
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Control;
@@ -40,8 +41,8 @@ public class SelectAction<T> {
     if (cellFactory != null)
       controller.getLviSelectItems().setCellFactory(cellFactory);
 
+    controller.setFilteredData(new FilteredList<T>(FXCollections.observableArrayList(FXCollections.observableArrayList(objects)), s->true));
     controller.clearSelection();
-    controller.getLviSelectItems().setItems(FXCollections.observableArrayList(objects));
     controller.getLviSelectItems().getSelectionModel().selectFirst();
     controller.getLviSelectItems().getStyleClass().add("selectlist");
 

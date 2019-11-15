@@ -37,6 +37,6 @@ public class Session implements NamedElement {
   }
 
   public String toString () {
-    return getName() + " (" + songs.size() + " songs)";
+    return getName();
   }
 }
