@@ -5,6 +5,7 @@
     -fx-font-size: 20;
 }
 
+
 #songeditor {
     -fx-base: rgb(255, 255, 255);
     -fx-background: rgb(255, 255, 255);
@@ -19,10 +20,10 @@
 #texteditor {
     -fx-background: rgb(255, 255, 255);
     -fx-control-inner-background: rgb(255, 255, 255);
-    -fx-font-size: 20;
+    -fx-font-size: 14;
     -fx-font-family: monospaced;
     -fx-padding: 5 0 5 0;
-    -fx-border-width: 0px;
+    -fx-border-width: 1px;
     -fx-background-radius: 0, 0;
 
     -fx-background-insets: 0;
@@ -33,7 +34,7 @@
     -fx-background: rgb(255, 255, 255);
     -fx-text-inner-color: rgb(190, 190, 190);
     -fx-control-inner-background: rgb(255, 255, 255);
-    -fx-font-size: 20;
+    -fx-font-size: 14;
     -fx-font-family: monospaced;
     -fx-padding: 5 0 5 0;
     -fx-border-width: 0px;
@@ -47,7 +48,7 @@
 #chordeditor {
     -fx-background: rgb(255, 255, 255);
     -fx-control-inner-background:  rgb(255, 255, 255);
-    -fx-font-size: 15;
+    -fx-font-size: 12;
     -fx-font-family: monospaced;
 }
 

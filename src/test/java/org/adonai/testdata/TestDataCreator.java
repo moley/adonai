@@ -35,7 +35,17 @@ public class TestDataCreator {
     Configuration configuration = configurationService.get();
     configuration.getSongBooks().add(songBook);
 
+    User user1 = new User();
+    user1.setMail("user1@gmail.com");
+    user1.setUsername("user1");
+
+    User user2 = new User();
+    user2.setMail("user2@gmail.com");
+    user2.setUsername("user2");
+
     Song song1 = createSong("Song1");
+    song1.setPreset("preset");
+    song1.setLeadVoice(user1);
     Song song2 = createSong("Song2");
     Song song3 = createSong("Song3");
     Song song4 = createSong("Song4");
@@ -59,13 +69,7 @@ public class TestDataCreator {
     configuration.getSessions().add(session2);
 
 
-    User user1 = new User();
-    user1.setMail("user1@gmail.com");
-    user1.setUsername("user1");
 
-    User user2 = new User();
-    user2.setMail("user2@gmail.com");
-    user2.setUsername("user2");
 
     configuration.getUsers().addAll(Arrays.asList(user1, user2));
 

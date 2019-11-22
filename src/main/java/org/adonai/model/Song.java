@@ -29,6 +29,8 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   private User leadVoice;
 
+  private SimpleStringProperty presetProperty = new SimpleStringProperty();
+
   private SimpleStringProperty titleProperty = new SimpleStringProperty();
 
   public int getIndex (final SongPart songPart) {
@@ -168,5 +170,17 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public void setStatus(Status status) {
     this.status = status;
+  }
+
+  public String getPreset() {
+    return presetProperty.get();
+  }
+
+  public SimpleStringProperty presetProperty () {
+    return presetProperty;
+  }
+
+  public void setPreset(String preset) {
+    this.presetProperty.set(preset);
   }
 }

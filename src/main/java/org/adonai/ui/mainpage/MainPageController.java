@@ -536,7 +536,7 @@ public class MainPageController {
     spDetails.getChildren().clear();
     spDetails.getChildren().add(panSongDetails);
 
-    lblCurrentEntity.setText("SONG '" + currentSong.getName() + "'");
+    lblCurrentEntity.setText("SONG  " + currentSong.getId() + " '" + currentSong.getName() + "'");
 
 
     LOGGER.info("panSongDetails: " + panSongDetails.getWidth() + "-" + panSongDetails.getHeight());

@@ -1,17 +1,21 @@
-package org.adonai.ui.editor;
+package org.adonai.ui.editor2;
 
+import java.util.Optional;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import org.adonai.Key;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.User;
 import org.adonai.services.SongTransposeService;
-
-import java.util.Optional;
 
 public class SongDetailsController {
 
@@ -31,7 +35,6 @@ public class SongDetailsController {
 
   @FXML
   private TextField txtPreset;
-
 
 
 
