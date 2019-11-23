@@ -21,7 +21,6 @@ public class SongPartDetailsController {
 
   SongInfoService songInfoService = new SongInfoService();
 
-  private PartEditor partEditor;
   @FXML
   private ComboBox<SongPart> cboCopyExisting;
 
@@ -36,27 +35,20 @@ public class SongPartDetailsController {
 
 
 
-  public Song getCurrentSong () {
-    if (getPartEditor() == null && getPartEditor().getSongEditor() == null)
-      throw new IllegalStateException("Current part editor not set before initialization");
+  private Song currentSong;
 
-    return getPartEditor().getSongEditor().getSong();
-  }
-
-  public SongPart getCurrentPart () {
-    if (getPartEditor() == null)
-      throw new IllegalStateException("Current part editor not set before initialization");
-
-    return getPartEditor().getPart();
-  }
-
-  public void setPartEditor(PartEditor partEditor) {
-    this.partEditor = partEditor;
+  private SongPart currentSongPart;
 
 
 
 
-    SongPart songPart = getCurrentPart();
+
+
+  public void init() {
+
+
+
+    SongPart songPart = getCurrentSongPart();
     SongPart referencedPart = songPart.getReferencedSongPart() != null ? getCurrentSong().findSongPartByUUID(songPart.getReferencedSongPart()): null;
 
 
@@ -67,10 +59,10 @@ public class SongPartDetailsController {
     if (getCurrentSong() == null)
       throw new IllegalStateException("Current song not set before initialization");
 
-    if (getCurrentPart() == null)
+    if (getCurrentSongPart() == null)
       throw new IllegalStateException("Current part not set before initialization");
 
-    Collection<SongPart> songpartsWithoutCurrent = songInfoService.getRealSongPartsWithoutCurrent(getCurrentSong(), getCurrentPart());
+    Collection<SongPart> songpartsWithoutCurrent = songInfoService.getRealSongPartsWithoutCurrent(getCurrentSong(), getCurrentSongPart());
     cboCopyExisting.setItems(FXCollections.observableArrayList(songpartsWithoutCurrent));
     SongPartCellFactory songPartCellFactory = new SongPartCellFactory(getCurrentSong());
     cboCopyExisting.setCellFactory(songPartCellFactory);
@@ -119,7 +111,20 @@ public class SongPartDetailsController {
 
   }
 
-  public PartEditor getPartEditor() {
-    return partEditor;
+  public Song getCurrentSong() {
+    return currentSong;
   }
+
+  public void setCurrentSong(Song currentSong) {
+    this.currentSong = currentSong;
+  }
+
+  public SongPart getCurrentSongPart() {
+    return currentSongPart;
+  }
+
+  public void setCurrentSongPart(SongPart currentSongPart) {
+    this.currentSongPart = currentSongPart;
+  }
+
 }

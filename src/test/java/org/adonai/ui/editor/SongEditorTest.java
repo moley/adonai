@@ -1,6 +1,5 @@
 package org.adonai.ui.editor;
 
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -9,9 +8,7 @@ import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.SongTestData;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Song;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SongEditorTest extends AbstractAdonaiUiTest {

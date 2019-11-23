@@ -25,6 +25,9 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 dependencies {
+  compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
+  compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
+  compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
   compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
   compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
   compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export

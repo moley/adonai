@@ -19,8 +19,6 @@ import org.adonai.services.SongTransposeService;
 
 public class SongDetailsController {
 
-
-  private PartEditor partEditor;
   @FXML
   private ComboBox<Key> cboCurrentKey;
 
@@ -36,14 +34,35 @@ public class SongDetailsController {
   @FXML
   private TextField txtPreset;
 
+  @FXML
+  private TextField txtTitle;
+
+
+  private Song currentSong;
+
+
+  private Configuration configuration;
+
+  public Configuration getConfiguration() {
+    return configuration;
+  }
+
+  public void setConfiguration(Configuration configuration) {
+    this.configuration = configuration;
+  }
+
+
+  public Song getCurrentSong() {
+    return currentSong;
+  }
+
+  public void setCurrentSong(Song currentSong) {
+    this.currentSong = currentSong;
+  }
 
 
 
-  public void setPartEditor(PartEditor partEditor) {
-    this.partEditor = partEditor;
-
-    Song currentSong = partEditor.getSongEditor().getSong();
-    Configuration configuration = partEditor.getSongEditor().getConfiguration();
+  public void init() {
 
     cboCurrentKey.setItems(FXCollections.observableArrayList(Key.values()));
 
@@ -52,6 +71,7 @@ public class SongDetailsController {
     cboLeadVoice.setItems(FXCollections.observableArrayList(configuration.getUsers()));
 
     txtPreset.textProperty().bindBidirectional(currentSong.presetProperty());
+    txtTitle.textProperty().bindBidirectional(currentSong.titleProperty());
 
     //set transpose info: negative value is needed when using capo
     int initialValue = currentSong.getTransposeInfo() != null ? currentSong.getTransposeInfo(): 0;

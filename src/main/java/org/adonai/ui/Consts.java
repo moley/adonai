@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
  * Created by OleyMa on 25.10.16.
@@ -13,6 +14,7 @@ public class Consts {
 
   private static final Logger LOGGER = Logger.getLogger(Consts.class.getName());
 
+  public final static int ICON_SIZE_VERY_SMALL = 20;
   public final static int ICON_SIZE_SMALL = 30;
   public final static int ICON_SIZE_MEDIUM = 50;
   public final static int ICON_SIZE_LARGE = 70;
@@ -33,6 +35,12 @@ public class Consts {
   public final static ImageView createImageView (final String name, int iconSize) {
     ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
     return imageView;
+  }
+
+  public final static FontIcon createIcon (String name, int iconSize) {
+    FontIcon fontIcon =  new FontIcon(name);
+    fontIcon.setIconSize(iconSize);
+    return fontIcon;
   }
 
   public final static Image createImage (String name, int iconSize) {

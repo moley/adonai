@@ -75,12 +75,18 @@
     -fx-font-family: monospaced;
 }
 
+
 .button {
     -fx-background-color: transparent;
     -fx-border-color: rgb(170, 170, 140);
     -fx-text-fill: black;
-    margin: 30px;
+    margin: 10px;
     -fx-border-radius: 90%;
+}
+
+#songtitle {
+    -fx-background-color: rgb(200, 200, 200);
+    -fx-text-fill: rgb(50, 50, 50);
 }
 
 #partmarker {
@@ -110,6 +116,10 @@
 .selectlist .scroll-bar:vertical .increment-button,
 .selectlist .scroll-bar:vertical .decrement-button {
     -fx-padding: 0px;
+}
+
+.vertical {
+   -fx-rotate: -90;
 }
 
 .selectlist .scroll-bar:vertical {

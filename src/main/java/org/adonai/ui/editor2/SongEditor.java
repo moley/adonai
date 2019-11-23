@@ -1,40 +1,44 @@
 package org.adonai.ui.editor2;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.stage.WindowEvent;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
-import org.adonai.model.SongPartType;
 import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongInfoService;
 import org.adonai.ui.Consts;
+import org.controlsfx.control.PopOver;
 
 /**
  * Created by OleyMa on 22.11.16.
@@ -43,11 +47,9 @@ public class SongEditor extends PanelHolder {
 
   private Song song;
 
-  private VBox content = new VBox(30);
+  private VBox content = new VBox(5); //spacing between parts
 
   private List<PartEditor> partEditors = new ArrayList<>();
-
-  private HashMap<SongPartType, Color> colorMap = new HashMap<SongPartType, Color>();
 
   private ContextMenu contextMenu = new ContextMenu();
 
@@ -56,7 +58,12 @@ public class SongEditor extends PanelHolder {
   private RemovePartService removePartService = new RemovePartService();
 
   private SongInfoService songInfoService = new SongInfoService();
-  private TextField txtTitle = new TextField();
+
+  private Label lblIdAndTitle = new Label();
+
+  private ToolBar tbaActions = new ToolBar();
+
+  private HBox header = new HBox();
 
   private Configuration configuration;
 
@@ -64,17 +71,37 @@ public class SongEditor extends PanelHolder {
     this.configuration = configuration;
     this.song = song;
 
-    colorMap.put(SongPartType.REFRAIN, Color.DARKBLUE);
-    colorMap.put(SongPartType.VERS, Color.DARKRED);
-    colorMap.put(SongPartType.INSTRUMENTAL, Color.DARKGRAY);
-    colorMap.put(SongPartType.BRIDGE, Color.DARKGRAY);
-    colorMap.put(SongPartType.INTRO, Color.DARKGRAY);
-    colorMap.put(SongPartType.ZWISCHENSPIEL, Color.DARKGRAY);
-
-    txtTitle.textProperty().bindBidirectional(song.titleProperty());
     setIndex("songeditor");
 
+    Button btnSongInfo = new Button();
+    btnSongInfo.setTooltip(new Tooltip("Edit song informations"));
+    btnSongInfo.setGraphic(Consts.createIcon("fa-cogs", Consts.ICON_SIZE_VERY_SMALL));
+    btnSongInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) {
 
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/screens/editor2/songdetails.fxml"));
+        try {
+          Parent songpartDetailsRoot = fxmlLoader.load();
+          SongDetailsController songDetailsController = fxmlLoader.getController();
+          songDetailsController.setCurrentSong(song);
+          songDetailsController.setConfiguration(configuration);
+          songDetailsController.init();
+          PopOver popOver = new PopOver(songpartDetailsRoot);
+          popOver.setOnHiding(new EventHandler<WindowEvent>() {
+            @Override public void handle(WindowEvent event) {
+              System.out.println("Reloading...");
+              reloadDetail();
+            }
+          });
+          popOver.show(btnSongInfo);
+
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+
+      }
+    });
+    tbaActions.getItems().add(btnSongInfo);
 
     BorderPane root = new BorderPane();
     setPanel(root);
@@ -84,25 +111,28 @@ public class SongEditor extends PanelHolder {
     content.setPadding(new Insets(5, 10, 5, 10));
     scrollPane.setContent(content);
     root.setId("songeditor");
-    scrollPane.setPrefWidth(Consts.DEFAULT_WIDTH - Consts.DEFAULT_LISTVIEW_WIDTH);
-    txtTitle.setId("songtitle");
+
+    //scrollPane.setPrefWidth(Consts.DEFAULT_WIDTH - Consts.DEFAULT_LISTVIEW_WIDTH);
+
+    lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle());
+
+    HBox.setMargin(lblIdAndTitle, new Insets(3, 100, 0, 10));
+    Region region = new Region();
+    HBox.setHgrow(region, Priority.ALWAYS);
+    header.getChildren().add(lblIdAndTitle);
+    header.getChildren().add(region);
+    header.getChildren().add(tbaActions);
+    header.setId("songtitle");
 
     root.setCenter(scrollPane);
-    root.setTop(txtTitle);
+    root.setTop(header);
 
     root.setPrefWidth(Double.MAX_VALUE);
-
-    txtTitle.textProperty().addListener((ov, oldValue, newValue) -> {
-      txtTitle.setText(newValue.toUpperCase());
-    });
-
-
 
     MenuItem menuItemAddPartBefore = new MenuItem("Add part before");
     menuItemAddPartBefore.setId("menuitemAddPartBefore");
     menuItemAddPartBefore.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
+      @Override public void handle(ActionEvent event) {
         SongPart focusedSongPart = addPartService.addPartBefore(getSongCursor());
         reload().focus(focusedSongPart);
       }
@@ -111,8 +141,7 @@ public class SongEditor extends PanelHolder {
     MenuItem menuItemRemovePart = new MenuItem("Remove");
     menuItemRemovePart.setId("menuItemRemovePart");
     menuItemRemovePart.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
+      @Override public void handle(ActionEvent event) {
         SongPart focusedSongPart = removePartService.removePart(getSongCursor());
         reload().focus(focusedSongPart);
       }
@@ -121,22 +150,18 @@ public class SongEditor extends PanelHolder {
     MenuItem menuItemAddPartAfter = new MenuItem("Add part after");
     menuItemAddPartAfter.setId("menuitemAddPartAfter");
     menuItemAddPartAfter.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
+      @Override public void handle(ActionEvent event) {
         SongPart focusedSongPart = addPartService.addPartAfter(getSongCursor());
         reload().focus(focusedSongPart);
 
       }
     });
 
-
     contextMenu.getItems().add(menuItemAddPartBefore);
     contextMenu.getItems().add(menuItemRemovePart);
     contextMenu.getItems().add(menuItemAddPartAfter);
 
-
     reload();
-
 
     //if (currentPartEditor != null)
     //  currentPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
@@ -155,36 +180,34 @@ public class SongEditor extends PanelHolder {
 
   public void focus(SongPart songPart) {
 
-
   }
 
   public LinePartEditor getPartEditor(LinePart linePart) {
-    throw new IllegalStateException("NYI");
-    /**for (LineEditor nextLineEditor : currentPartEditor.getLineEditors()) {
-      for (LinePartEditor nexLinePartEditor : nextLineEditor.getLinePartEditors()) {
-        if (nexLinePartEditor.getLinePart().equals(linePart)) {
-          System.out.println ("Focus txtfield of " + nexLinePartEditor.getLinePart().getText());
-          return nexLinePartEditor;
+
+    for (PartEditor nextPartEditor : partEditors) {
+      for (LineEditor nextLineEditor : nextPartEditor.getLineEditors()) {
+        for (LinePartEditor nexLinePartEditor : nextLineEditor.getLinePartEditors()) {
+          if (nexLinePartEditor.getLinePart().equals(linePart)) {
+            System.out.println("Focus txtfield of " + nexLinePartEditor.getLinePart().getText());
+            return nexLinePartEditor;
+          }
         }
       }
     }
-    throw new IllegalStateException("Did not find editor for linepart " + linePart);**/
+    throw new IllegalStateException("Did not find editor for linepart " + linePart);
 
   }
 
   public void reloadDetail() {
     content.getChildren().clear();
 
-    for (SongPart next: song.getSongParts()) {
+    partEditors.clear();
+
+    for (SongPart next : song.getSongParts()) {
       PartEditor currentPartEditor = new PartEditor(this, next, next.getReferencedSongPart() == null);
+      partEditors.add(currentPartEditor);
       content.getChildren().add(currentPartEditor.getPanel());
     }
-
-    /**SongPart selectedSongPart = partStructure.getSelectionModel().getSelectedItem();
-    if (selectedSongPart != null) {
-      currentPartEditor = new PartEditor(this, selectedSongPart, selectedSongPart.getReferencedSongPart() == null);
-      content.getChildren().add(currentPartEditor.getPanel());
-    }**/
 
   }
 
@@ -193,7 +216,6 @@ public class SongEditor extends PanelHolder {
     reloadDetail();
     return this;
   }
-
 
   public Song getSong() {
     return song;
@@ -209,21 +231,6 @@ public class SongEditor extends PanelHolder {
     //return currentPartEditor.hasChanged();
   }
 
-  public Color getColorForPart(SongPart songPart) {
-
-    Color color = null;
-    if (songPart != null && songPart.getSongPartType() != null) {
-      color = colorMap.get(songPart.getSongPartType());
-      System.out.println("Determined color " + color + " for type " + songPart.getSongPartType());
-    }
-    if (color == null)
-      color = Color.BLACK;
-
-
-    return color;
-  }
-
-
   public void log() {
     System.out.println("After save:" + song.toString());
   }
@@ -231,7 +238,6 @@ public class SongEditor extends PanelHolder {
   public Configuration getConfiguration() {
     return configuration;
   }
-
 
   private class SongPartCell extends ListCell<SongPart> {
 
@@ -252,8 +258,7 @@ public class SongEditor extends PanelHolder {
       });
 
       setOnDragOver(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
+        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
           event.acceptTransferModes(TransferMode.MOVE);
         }
 
@@ -261,15 +266,13 @@ public class SongEditor extends PanelHolder {
       });
 
       setOnDragEntered(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
+        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
           setOpacity(0.3);
         }
       });
 
       setOnDragExited(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
+        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
           setOpacity(1);
         }
       });
@@ -317,15 +320,13 @@ public class SongEditor extends PanelHolder {
       setOnDragDone(DragEvent::consume);
     }
 
-    @Override
-    protected void updateItem(SongPart item, boolean empty) {
+    @Override protected void updateItem(SongPart item, boolean empty) {
 
       super.updateItem(item, empty);
 
       if (item != null) {
         setText(songInfoService.getPreview(song, item));
-      }
-      else
+      } else
         setText(null);
 
     }

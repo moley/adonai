@@ -1,9 +1,12 @@
 package org.adonai;
 
+import java.io.File;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.adonai.model.*;
 import org.adonai.ui.Consts;
 import org.adonai.ui.editor2.SongEditor;
@@ -29,6 +32,8 @@ public class SongEditorStarter extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+      File tmpConfig = new File("build/config.xml");
+
       ConfigurationService configurationService = new ConfigurationService();
       Configuration configuration = configurationService.get();
       SongBook songBook = configuration.getSongBooks().get(0);
@@ -46,6 +51,16 @@ public class SongEditorStarter extends Application {
       primaryStage.setScene(scene);
 
       primaryStage.show();
+
+      primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
+        @Override public void handle(WindowEvent event) {
+          configurationService.setConfigFile(tmpConfig);
+          configurationService.save();
+
+          System.out.println ("Save in " + configurationService.getConfigFile().getAbsolutePath());
+
+        }
+      });
 
 
     }

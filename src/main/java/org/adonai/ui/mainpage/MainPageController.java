@@ -29,7 +29,7 @@ import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
-import org.adonai.ui.editor.SongEditor;
+import org.adonai.ui.editor2.SongEditor;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -134,7 +134,8 @@ public class MainPageController {
 
     //Button Plus
     Button btnAdd = new Button();
-    btnAdd.setGraphic(Consts.createImageView("plus", iconSizeToolbar));
+    btnAdd.setTooltip(new Tooltip("Add new item"));
+    btnAdd.setGraphic(Consts.createIcon("fa-plus", iconSizeToolbar));
     btnAdd.setId("btnPlus");
     tbaActions.getItems().add(btnAdd);
     btnAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -211,7 +212,8 @@ public class MainPageController {
     //Button Minus
     Button btnRemove = new Button();
     btnRemove.setId("btnMinus");
-    btnRemove.setGraphic(Consts.createImageView("minus", iconSizeToolbar));
+    btnRemove.setTooltip(new Tooltip("Remove selected item"));
+    btnRemove.setGraphic(Consts.createIcon("fa-minus", iconSizeToolbar));
     tbaActions.getItems().add(btnRemove);
     btnRemove.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -237,8 +239,10 @@ public class MainPageController {
     });
     tbaActions.getItems().add(new Separator());
     Button btnMp3 = new Button();
+    btnMp3.setTooltip(new Tooltip("Attach mp3 file to the song"));
     btnMp3.setId("btnMp3");
-    btnMp3.setGraphic(Consts.createImageView(AdditionalType.AUDIO.name().toLowerCase(), iconSizeToolbar));
+    btnMp3.setText("Mp3");
+    btnMp3.setGraphic(Consts.createIcon(AdditionalType.AUDIO.getIconName(), iconSizeToolbar));
     tbaActions.getItems().add(btnMp3);
     btnMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -272,8 +276,9 @@ public class MainPageController {
 
     //Button Export transposed
     Button btnExportWithoutChords = new Button ("Export");
+    btnExportWithoutChords.setTooltip(new Tooltip("Export to pdf"));
     btnExportWithoutChords.setId("btnExportWithoutChords");
-    btnExportWithoutChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
+    btnExportWithoutChords.setGraphic(Consts.createIcon("fa-desktop", iconSizeToolbar));
     tbaActions.getItems().add(btnExportWithoutChords);
     btnExportWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -287,8 +292,9 @@ public class MainPageController {
 
 
     Button btnUserAdmin = new Button("Users");
+    btnUserAdmin.setTooltip(new Tooltip("Administrate all users"));
     btnUserAdmin.setId("btnUserAdmin");
-    btnUserAdmin.setGraphic(Consts.createImageView("user", iconSizeToolbar));
+    btnUserAdmin.setGraphic(Consts.createIcon("fa-user", iconSizeToolbar));
     tbaActions.getItems().add(btnUserAdmin);
     btnUserAdmin.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -303,7 +309,10 @@ public class MainPageController {
 
     //Button Save
     Button btnSave = new Button ();
-    btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
+    btnSave.setTooltip(new Tooltip("Save all data"));
+    btnSave.setGraphic(Consts.createIcon("fa-save", iconSizeToolbar));
+    //btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
+
     tbaActions.getItems().add(btnSave);
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -314,7 +323,8 @@ public class MainPageController {
 
     //Button Backup
     Button btnToCloud = new Button ();
-    btnToCloud.setGraphic(Consts.createImageView("backup", iconSizeToolbar));
+    btnToCloud.setTooltip(new Tooltip("Upload data to dropbox"));
+    btnToCloud.setGraphic(Consts.createIcon("fa-cloud-upload", iconSizeToolbar));
     tbaActions.getItems().add(btnToCloud);
     btnToCloud.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -326,7 +336,8 @@ public class MainPageController {
 
     //Button Recover
     Button btnFromCloud = new Button ();
-    btnFromCloud.setGraphic(Consts.createImageView("recover", iconSizeToolbar));
+    btnFromCloud.setTooltip(new Tooltip("Download data from dropbox"));
+    btnFromCloud.setGraphic(Consts.createIcon("fa-cloud-download", iconSizeToolbar));
     tbaActions.getItems().add(btnFromCloud);
     btnFromCloud.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -337,7 +348,8 @@ public class MainPageController {
     });
 
     Button btnRenumber = new Button ();
-    btnRenumber.setGraphic(Consts.createImageView("number", iconSizeToolbar));
+    btnRenumber.setTooltip(new Tooltip("Reindex the id's of all songs (1,2,3,4...)"));
+    btnRenumber.setGraphic(Consts.createIcon("fa-sort-numeric-asc", iconSizeToolbar));
     tbaActions.getItems().add(btnRenumber);
     btnRenumber.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -351,7 +363,9 @@ public class MainPageController {
 
     //Button Configurations
     Button btnConfigurations = new Button();
-    btnConfigurations.setGraphic(Consts.createImageView("settings", iconSizeToolbar));
+    btnConfigurations.setTooltip(new Tooltip("Configure adonai"));
+
+    btnConfigurations.setGraphic(Consts.createIcon("fa-wrench", iconSizeToolbar));
     tbaActions.getItems().add(btnConfigurations);
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -371,7 +385,9 @@ public class MainPageController {
 
     //Button Exit
     Button btnExit = new Button();
-    btnExit.setGraphic(Consts.createImageView("exit", iconSizeToolbar));
+    btnExit.setTooltip(new Tooltip("Exit adonai"));
+
+    btnExit.setGraphic(Consts.createIcon("fa-power-off", iconSizeToolbar));
     tbaActions.getItems().add(btnExit);
     btnExit.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -527,8 +543,8 @@ public class MainPageController {
     songEditorPanel.setVisible(true);
 
     VBox.setVgrow(songEditorPanel, Priority.ALWAYS);
-    songEditorPanel.setStyle("-fx-background-color: #000000;");
-    panSongDetails.setStyle("-fx-background-color: #000000;");
+    //songEditorPanel.setStyle("-fx-background-color: #000000;");
+    //panSongDetails.setStyle("-fx-background-color: #000000;");
     panSongDetails.getChildren().clear();
     panSongDetails.getChildren().add(songEditorPanel);
     panSongDetails.toFront();
