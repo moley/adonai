@@ -1,22 +1,32 @@
-package org.adonai.ui.editor;
-
-import org.adonai.additionals.AdditionalsImporter;
-import org.adonai.model.*;
-import org.adonai.ui.mainpage.MainPageController;
+package org.adonai.services;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
+import org.adonai.Key;
+import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.model.Additional;
+import org.adonai.model.AdditionalType;
+import org.adonai.model.Line;
+import org.adonai.model.LinePart;
+import org.adonai.model.Song;
+import org.adonai.model.SongPart;
 
 public class SongRepairer {
 
   private static final Logger LOGGER = Logger.getLogger(SongRepairer.class.getName());
 
   private AdditionalsImporter additionalsImporter = new AdditionalsImporter();
+  private SongTransposeService songTransposeService = new SongTransposeService();
 
   public void repairSong(final Song song) {
+
+    Key currentKey = song.getCurrentKey() != null ? Key.fromString(song.getCurrentKey()): null;
+    Key originKey = song.getOriginalKey() != null ? Key.fromString(song.getOriginalKey()): null;
+
+
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
     for (SongPart nextPart : song.getSongParts()) {
 
@@ -32,8 +42,25 @@ public class SongRepairer {
         Collection<LinePart> emptyLineParts = new ArrayList<LinePart>();
 
         for (LinePart nextLinePart : line.getLineParts()) {
+
+          if (nextLinePart.getChord() != null && nextLinePart.getChord().trim().isEmpty())
+            nextLinePart.setChord(null);
+
+          if (nextLinePart.getOriginalChord() != null && nextLinePart.getOriginalChord().trim().isEmpty())
+            nextLinePart.setOriginalChord(null);
+
           if (nextLinePart.getChord() == null && nextLinePart.getText() == null)
             emptyLineParts.add(nextLinePart);
+
+
+
+
+          try {
+            songTransposeService.transpose(nextLinePart, originKey, currentKey);
+          } catch (Exception e) {
+            throw new IllegalStateException("Error repairing chord in linepart " + nextLinePart + " in song " + song.getId());
+
+          }
           //TODO further checks
 
         }

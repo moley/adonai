@@ -60,9 +60,16 @@ public class PartEditor extends PanelHolder {
   }
 
   private void reloadTitle () {
-    label.setText(part.getSongPartTypeLabel());
-    String color = songPartColorMap.getColorForPart(part);
-    String colorSelected = songPartColorMap.getColorSelectedForPart(part);
+    boolean isRef = part.getReferencedSongPart() != null;
+    String type = getShownPart().getSongPartTypeLabel();
+
+    if (isRef)
+      label.setGraphic(Consts.createIcon("fa-external-link", Consts.ICON_SIZE_VERY_SMALL));
+
+    label.setText(type);
+
+    String color = songPartColorMap.getColorForPart(getShownPart());
+    String colorSelected = songPartColorMap.getColorSelectedForPart(getShownPart());
     titledPane.setStyle("-fx-color: " + color + "; -fx-focus-color: " + colorSelected );
   }
 
@@ -163,6 +170,10 @@ public class PartEditor extends PanelHolder {
       }
     });
 
+    contentPane.setPadding(new Insets(20, 5, 20, 5));
+    contentPane.setId("parteditorcontentPane");
+    contentPane.setFillWidth(true);
+
     Button btnMoveDown = new Button();
     btnMoveDown.setGraphic(Consts.createIcon("fa-angle-down", Consts.ICON_SIZE_VERY_SMALL));
 
@@ -209,15 +220,20 @@ public class PartEditor extends PanelHolder {
 
   }
 
-  public void reload() {
-    contentPane.getChildren().clear();
-
+  private SongPart getShownPart () {
     SongPart shownPart = part;
     if (part.getReferencedSongPart() != null)
       shownPart = songEditor.getSong().findSongPartByUUID(part.getReferencedSongPart());
+    return shownPart;
+  }
+
+  public void reload() {
+    contentPane.getChildren().clear();
+
+
 
     int index = 0;
-    for (Line nextLine : shownPart.getLines()) {
+    for (Line nextLine : getShownPart().getLines()) {
       LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, "editor_" + index++);
       lineEditors.add(lineEditor);
       contentPane.getChildren().add(lineEditor.getPanel());

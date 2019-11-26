@@ -10,6 +10,33 @@ public class SongTransposeService {
 
   private KeyManager manager = new KeyManager();
 
+  public void transpose (final LinePart linePart, final Key from, final Key to) {
+    if (from == null || to == null)
+      return;
+
+    Note noteFrom = Note.from(from);
+    Note noteTo = Note.from(to);
+
+    int fromIndex = noteFrom.ordinal();
+    int toIndex = noteTo.ordinal();
+
+    int diff = toIndex - fromIndex;
+
+    NoteEntryType noteEntryType = manager.getType(to);
+
+    if (linePart.getChord() != null && linePart.getOriginalChord() == null) {
+      Chord nextChord = new Chord(linePart.getChord());
+      nextChord.transpose(- diff, noteEntryType);
+      linePart.setOriginalChord(nextChord.toString());
+    }
+    if (linePart.getChord() == null && linePart.getOriginalChord() != null) {
+      Chord nextChord = new Chord(linePart.getOriginalChord());
+      nextChord.transpose(diff, noteEntryType);
+      linePart.setChord(nextChord.toString());
+    }
+
+  }
+
   public void transpose (final Song song, final Key from, final Key to) {
 
     Note noteFrom = Note.from(from);
@@ -31,8 +58,6 @@ public class SongTransposeService {
             Chord nextChord = new Chord(nextLinePart.getChord());
             nextChord.transpose(diff, noteEntryType);
             nextLinePart.setChord(nextChord.toString());
-
-
           }
 
         }

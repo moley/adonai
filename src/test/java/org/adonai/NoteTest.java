@@ -25,4 +25,11 @@ public class NoteTest {
       last = next;
     }
   }
+
+  @Test
+  public void fis () {
+    Key key = Key.Fis;
+    Note note = Note.from(key);
+
+  }
 }

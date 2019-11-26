@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.adonai.model.ConfigurationService;
-import org.adonai.ui.editor.SongEditor;
+import org.adonai.ui.editor2.SongEditor;
 import org.adonai.ui.imports.SongImportController;
 
 public class PreviewPage extends WizardPage {

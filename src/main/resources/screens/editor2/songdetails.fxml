@@ -22,9 +22,6 @@
     <ComboBox fx:id="cboOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="2" GridPane.fillWidth="true"/>
 
-    <Label text="Transpose info" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <Spinner fx:id="spTransposeInfo" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="3" GridPane.fillWidth="true"/>
 
     <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
     <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"

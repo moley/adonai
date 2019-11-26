@@ -58,14 +58,6 @@ public class ExportEngine {
         realKey = realKey != null ? "(" + realKey + ")": "";
         String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + realKey;
 
-        if (exportConfiguration.isWithTransposeInfo() && nextSong.getTransposeInfo() != null) {
-
-           if (nextSong.getTransposeInfo() < 0)
-              idAndTitle += " (capo on " + Math.abs(nextSong.getTransposeInfo()) + ".fret)";
-           else
-             throw new IllegalStateException("Positive transposeinfo not yet supported");
-
-        }
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
         documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
@@ -197,12 +189,7 @@ public class ExportEngine {
 
   private String transposeChordOnDemand (LinePart linePart, Song song, ExportConfiguration mergedConfiguration) {
     Chord chord = new Chord(linePart.getChord());
-    if (mergedConfiguration.isWithTransposeInfo() && song.getTransposeInfo() != null) {
-      chord.transpose(song.getTransposeInfo());
-      return chord.toString();
-    }
-    else
-      return chord.toString();
+    return chord.toString();
   }
 
   /**

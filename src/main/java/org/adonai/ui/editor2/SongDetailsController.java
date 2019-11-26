@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import org.adonai.Key;
 import org.adonai.model.Configuration;
@@ -25,8 +23,6 @@ public class SongDetailsController {
   @FXML
   private ComboBox<Key> cboOriginalKey;
 
-  @FXML
-  private Spinner<Integer> spTransposeInfo;
 
   @FXML
   private ComboBox<User> cboLeadVoice;
@@ -73,10 +69,6 @@ public class SongDetailsController {
     txtPreset.textProperty().bindBidirectional(currentSong.presetProperty());
     txtTitle.textProperty().bindBidirectional(currentSong.titleProperty());
 
-    //set transpose info: negative value is needed when using capo
-    int initialValue = currentSong.getTransposeInfo() != null ? currentSong.getTransposeInfo(): 0;
-    spTransposeInfo.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(-8, 8, initialValue));
-
     //set lead voice
     if (currentSong.getLeadVoice() != null) {
       cboLeadVoice.getSelectionModel().select(currentSong.getLeadVoice());
@@ -106,13 +98,6 @@ public class SongDetailsController {
     }
     else
       cboOriginalKey.getSelectionModel().clearSelection();
-
-    spTransposeInfo.valueProperty().addListener(new ChangeListener<Integer>() {
-      @Override
-      public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-        currentSong.setTransposeInfo(newValue);
-      }
-    });
 
     //save original key listener
     cboOriginalKey.valueProperty().addListener(new ChangeListener<Key>() {

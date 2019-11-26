@@ -45,8 +45,8 @@ public class MainPageController {
   @FXML
   private ToolBar tbLeft;
 
-  @FXML
-  private ToolBar tbRight;
+  //@FXML
+  //private ToolBar tbRight;
 
 
   @FXML
@@ -130,7 +130,7 @@ public class MainPageController {
     lviSongs.toFront();
 
     tbLeft.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbLeft.prefWidthProperty()));
-    tbRight.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbRight.prefWidthProperty()));
+    //tbRight.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbRight.prefWidthProperty()));
 
     //Button Plus
     Button btnAdd = new Button();
@@ -284,7 +284,7 @@ public class MainPageController {
       @Override
       public void handle(ActionEvent event) {
         ExportAction exportAction = new ExportAction();
-        exportAction.export(configuration, getCurrentSongs(), getExportName(), true);
+        exportAction.export(configuration, getCurrentSongs(), getExportName());
       }
     });
 

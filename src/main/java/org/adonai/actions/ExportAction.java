@@ -26,8 +26,7 @@ public class ExportAction {
 
 
   public void export (Configuration configuration, Collection<Song> songs,
-                      String name,
-                      boolean withTransposeInfo) {
+                      String name) {
     PdfExporter writer = new PdfExporter();
 
     File exportPath = new File (configuration.getExportPathAsFile(), name);
@@ -44,7 +43,6 @@ public class ExportAction {
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
     exportConfiguration.setWithContentPage(true);
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setWithTransposeInfo(withTransposeInfo);
     exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setStructureDistance(new Double(5));
@@ -63,7 +61,6 @@ public class ExportAction {
     ExportConfiguration exportConfigurationNoChords = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
     exportConfigurationNoChords.setWithContentPage(true);
     exportConfigurationNoChords.setWithChords(false);
-    exportConfigurationNoChords.setWithTransposeInfo(withTransposeInfo);
     exportConfigurationNoChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     exportConfigurationNoChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfigurationNoChords.setStructureDistance(new Double(5));

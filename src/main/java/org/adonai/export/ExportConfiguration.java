@@ -18,8 +18,6 @@ public class ExportConfiguration {
 
   private Boolean defaultConfiguration = Boolean.FALSE;
 
-  private SimpleBooleanProperty withTransposeInfo = new SimpleBooleanProperty(false);
-
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withPartType = new SimpleBooleanProperty(false);
@@ -67,11 +65,6 @@ public class ExportConfiguration {
     this.newPageStrategy = newPageStrategy;
   }
 
-
-  // with transpose info
-  public Boolean isWithTransposeInfo () { return withTransposeInfo.get(); }
-  public SimpleBooleanProperty withTransposeInfoProperty () { return withTransposeInfo;}
-  public void setWithTransposeInfo (final Boolean withTransposeInfo) {this.withTransposeInfo.set(withTransposeInfo);}
 
   //// with content page
   public Boolean isWithContentPage () {

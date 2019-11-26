@@ -1,89 +1,90 @@
 buildscript {
-  repositories {
-    mavenCentral()
-  }
+    repositories {
+        mavenCentral()
+    }
 }
 
 plugins {
-  id 'org.unbroken-dome.xjc' version '1.4.1'
-  id 'java'
-  id 'application'
-  id 'jacoco'
-  id 'org.openjfx.javafxplugin' version '0.0.6'
+    id 'org.unbroken-dome.xjc' version '1.4.1'
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id 'org.openjfx.javafxplugin' version '0.0.6'
 }
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 javafx {
-  modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing']
-  version = "12-ea+8"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing']
+    version = "12-ea+8"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 dependencies {
-  compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
-  compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
-  compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
-  compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
-  compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
-  compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
-  compile 'com.lowagie:itext:2.1.3'  //pdf export
-  compile 'commons-io:commons-io:2.5'
-  compile 'com.googlecode.soundlibs:jlayer:1.0.1.4'
-  compile 'com.mpatric:mp3agic:0.8.4'
-  compile 'org.jfxtras:jfxtras-menu:8.0-r5'
-  compile 'org.jsoup:jsoup:1.10.3' //html import
-  compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
-  compile 'javax.xml.bind:jaxb-api:2.3.0'
-  compile 'javax.activation:activation:1.1'
-  compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
+    compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
+    compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
+    compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
+    compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
+    compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
+    compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
+    compile 'com.lowagie:itext:2.1.3'  //pdf export
+    compile 'commons-io:commons-io:2.5'
+    compile 'com.googlecode.soundlibs:jlayer:1.0.1.4'
+    compile 'com.mpatric:mp3agic:0.8.4'
+    compile 'org.jfxtras:jfxtras-menu:8.0-r5'
+    compile 'org.jsoup:jsoup:1.10.3' //html import
+    compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
+    compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'javax.activation:activation:1.1'
+    compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
 
-  //compile 'org.controlsfx:controlsfx:11.0.0'
-  runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
-
-
+    //compile 'org.controlsfx:controlsfx:11.0.0'
+    runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
 
 
+    runtime 'org.openjfx:javafx-controls:12-ea+8'
+    runtime 'org.openjfx:javafx-graphics:12-ea+8'
+    runtime 'org.openjfx:javafx-swing:12-ea+8'
 
-
-  runtime 'org.openjfx:javafx-controls:12-ea+8'
-  runtime 'org.openjfx:javafx-graphics:12-ea+8'
-  runtime 'org.openjfx:javafx-swing:12-ea+8'
-
-  testCompile 'junit:junit:4.12'
-  testCompile "org.testfx:testfx-core:4.0.15-alpha"
-  testCompile "org.testfx:testfx-junit:4.0.15-alpha"
-  testCompile "org.testfx:openjfx-monocle:jdk-9+181.1"
+    testCompile 'junit:junit:4.12'
+    testCompile "org.testfx:testfx-core:4.0.15-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
+    testCompile "org.testfx:openjfx-monocle:jdk-9+181.1"
 }
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 xjcGenerate {
-  source = fileTree('src/main/schema') { include 'zef2005.xsd' }
+    source = fileTree('src/main/schema') { include 'zef2005.xsd' }
 }
 
 mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 
 task installLocal(type: Copy, dependsOn: distZip) {
-  def zipFile = file('build/distributions/adonai.zip')
-  def outputDir = file(System.getProperty("user.home") + "/programs")
-  println "OutputDir = $outputDir.absolutePath"
+    def zipFile = file('build/distributions/adonai.zip')
+    def outputDir = file(System.getProperty("user.home") + "/programs")
+    println "OutputDir = $outputDir.absolutePath"
 
-  from zipTree(zipFile)
-  into outputDir
-  group = 'distribution'
-  description = 'Installs the program into my output dir'
+    from zipTree(zipFile)
+    into outputDir
+    group = 'distribution'
+    description = 'Installs the program into my output dir'
 }
 
 tasks.compileJava.dependsOn tasks.xjcGenerate
 test {
     exclude 'org/adonai/ui/**' //TODOenable when working standalone
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat 'full'
+        showStackTraces = 'true'
+    }
 }
 
 jacocoTestReport {

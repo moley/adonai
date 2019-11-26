@@ -3,6 +3,10 @@ package org.adonai.ui.editor2;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +33,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+import org.adonai.StringUtils;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -37,8 +42,10 @@ import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongInfoService;
+import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.ToggleSwitch;
 
 /**
  * Created by OleyMa on 22.11.16.
@@ -67,11 +74,34 @@ public class SongEditor extends PanelHolder {
 
   private Configuration configuration;
 
+  private BooleanProperty showOriginChords = new SimpleBooleanProperty(false);
+
   public SongEditor(Configuration configuration, Song song) {
     this.configuration = configuration;
     this.song = song;
 
     setIndex("songeditor");
+
+    ToggleSwitch btnShowOriginChords = new ToggleSwitch();
+    btnShowOriginChords.setDisable(song.getOriginalKey() == null || song.getCurrentKey() == null);
+    btnShowOriginChords.setText("Origin Chords");
+    btnShowOriginChords.selectedProperty().addListener(new ChangeListener<Boolean>() {
+      @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+
+        showOriginChords.setValue(! showOriginChords.get());
+        for (PartEditor nextPartEditor:partEditors) {
+          for (LineEditor nextLineEditor: nextPartEditor.getLineEditors()) {
+            for (LinePartEditor nextLinePartEditor: nextLineEditor.getLinePartEditors()) {
+              nextLinePartEditor.toggleChordType(showOriginChords.get());
+            }
+          }
+
+        }
+
+      }
+    });
+
+    tbaActions.getItems().add(btnShowOriginChords);
 
     Button btnSongInfo = new Button();
     btnSongInfo.setTooltip(new Tooltip("Edit song informations"));
@@ -103,6 +133,8 @@ public class SongEditor extends PanelHolder {
     });
     tbaActions.getItems().add(btnSongInfo);
 
+
+
     BorderPane root = new BorderPane();
     setPanel(root);
 
@@ -112,9 +144,14 @@ public class SongEditor extends PanelHolder {
     scrollPane.setContent(content);
     root.setId("songeditor");
 
-    //scrollPane.setPrefWidth(Consts.DEFAULT_WIDTH - Consts.DEFAULT_LISTVIEW_WIDTH);
+    String originalKey = StringUtils.getNotNull(song.getOriginalKey());
+    String currentKey = StringUtils.getNotNull(song.getCurrentKey());
+    String arrow = song.getCurrentKey() != null ? " -> " : "";
 
-    lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle());
+    if (song.getOriginalKey() == null && song.getCurrentKey() == null)
+      lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle());
+    else
+      lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle() + " (" + originalKey + arrow + currentKey + " )");
 
     HBox.setMargin(lblIdAndTitle, new Insets(3, 100, 0, 10));
     Region region = new Region();
@@ -203,6 +240,10 @@ public class SongEditor extends PanelHolder {
 
     partEditors.clear();
 
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+
+
     for (SongPart next : song.getSongParts()) {
       PartEditor currentPartEditor = new PartEditor(this, next, next.getReferencedSongPart() == null);
       partEditors.add(currentPartEditor);
@@ -219,6 +260,10 @@ public class SongEditor extends PanelHolder {
 
   public Song getSong() {
     return song;
+  }
+
+  public boolean isShowOriginalChords () {
+    return showOriginChords.get();
   }
 
   public void save() {

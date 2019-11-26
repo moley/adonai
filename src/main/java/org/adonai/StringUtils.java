@@ -43,4 +43,8 @@ public class StringUtils {
     else
       return "";
   }
+
+  public final static String getNotNull (final String maybeNull) {
+    return maybeNull != null ? maybeNull : "";
+  }
 }

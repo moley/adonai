@@ -53,7 +53,7 @@
         </Group>
     </left>
 
-    <right>
+    <!--<right>
         <Group>
             <fx:define>
                 <ToggleGroup fx:id="rightgroup"/>
@@ -64,7 +64,7 @@
 
             </ToolBar>
         </Group>
-    </right>
+    </right>-->
 
 
 </BorderPane>

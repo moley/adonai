@@ -4,7 +4,6 @@ import org.adonai.Chord;
 import org.adonai.InvalidChordException;
 import org.adonai.StringUtils;
 import org.adonai.model.*;
-import org.adonai.ui.editor.SongRepairer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.adonai.services.SongRepairer;
 
 public class TextfileReader {
 

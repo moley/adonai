@@ -30,6 +30,8 @@ public class ChordEditor {
 
   private RemoveChordService removeChordService = new RemoveChordService();
 
+  private boolean originalChord;
+
   public ChordEditor(final LinePartEditor linePartEditor) {
     this.linePartEditor = linePartEditor;
     popup = new Popup();
@@ -47,10 +49,14 @@ public class ChordEditor {
           SongCursor songCursor = linePartEditor.getCursor();
           SongEditor songEditor = linePartEditor.getSongEditor();
           if (linePartEditor.getTxtText().getCaretPosition() > 0) { //if we are not below an existing chord
-
-
             if (! txtChord.getText().trim().isEmpty()) {
-              LinePart selectedLinePart = addChordService.addChord(songCursor, new Chord(txtChord.getText()));
+
+              LinePart selectedLinePart;
+
+              if (originalChord)
+                selectedLinePart = addChordService.addChord(songCursor, null, new Chord(txtChord.getText()));
+              else
+                selectedLinePart = addChordService.addChord(songCursor, new Chord(txtChord.getText()), null);
 
               songEditor.reload().getPartEditor(selectedLinePart).requestFocus(false);
             }
@@ -58,7 +64,10 @@ public class ChordEditor {
           else {
             if (!txtChord.getText().trim().isEmpty()) {
               Chord chord = new Chord(txtChord.getText());
-              linePartEditor.getLinePart().setChord(chord.toString());
+              if (originalChord)
+                linePartEditor.getLinePart().setOriginalChord(chord.toString());
+              else
+                linePartEditor.getLinePart().setChord(chord.toString());
               linePartEditor.getLblChord().setText(txtChord.getText());
             } else {
               LinePart selectedLinePart = removeChordService.removeChord(songCursor);
@@ -89,13 +98,14 @@ public class ChordEditor {
     popup.getContent().add(dialogVbox);
   }
 
-  public void show () {
+  public void show (final boolean originalChord) {
+    this.originalChord = originalChord;
 
     TextField txt = linePartEditor.getTxtText();
     Point2D locationCaret = txt.getInputMethodRequests().getTextLocation(0);
 
     if (linePartEditor.getTxtText().getCaretPosition() == 0)
-      txtChord.setText(linePartEditor.getLinePart().getChord());
+      txtChord.setText(originalChord ? linePartEditor.getLinePart().getOriginalChord() : linePartEditor.getLinePart().getChord());
     else
       txtChord.setText("");
 

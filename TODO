@@ -1,9 +1,5 @@
-- Ctrl + RIGHT / Crtl + LEFT -> Move chord to right/left
-- Add song to session
-- Add new session
-- Remove session
-- Remove song
-- Export playlist
+- Edit chord when origin chord is visible does not work completely
+
 
 TODO
 - Indent between chords without text
@@ -11,10 +7,6 @@ TODO
 - Export schematas
 
 - Referenced part must not be removed
-- Empty new song in SongEditor: Exception in thread "JavaFX Application Thread" java.lang.NullPointerException
-                               	at SongEditor.reloadDetail(SongEditor.java:193)
-                               	at SongEditor.reload(SongEditor.java:200)
-
 - Import pics and set as background of song
 - Import mp3s and configure at song
 

@@ -44,6 +44,24 @@ public class TestDataCreator {
     user2.setUsername("user2");
 
     Song song1 = createSong("Song1");
+    song1.setCurrentKey("C");
+    song1.setOriginalKey("G");
+
+    SongPart songPart = new SongPart();
+    songPart.setSongPartType(SongPartType.VERS);
+
+    Line line = new Line();
+    LinePart linePart1 = new LinePart();
+    linePart1.setText("This is a");
+    linePart1.setChord("C");
+    LinePart linePart2 = new LinePart();
+
+    linePart2.setText("very nice song");
+    linePart2.setChord("F");
+    line.getLineParts().addAll(Arrays.asList(linePart1, linePart2));
+    songPart.getLines().add(line);
+
+    song1.getSongParts().add(songPart);
     song1.setPreset("preset");
     song1.setLeadVoice(user1);
     Song song2 = createSong("Song2");

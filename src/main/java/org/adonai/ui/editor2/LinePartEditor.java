@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -32,6 +33,7 @@ public class LinePartEditor extends PanelHolder {
   }
 
   private Label lblChord;
+  private Label lblChordOriginal;
   private LineEditor lineEditor;
   private LinePart linePart;
 
@@ -47,6 +49,7 @@ public class LinePartEditor extends PanelHolder {
   private MergeLineService mergeLineService = new MergeLineService();
 
   private boolean editable;
+
 
 
 
@@ -96,10 +99,12 @@ public class LinePartEditor extends PanelHolder {
     if (txtText.getCaretPosition() == 0 && txtText.isFocused()) {
       System.out.println ("Selected");
       lblChord.setId("chordlabel_selected");
+      lblChordOriginal.setId("chordlabel_selected");
     }
     else {
       System.out.println ("Unselected");
       lblChord.setId("chordlabel");
+      lblChordOriginal.setId("chordlabel");
     }
   }
 
@@ -113,9 +118,15 @@ public class LinePartEditor extends PanelHolder {
     lblChord.setText(linePart.getChord());
     lblChord.setId("chordlabel");
 
+    lblChordOriginal = new Label();
+    lblChordOriginal.setText(linePart.getOriginalChord());
+    lblChordOriginal.setId("chordlabel");
+
     txtText = new TextField(linePart.getText());
     txtText.setId("texteditor");
 
+    lblChord.prefWidthProperty().bind(txtText.widthProperty());
+    lblChordOriginal.prefWidthProperty().bind(txtText.widthProperty());
 
     ChordEditor chordEditor = new ChordEditor(this);
 
@@ -123,6 +134,7 @@ public class LinePartEditor extends PanelHolder {
 
       txtText.textProperty().bindBidirectional(linePart.textProperty());
       lblChord.textProperty().bindBidirectional(linePart.chordProperty());
+      lblChordOriginal.textProperty().bindBidirectional(linePart.originalChordProperty());
 
       txtText.deselect();
 
@@ -218,7 +230,8 @@ public class LinePartEditor extends PanelHolder {
           }
 
           if (event.isControlDown() && event.getCode() == KeyCode.C) {
-            chordEditor.show();
+
+            chordEditor.show(getSongEditor().isShowOriginalChords());
           }
         }
       });
@@ -226,15 +239,27 @@ public class LinePartEditor extends PanelHolder {
 
     txtText.setEditable(editable);
 
+    StackPane stack = new StackPane();
+    stack.getChildren().add(lblChord);
+    stack.getChildren().add(lblChordOriginal);
 
+    toggleChordType(getSongEditor().isShowOriginalChords());
+
+    root.setAlignment(Pos.CENTER_LEFT);
     setPanel(root);
-    root.getChildren().add(lblChord);
+    root.getChildren().add(stack);
     root.getChildren().add(txtText);
 
     txtText.setAlignment(Pos.CENTER);
 
     txtText.prefColumnCountProperty().bind(txtText.textProperty().length());
 
+  }
+
+  public void toggleChordType (final boolean showOrigin) {
+
+    lblChordOriginal.setVisible(showOrigin);
+    lblChord.setVisible(! showOrigin);
   }
 
   public PartEditor getPartEditor () {

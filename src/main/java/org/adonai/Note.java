@@ -67,8 +67,8 @@ public enum Note {
 
   public static Note from (final Key key) {
     for (Note next: Note.values()) {
-      if (next.getLabelDecremented().equals(key.name()) ||
-      next.getLabelIncremented().equals(key.name()) ||
+      if (next.getLabelDecremented().equals(key.getDescription()) ||
+      next.getLabelIncremented().equals(key.getDescription()) ||
         next.name().equals(key.name())) {
         return next;
       }

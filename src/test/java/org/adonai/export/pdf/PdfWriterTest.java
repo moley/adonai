@@ -1,15 +1,23 @@
 package org.adonai.export.pdf;
 
-import org.adonai.export.*;
-import org.adonai.model.*;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import org.adonai.export.AbstractExportTest;
+import org.adonai.export.ExportConfiguration;
+import org.adonai.export.ExportException;
+import org.adonai.export.ExportToken;
+import org.adonai.export.ExportTokenContainer;
+import org.adonai.export.ExportTokenNewPage;
+import org.adonai.export.ReferenceStrategy;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Song;
+import org.adonai.model.SongPartDescriptorStrategy;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class PdfWriterTest extends AbstractExportTest {
 
@@ -105,49 +113,7 @@ public class PdfWriterTest extends AbstractExportTest {
     return configuration.getSongBooks().get(0).getSongs().get(0);
   }
 
-  @Test
-  public void exportSongWithoutTransposeInfo () throws IOException, ExportException {
-    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
-    Song song = getSong1();
-    song.setTransposeInfo(-2);
-    PdfExporter pdfExporter = new PdfExporter();
-    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
-    exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(openPreview);
-    exportConfiguration.setWithTransposeInfo(false);
-    pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
-    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    List<ExportToken> chordTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.CHORD);
-    Assert.assertEquals ("Chords (1) invalid", "G", chordTokens.get(0).getText());
-    Assert.assertEquals ("Chords (2) invalid", "Gsus", chordTokens.get(1).getText());
-    Assert.assertEquals ("Chords (3) invalid", "G", chordTokens.get(2).getText());
 
-    List<ExportToken> titleTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.TITLE);
-    Assert.assertFalse ("Transpose info not shown", titleTokens.get(0).getText().contains("(capo on"));
-
-  }
-
-  @Test
-  public void exportSongWithTransposeInfo () throws IOException, ExportException {
-    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
-    Song song = getSong1();
-    song.setTransposeInfo(-2);
-    PdfExporter pdfExporter = new PdfExporter();
-    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
-    exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(openPreview);
-    exportConfiguration.setWithTransposeInfo(true);
-    pdfExporter.export(Arrays.asList(song), tmpExportFile, exportConfiguration);
-    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    List<ExportToken> chordTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.CHORD);
-    Assert.assertEquals ("Chords (1) invalid", "F", chordTokens.get(0).getText());
-    Assert.assertEquals ("Chords (2) invalid", "Fsus", chordTokens.get(1).getText());
-    Assert.assertEquals ("Chords (3) invalid", "F", chordTokens.get(2).getText());
-
-    List<ExportToken> titleTokens = exportTokenContainer.findTokensByTokenType(ExportTokenType.TITLE);
-    Assert.assertTrue ("Transpose info not shown (" + titleTokens.get(0).getText() + ")", titleTokens.get(0).getText().contains("(capo on 2.fret)"));
-
-  }
 
   @Test
   public void emptySecondSide () throws IOException, ExportException {

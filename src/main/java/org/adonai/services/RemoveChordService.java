@@ -10,6 +10,7 @@ public class RemoveChordService {
     if (partIndex == 0) {
       if (linePart.equals(songCursor.getCurrentLine().getFirstLinePart())) {
         linePart.setChord(null);
+        linePart.setOriginalChord(null);
       }
       else {
         LinePart previousLinePart = songCursor.getCurrentLine().getPreviousLinePart(linePart);

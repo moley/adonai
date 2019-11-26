@@ -25,8 +25,6 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   private String originalKey;
 
-  private Integer transposeInfo;
-
   private User leadVoice;
 
   private SimpleStringProperty presetProperty = new SimpleStringProperty();
@@ -147,13 +145,6 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return getTitle();
   }
 
-  public Integer getTransposeInfo() {
-    return transposeInfo;
-  }
-
-  public void setTransposeInfo(Integer transposeInfo) {
-    this.transposeInfo = transposeInfo;
-  }
 
   @XmlIDREF
   public User getLeadVoice() {

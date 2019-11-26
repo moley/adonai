@@ -62,6 +62,18 @@ public class SongBuilder {
     return this;
   }
 
+  public SongBuilder withLinePart (final String text, final String chord, final String originChord) {
+    if (text == null)
+      throw new IllegalArgumentException("Text must not be null, at least empty string");
+    currentLinePart = new LinePart();
+    currentLinePart.setText(text);
+    currentLinePart.setChord(chord);
+    currentLinePart.setOriginalChord(originChord);
+    currentLine.getLineParts().add(currentLinePart);
+
+    return this;
+  }
+
   public Song get () {
     return song;
   }
