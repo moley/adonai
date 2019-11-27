@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane fx:id="border" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.adonai.ui.mainpage.MainPageController" style="-fx-background-color: #666666;">
     <center>
         <VBox>
 
-            <StackPane  fx:id="spDetails">
+            <StackPane fx:id="spDetails">
                 <VBox fx:id="panSongDetails">
+                    <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
                 <VBox fx:id="panSessionDetails">
                     <TextField fx:id="txtSessionName"/>
-                    <ListView fx:id="lviSession"/>
+                    <ListView fx:id="lviSession">
+                        <VBox.vgrow>ALWAYS</VBox.vgrow>
+                    </ListView>
+                    <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
                 <VBox fx:id="panSessions">
-                    <ListView fx:id="lviSessions"/>
+                    <ListView fx:id="lviSessions">
+                        <VBox.vgrow>ALWAYS</VBox.vgrow>
+                    </ListView>
+                    <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
                 <VBox fx:id="panSongbook">
-                    <ListView fx:id="lviSongs"/>
+                    <ListView fx:id="lviSongs">
+                        <VBox.vgrow>ALWAYS</VBox.vgrow>
+                    </ListView>
+                    <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
-
-
-
                 <VBox.vgrow>ALWAYS</VBox.vgrow>
 
             </StackPane>
@@ -47,11 +59,11 @@
                 <ToggleButton fx:id="togSession" text="Session" toggleGroup="${leftgroup}"/>
                 <Pane HBox.hgrow="ALWAYS"/>
                 <Label fx:id="lblCurrentType" BorderPane.alignment="CENTER" text="songbook">
-                <HBox.margin>
-                    <Insets>
-                        <right>40</right>
-                    </Insets>
-                </HBox.margin>
+                    <HBox.margin>
+                        <Insets>
+                            <right>40</right>
+                        </Insets>
+                    </HBox.margin>
                 </Label>
                 <Label fx:id="lblCurrentEntity" BorderPane.alignment="CENTER"/>
                 <Pane HBox.hgrow="ALWAYS"/>

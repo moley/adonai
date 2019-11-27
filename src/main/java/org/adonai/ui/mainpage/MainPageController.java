@@ -118,6 +118,8 @@ public class MainPageController {
     lblCurrentEntity.setId("currentEntity");
     lblCurrentType.setId("currentType");
 
+
+
     panSongDetails.setBackground(Background.EMPTY);
 
     panSessionDetails.setBackground(Background.EMPTY);
