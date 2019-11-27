@@ -25,6 +25,7 @@ public class ExportConfiguration {
   private SimpleBooleanProperty withTitle = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withContentPage = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty withIndexPage = new SimpleBooleanProperty(false);
 
   private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
 
@@ -65,11 +66,23 @@ public class ExportConfiguration {
     this.newPageStrategy = newPageStrategy;
   }
 
+  //with index page
+  public Boolean isWithIndexPage () {
+    return withIndexPage.get();
+  }
+
+  public SimpleBooleanProperty withIndexPageProperty () {
+    return withIndexPage;
+  }
+
+  public void setWithIndexPage (final Boolean withIndexPage) { this.withIndexPage.set(withIndexPage);}
 
   //// with content page
   public Boolean isWithContentPage () {
     return withContentPage.get();
   }
+
+
   public SimpleBooleanProperty withContentPageProperty () {
     return withContentPage;
   }

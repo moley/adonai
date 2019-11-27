@@ -66,9 +66,9 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     else if (exportTokenType.equals(ExportTokenType.TEXT))
       return 12;
     else if (exportTokenType.equals(ExportTokenType.TITLE))
-      return 6;
+      return 8;
     else if (exportTokenType.equals(ExportTokenType.STRUCTURE))
-      return 6;
+      return 8;
     else
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
   }

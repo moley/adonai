@@ -42,6 +42,7 @@ public class ExportAction {
     //With chords
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
     exportConfiguration.setWithContentPage(true);
+    exportConfiguration.setWithIndexPage(true);
     exportConfiguration.setWithChords(true);
     exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);

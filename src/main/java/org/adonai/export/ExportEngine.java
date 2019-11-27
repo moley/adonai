@@ -1,5 +1,9 @@
 package org.adonai.export;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import org.adonai.*;
 import org.adonai.model.*;
 import org.adonai.services.SongInfoService;
@@ -35,14 +39,52 @@ public class ExportEngine {
         documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() + exportConfiguration.getInterLineDistance());
 
+        if (documentBuilder.getPageSize() != null) {
+          if (locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - exportConfiguration.getLowerBorder()) - (sizeInfoTitelAndId.getHeight() * 3)) {
+            documentBuilder.newToken(new ExportTokenNewPage());
+            locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
+          }
+        }
+
       }
 
       documentBuilder.newToken(new ExportTokenNewPage());
+      locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
+
+
+    }
+
+    if (exportConfiguration.isWithIndexPage()) {
+
+      List<Song> sortedSongs = new ArrayList<Song>(songs);
+      Collections.sort(sortedSongs, new Comparator<Song>() {
+        @Override public int compare(Song o1, Song o2) {
+          return o1.getTitle().compareTo(o2.getTitle());
+        }
+      });
+
+      for (Song nextSong : sortedSongs) {
+        String idAndTitle = String.format("%.80s  %2d", nextSong.getTitle(), nextSong.getId());
+        SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
+        documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
+        locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() + exportConfiguration.getInterLineDistance());
+
+        if (documentBuilder.getPageSize() != null) {
+          if (locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - exportConfiguration.getLowerBorder()) - (sizeInfoTitelAndId.getHeight() * 3)) {
+            documentBuilder.newToken(new ExportTokenNewPage());
+            locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
+          }
+        }
+
+      }
+
+      documentBuilder.newToken(new ExportTokenNewPage());
+      locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
+
 
     }
 
 
-    locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
 
     for (Song nextSong : songs) {
 

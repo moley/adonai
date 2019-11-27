@@ -17,6 +17,7 @@ public class ExportConfigurationMerger {
     merged.setPageSize(userConf.getPageSize() != null ? userConf.getPageSize() : defConf.getPageSize());
     merged.setWithChords(userConf.isWithChords() != null ? userConf.isWithChords() : defConf.isWithChords());
     merged.setWithContentPage(userConf.isWithContentPage() != null ? userConf.isWithContentPage(): defConf.isWithContentPage());
+    merged.setWithIndexPage(userConf.isWithIndexPage() != null ? userConf.isWithIndexPage(): defConf.isWithIndexPage());
     merged.setWithTitle(userConf.getWithTitle() != null ? userConf.getWithTitle(): defConf.getWithTitle());
     merged.setWithPartType(userConf.isWithPartType() != null ? userConf.isWithPartType() : defConf.isWithPartType());
     merged.setInterPartDistance(userConf.getInterPartDistance() != null ? userConf.getInterPartDistance() : defConf.getInterPartDistance());
