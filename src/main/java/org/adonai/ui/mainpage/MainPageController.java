@@ -45,9 +45,6 @@ public class MainPageController {
   @FXML
   private ToolBar tbLeft;
 
-  //@FXML
-  //private ToolBar tbRight;
-
 
   @FXML
   private StackPane spDetails;
@@ -79,10 +76,19 @@ public class MainPageController {
   @FXML
   private VBox panSessionDetails;
 
+  @FXML
+  private VBox panSessions;
+
+  @FXML
+  private VBox panSongbook;
+
   private MainPageContent currentContent;
 
   @FXML
   private Label lblCurrentEntity;
+
+  @FXML
+  private Label lblCurrentType;
 
   private FilteredList<Song> filteredSongList;
 
@@ -92,7 +98,7 @@ public class MainPageController {
 
   private Configuration configuration;
 
-  private int iconSizeToolbar = Consts.ICON_SIZE_SMALL;
+  private int iconSizeToolbar = Consts.ICON_SIZE_VERY_SMALL;
 
   private static final Logger LOGGER = Logger.getLogger(MainPageController.class.getName());
 
@@ -100,7 +106,8 @@ public class MainPageController {
 
   private Song currentSong = null;
 
-  private TextField txtSessionName = new TextField();
+  @FXML
+  private TextField txtSessionName;
 
 
   public void initialize() {
@@ -108,13 +115,12 @@ public class MainPageController {
     lviSession.setCellFactory(new SongCellFactory());
     lviSessions.setPlaceholder(new Label("No sessions available, press + to add ones"));
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
+    lblCurrentEntity.setId("currentEntity");
+    lblCurrentType.setId("currentType");
 
     panSongDetails.setBackground(Background.EMPTY);
 
     panSessionDetails.setBackground(Background.EMPTY);
-
-    panSessionDetails.getChildren().add(txtSessionName);
-    panSessionDetails.getChildren().add(lviSession);
 
     txtSessionName.textProperty().addListener(new ChangeListener<String>() {
       @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -130,7 +136,6 @@ public class MainPageController {
     lviSongs.toFront();
 
     tbLeft.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbLeft.prefWidthProperty()));
-    //tbRight.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbRight.prefWidthProperty()));
 
     //Button Plus
     Button btnAdd = new Button();
@@ -491,9 +496,10 @@ public class MainPageController {
     LOGGER.info("select sessions");
     currentSong = null;
     currentContent = MainPageContent.SESSIONS;
-    lblCurrentEntity.setText("SESSIONS" );
+    lblCurrentType.setText("sessions" );
+    lblCurrentEntity.setText("");
     spDetails.getChildren().clear();
-    spDetails.getChildren().add(lviSessions);
+    spDetails.getChildren().add(panSessions);
     lviSessions.requestFocus();
     refreshListViews(null);
     lviSessions.getSelectionModel().selectFirst();
@@ -504,9 +510,10 @@ public class MainPageController {
     LOGGER.info("select songbook");
     currentSong = null;
     currentContent = MainPageContent.SONGBOOK;
-    lblCurrentEntity.setText("SONGBOOK");
+    lblCurrentType.setText("songbook");
+    lblCurrentEntity.setText("");
     spDetails.getChildren().clear();
-    spDetails.getChildren().add(lviSongs);
+    spDetails.getChildren().add(panSongbook);
     lviSongs.requestFocus();
     refreshListViews(null);
     lviSongs.getSelectionModel().selectFirst();
@@ -527,7 +534,8 @@ public class MainPageController {
     spDetails.getChildren().clear();
     spDetails.getChildren().add(panSessionDetails);
     lviSession.requestFocus();
-    lblCurrentEntity.setText("SESSION '" + currentSession.getName() + "'");
+    lblCurrentType.setText("session");
+    lblCurrentEntity.setText(currentSession.getName().toUpperCase());
     refreshListViews(null);
     lviSession.getSelectionModel().selectFirst();
     togSession.setSelected(true);
@@ -543,8 +551,6 @@ public class MainPageController {
     songEditorPanel.setVisible(true);
 
     VBox.setVgrow(songEditorPanel, Priority.ALWAYS);
-    //songEditorPanel.setStyle("-fx-background-color: #000000;");
-    //panSongDetails.setStyle("-fx-background-color: #000000;");
     panSongDetails.getChildren().clear();
     panSongDetails.getChildren().add(songEditorPanel);
     panSongDetails.toFront();
@@ -552,7 +558,8 @@ public class MainPageController {
     spDetails.getChildren().clear();
     spDetails.getChildren().add(panSongDetails);
 
-    lblCurrentEntity.setText("SONG  " + currentSong.getId() + " '" + currentSong.getName() + "'");
+    lblCurrentType.setText("song");
+    lblCurrentEntity.setText(currentSong.getId() + " - " + currentSong.getName().toUpperCase());
 
 
     LOGGER.info("panSongDetails: " + panSongDetails.getWidth() + "-" + panSongDetails.getHeight());

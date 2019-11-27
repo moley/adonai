@@ -15,25 +15,24 @@
 
             <StackPane  fx:id="spDetails">
                 <VBox fx:id="panSongDetails">
-                    <VBox.vgrow>ALWAYS</VBox.vgrow>
                 </VBox>
                 <VBox fx:id="panSessionDetails">
-                    <VBox.vgrow>ALWAYS</VBox.vgrow>
+                    <TextField fx:id="txtSessionName"/>
+                    <ListView fx:id="lviSession"/>
                 </VBox>
-                <ListView fx:id="lviSongs"/>
-                <ListView fx:id="lviSession"/>
-                <ListView fx:id="lviSessions"/>
+                <VBox fx:id="panSessions">
+                    <ListView fx:id="lviSessions"/>
+                </VBox>
+                <VBox fx:id="panSongbook">
+                    <ListView fx:id="lviSongs"/>
+                </VBox>
 
-                <VBox.margin>
-                    <Insets bottom="0.0" left="3.0" right="3.0" top="0.0" />
-                </VBox.margin>
+
+
                 <VBox.vgrow>ALWAYS</VBox.vgrow>
 
             </StackPane>
             <ToolBar fx:id="tbaActions">
-                <VBox.margin>
-                    <Insets bottom="0.0" left="4.0" right="4.0" top="1.0" />
-                </VBox.margin>
             </ToolBar>
         </VBox>
     </center>
@@ -47,24 +46,17 @@
                 <ToggleButton fx:id="togSessions" text="Sessions" toggleGroup="${leftgroup}"/>
                 <ToggleButton fx:id="togSession" text="Session" toggleGroup="${leftgroup}"/>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Label fx:id="lblCurrentEntity" BorderPane.alignment="CENTER" text="SONGBOOK" style="-fx-text-fill:#666666;-fx-font:30px Tahoma;-fx-font-weight: bold;"/>
+                <Label fx:id="lblCurrentType" BorderPane.alignment="CENTER" text="songbook">
+                <HBox.margin>
+                    <Insets>
+                        <right>40</right>
+                    </Insets>
+                </HBox.margin>
+                </Label>
+                <Label fx:id="lblCurrentEntity" BorderPane.alignment="CENTER"/>
                 <Pane HBox.hgrow="ALWAYS"/>
             </ToolBar>
         </Group>
     </left>
-
-    <!--<right>
-        <Group>
-            <fx:define>
-                <ToggleGroup fx:id="rightgroup"/>
-            </fx:define>
-            <ToolBar fx:id="tbRight" rotate="90.0">
-                <Button text="Additionals"/>
-                <Button text="Player"/>
-
-            </ToolBar>
-        </Group>
-    </right>-->
-
 
 </BorderPane>

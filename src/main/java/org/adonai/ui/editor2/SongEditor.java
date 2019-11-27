@@ -146,12 +146,15 @@ public class SongEditor extends PanelHolder {
 
     String originalKey = StringUtils.getNotNull(song.getOriginalKey());
     String currentKey = StringUtils.getNotNull(song.getCurrentKey());
-    String arrow = song.getCurrentKey() != null ? " -> " : "";
+    String open = song.getCurrentKey() != null ? " ( Original " : "";
+    String close = song.getCurrentKey() != null ? " ) " : "";
 
-    if (song.getOriginalKey() == null && song.getCurrentKey() == null)
-      lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle());
-    else
-      lblIdAndTitle.setText(song.getId().toString() + " - " + song.getTitle() + " (" + originalKey + arrow + currentKey + " )");
+    if (song.getOriginalKey() != null || song.getCurrentKey() != null)
+      lblIdAndTitle.setText(originalKey + open + currentKey + close);
+
+    lblIdAndTitle.setStyle("-fx-border-color:green");
+    lblIdAndTitle.setMaxHeight(Double.MAX_VALUE);
+
 
     HBox.setMargin(lblIdAndTitle, new Insets(3, 100, 0, 10));
     Region region = new Region();

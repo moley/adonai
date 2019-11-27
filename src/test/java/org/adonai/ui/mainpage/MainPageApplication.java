@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.adonai.screens.ScreenManager;
@@ -19,6 +20,10 @@ public class MainPageApplication extends Application {
     Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
 
     scene.getStylesheets().add("/adonai.css");
+
+    for (String next: Font.getFamilies()) {
+      System.out.println ("Font Family " + next  + " found");
+    }
 
     ScreenManager screenManager = new ScreenManager();
     screenManager.layoutOnScreen(primaryStage);

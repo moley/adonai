@@ -166,7 +166,7 @@ public class LinePartEditor extends PanelHolder {
 
 
           if (event.getCode() == KeyCode.ESCAPE) {
-            throw new IllegalStateException("NYI");
+            //throw new IllegalStateException("NYI");
             //getSongEditor().getPartStructure().requestFocus();
           }
 

@@ -49,8 +49,9 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
               String iconName = (additionalExists ? additionalName: additionalName + "_disabled");
               LOGGER.info("Icon " + iconName + " for additional " + additionalName + " on song " + item.getId() + "(" + additionalExists + ")");
 
-              ImageView image = Consts.createImageView(iconName, Consts.ICON_SIZE_SMALL);
+              ImageView image = Consts.createImageView(iconName, Consts.ICON_SIZE_VERY_SMALL);
               Button btnStatus = new Button("", image);
+              btnStatus.setId("statusbutton");
               Tooltip tooltip = new Tooltip();
               tooltip.setText(additionalDisplay);
               btnStatus.setTooltip(tooltip);
