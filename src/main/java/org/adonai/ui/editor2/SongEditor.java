@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -72,6 +73,14 @@ public class SongEditor extends PanelHolder {
 
   private HBox header = new HBox();
 
+
+  private Button btnCurrentChord = new Button();
+
+  private Button btnOriginalChord = new Button();
+
+
+  private Button btnSongInfo = new Button();
+
   private Configuration configuration;
 
   private BooleanProperty showOriginChords = new SimpleBooleanProperty(false);
@@ -81,29 +90,30 @@ public class SongEditor extends PanelHolder {
     this.song = song;
 
     setIndex("songeditor");
+    tbaActions.setStyle("-fx-background-color: transparent;");
 
-    ToggleSwitch btnShowOriginChords = new ToggleSwitch();
-    btnShowOriginChords.setDisable(song.getOriginalKey() == null || song.getCurrentKey() == null);
-    btnShowOriginChords.setText("Origin Chords");
-    btnShowOriginChords.selectedProperty().addListener(new ChangeListener<Boolean>() {
-      @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-
-        showOriginChords.setValue(! showOriginChords.get());
-        for (PartEditor nextPartEditor:partEditors) {
-          for (LineEditor nextLineEditor: nextPartEditor.getLineEditors()) {
-            for (LinePartEditor nextLinePartEditor: nextLineEditor.getLinePartEditors()) {
-              nextLinePartEditor.toggleChordType(showOriginChords.get());
-            }
-          }
-
-        }
-
+    btnOriginalChord.setTooltip(new Tooltip("Show original chords"));
+    btnOriginalChord.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        showOriginChords.setValue(true);
+        adaptChordType(showOriginChords.get());
       }
     });
+    tbaActions.getItems().add(btnOriginalChord);
 
-    tbaActions.getItems().add(btnShowOriginChords);
 
-    Button btnSongInfo = new Button();
+
+    btnCurrentChord.setTooltip(new Tooltip("Show current chords"));
+    btnCurrentChord.setGraphic(Consts.createIcon("fa-arrow-right", Consts.ICON_SIZE_VERY_SMALL));
+    btnCurrentChord.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        showOriginChords.setValue(false);
+        adaptChordType(showOriginChords.get());
+      }
+    });
+    tbaActions.getItems().add(btnCurrentChord);
+
+
     btnSongInfo.setTooltip(new Tooltip("Edit song informations"));
     btnSongInfo.setGraphic(Consts.createIcon("fa-cogs", Consts.ICON_SIZE_VERY_SMALL));
     btnSongInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -152,7 +162,6 @@ public class SongEditor extends PanelHolder {
     if (song.getOriginalKey() != null || song.getCurrentKey() != null)
       lblIdAndTitle.setText(originalKey + open + currentKey + close);
 
-    lblIdAndTitle.setStyle("-fx-border-color:green");
     lblIdAndTitle.setMaxHeight(Double.MAX_VALUE);
 
 
@@ -163,6 +172,7 @@ public class SongEditor extends PanelHolder {
     header.getChildren().add(region);
     header.getChildren().add(tbaActions);
     header.setId("songtitle");
+
 
     root.setCenter(scrollPane);
     root.setTop(header);
@@ -207,6 +217,17 @@ public class SongEditor extends PanelHolder {
     //  currentPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
   }
 
+  public void adaptChordType (final boolean showOriginChords) {
+    for (PartEditor nextPartEditor:partEditors) {
+      for (LineEditor nextLineEditor: nextPartEditor.getLineEditors()) {
+        for (LinePartEditor nextLinePartEditor: nextLineEditor.getLinePartEditors()) {
+          nextLinePartEditor.toggleChordType(showOriginChords);
+        }
+      }
+
+    }
+  }
+
   public SongCursor getSongCursor() {
     SongCursor songCursor = new SongCursor();
     songCursor.setCurrentSong(song);
@@ -242,6 +263,12 @@ public class SongEditor extends PanelHolder {
     content.getChildren().clear();
 
     partEditors.clear();
+
+    btnOriginalChord.setDisable(song.getOriginalKey() == null || song.getOriginalKey().trim().isEmpty());
+    btnOriginalChord.setText(song.getOriginalKey() != null ? song.getOriginalKey(): "unset");
+    btnCurrentChord.setDisable(song.getCurrentKey() == null || song.getCurrentKey().trim().isEmpty());
+    btnCurrentChord.setText(song.getCurrentKey() != null ? song.getCurrentKey(): "unset");
+
 
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);

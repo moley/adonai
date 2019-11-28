@@ -4,6 +4,11 @@
     -fx-focus-color: transparent;
 }
 
+.textfield {
+  -fx-focus-color: grey;
+
+}
+
 
 #songeditor {
     -fx-base: rgb(255, 255, 255);
@@ -83,7 +88,8 @@
 }
 
 #songtitle {
-    -fx-background-color: rgb(250, 250, 248);
+    //-fx-background-color: rgb(250, 250, 248);
+    -fx-background-color: rgb(158, 153, 141);
     -fx-text-fill: white;
 }
 
