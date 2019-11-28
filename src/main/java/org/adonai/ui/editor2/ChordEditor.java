@@ -14,6 +14,7 @@ import org.adonai.model.LinePart;
 import org.adonai.services.AddChordService;
 import org.adonai.services.RemoveChordService;
 import org.adonai.services.SongCursor;
+import org.adonai.ui.UiUtils;
 
 /**
  * Created by OleyMa on 17.01.17.
@@ -45,7 +46,14 @@ public class ChordEditor {
       @Override
       public void handle(KeyEvent event) {
 
+
+
+
         if (event.getCode() == KeyCode.ENTER) {
+          popup.hide();
+          event.consume();
+
+
           SongCursor songCursor = linePartEditor.getCursor();
           SongEditor songEditor = linePartEditor.getSongEditor();
           if (linePartEditor.getTxtText().getCaretPosition() > 0) { //if we are not below an existing chord
@@ -58,7 +66,8 @@ public class ChordEditor {
               else
                 selectedLinePart = addChordService.addChord(songCursor, new Chord(txtChord.getText()), null);
 
-              songEditor.reload().getPartEditor(selectedLinePart).requestFocus(false);
+              final LinePartEditor newLinePartEditor = songEditor.reload().getPartEditor(selectedLinePart);
+              newLinePartEditor.requestFocusAndSetCaret(false, 0);
             }
           }
           else {
@@ -73,21 +82,9 @@ public class ChordEditor {
               LinePart selectedLinePart = removeChordService.removeChord(songCursor);
               LinePartEditor selectedLinePartEditor = songEditor.reload().getPartEditor(selectedLinePart);
 
-              selectedLinePartEditor.requestFocus(false);
-              if (songCursor.getPositionInLinePart() != null) {
-                Platform.runLater(new Runnable() {
-
-                  @Override
-                  public void run() {
-                    selectedLinePartEditor.getTxtText().positionCaret(songCursor.getPositionInLinePart());
-                  }
-                });
-              }
-
-
+              selectedLinePartEditor.requestFocusAndSetCaret(false, songCursor.getPositionInLinePart());
             }
           }
-          popup.hide();
         }
 
         if (event.getCode() == KeyCode.ESCAPE)

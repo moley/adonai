@@ -52,7 +52,7 @@ public class TestDataCreator {
 
     Line line = new Line();
     LinePart linePart1 = new LinePart();
-    linePart1.setText("This is a");
+    linePart1.setText("This is a ");
     linePart1.setChord("C");
     LinePart linePart2 = new LinePart();
 

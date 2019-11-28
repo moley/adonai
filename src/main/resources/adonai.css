@@ -41,6 +41,8 @@
 }
 
 #chordeditor {
+    -fx-focus-color: transparent;
+    -fx-shadow-highlight-color: transparent;
     -fx-background: rgb(255, 255, 255);
     -fx-control-inner-background:  rgb(255, 255, 255);
     -fx-font-size: 12;
@@ -55,7 +57,7 @@
 }
 
 #chordlabel_selected {
-    -fx-background-color: rgb(230, 230, 255);
+    -fx-background-color: rgb(230, 230, 230);
     -fx-control-inner-background:  rgb(255, 255, 255);
     -fx-font-size: 15;
     -fx-font-family: monospaced;

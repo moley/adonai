@@ -9,6 +9,24 @@ import org.junit.Test;
 public class ChordTest {
 
   @Test
+  public void es () {
+    Chord chord = new Chord("Es");
+    Assert.assertEquals ("Eb", chord.toString());
+  }
+
+  @Test
+  public void dis () {
+    Chord chord = new Chord("Dis7");
+    Assert.assertEquals ("D#7", chord.toString());
+  }
+
+  @Test
+  public void des () {
+    Chord chord = new Chord("Des7");
+    Assert.assertEquals ("Db7", chord.toString());
+  }
+
+  @Test
   public void add9 () {
     Chord chord = new Chord("Cadd9");
     Assert.assertEquals ("Cadd9", chord.toString());

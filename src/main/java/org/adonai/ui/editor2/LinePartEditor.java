@@ -68,13 +68,11 @@ public class LinePartEditor extends PanelHolder {
   public void toHome () {
     requestFocus(false);
     txtText.positionCaret(0);
-    System.out.println ("Next: " + txtText.getSelectedText());
   }
 
   public void toEnd () {
-    requestFocus(false);
+    txtText.requestFocus();
     txtText.positionCaret(txtText.getText().length() - 1);
-    System.out.println ("Prev: " + txtText.getSelectedText());
   }
 
   public void requestFocus (final boolean select) {
@@ -94,15 +92,30 @@ public class LinePartEditor extends PanelHolder {
 
   }
 
+  public void requestFocusAndSetCaret (final boolean select, final Integer newCaretPosition) {
+    System.out.println ("Request focus txtField " + txtText.getText());
+    txtText.requestFocus();
+    if (select)
+      txtText.selectAll();
+    else
+      txtText.deselect();
+
+    if (newCaretPosition != null) {
+      System.out.println ("isFocused: " + txtText.isFocused());
+
+      System.out.println ("set caret position to " + newCaretPosition);
+      txtText.positionCaret(newCaretPosition);
+
+    }
+
+  }
+
   private void adaptChordLabel () {
-    System.out.println ("adapt chord label " + txtText.getCaretPosition() + "-" + txtText.isFocused());
     if (txtText.getCaretPosition() == 0 && txtText.isFocused()) {
-      System.out.println ("Selected");
       lblChord.setId("chordlabel_selected");
       lblChordOriginal.setId("chordlabel_selected");
     }
     else {
-      System.out.println ("Unselected");
       lblChord.setId("chordlabel");
       lblChordOriginal.setId("chordlabel");
     }
@@ -118,15 +131,24 @@ public class LinePartEditor extends PanelHolder {
     lblChord.setText(linePart.getChord());
     lblChord.setId("chordlabel");
 
+
+
     lblChordOriginal = new Label();
     lblChordOriginal.setText(linePart.getOriginalChord());
     lblChordOriginal.setId("chordlabel");
 
     txtText = new TextField(linePart.getText());
+
     txtText.setId("texteditor");
 
-    lblChord.prefWidthProperty().bind(txtText.widthProperty());
-    lblChordOriginal.prefWidthProperty().bind(txtText.widthProperty());
+    //Debug layouting
+/**    lblChord.setStyle("-fx-border-color: red;");
+    lblChordOriginal.setStyle("-fx-border-color: red;");
+    txtText.setStyle("-fx-border-color: blue;");
+    root.setStyle("-fx-border-color:green;");**/
+
+    txtText.prefColumnCountProperty().bind(txtText.textProperty().length());
+
 
     ChordEditor chordEditor = new ChordEditor(this);
 
@@ -250,9 +272,8 @@ public class LinePartEditor extends PanelHolder {
     root.getChildren().add(stack);
     root.getChildren().add(txtText);
 
+    stack.setAlignment(Pos.CENTER_LEFT);
     txtText.setAlignment(Pos.CENTER);
-
-    txtText.prefColumnCountProperty().bind(txtText.textProperty().length());
 
   }
 

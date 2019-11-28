@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 

@@ -43,6 +43,12 @@ public class ChordPart {
     if (trimmed.isEmpty())
       throw new InvalidChordException("Empty string");
 
+    if (trimmed.equals("Es"))
+      trimmed = "Eb";
+
+    trimmed = trimmed.replace("is", "#");
+    trimmed = trimmed.replace("es", "b");
+
     if (trimmed.startsWith("B") && ! trimmed.startsWith("Bb"))
       trimmed = trimmed.replace("B", "H");
 
