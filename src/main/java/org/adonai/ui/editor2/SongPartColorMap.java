@@ -8,15 +8,15 @@ public class SongPartColorMap {
 
   private HashMap<SongPartType, String> colorMap = new HashMap<SongPartType, String>();
   private HashMap<SongPartType, String> colorMapSelected = new HashMap<SongPartType, String>();
-  private final static String COLOR_DARKGREY = "#BBBBBB";
-  private final static String COLOR_SELECTED_DARKGREY = "#DDDDDD";
+  private final static String COLOR_DEFAULT = "#FFFFFF";
+  private final static String COLOR_SELECTED_DEFAULT = "#DDDDDD";
 
 
   public SongPartColorMap () {
-    colorMap.put(SongPartType.REFRAIN, "#BBBBEE");
-    colorMap.put(SongPartType.VERS, "#EEBBBB");
-    colorMapSelected.put(SongPartType.REFRAIN, "#CCCCFF");
-    colorMapSelected.put(SongPartType.VERS, "#FFFFCC");
+    colorMap.put(SongPartType.REFRAIN, "#f7f6e9");
+    colorMap.put(SongPartType.VERS, "#fff6f5");
+    colorMapSelected.put(SongPartType.REFRAIN, "#fffef7");
+    colorMapSelected.put(SongPartType.VERS, "#fffafa");
   }
 
   public String getColorForPart(SongPart songPart) {
@@ -27,7 +27,7 @@ public class SongPartColorMap {
       System.out.println("Determined color " + color + " for type " + songPart.getSongPartType());
     }
     if (color == null)
-      color = COLOR_DARKGREY;
+      color = COLOR_DEFAULT;
 
     return color;
   }
@@ -40,7 +40,7 @@ public class SongPartColorMap {
       System.out.println("Determined color " + color + " for type " + songPart.getSongPartType());
     }
     if (color == null)
-      color = COLOR_SELECTED_DARKGREY;
+      color = COLOR_SELECTED_DEFAULT;
 
     return color;
   }

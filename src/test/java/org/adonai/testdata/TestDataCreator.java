@@ -61,7 +61,22 @@ public class TestDataCreator {
     line.getLineParts().addAll(Arrays.asList(linePart1, linePart2));
     songPart.getLines().add(line);
 
-    song1.getSongParts().add(songPart);
+    SongPart songPart2 = new SongPart();
+    songPart2.setSongPartType(SongPartType.REFRAIN);
+
+    Line line2 = new Line();
+    LinePart linePart21 = new LinePart();
+    linePart21.setText("This is a ");
+    linePart21.setChord("C");
+    LinePart linePart22 = new LinePart();
+    linePart22.setText("very nice song");
+    linePart22.setChord("F");
+    line2.getLineParts().addAll(Arrays.asList(linePart21, linePart22));
+    songPart2.getLines().add(line2);
+
+
+
+    song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
     song1.setPreset("preset");
     song1.setLeadVoice(user1);
     Song song2 = createSong("Song2");

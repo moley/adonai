@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -24,6 +25,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
@@ -43,6 +46,9 @@ import org.adonai.services.SongCursor;
 import org.adonai.services.SongInfoService;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
+import org.adonai.ui.Mask;
+import org.adonai.ui.MaskLoader;
+import org.adonai.ui.UiUtils;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -67,7 +73,7 @@ public class SongEditor extends PanelHolder {
 
   private SongInfoService songInfoService = new SongInfoService();
 
-  private Label lblIdAndTitle = new Label();
+  private Label lblHeaderInfo = new Label();
 
   private ToolBar tbaActions = new ToolBar();
 
@@ -119,25 +125,24 @@ public class SongEditor extends PanelHolder {
     btnSongInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event) {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/screens/editor2/songdetails.fxml"));
-        try {
-          Parent songpartDetailsRoot = fxmlLoader.load();
-          SongDetailsController songDetailsController = fxmlLoader.getController();
-          songDetailsController.setCurrentSong(song);
-          songDetailsController.setConfiguration(configuration);
-          songDetailsController.init();
-          PopOver popOver = new PopOver(songpartDetailsRoot);
-          popOver.setOnHiding(new EventHandler<WindowEvent>() {
-            @Override public void handle(WindowEvent event) {
-              LOGGER.info("Reloading...");
-              reloadDetail();
-            }
-          });
-          popOver.show(btnSongInfo);
+        MaskLoader<SongDetailsController> maskLoader = new MaskLoader();
+        Mask<SongDetailsController> mask = maskLoader.load("editor2/songdetails");
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(btnSongInfo);
+        mask.setPosition(boundsBtnSongInfo.getMinX() - 800, boundsBtnSongInfo.getMaxY() + 20);
+        mask.setSize(800, 400);
+        SongDetailsController songDetailsController = mask.getController();
+        songDetailsController.setCurrentSong(song);
+        songDetailsController.setConfiguration(configuration);
+        songDetailsController.init();
+        mask.getStage().addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent escEvent) -> {
+          if (KeyCode.ESCAPE == escEvent.getCode()) {
+            escEvent.consume();
+            mask.getStage().close();
+            reload();
 
-        } catch (IOException e) {
-          LOGGER.throwing(getClass().getName(), "constructor", e);
-        }
+          }
+        });
+        mask.show();
 
       }
     });
@@ -159,16 +164,13 @@ public class SongEditor extends PanelHolder {
     String open = song.getCurrentKey() != null ? " ( Original " : "";
     String close = song.getCurrentKey() != null ? " ) " : "";
 
-    if (song.getOriginalKey() != null || song.getCurrentKey() != null)
-      lblIdAndTitle.setText(originalKey + open + currentKey + close);
-
-    lblIdAndTitle.setMaxHeight(Double.MAX_VALUE);
+    lblHeaderInfo.setMaxHeight(Double.MAX_VALUE);
 
 
-    HBox.setMargin(lblIdAndTitle, new Insets(3, 100, 0, 10));
+    HBox.setMargin(lblHeaderInfo, new Insets(3, 100, 0, 10));
     Region region = new Region();
     HBox.setHgrow(region, Priority.ALWAYS);
-    header.getChildren().add(lblIdAndTitle);
+    header.getChildren().add(lblHeaderInfo);
     header.getChildren().add(region);
     header.getChildren().add(tbaActions);
     header.setId("songtitle");

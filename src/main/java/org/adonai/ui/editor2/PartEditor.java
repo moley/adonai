@@ -6,12 +6,15 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +26,9 @@ import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.ui.Consts;
+import org.adonai.ui.Mask;
+import org.adonai.ui.MaskLoader;
+import org.adonai.ui.UiUtils;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -103,27 +109,25 @@ public class PartEditor extends PanelHolder {
       @Override public void handle(MouseEvent event) {
         bbaSongPartActions.setVisible(false);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/screens/editor2/songpartdetails.fxml"));
-        try {
-          Parent songpartDetailsRoot = fxmlLoader.load();
-          SongPartDetailsController songPartDetailsController = fxmlLoader.getController();
-          songPartDetailsController.setCurrentSong(songEditor.getSong());
-          songPartDetailsController.setCurrentSongPart(part);
-          songPartDetailsController.init();
-          PopOver popOver = new PopOver(songpartDetailsRoot);
-          popOver.setOnHiding(new EventHandler<WindowEvent>() {
-            @Override public void handle(WindowEvent event) {
-              System.out.println ("Reloading...");
-              reloadTitle();
-            }
-          });
-          popOver.show(label);
+        MaskLoader<SongPartDetailsController> maskLoader = new MaskLoader();
+        Mask<SongPartDetailsController> mask = maskLoader.load("editor2/songpartdetails");
+        Bounds boundsLabel = UiUtils.getBounds(label);
+        mask.setPosition(boundsLabel.getMaxX() + 20, boundsLabel.getMinY());
+        mask.setSize(600, 400);
+        SongPartDetailsController songPartDetailsController = mask.getController();
+        songPartDetailsController.setCurrentSong(songEditor.getSong());
+        songPartDetailsController.setCurrentSongPart(part);
+        songPartDetailsController.init();
+        mask.getStage().addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent escEvent) -> {
+          if (KeyCode.ESCAPE == escEvent.getCode()) {
+            escEvent.consume();
+            mask.getStage().close();
+            reloadTitle();
 
+          }
+        });
 
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-
+        mask.show();
 
       }
     });

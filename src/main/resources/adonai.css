@@ -4,6 +4,16 @@
     -fx-focus-color: transparent;
 }
 
+.combo-box .list-cell
+{
+    -fx-background: white;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em;
+}
+
+
 .textfield {
   -fx-focus-color: grey;
 
@@ -20,7 +30,7 @@
 #texteditor {
     -fx-background: rgb(255, 255, 255);
     -fx-control-inner-background: rgb(255, 255, 255);
-    -fx-font-size: 16;
+    -fx-font-size: 18;
     -fx-font-family: monospaced;
     -fx-padding: 5 0 5 0;
     -fx-border-width: 1px;
@@ -32,7 +42,7 @@
     -fx-background: rgb(255, 255, 255);
     -fx-text-inner-color: rgb(190, 190, 190);
     -fx-control-inner-background: rgb(255, 255, 255);
-    -fx-font-size: 16;
+    -fx-font-size: 18;
     -fx-font-family: monospaced;
     -fx-padding: 5 0 5 0;
     -fx-border-width: 0px;
