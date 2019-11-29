@@ -1,6 +1,5 @@
 package org.adonai.ui.editor2;
 
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.TextField;
@@ -14,7 +13,6 @@ import org.adonai.model.LinePart;
 import org.adonai.services.AddChordService;
 import org.adonai.services.RemoveChordService;
 import org.adonai.services.SongCursor;
-import org.adonai.ui.UiUtils;
 
 /**
  * Created by OleyMa on 17.01.17.
@@ -36,18 +34,16 @@ public class ChordEditor {
   public ChordEditor(final LinePartEditor linePartEditor) {
     this.linePartEditor = linePartEditor;
     popup = new Popup();
+    popup.setWidth(100);
     VBox dialogVbox = new VBox(20);
 
     txtChord = new TextField("");
     txtChord.setId("chordeditor");
-
+    txtChord.setPrefWidth(100);
 
     txtChord.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-
-
-
 
         if (event.getCode() == KeyCode.ENTER) {
           popup.hide();
@@ -106,13 +102,15 @@ public class ChordEditor {
     else
       txtChord.setText("");
 
+    txtChord.selectAll();
+
     System.out.println ("Position " + locationCaret.getX() + "-" + locationCaret.getY() + "(Caret " + txt.getCaretPosition() + ")");
     System.out.println ("Textfield: " + txt.getText());
 
     Window window = txt.getScene().getWindow();
 
-    double x = locationCaret.getX() + txt.getLayoutX(); //txt.getLayoutX() + window.getX() + locationCaret.getX();
-    double y = locationCaret.getY() - txt.getHeight() - txt.getHeight(); //txt.getLayoutY() + window.getY() + locationCaret.getY();
+    double x = locationCaret.getX() + txt.getLayoutX();
+    double y = locationCaret.getY() - txt.getHeight() - txt.getHeight();
     popup.show(window, x, y);
   }
 

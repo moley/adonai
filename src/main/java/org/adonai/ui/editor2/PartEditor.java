@@ -242,8 +242,8 @@ public class PartEditor extends PanelHolder {
     String textCssId = part.getReferencedSongPart() != null ? "texteditor_disabled" : "texteditor";
     String chordCssId = part.getReferencedSongPart() != null ? "chordlabel_disabled" : "chordlabel";
 
-    if (getFirstLineEditor() != null)
-      getFirstLineEditor().getFirstLinePartEditor().toHome();
+    /**if (getFirstLineEditor() != null)
+      getFirstLineEditor().getFirstLinePartEditor().toHome();**/
 
     for (LineEditor nextLineEditor : lineEditors) {
       for (LinePartEditor nextLinePartEditor : nextLineEditor.getLinePartEditors()) {
@@ -252,8 +252,6 @@ public class PartEditor extends PanelHolder {
       }
 
     }
-
-    System.out.println("set id to " + contentPane.getId());
 
   }
 

@@ -3,15 +3,13 @@ package org.adonai.ui.editor2;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -46,12 +44,14 @@ import org.adonai.services.SongInfoService;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.controlsfx.control.PopOver;
-import org.controlsfx.control.ToggleSwitch;
 
 /**
  * Created by OleyMa on 22.11.16.
  */
 public class SongEditor extends PanelHolder {
+
+  private static final Logger LOGGER = Logger.getLogger(SongEditor.class.getName());
+
 
   private Song song;
 
@@ -129,14 +129,14 @@ public class SongEditor extends PanelHolder {
           PopOver popOver = new PopOver(songpartDetailsRoot);
           popOver.setOnHiding(new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
-              System.out.println("Reloading...");
+              LOGGER.info("Reloading...");
               reloadDetail();
             }
           });
           popOver.show(btnSongInfo);
 
         } catch (IOException e) {
-          e.printStackTrace();
+          LOGGER.throwing(getClass().getName(), "constructor", e);
         }
 
       }
@@ -249,7 +249,8 @@ public class SongEditor extends PanelHolder {
       for (LineEditor nextLineEditor : nextPartEditor.getLineEditors()) {
         for (LinePartEditor nexLinePartEditor : nextLineEditor.getLinePartEditors()) {
           if (nexLinePartEditor.getLinePart().equals(linePart)) {
-            System.out.println("Focus txtfield of " + nexLinePartEditor.getLinePart().getText());
+
+            LOGGER.info("getPartEditor " + nexLinePartEditor);
             return nexLinePartEditor;
           }
         }

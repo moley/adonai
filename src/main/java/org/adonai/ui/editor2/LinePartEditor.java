@@ -1,5 +1,6 @@
 package org.adonai.ui.editor2;
 
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,6 +22,9 @@ import org.adonai.services.SongNavigationService;
 import org.adonai.services.SplitLineService;
 
 public class LinePartEditor extends PanelHolder {
+
+  private static final Logger LOGGER = Logger.getLogger(LinePartEditor.class.getName());
+
 
   private TextField txtText;
 
@@ -76,12 +80,22 @@ public class LinePartEditor extends PanelHolder {
   }
 
   public void requestFocus (final boolean select) {
-    System.out.println ("Request focus txtField " + txtText.getText());
-    Platform.runLater(new Runnable() {
 
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    Platform.runLater(new Runnable() {
       @Override
       public void run() {
+        LOGGER.info("Request focus of textfield <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText.isVisible() + ", " + txtText.isNeedsLayout() + ")");
+        if (txtText.getScene() == null)
+          throw new IllegalStateException("Scene is null, cannot focus");
+
         txtText.requestFocus();
+        
         if (select)
           txtText.selectAll();
         else
@@ -93,21 +107,29 @@ public class LinePartEditor extends PanelHolder {
   }
 
   public void requestFocusAndSetCaret (final boolean select, final Integer newCaretPosition) {
-    System.out.println ("Request focus txtField " + txtText.getText());
-    txtText.requestFocus();
-    if (select)
-      txtText.selectAll();
-    else
-      txtText.deselect();
-
-    if (newCaretPosition != null) {
-      System.out.println ("isFocused: " + txtText.isFocused());
-
-      System.out.println ("set caret position to " + newCaretPosition);
-      txtText.positionCaret(newCaretPosition);
-
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
 
+    Platform.runLater(new Runnable() {
+      @Override public void run() {
+        LOGGER.info("Request focus and set caret of textfield <" + txtText.getText() + ">");
+        txtText.requestFocus();
+        if (select)
+          txtText.selectAll();
+        else
+          txtText.deselect();
+
+        if (newCaretPosition != null) {
+          LOGGER.info("isFocused: " + txtText.isFocused());
+
+          LOGGER.info("set caret position to " + newCaretPosition);
+          txtText.positionCaret(newCaretPosition);
+        }
+      }
+    });
   }
 
   private void adaptChordLabel () {
@@ -176,7 +198,7 @@ public class LinePartEditor extends PanelHolder {
       txtText.setOnKeyReleased(new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
-          System.out.println("onKeyReleased - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
+          LOGGER.info("onKeyReleased - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
 
         }
       });
@@ -184,7 +206,7 @@ public class LinePartEditor extends PanelHolder {
       txtText.setOnKeyPressed(new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
-          System.out.println("onKeyPressed - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
+          LOGGER.info("onKeyPressed - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
 
 
           if (event.getCode() == KeyCode.ESCAPE) {
@@ -232,7 +254,6 @@ public class LinePartEditor extends PanelHolder {
           }
 
           if (event.getCode() == KeyCode.ENTER) {
-
             LinePart focusedLinePart = splitLineService.splitLine(getCursor());
             getSongEditor().reload().getPartEditor(focusedLinePart).requestFocus(true);
           }
@@ -331,4 +352,5 @@ public class LinePartEditor extends PanelHolder {
     if (txtText.getText() != null ? !txtText.getText().equals(linePart.getText()) : linePart.getText() != null) return true;
     return false;
   }
+
 }
