@@ -112,8 +112,8 @@ public class PartEditor extends PanelHolder {
 
         MaskLoader<SongPartDetailsController> maskLoader = new MaskLoader();
         Mask<SongPartDetailsController> mask = maskLoader.load("editor2/songpartdetails");
-        Bounds boundsLabel = UiUtils.getBounds(label);
-        mask.setPosition(boundsLabel.getMaxX() + 20, boundsLabel.getMinY());
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
+        mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(800, 400);
         SongPartDetailsController songPartDetailsController = mask.getController();
         songPartDetailsController.setCurrentSong(songEditor.getSong());
@@ -148,8 +148,8 @@ public class PartEditor extends PanelHolder {
 
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
         Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
-        Bounds boundsBtnSongInfo = UiUtils.getBounds(btnAddBefore);
-        mask.setPosition(boundsBtnSongInfo.getMaxX() + 20 , boundsBtnSongInfo.getMinX());
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
+        mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
         AddPartController addPartController = mask.getController();
         addPartController.init(getSongEditor().getSong());
@@ -235,8 +235,8 @@ public class PartEditor extends PanelHolder {
       @Override public void handle(ActionEvent event) {
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
         Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
-        Bounds boundsBtnSongInfo = UiUtils.getBounds(getPanel());
-        mask.setPosition(boundsBtnSongInfo.getCenterX() + 20, boundsBtnSongInfo.getMaxY() + 20);
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
+        mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
         AddPartController addPartController = mask.getController();
         addPartController.init(getSongEditor().getSong());
