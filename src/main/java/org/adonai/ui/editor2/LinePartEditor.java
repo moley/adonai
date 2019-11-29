@@ -25,7 +25,6 @@ public class LinePartEditor extends PanelHolder {
 
   private static final Logger LOGGER = Logger.getLogger(LinePartEditor.class.getName());
 
-
   private TextField txtText;
 
   public TextField getTxtText() {
@@ -43,7 +42,6 @@ public class LinePartEditor extends PanelHolder {
 
   private VBox root = new VBox();
 
-
   private MoveChordService moveChordService = new MoveChordService();
 
   private SplitLineService splitLineService = new SplitLineService();
@@ -54,32 +52,28 @@ public class LinePartEditor extends PanelHolder {
 
   private boolean editable;
 
-
-
-
-  private LinePartEditor getEditor () {
+  private LinePartEditor getEditor() {
     return this;
   }
 
-  public LinePart getLinePart () {
+  public LinePart getLinePart() {
     return linePart;
   }
 
-  public LineEditor getLineEditor () {
+  public LineEditor getLineEditor() {
     return lineEditor;
   }
 
-  public void toHome () {
+  public void toHome() {
     requestFocus(false);
     txtText.positionCaret(0);
   }
 
-  public void toEnd () {
-    txtText.requestFocus();
-    txtText.positionCaret(txtText.getText().length() - 1);
+  public void toEnd() {
+    requestFocusAndSetCaret(false, txtText.getText().length() - 1);
   }
 
-  public void requestFocus (final boolean select) {
+  public void requestFocus(final boolean select) {
 
     try {
       Thread.sleep(100);
@@ -88,14 +82,15 @@ public class LinePartEditor extends PanelHolder {
     }
 
     Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        LOGGER.info("Request focus of textfield <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText.isVisible() + ", " + txtText.isNeedsLayout() + ")");
+      @Override public void run() {
+        LOGGER.info(
+            "Request focus of textfield <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText
+                .isVisible() + ", " + txtText.isNeedsLayout() + ")");
         if (txtText.getScene() == null)
           throw new IllegalStateException("Scene is null, cannot focus");
 
         txtText.requestFocus();
-        
+
         if (select)
           txtText.selectAll();
         else
@@ -106,7 +101,7 @@ public class LinePartEditor extends PanelHolder {
 
   }
 
-  public void requestFocusAndSetCaret (final boolean select, final Integer newCaretPosition) {
+  public void requestFocusAndSetCaret(final boolean select, final Integer newCaretPosition) {
     try {
       Thread.sleep(100);
     } catch (InterruptedException e) {
@@ -132,18 +127,17 @@ public class LinePartEditor extends PanelHolder {
     });
   }
 
-  private void adaptChordLabel () {
+  private void adaptChordLabel() {
     if (txtText.getCaretPosition() == 0 && txtText.isFocused()) {
       lblChord.setId("chordlabel_selected");
       lblChordOriginal.setId("chordlabel_selected");
-    }
-    else {
+    } else {
       lblChord.setId("chordlabel");
       lblChordOriginal.setId("chordlabel");
     }
   }
 
-  public LinePartEditor (final LineEditor lineEditor, final LinePart linePart, final boolean editable, final String id) {
+  public LinePartEditor(final LineEditor lineEditor, final LinePart linePart, final boolean editable, final String id) {
     this.editable = editable;
     this.index = id;
     this.lineEditor = lineEditor;
@@ -152,8 +146,6 @@ public class LinePartEditor extends PanelHolder {
     lblChord = new Label();
     lblChord.setText(linePart.getChord());
     lblChord.setId("chordlabel");
-
-
 
     lblChordOriginal = new Label();
     lblChordOriginal.setText(linePart.getOriginalChord());
@@ -164,13 +156,12 @@ public class LinePartEditor extends PanelHolder {
     txtText.setId("texteditor");
 
     //Debug layouting
-/**    lblChord.setStyle("-fx-border-color: red;");
-    lblChordOriginal.setStyle("-fx-border-color: red;");
-    txtText.setStyle("-fx-border-color: blue;");
-    root.setStyle("-fx-border-color:green;");**/
+    /**    lblChord.setStyle("-fx-border-color: red;");
+     lblChordOriginal.setStyle("-fx-border-color: red;");
+     txtText.setStyle("-fx-border-color: blue;");
+     root.setStyle("-fx-border-color:green;");**/
 
     txtText.prefColumnCountProperty().bind(txtText.textProperty().length());
-
 
     ChordEditor chordEditor = new ChordEditor(this);
 
@@ -183,31 +174,42 @@ public class LinePartEditor extends PanelHolder {
       txtText.deselect();
 
       txtText.caretPositionProperty().addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
           adaptChordLabel();
         }
       });
       txtText.focusedProperty().addListener(new ChangeListener<Boolean>() {
-        @Override
-        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+        @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+            Boolean newValue) {
           adaptChordLabel();
         }
       });
 
-      txtText.setOnKeyReleased(new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-          LOGGER.info("onKeyReleased - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
+      txtText.addEventFilter(KeyEvent.KEY_PRESSED, event -> { //event filter first catch the event
 
+        if (!event.isAltDown() && txtText.getCaretPosition() == 0 && event.getCode() == KeyCode.LEFT) {
+          int currentIndex = lineEditor.getIndex(getEditor());
+          if (currentIndex > 0) {
+            lineEditor.getLinePartEditor(--currentIndex).toEnd();
+          }
+          event.consume();
+        }
+
+        if (!event.isAltDown() && txtText.getCaretPosition() == txtText.getText().length() && event
+            .getCode() == KeyCode.RIGHT) {
+          int currentIndex = lineEditor.getIndex(getEditor());
+          if (currentIndex < lineEditor.getLinePartEditors().size() - 1) {
+            lineEditor.getLinePartEditor(++currentIndex).toHome();
+          }
+          event.consume();
         }
       });
 
       txtText.setOnKeyPressed(new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-          LOGGER.info("onKeyPressed - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event.isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
-
+        @Override public void handle(KeyEvent event) {
+          LOGGER.info(
+              "onKeyPressed - Ctrl: " + event.isControlDown() + "- Command " + event.isMetaDown() + "-Shift: " + event
+                  .isShiftDown() + "- Event " + event.getCode() + "-" + event.getText());
 
           if (event.getCode() == KeyCode.ESCAPE) {
             //throw new IllegalStateException("NYI");
@@ -237,7 +239,6 @@ public class LinePartEditor extends PanelHolder {
             getSongEditor().reload().getPartEditor(linePart).requestFocus(false);
           }
 
-
           if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
             LinePart focusedLinePart = songNavigationService.stepToNextLinePart(getCursor());
             getSongEditor().getPartEditor(focusedLinePart).requestFocus(false);
@@ -256,20 +257,6 @@ public class LinePartEditor extends PanelHolder {
           if (event.getCode() == KeyCode.ENTER) {
             LinePart focusedLinePart = splitLineService.splitLine(getCursor());
             getSongEditor().reload().getPartEditor(focusedLinePart).requestFocus(true);
-          }
-
-          if (!event.isAltDown() && txtText.getCaretPosition() == 0 && event.getCode() == KeyCode.LEFT) {
-            int currentIndex = lineEditor.getIndex(getEditor());
-            if (currentIndex > 0) {
-              lineEditor.getLinePartEditor(--currentIndex).toEnd();
-            }
-          }
-
-          if (!event.isAltDown() && txtText.getCaretPosition() == txtText.getText().length() && event.getCode() == KeyCode.RIGHT) {
-            int currentIndex = lineEditor.getIndex(getEditor());
-            if (currentIndex < lineEditor.getLinePartEditors().size() - 1) {
-              lineEditor.getLinePartEditor(++currentIndex).toHome();
-            }
           }
 
           if (event.isControlDown() && event.getCode() == KeyCode.C) {
@@ -298,21 +285,21 @@ public class LinePartEditor extends PanelHolder {
 
   }
 
-  public void toggleChordType (final boolean showOrigin) {
+  public void toggleChordType(final boolean showOrigin) {
 
     lblChordOriginal.setVisible(showOrigin);
-    lblChord.setVisible(! showOrigin);
+    lblChord.setVisible(!showOrigin);
   }
 
-  public PartEditor getPartEditor () {
+  public PartEditor getPartEditor() {
     return lineEditor.getPartEditor();
   }
 
-  public SongEditor getSongEditor () {
+  public SongEditor getSongEditor() {
     return getPartEditor().getSongEditor();
   }
 
-  public SongCursor getCursor () {
+  public SongCursor getCursor() {
     SongCursor cursor = new SongCursor();
     SongPart currentSongPart = getEditor().getLineEditor().getPartEditor().getPart();
     Song currentSong = getEditor().getLineEditor().getPartEditor().getSongEditor().getSong();
@@ -324,32 +311,39 @@ public class LinePartEditor extends PanelHolder {
     return cursor;
   }
 
-  public void save () {
+  public void save() {
     getLinePart().setText(txtText.getText());
     getLinePart().setChord(lblChord.getText());
   }
 
-  public String toString () {
+  public String toString() {
     return linePart.toString();
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+  @Override public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
 
     LinePartEditor that = (LinePartEditor) o;
 
-    if (txtText != null ? !txtText.equals(that.txtText) : that.txtText != null) return false;
-    if (lblChord != null ? !lblChord.equals(that.lblChord) : that.lblChord != null) return false;
-    if (lineEditor != null ? !lineEditor.equals(that.lineEditor) : that.lineEditor != null) return false;
-    if (linePart != null ? !linePart.equals(that.linePart) : that.linePart != null) return false;
+    if (txtText != null ? !txtText.equals(that.txtText) : that.txtText != null)
+      return false;
+    if (lblChord != null ? !lblChord.equals(that.lblChord) : that.lblChord != null)
+      return false;
+    if (lineEditor != null ? !lineEditor.equals(that.lineEditor) : that.lineEditor != null)
+      return false;
+    if (linePart != null ? !linePart.equals(that.linePart) : that.linePart != null)
+      return false;
     return root != null ? root.equals(that.root) : that.root == null;
   }
 
   public boolean hasChanged() {
-    if (lblChord.getText() != null ? !lblChord.getText().equals(linePart.getChord()) : linePart.getChord() != null) return true;
-    if (txtText.getText() != null ? !txtText.getText().equals(linePart.getText()) : linePart.getText() != null) return true;
+    if (lblChord.getText() != null ? !lblChord.getText().equals(linePart.getChord()) : linePart.getChord() != null)
+      return true;
+    if (txtText.getText() != null ? !txtText.getText().equals(linePart.getText()) : linePart.getText() != null)
+      return true;
     return false;
   }
 

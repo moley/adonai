@@ -213,8 +213,9 @@ public class SongEditor extends PanelHolder {
 
     reload();
 
-    //if (currentPartEditor != null)
-    //  currentPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
+    PartEditor firstPartEditor = getFirstPartEditor();
+    if (firstPartEditor != null)
+      firstPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
   }
 
   public void adaptChordType (final boolean showOriginChords) {
@@ -241,6 +242,10 @@ public class SongEditor extends PanelHolder {
 
   public void focus(SongPart songPart) {
 
+  }
+
+  public PartEditor getFirstPartEditor () {
+    return partEditors.size() > 0 ? partEditors.get(0): null;
   }
 
   public LinePartEditor getPartEditor(LinePart linePart) {
