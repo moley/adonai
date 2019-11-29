@@ -1,6 +1,5 @@
 package org.adonai.ui.editor2;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -10,23 +9,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
@@ -35,7 +28,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
-import org.adonai.StringUtils;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -49,7 +41,6 @@ import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.UiUtils;
-import org.controlsfx.control.PopOver;
 
 /**
  * Created by OleyMa on 22.11.16.
@@ -64,8 +55,6 @@ public class SongEditor extends PanelHolder {
   private VBox content = new VBox(5); //spacing between parts
 
   private List<PartEditor> partEditors = new ArrayList<>();
-
-  private ContextMenu contextMenu = new ContextMenu();
 
   private AddPartService addPartService = new AddPartService();
 
@@ -158,12 +147,6 @@ public class SongEditor extends PanelHolder {
     content.setPadding(new Insets(20, 20, 20, 20));
     scrollPane.setContent(content);
     root.setId("songeditor");
-
-    String originalKey = StringUtils.getNotNull(song.getOriginalKey());
-    String currentKey = StringUtils.getNotNull(song.getCurrentKey());
-    String open = song.getCurrentKey() != null ? " ( Original " : "";
-    String close = song.getCurrentKey() != null ? " ) " : "";
-
     lblHeaderInfo.setMaxHeight(Double.MAX_VALUE);
 
 
@@ -180,38 +163,6 @@ public class SongEditor extends PanelHolder {
     root.setTop(header);
 
     root.setPrefWidth(Double.MAX_VALUE);
-
-    MenuItem menuItemAddPartBefore = new MenuItem("Add part before");
-    menuItemAddPartBefore.setId("menuitemAddPartBefore");
-    menuItemAddPartBefore.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        SongPart focusedSongPart = addPartService.addPartBefore(getSongCursor());
-        reload().focus(focusedSongPart);
-      }
-    });
-
-    MenuItem menuItemRemovePart = new MenuItem("Remove");
-    menuItemRemovePart.setId("menuItemRemovePart");
-    menuItemRemovePart.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        SongPart focusedSongPart = removePartService.removePart(getSongCursor());
-        reload().focus(focusedSongPart);
-      }
-    });
-
-    MenuItem menuItemAddPartAfter = new MenuItem("Add part after");
-    menuItemAddPartAfter.setId("menuitemAddPartAfter");
-    menuItemAddPartAfter.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        SongPart focusedSongPart = addPartService.addPartAfter(getSongCursor());
-        reload().focus(focusedSongPart);
-
-      }
-    });
-
-    contextMenu.getItems().add(menuItemAddPartBefore);
-    contextMenu.getItems().add(menuItemRemovePart);
-    contextMenu.getItems().add(menuItemAddPartAfter);
 
     reload();
 

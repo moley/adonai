@@ -22,6 +22,7 @@ import javafx.stage.WindowEvent;
 import org.adonai.model.Line;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongPartType;
 import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
@@ -144,11 +145,50 @@ public class PartEditor extends PanelHolder {
     btnAddBefore.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
-        SongCursor songCursor = getSongCursor();
-        System.out.println("Add Before in " + songCursor.toString());
-        AddPartService addPartService = new AddPartService();
-        addPartService.addPartBefore(songCursor);
-        getSongEditor().reload();
+
+        MaskLoader<AddPartController> maskLoader = new MaskLoader();
+        Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(btnAddBefore);
+        mask.setPosition(boundsBtnSongInfo.getMaxX() + 20 , boundsBtnSongInfo.getMinX());
+        mask.setSize(500, 700);
+        AddPartController addPartController = mask.getController();
+        addPartController.init(getSongEditor().getSong());
+        UiUtils.hideOnEsc(mask.getStage());
+        UiUtils.hideOnFocusLost(mask.getStage());
+
+        addPartController.getLviTypes().setOnKeyPressed(new EventHandler<KeyEvent>() {
+          @Override public void handle(KeyEvent event) {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+              mask.getStage().close();
+            }
+          }
+        });
+        addPartController.getLviTypes().setOnMouseClicked(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent event) {
+            if (event.getClickCount() == 2)
+              mask.getStage().close();
+          }
+        });
+
+        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            SongCursor songCursor = getSongCursor();
+            AddPartService addPartService = new AddPartService();
+            SongPart newSongPart = addPartService.addPartBefore(songCursor);
+            String selectedItem = addPartController.getLviTypes().getSelectionModel().getSelectedItem();
+            SongPart copiedPart = addPartController.getSongPart(selectedItem);
+            SongPartType songPartType = addPartController.getNewType(selectedItem);
+            if (copiedPart != null) {
+              newSongPart.setSongPartType(copiedPart.getSongPartType());
+              newSongPart.setReferencedSongPart(copiedPart.getId());
+            }
+            else
+              newSongPart.setSongPartType(songPartType);
+
+            getSongEditor().reload();
+          }
+        });
+        mask.show();
 
 
       }
@@ -193,11 +233,48 @@ public class PartEditor extends PanelHolder {
 
     btnAddAfter.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        SongCursor songCursor = getSongCursor();
-        System.out.println("Add After in " + songCursor.toString());
-        AddPartService addPartService = new AddPartService();
-        addPartService.addPartAfter(songCursor);
-        getSongEditor().reload();
+        MaskLoader<AddPartController> maskLoader = new MaskLoader();
+        Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(btnAddBefore);
+        mask.setPosition(boundsBtnSongInfo.getMaxX() + 20 , boundsBtnSongInfo.getMinX());
+        mask.setSize(500, 700);
+        AddPartController addPartController = mask.getController();
+        addPartController.init(getSongEditor().getSong());
+        UiUtils.hideOnEsc(mask.getStage());
+        UiUtils.hideOnFocusLost(mask.getStage());
+
+        addPartController.getLviTypes().setOnKeyPressed(new EventHandler<KeyEvent>() {
+          @Override public void handle(KeyEvent event) {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+              mask.getStage().close();
+            }
+          }
+        });
+        addPartController.getLviTypes().setOnMouseClicked(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent event) {
+            if (event.getClickCount() == 2)
+              mask.getStage().close();
+          }
+        });
+        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            SongCursor songCursor = getSongCursor();
+            AddPartService addPartService = new AddPartService();
+            SongPart newSongPart = addPartService.addPartAfter(songCursor); //TODO move to service together with addPartBefore
+            String selectedItem = addPartController.getLviTypes().getSelectionModel().getSelectedItem();
+            SongPart copiedPart = addPartController.getSongPart(selectedItem);
+            SongPartType songPartType = addPartController.getNewType(selectedItem);
+            if (copiedPart != null) {
+              newSongPart.setSongPartType(copiedPart.getSongPartType());
+              newSongPart.setReferencedSongPart(copiedPart.getId());
+            }
+            else
+              newSongPart.setSongPartType(songPartType);
+
+            getSongEditor().reload();
+          }
+        });
+        mask.show();
       }
     });
 
