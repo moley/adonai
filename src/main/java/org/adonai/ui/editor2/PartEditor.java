@@ -235,8 +235,8 @@ public class PartEditor extends PanelHolder {
       @Override public void handle(ActionEvent event) {
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
         Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
-        Bounds boundsBtnSongInfo = UiUtils.getBounds(btnAddBefore);
-        mask.setPosition(boundsBtnSongInfo.getMaxX() + 20 , boundsBtnSongInfo.getMinX());
+        Bounds boundsBtnSongInfo = UiUtils.getBounds(getPanel());
+        mask.setPosition(boundsBtnSongInfo.getCenterX() + 20, boundsBtnSongInfo.getMaxY() + 20);
         mask.setSize(500, 700);
         AddPartController addPartController = mask.getController();
         addPartController.init(getSongEditor().getSong());
