@@ -1,7 +1,9 @@
 .root {
     -fx-base: rgb(222, 219, 204);
     -fx-font-size: 20;
-    -fx-focus-color: transparent;
+    -fx-focus-color: black; //rgb (99, 98, 88);
+    -fx-faint-focus-color: transparent;
+    -fx-accent: rgb(222, 219, 204);
 }
 
 .combo-box .list-cell
@@ -24,6 +26,7 @@
     -fx-base: rgb(255, 255, 255);
     -fx-background: rgb(255, 255, 255);
     -fx-control-inner-background: rgb(255, 255, 255);
+
 }
 
 
@@ -96,7 +99,14 @@
     -fx-text-fill: black;
 }
 
-#songtitle {
+#header {
+    -fx-text-fill: rgb(158, 153, 141);
+    -fx-padding: 0 10 25 10;
+
+    -fx-background-color: transparent;
+}
+
+#songheader {
     //-fx-background-color: rgb(250, 250, 248);
     -fx-background-color: rgb(158, 153, 141);
     -fx-text-fill: white;
@@ -113,16 +123,19 @@
 #currentEntity {
     -fx-font-family: Verdana;
     -fx-font-weight: bold;
+    -fx-text-fill: rgb(158, 153, 141);
+
 }
 
 #currentType {
     -fx-font-family: Verdana;
     -fx-font-weight: extra-light;
+    -fx-text-fill: rgb(158, 153, 141);
+
 }
 
 
 .selectlist {
- -fx-focus-color: red;
  -fx-background-color: white;
 }
 

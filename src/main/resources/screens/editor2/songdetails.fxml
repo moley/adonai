@@ -11,24 +11,27 @@
         <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
 
-    <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+
+    <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <TextField fx:id="txtTitle" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-               GridPane.rowIndex="0" GridPane.fillWidth="true"/>
+               GridPane.rowIndex="1" GridPane.fillWidth="true"/>
 
-    <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>
-    <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>
+    <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
-    <Label text="Original key" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Label text="Original key" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <ComboBox fx:id="cboOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="2" GridPane.fillWidth="true"/>
-
-
-    <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="3" GridPane.fillWidth="true"/>
 
-    <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+    <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="4" GridPane.fillWidth="true"/>
+
+    <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
     <TextField fx:id="txtPreset" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-               GridPane.rowIndex="4" GridPane.fillWidth="true"/>
+               GridPane.rowIndex="5" GridPane.fillWidth="true"/>
 
 </GridPane>

@@ -128,18 +128,18 @@ public class SongEditor extends PanelHolder {
         MaskLoader<SongDetailsController> maskLoader = new MaskLoader();
         Mask<SongDetailsController> mask = maskLoader.load("editor2/songdetails");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(btnSongInfo);
-        mask.setPosition(boundsBtnSongInfo.getMinX() - 800, boundsBtnSongInfo.getMaxY() + 20);
+        mask.setPosition(boundsBtnSongInfo.getCenterX() - 800, boundsBtnSongInfo.getMaxY() + 20);
         mask.setSize(800, 400);
         SongDetailsController songDetailsController = mask.getController();
         songDetailsController.setCurrentSong(song);
         songDetailsController.setConfiguration(configuration);
         songDetailsController.init();
-        mask.getStage().addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent escEvent) -> {
-          if (KeyCode.ESCAPE == escEvent.getCode()) {
-            escEvent.consume();
-            mask.getStage().close();
-            reload();
+        UiUtils.hideOnEsc(mask.getStage());
+        UiUtils.hideOnFocusLost(mask.getStage());
 
+        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            reload();
           }
         });
         mask.show();
@@ -155,7 +155,7 @@ public class SongEditor extends PanelHolder {
 
     ScrollPane scrollPane = new ScrollPane();
 
-    content.setPadding(new Insets(5, 10, 5, 10));
+    content.setPadding(new Insets(20, 20, 20, 20));
     scrollPane.setContent(content);
     root.setId("songeditor");
 
@@ -173,7 +173,7 @@ public class SongEditor extends PanelHolder {
     header.getChildren().add(lblHeaderInfo);
     header.getChildren().add(region);
     header.getChildren().add(tbaActions);
-    header.setId("songtitle");
+    header.setId("songheader");
 
 
     root.setCenter(scrollPane);

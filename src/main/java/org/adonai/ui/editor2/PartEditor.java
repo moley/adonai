@@ -113,17 +113,18 @@ public class PartEditor extends PanelHolder {
         Mask<SongPartDetailsController> mask = maskLoader.load("editor2/songpartdetails");
         Bounds boundsLabel = UiUtils.getBounds(label);
         mask.setPosition(boundsLabel.getMaxX() + 20, boundsLabel.getMinY());
-        mask.setSize(600, 400);
+        mask.setSize(800, 400);
         SongPartDetailsController songPartDetailsController = mask.getController();
         songPartDetailsController.setCurrentSong(songEditor.getSong());
         songPartDetailsController.setCurrentSongPart(part);
         songPartDetailsController.init();
-        mask.getStage().addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent escEvent) -> {
-          if (KeyCode.ESCAPE == escEvent.getCode()) {
-            escEvent.consume();
-            mask.getStage().close();
-            reloadTitle();
 
+        UiUtils.hideOnEsc(mask.getStage());
+        UiUtils.hideOnFocusLost(mask.getStage());
+
+        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            reloadTitle();
           }
         });
 
@@ -245,9 +246,6 @@ public class PartEditor extends PanelHolder {
 
     String textCssId = part.getReferencedSongPart() != null ? "texteditor_disabled" : "texteditor";
     String chordCssId = part.getReferencedSongPart() != null ? "chordlabel_disabled" : "chordlabel";
-
-    /**if (getFirstLineEditor() != null)
-      getFirstLineEditor().getFirstLinePartEditor().toHome();**/
 
     for (LineEditor nextLineEditor : lineEditors) {
       for (LinePartEditor nextLinePartEditor : nextLineEditor.getLinePartEditors()) {

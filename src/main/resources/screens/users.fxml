@@ -3,26 +3,25 @@
 <?import javafx.scene.layout.*?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.users.UsersController" alignment="CENTER"
           hgap="10" vgap="10">
-    <padding>
-        <Insets top="20" bottom="20" left="5" right="5"/>
-    </padding>
+    <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="50"/>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="30"/>
     </columnConstraints>
 
+    <Label fx:id="lblTitle" text="ADMINISTRATE USERS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
-    <ListView fx:id="lviUsers" GridPane.columnIndex="0" GridPane.rowIndex="0"
-              GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
-    <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"
+    <ListView fx:id="lviUsers" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="2"
              GridPane.fillHeight="false" GridPane.vgrow="NEVER" spacing="5">
         <Button fx:id="btnAddUser"/>
         <Button fx:id="btnRemoveUser"/>
     </HBox>
 
-    <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-    <TextField fx:id="txtUsername" GridPane.columnIndex="2" GridPane.rowIndex="0"
+    <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <TextField fx:id="txtUsername" GridPane.columnIndex="2" GridPane.rowIndex="1"
                GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
 
 

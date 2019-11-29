@@ -13,10 +13,10 @@ public class SongPartColorMap {
 
 
   public SongPartColorMap () {
-    colorMap.put(SongPartType.REFRAIN, "#f7f6e9");
-    colorMap.put(SongPartType.VERS, "#fff6f5");
-    colorMapSelected.put(SongPartType.REFRAIN, "#fffef7");
-    colorMapSelected.put(SongPartType.VERS, "#fffafa");
+    //colorMap.put(SongPartType.REFRAIN, "#f7f6e9");
+    //colorMap.put(SongPartType.VERS, "#fff6f5");
+    //colorMapSelected.put(SongPartType.REFRAIN, "#fffef7");
+    //colorMapSelected.put(SongPartType.VERS, "#fffafa");
   }
 
   public String getColorForPart(SongPart songPart) {

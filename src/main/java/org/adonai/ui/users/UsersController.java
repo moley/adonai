@@ -45,7 +45,7 @@ public class UsersController {
     });
     this.lviUsers.getSelectionModel().selectFirst();
 
-    btnAddUser.setGraphic(Consts.createImageView("plus", Consts.ICON_SIZE_SMALL));
+    btnAddUser.setGraphic(Consts.createIcon("fa-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -59,7 +59,7 @@ public class UsersController {
 
       }
     });
-    btnRemoveUser.setGraphic(Consts.createImageView("minus", Consts.ICON_SIZE_SMALL));
+    btnRemoveUser.setGraphic(Consts.createIcon("fa-minus", Consts.ICON_SIZE_VERY_SMALL));
     btnRemoveUser.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {

@@ -11,21 +11,23 @@
         <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
 
+    <Label fx:id="lblTitle" text="EDIT PART DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
 
-    <Label text="Copied part" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <ComboBox fx:id="cboCopyExisting" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
-    <Label text="Part type" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Label text="Copied part" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <ComboBox fx:id="cboCopyExisting" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+    <Label text="Part type" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <ComboBox fx:id="cboSongPartType" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="1" GridPane.fillWidth="true"/>
-
-    <Label text="Quantity" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <TextField fx:id="txtQuantity" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="2" GridPane.fillWidth="true"/>
 
-    <Label text="Remarks" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <Label text="Quantity" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="txtQuantity" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="3" GridPane.fillWidth="true"/>
+
+    <Label text="Remarks" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
     <TextArea fx:id="txtRemarks" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="3" GridPane.fillWidth="true"/>
+              GridPane.rowIndex="4" GridPane.fillWidth="true"/>
 
 </GridPane>

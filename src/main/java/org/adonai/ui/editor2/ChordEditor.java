@@ -69,11 +69,18 @@ public class ChordEditor {
           else {
             if (!txtChord.getText().trim().isEmpty()) {
               Chord chord = new Chord(txtChord.getText());
-              if (originalChord)
+              if (originalChord) {
                 linePartEditor.getLinePart().setOriginalChord(chord.toString());
-              else
+                linePartEditor.getLinePart().setChord(null); //to recalculate in reload
+              }
+              else {
                 linePartEditor.getLinePart().setChord(chord.toString());
-              linePartEditor.getLblChord().setText(txtChord.getText());
+                linePartEditor.getLinePart().setOriginalChord(null); ////to recalculate in reload
+              }
+
+              songEditor.reload().getPartEditor(linePartEditor.getLinePart()).requestFocusAndSetCaret(false, songCursor.getPositionInLinePart());
+
+
             } else {
               LinePart selectedLinePart = removeChordService.removeChord(songCursor);
               LinePartEditor selectedLinePartEditor = songEditor.reload().getPartEditor(selectedLinePart);
