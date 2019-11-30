@@ -22,16 +22,17 @@ public class SongTransposeService {
 
     int diff = toIndex - fromIndex;
 
-    NoteEntryType noteEntryType = manager.getType(to);
+    NoteEntryType noteEntryTypeTo = manager.getType(to);
+    NoteEntryType noteEntryTypeFrom = manager.getType(from);
 
     if (linePart.getChord() != null && linePart.getOriginalChord() == null) {
       Chord nextChord = new Chord(linePart.getChord());
-      nextChord.transpose(- diff, noteEntryType);
+      nextChord.transpose(- diff, noteEntryTypeFrom);
       linePart.setOriginalChord(nextChord.toString());
     }
     if (linePart.getChord() == null && linePart.getOriginalChord() != null) {
       Chord nextChord = new Chord(linePart.getOriginalChord());
-      nextChord.transpose(diff, noteEntryType);
+      nextChord.transpose(diff, noteEntryTypeTo);
       linePart.setChord(nextChord.toString());
     }
 

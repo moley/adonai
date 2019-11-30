@@ -59,10 +59,18 @@ public class SongTransposeServiceTest {
     Song song = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "A", "F").get();
     song.setOriginalKey("C");
     song.setCurrentKey("G");
-    System.out.println ("In C:" + song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
     songTransposeService.recalculateOrigin(song);
     Assert.assertEquals ("D", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getOriginalChord());
 
+  }
+
+  @Test  //C->G     //A->D
+  public void recalculateOriginCrossToBb () {
+    Song song = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "G").get();
+    song.setOriginalKey("Db");
+    song.setCurrentKey("G");
+    songTransposeService.recalculateOrigin(song);
+    Assert.assertEquals ("Db", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getOriginalChord());
   }
 
   @Test   //C->G     //F->Bb
@@ -70,7 +78,6 @@ public class SongTransposeServiceTest {
     Song song = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "Bb", "F").get();
     song.setOriginalKey("C");
     song.setCurrentKey("G");
-    System.out.println ("In C:" + song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
     songTransposeService.recalculateCurrent(song);
     Assert.assertEquals ("C", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
   }
