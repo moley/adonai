@@ -32,8 +32,6 @@ import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
-import org.adonai.services.AddPartService;
-import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongInfoService;
 import org.adonai.services.SongRepairer;
@@ -56,10 +54,6 @@ public class SongEditor extends PanelHolder {
 
   private List<PartEditor> partEditors = new ArrayList<>();
 
-  private AddPartService addPartService = new AddPartService();
-
-  private RemovePartService removePartService = new RemovePartService();
-
   private SongInfoService songInfoService = new SongInfoService();
 
   private Label lblHeaderInfo = new Label();
@@ -77,6 +71,9 @@ public class SongEditor extends PanelHolder {
   private Button btnSongInfo = new Button();
 
   private Configuration configuration;
+
+  ScrollPane scrollPane = new ScrollPane();
+
 
   private BooleanProperty showOriginChords = new SimpleBooleanProperty(false);
 
@@ -142,8 +139,6 @@ public class SongEditor extends PanelHolder {
     BorderPane root = new BorderPane();
     setPanel(root);
 
-    ScrollPane scrollPane = new ScrollPane();
-
     content.setPadding(new Insets(20, 20, 20, 20));
     scrollPane.setContent(content);
     root.setId("songeditor");
@@ -169,6 +164,14 @@ public class SongEditor extends PanelHolder {
     PartEditor firstPartEditor = getFirstPartEditor();
     if (firstPartEditor != null)
       firstPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
+  }
+
+  public VBox getContent () {
+    return content;
+  }
+
+  public ScrollPane getScrollPane () {
+    return scrollPane;
   }
 
   public void adaptChordType (final boolean showOriginChords) {

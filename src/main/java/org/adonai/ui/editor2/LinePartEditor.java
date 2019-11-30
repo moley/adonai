@@ -20,6 +20,7 @@ import org.adonai.services.MoveChordService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongNavigationService;
 import org.adonai.services.SplitLineService;
+import org.adonai.ui.UiUtils;
 
 public class LinePartEditor extends PanelHolder {
 
@@ -96,12 +97,17 @@ public class LinePartEditor extends PanelHolder {
         else
           txtText.deselect();
 
+        //UiUtils.centerNodeVerticallyInScrollPane(getSongEditor().getScrollPane(), getLineEditor().getContent());
+
+
       }
     });
 
   }
 
+
   public void requestFocusAndSetCaret(final boolean select, final Integer newCaretPosition) {
+
     try {
       Thread.sleep(100);
     } catch (InterruptedException e) {
@@ -123,8 +129,12 @@ public class LinePartEditor extends PanelHolder {
           LOGGER.info("set caret position to " + newCaretPosition);
           txtText.positionCaret(newCaretPosition);
         }
+
+        //UiUtils.centerNodeVerticallyInScrollPane(getSongEditor().getScrollPane(), getLineEditor().getContent());
       }
     });
+
+
   }
 
   private void adaptChordLabel() {
@@ -256,7 +266,7 @@ public class LinePartEditor extends PanelHolder {
 
           if (event.getCode() == KeyCode.ENTER) {
             LinePart focusedLinePart = splitLineService.splitLine(getCursor());
-            getSongEditor().reload().getPartEditor(focusedLinePart).requestFocus(true);
+            getSongEditor().reload().getPartEditor(focusedLinePart).requestFocus(false);
           }
 
           if (event.isControlDown() && event.getCode() == KeyCode.C) {

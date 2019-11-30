@@ -4,6 +4,7 @@ import java.util.List;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.SongPart;
+import org.junit.Assert;
 import org.junit.Test;
 import org.adonai.Key;
 import org.adonai.model.Song;
@@ -51,6 +52,27 @@ public class SongTransposeServiceTest {
   public void transposeDownBorder () {
     Song song = createSongInC();
 
+  }
+
+  @Test  //C->G     //A->D
+  public void recalculateOrigin () {
+    Song song = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "A", "F").get();
+    song.setOriginalKey("C");
+    song.setCurrentKey("G");
+    System.out.println ("In C:" + song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
+    songTransposeService.recalculateOrigin(song);
+    Assert.assertEquals ("D", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getOriginalChord());
+
+  }
+
+  @Test   //C->G     //F->Bb
+  public void recalculateCurrent () {
+    Song song = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "Bb", "F").get();
+    song.setOriginalKey("C");
+    song.setCurrentKey("G");
+    System.out.println ("In C:" + song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
+    songTransposeService.recalculateCurrent(song);
+    Assert.assertEquals ("C", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
   }
 
 

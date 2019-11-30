@@ -1,5 +1,6 @@
 package org.adonai.ui.settings;
 
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.adonai.ui.Consts;
+import org.adonai.ui.search.SearchController;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 
@@ -32,6 +34,9 @@ public class SettingsController {
 
   ObservableList<SettingsItem> configurations = FXCollections.observableArrayList();
 
+  private static final Logger LOGGER = Logger.getLogger(SettingsController.class.getName());
+
+
 
 
 
@@ -39,7 +44,7 @@ public class SettingsController {
 
   @FXML
   public void initialize() throws IOException {
-    System.out.println ("initializing SettingsController");
+    LOGGER.info("initializing SettingsController");
 
 
 
@@ -49,8 +54,10 @@ public class SettingsController {
     Collection<String> settingsPanes = new ArrayList<String>();
 
     List<String> files = IOUtils.readLines(getClass().getClassLoader().getResourceAsStream("screens/"), Charsets.toCharset("UTF-8"));
+    LOGGER.info("Found " + files.size() + " settings screens");
     for (String next: files) {
       if (next.startsWith("settings_")) {
+        LOGGER.info("adding settings page " + next);
         settingsPanes.add("/screens/" + next);
       }
     }

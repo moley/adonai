@@ -34,6 +34,12 @@ public class SongRepairer {
       if (nextPart.getReferencedSongPart() != null)
         nextPart.getLines().clear();
 
+      //remove all non digits from quantity
+      if (nextPart.getQuantity() != null) {
+        String quantityOnlyDigits = nextPart.getQuantity().replaceAll("\\D+", "");
+        nextPart.setQuantity(quantityOnlyDigits);
+      }
+
       Collection<Line> emptyLines = new ArrayList<Line>();
 
       for (Line line : nextPart.getLines()) {

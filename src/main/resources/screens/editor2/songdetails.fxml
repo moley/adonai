@@ -4,34 +4,37 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.editor2.SongDetailsController" alignment="CENTER" hgap="20" vgap="20" >
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
-        <ColumnConstraints percentWidth="80"/>
+        <ColumnConstraints percentWidth="20"/>
+        <ColumnConstraints percentWidth="60"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <Label fx:id="lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
 
     <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <TextField fx:id="txtTitle" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-               GridPane.rowIndex="1" GridPane.fillWidth="true"/>
+               GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
     <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>
     <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <Button fx:id="btnRecalculateCurrentKey" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
 
     <Label text="Original key" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <ComboBox fx:id="cboOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="3" GridPane.fillWidth="true"/>
-
+    <Button fx:id="btnRecalculateOriginKey" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
 
     <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
     <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="4" GridPane.fillWidth="true"/>
+              GridPane.rowIndex="4" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
     <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
     <TextField fx:id="txtPreset" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-               GridPane.rowIndex="5" GridPane.fillWidth="true"/>
+               GridPane.rowIndex="5" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
 </GridPane>

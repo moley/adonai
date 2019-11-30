@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 
@@ -25,7 +24,7 @@ public class LineEditor extends PanelHolder {
 
   private boolean editable;
 
-  HBox root = new HBox();
+  HBox content = new HBox();
 
 
 
@@ -36,10 +35,14 @@ public class LineEditor extends PanelHolder {
     this.editable = editable;
     this.line = line;
 
-    setPanel(root);
+    setPanel(content);
 
     reload();
 
+  }
+
+  public HBox getContent () {
+    return content;
   }
 
   public PartEditor getPartEditor () {
@@ -48,13 +51,13 @@ public class LineEditor extends PanelHolder {
 
 
   public void reload () {
-    root.getChildren().clear();
+    content.getChildren().clear();
     linePartEditors.clear();
     int partIndex = 0;
     for (LinePart linePart: line.getLineParts()) {
       LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable, getIndex() + "_" + partIndex++);
       linePartEditors.add(linePartEditor);
-      root.getChildren().add(linePartEditor.getPanel());
+      content.getChildren().add(linePartEditor.getPanel());
     }
 
   }

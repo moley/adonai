@@ -4,8 +4,11 @@ import java.util.Optional;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -14,6 +17,8 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.User;
 import org.adonai.services.SongTransposeService;
+import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 
 public class SongDetailsController {
 
@@ -32,6 +37,12 @@ public class SongDetailsController {
 
   @FXML
   private TextField txtTitle;
+
+  @FXML
+  private Button btnRecalculateOriginKey;
+
+  @FXML
+  private Button btnRecalculateCurrentKey;
 
 
   private Song currentSong;
@@ -129,6 +140,23 @@ public class SongDetailsController {
       }
 
 
+    });
+
+    btnRecalculateCurrentKey.setGraphic(Consts.createIcon("fa-calculator", Consts.ICON_SIZE_VERY_SMALL));
+    btnRecalculateCurrentKey.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+
+        SongTransposeService songTransposeService = new SongTransposeService();
+        songTransposeService.recalculateCurrent(currentSong);
+
+      }
+    });
+    btnRecalculateOriginKey.setGraphic(Consts.createIcon("fa-calculator", Consts.ICON_SIZE_VERY_SMALL));
+    btnRecalculateOriginKey.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        SongTransposeService songTransposeService = new SongTransposeService();
+        songTransposeService.recalculateOrigin(currentSong);
+      }
     });
 
   }

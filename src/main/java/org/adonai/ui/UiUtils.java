@@ -1,21 +1,42 @@
 package org.adonai.ui;
 
-import javafx.application.Platform;
+import java.util.logging.Logger;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Control;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.adonai.ui.editor2.LinePartEditor;
 
 public class UiUtils {
 
+  private static final Logger LOGGER = Logger.getLogger(UiUtils.class.getName());
+
   public static void close (final Stage stage) {
     stage.fireEvent( new WindowEvent( stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+  }
+
+  public static double getNodeOffset (ScrollPane scrollPane, Node node) {
+    double nodeY = node.localToScreen(node.getLayoutBounds()).getMinY();
+    double scrollPaneHeight = scrollPane.getContent().getBoundsInLocal().getHeight();
+
+    double offsetY = nodeY/scrollPaneHeight;
+    return offsetY;
+  }
+
+  public static void centerNodeVerticallyInScrollPane(ScrollPane scrollPane, Node node) {
+    double nodeY = node.localToScreen(node.getLayoutBounds()).getMinY();
+    double scrollPaneHeight = scrollPane.getContent().getBoundsInLocal().getHeight();
+
+    double offsetY = nodeY/scrollPaneHeight;
+    scrollPane.setVvalue(offsetY);
+    LOGGER.info("center node (" + nodeY+  " -> " +  scrollPaneHeight + "(offset " + offsetY + ")");
+
+
+
   }
 
   public static Bounds getBounds (Parent control) {

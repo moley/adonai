@@ -69,6 +69,9 @@ public class PartEditor extends PanelHolder {
   private void reloadTitle () {
     boolean isRef = part.getReferencedSongPart() != null;
     String type = getShownPart().getSongPartTypeLabel();
+    if (part.getQuantity() != null) { //quantity is always used from the part itself
+      type += " (" + part.getQuantity().trim() + "x)";
+    }
 
     if (isRef)
       label.setGraphic(Consts.createIcon("fa-external-link", Consts.ICON_SIZE_VERY_SMALL));

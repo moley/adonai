@@ -37,6 +37,35 @@ public class SongTransposeService {
 
   }
 
+  public void recalculateOrigin (final Song song) {
+    if (song.getCurrentKey() == null || song.getOriginalKey() == null)
+      throw new IllegalStateException("Both original and current key have to be set to recalculate the origin key");
+
+    for (SongPart nextPart: song.getSongParts()) {
+      for (Line line: nextPart.getLines()) {
+        for (LinePart nextLinePart: line.getLineParts()) {
+          nextLinePart.setOriginalChord(null);
+          transpose(nextLinePart, Key.fromString(song.getOriginalKey()), Key.fromString(song.getCurrentKey()));
+        }
+      }
+    }
+  }
+
+  public void recalculateCurrent (final Song song) {
+    if (song.getCurrentKey() == null || song.getOriginalKey() == null)
+      throw new IllegalStateException("Both original and current key have to be set to recalculate the current key");
+    for (SongPart nextPart: song.getSongParts()) {
+      for (Line line: nextPart.getLines()) {
+        for (LinePart nextLinePart: line.getLineParts()) {
+          nextLinePart.setChord(null);
+          transpose(nextLinePart, Key.fromString(song.getOriginalKey()), Key.fromString(song.getCurrentKey()));
+        }
+      }
+    }
+
+
+  }
+
   public void transpose (final Song song, final Key from, final Key to) {
 
     Note noteFrom = Note.from(from);
