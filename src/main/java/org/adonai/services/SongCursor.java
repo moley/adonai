@@ -1,11 +1,15 @@
 package org.adonai.services;
 
+import java.util.logging.Logger;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 
 public class SongCursor {
+
+  private static final Logger LOGGER = Logger.getLogger(SongCursor.class.getName());
+
 
   private Song currentSong;
 
@@ -22,11 +26,12 @@ public class SongCursor {
   }
 
   public SongCursor (final Song song, final int part, final int line, final int linepart, int positionInLinePart) {
+    LOGGER.info("Create song cursor for song " + song.getTitle () + "(" + part + "-" + line + "-" + linepart + "-" + positionInLinePart + ")");
     currentSong = song;
-    currentSongPart = song.getSongParts().get(part);
-    currentLine = currentSongPart.getLines().get(line);
-    currentLinePart = currentLine.getLineParts().get(linepart);
-    this.positionInLinePart = new Integer(positionInLinePart);
+    currentSongPart = ! song.getSongParts().isEmpty() ? song.getSongParts().get(part):null;
+    currentLine = (currentSongPart != null && !currentSongPart.getLines().isEmpty()) ? currentSongPart.getLines().get(line): null;
+    currentLinePart = (currentLine != null && !currentLine.getLineParts().isEmpty()) ? currentLine.getLineParts().get(linepart): null;
+    this.positionInLinePart = positionInLinePart;
   }
 
 
