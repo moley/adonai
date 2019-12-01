@@ -97,14 +97,14 @@ public class LinePartEditor extends PanelHolder {
         else
           txtText.deselect();
 
-        //UiUtils.centerNodeVerticallyInScrollPane(getSongEditor().getScrollPane(), getLineEditor().getContent());
+        LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
+        getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
 
 
       }
     });
 
   }
-
 
   public void requestFocusAndSetCaret(final boolean select, final Integer newCaretPosition) {
 
@@ -130,7 +130,8 @@ public class LinePartEditor extends PanelHolder {
           txtText.positionCaret(newCaretPosition);
         }
 
-        //UiUtils.centerNodeVerticallyInScrollPane(getSongEditor().getScrollPane(), getLineEditor().getContent());
+        LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
+        getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
       }
     });
 

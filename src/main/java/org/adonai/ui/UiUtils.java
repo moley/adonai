@@ -27,18 +27,6 @@ public class UiUtils {
     return offsetY;
   }
 
-  public static void centerNodeVerticallyInScrollPane(ScrollPane scrollPane, Node node) {
-    double nodeY = node.localToScreen(node.getLayoutBounds()).getMinY();
-    double scrollPaneHeight = scrollPane.getContent().getBoundsInLocal().getHeight();
-
-    double offsetY = nodeY/scrollPaneHeight;
-    scrollPane.setVvalue(offsetY);
-    LOGGER.info("center node (" + nodeY+  " -> " +  scrollPaneHeight + "(offset " + offsetY + ")");
-
-
-
-  }
-
   public static Bounds getBounds (Parent control) {
     if (control == null)
       throw new IllegalStateException("Control must not be null");

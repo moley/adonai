@@ -62,10 +62,17 @@ public class SongEditor extends PanelHolder {
 
   private HBox header = new HBox();
 
+  private double currentScrollPosition;
+
 
   private Button btnCurrentChord = new Button();
 
   private Button btnOriginalChord = new Button();
+
+  private Button btnStart = new Button();
+  private Button btnEnd = new Button();
+
+
 
 
   private Button btnSongInfo = new Button();
@@ -84,6 +91,26 @@ public class SongEditor extends PanelHolder {
     setIndex("songeditor");
     tbaActions.setStyle("-fx-background-color: transparent;");
 
+    btnStart.setTooltip(new Tooltip("Navigate to the beginning of the song"));
+    btnStart.setGraphic(Consts.createIcon("fa-arrow-up", Consts.ICON_SIZE_VERY_SMALL));
+    btnStart.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        getScrollPane().setVvalue(0);
+      }
+    });
+
+    tbaActions.getItems().add(btnStart);
+
+    btnEnd.setTooltip(new Tooltip("Navigate to the end of the song"));
+    btnEnd.setGraphic(Consts.createIcon("fa-arrow-down", Consts.ICON_SIZE_VERY_SMALL));
+    btnEnd.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        getScrollPane().setVvalue(1);
+      }
+    });
+
+    tbaActions.getItems().add(btnEnd);
+
     btnOriginalChord.setTooltip(new Tooltip("Show original chords"));
     btnOriginalChord.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -92,6 +119,7 @@ public class SongEditor extends PanelHolder {
       }
     });
     tbaActions.getItems().add(btnOriginalChord);
+
 
 
 
@@ -166,6 +194,10 @@ public class SongEditor extends PanelHolder {
       firstPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
   }
 
+  public double getCurrentScrollPosition () {
+    return currentScrollPosition;
+  }
+
   public VBox getContent () {
     return content;
   }
@@ -222,6 +254,8 @@ public class SongEditor extends PanelHolder {
   }
 
   public void reloadDetail() {
+
+    currentScrollPosition = getScrollPane().getVvalue();
     content.getChildren().clear();
 
     partEditors.clear();
@@ -241,6 +275,8 @@ public class SongEditor extends PanelHolder {
       partEditors.add(currentPartEditor);
       content.getChildren().add(currentPartEditor.getPanel());
     }
+
+    getScrollPane().setVvalue(currentScrollPosition);
 
   }
 
