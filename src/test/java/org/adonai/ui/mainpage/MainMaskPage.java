@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class MainMaskPage extends AbstractPage {
 
@@ -78,13 +79,10 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("btnPlus")).query();
   }
 
-  public Button getBtnExportWith() {
-    return applicationTest.lookup(nodeWithId("btnExportWithChords")).query();
+  public Button getBtnExport() {
+    return applicationTest.lookup(nodeWithId("btnExport")).query();
   }
 
-  public Button getBtnExportWithout() {
-    return applicationTest.lookup(nodeWithId("btnExportWithoutChords")).query();
-  }
 
   public Button getBtnMinus() {
     return applicationTest.lookup(nodeWithId("btnMinus")).query();
@@ -119,12 +117,9 @@ public class MainMaskPage extends AbstractPage {
     applicationTest.clickOn(getBtnPlus());
   }
 
-  public void exportWithChords () {
-    applicationTest.clickOn(getBtnExportWith());
-  }
-
-  public void exportWithoutChords () {
-    applicationTest.clickOn(getBtnExportWithout());
+  public void export () {
+    applicationTest.clickOn(getBtnExport());
+    //WaitForAsyncUtils.waitForFxEvents();
   }
 
   public void remove () {

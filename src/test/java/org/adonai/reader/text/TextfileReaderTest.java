@@ -52,7 +52,7 @@ public class TextfileReaderTest {
     Song song = textfileReader.read(content, new TextfileReaderParam());
     SongPart intro = song.getSongParts().get(0);
     Assert.assertFalse ("2x must not be shown in line content", intro.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2x", intro.getQuantity());
+    Assert.assertEquals ("2", intro.getQuantity());
   }
 
   @Test
@@ -140,7 +140,7 @@ public class TextfileReaderTest {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F (2x)", "   Alles   ist cool");
     SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2x", firstPart.getQuantity());
+    Assert.assertEquals ("2", firstPart.getQuantity());
 
   }
 
@@ -149,7 +149,7 @@ public class TextfileReaderTest {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool  (2x)");
     SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2x", firstPart.getQuantity());
+    Assert.assertEquals ("2", firstPart.getQuantity());
 
   }
 

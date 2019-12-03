@@ -41,7 +41,7 @@ public class AreaInfo {
   }
 
   public String toString () {
-    return location.getX() + "-" + location.getY() + "-" + size.getWidth() + "-" + size.getHeight();
+    return "X:" + location.getX() + "- Y:" + location.getY() + "- Width: " + size.getWidth() + "- Height: " + size.getHeight();
   }
 
 

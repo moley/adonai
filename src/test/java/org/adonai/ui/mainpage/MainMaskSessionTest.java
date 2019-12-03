@@ -56,7 +56,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     mainMaskPage.stepToSession(0);
     System.out.println (mainMaskPage.getExportedFiles());
     Assert.assertFalse (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
-    mainMaskPage.exportWithChords();
+    mainMaskPage.export();
     Assert.assertTrue (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
 
 

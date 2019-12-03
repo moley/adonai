@@ -40,7 +40,7 @@ public class ExportToken {
 
 
   public String toString () {
-    return text + "(" + areaInfo + ")";
+    return exportTokenType.name() + "    - " + text + "(" + areaInfo + ")";
 
   }
 }

@@ -179,13 +179,11 @@ public class PdfWriterTest extends AbstractExportTest {
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
     exportConfiguration.setWithContentPage(false);
-    exportConfiguration.setOpenPreview(openPreview);
+    exportConfiguration.setOpenPreview(true); //openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Doch dein Reich ist schon da");
-    System.out.println (exportTokenSecondSide.getAreaInfo().getY());
-    System.out.println (exportConfiguration.getUpperBorder());
-    Assert.assertTrue ("Y-Position of second side token invalid" + exportTokenSecondSide.getAreaInfo().getY(),
+    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Du machst Himmel und Erde einmal neu");
+    Assert.assertTrue ("Y-Position of second side token invalid (" + exportTokenSecondSide + ")",
       exportTokenSecondSide.getAreaInfo().getY() < 50);
 
   }

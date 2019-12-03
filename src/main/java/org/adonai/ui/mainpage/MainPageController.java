@@ -282,12 +282,12 @@ public class MainPageController {
     });**/
 
     //Button Export transposed
-    Button btnExportWithoutChords = new Button ("Export");
-    btnExportWithoutChords.setTooltip(new Tooltip("Export to pdf"));
-    btnExportWithoutChords.setId("btnExportWithoutChords");
-    btnExportWithoutChords.setGraphic(Consts.createIcon("fa-desktop", iconSizeToolbar));
-    tbaActions.getItems().add(btnExportWithoutChords);
-    btnExportWithoutChords.setOnAction(new EventHandler<ActionEvent>() {
+    Button btnExport = new Button ("Export");
+    btnExport.setTooltip(new Tooltip("Export to pdf"));
+    btnExport.setId("btnExport");
+    btnExport.setGraphic(Consts.createIcon("fa-desktop", iconSizeToolbar));
+    tbaActions.getItems().add(btnExport);
+    btnExport.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         ExportAction exportAction = new ExportAction();
