@@ -179,7 +179,7 @@ public class PdfWriterTest extends AbstractExportTest {
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
     exportConfiguration.setWithContentPage(false);
-    exportConfiguration.setOpenPreview(true); //openPreview);
+    exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
     ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Du machst Himmel und Erde einmal neu");
