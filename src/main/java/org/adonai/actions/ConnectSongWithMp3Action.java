@@ -48,11 +48,7 @@ public class ConnectSongWithMp3Action {
           additional.setAdditionalType(AdditionalType.AUDIO);
           additional.setLink(songExtension);
           AdditionalsImporter additionalsImporter = new AdditionalsImporter();
-          try {
-            File additionalFile = additionalsImporter.getAdditional(additional);
-          } catch (IOException e) {
-            throw new IllegalStateException(e);
-          }
+          additionalsImporter.refreshCache(selectedSong, additional);
           selectedSong.setAdditional(additional);
           LOGGER.info("connect song " + selectedSong + " with songfile " + extensionSelectorController.getSelectedExtension());
 

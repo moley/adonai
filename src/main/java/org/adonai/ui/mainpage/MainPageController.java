@@ -1,5 +1,7 @@
 package org.adonai.ui.mainpage;
 
+import java.io.File;
+import java.io.IOException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,8 +22,10 @@ import javafx.scene.layout.*;
 import javafx.stage.WindowEvent;
 import org.adonai.actions.*;
 import org.adonai.actions.add.AddSongAction;
+import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.*;
 import org.adonai.online.DropboxAdapter;
+import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.RenumberService;
@@ -108,6 +112,8 @@ public class MainPageController {
 
   @FXML
   private TextField txtSessionName;
+
+  private Mp3Player mp3Player = new Mp3Player();
 
 
   public void initialize() {
@@ -297,7 +303,6 @@ public class MainPageController {
 
 
 
-
     Button btnUserAdmin = new Button("Users");
     btnUserAdmin.setTooltip(new Tooltip("Administrate all users"));
     btnUserAdmin.setId("btnUserAdmin");
@@ -314,16 +319,90 @@ public class MainPageController {
       }
     });
 
+    tbaActions.getItems().add(new Separator());
+
+
+    Button btnPlayerBackward = new Button();
+    btnPlayerBackward.setTooltip(new Tooltip("Step to the beginning of the current song"));
+    btnPlayerBackward.setGraphic(Consts.createIcon("fa-backward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerBackward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.beginning();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerBackward);
+
+    Button btnPlayerStepBackward = new Button();
+    btnPlayerStepBackward.setTooltip(new Tooltip("Step some seconds backward in the current song"));
+    btnPlayerStepBackward.setGraphic(Consts.createIcon("fa-step-backward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerStepBackward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.backward();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerStepBackward);
+
+
+
+    Button btnPlayerPause = new Button();
+    btnPlayerPause.setTooltip(new Tooltip("Pause playing the current song"));
+    btnPlayerPause.setGraphic(Consts.createIcon("fa-pause", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerPause.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.pause();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerPause);
+
+    Button btnPlayerPlay = new Button();
+    btnPlayerPlay.setTooltip(new Tooltip("Play the current song"));
+    btnPlayerPlay.setGraphic(Consts.createIcon("fa-play", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerPlay.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.play();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerPlay);
+
+    Button btnPlayerStepForeward = new Button();
+    btnPlayerStepForeward.setTooltip(new Tooltip("Step some seconds foreward in the current song"));
+    btnPlayerStepForeward.setGraphic(Consts.createIcon("fa-step-forward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerStepForeward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.forward();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerStepForeward);
+
+    Button btnPlayerForeward = new Button();
+    btnPlayerForeward.setTooltip(new Tooltip("Step to the end of the current song"));
+    btnPlayerForeward.setGraphic(Consts.createIcon("fa-forward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerForeward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
+        mp3Player.end();
+      }
+    });
+    tbaActions.getItems().add(btnPlayerForeward);
+
+
+    tbaActions.getItems().add(new Separator());
+
     //Button Save
     Button btnSave = new Button ();
     btnSave.setTooltip(new Tooltip("Save all data"));
     btnSave.setGraphic(Consts.createIcon("fa-save", iconSizeToolbar));
-    //btnSave.setGraphic(Consts.createImageView("save", iconSizeToolbar));
 
     tbaActions.getItems().add(btnSave);
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        mp3Player.setFile(getMp3FileOfCurrentSong());
         configurationService.set(configuration);
       }
     });
@@ -487,6 +566,30 @@ public class MainPageController {
 
     refreshButtonState();
 
+  }
+
+  private File getMp3FileOfCurrentSong () {
+    if (currentSong == null) {
+      LOGGER.info("getMp3FileOfCurrentSong returns null (currentSong=null)");
+      return null;
+    }
+    if  (currentSong.getAdditionals() == null) {
+      LOGGER.info("getMp3FileOfCurrentSong returns null (getAdditionals=null)");
+      return null;
+    }
+    AdditionalsImporter importer = new AdditionalsImporter();
+
+    for (Additional nextAdditional: currentSong.getAdditionals()) {
+      if (nextAdditional.getAdditionalType().equals(AdditionalType.AUDIO) && nextAdditional.getLink() != null) {
+        File additionalFile = importer.getAdditionalFile(currentSong, nextAdditional);
+        LOGGER.info("getMp3FileOfCurrentSong returns " + additionalFile);
+        return additionalFile;
+      }
+    }
+
+    LOGGER.info("getMp3FileOfCurrentSong returns null (not found) ");
+
+    return null;
   }
 
   private void refreshButtonState () {

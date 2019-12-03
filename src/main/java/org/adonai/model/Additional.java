@@ -1,8 +1,12 @@
 package org.adonai.model;
 
+import java.util.Objects;
+
 public class Additional {
 
   private String link;
+
+  private String cacheLink;
 
   private AdditionalType additionalType;
 
@@ -20,5 +24,12 @@ public class Additional {
 
   public void setAdditionalType(AdditionalType additionalType) {
     this.additionalType = additionalType;
+  }
+  public String getCacheLink() {
+    return cacheLink;
+  }
+
+  public void setCacheLink(String cacheLink) {
+    this.cacheLink = cacheLink;
   }
 }

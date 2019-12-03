@@ -1,5 +1,6 @@
 package org.adonai.ui.mainpage;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.adonai.player.Mp3Player;
 import org.adonai.screens.ScreenManager;
 import org.adonai.ui.Consts;
 

@@ -17,12 +17,12 @@ repositories {
 }
 
 javafx {
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing', 'javafx.media']
     version = "11.0.2" //12-ea+8"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_13
+targetCompatibility = JavaVersion.VERSION_13
 
 dependencies {
     compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
@@ -46,13 +46,14 @@ dependencies {
     runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.0'
 
 
-    runtime 'org.openjfx:javafx-controls:12-ea+8'
-    runtime 'org.openjfx:javafx-graphics:12-ea+8'
-    runtime 'org.openjfx:javafx-swing:12-ea+8'
+    runtime 'org.openjfx:javafx-controls:14-ea+2'
+    runtime 'org.openjfx:javafx-graphics:14-ea+2'
+    runtime 'org.openjfx:javafx-swing:14-ea+2'
+    runtime 'org.openjfx:javafx-media:14-ea+2'
 
     testCompile 'junit:junit:4.12'
-    testCompile "org.testfx:testfx-core:4.0.12-alpha"
-    testCompile "org.testfx:testfx-junit:4.0.12-alpha"
+    testCompile "org.testfx:testfx-core:4.0.16-alpha"
+    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
     testCompile "org.testfx:openjfx-monocle:jdk-12.0.1+2"
 }
 

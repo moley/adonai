@@ -88,12 +88,7 @@ public class SongRepairer {
     if (song.findAdditional(AdditionalType.AUDIO) != null) {
       Additional additional = song.findAdditional(AdditionalType.AUDIO);
 
-      try {
-        File additionalFile = additionalsImporter.getAdditional(additional);
-        LOGGER.info("Mp3 " + additional.getLink() + "-" + additionalFile.getAbsolutePath());
-      } catch (IOException e) {
-        throw new IllegalStateException(e);
-      }
+      additionalsImporter.refreshCache(song, additional);
 
     }
 

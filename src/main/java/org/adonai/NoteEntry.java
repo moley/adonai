@@ -40,7 +40,7 @@ public class NoteEntry implements Comparable<NoteEntry> {
 
   @Override
   public int compareTo(NoteEntry o) {
-    return - new Integer (getLabel().length()).compareTo(o.getLabel().length());
+    return - Integer.valueOf(getLabel().length()).compareTo(o.getLabel().length());
   }
 
   public NoteEntryType getNoteEntryType() {
