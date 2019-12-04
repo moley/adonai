@@ -4,7 +4,9 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.testdata.TestDataCreator;
+import org.adonai.ui.TestUtil;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MainMaskSessionTest extends AbstractAdonaiUiTest {
@@ -12,6 +14,11 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   private MainMaskPage mainMaskPage;
 
 
+
+  @BeforeClass
+  public static void beforeClass () {
+    TestUtil.initialize();
+  }
 
   @Override
   public void start(Stage stage) throws Exception {

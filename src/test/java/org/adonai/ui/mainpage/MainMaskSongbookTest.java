@@ -1,10 +1,10 @@
 package org.adonai.ui.mainpage;
 
-import javafx.application.Platform;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.testdata.TestDataCreator;
+import org.adonai.ui.TestUtil;
 import org.adonai.ui.imports.ImportSongWizardPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,6 +15,10 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
   private MainMaskPage mainMaskPage;
 
 
+  @BeforeClass
+  public static void beforeClass () {
+    TestUtil.initialize();
+  }
 
   @Override
   public void start(Stage stage) throws Exception {
