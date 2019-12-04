@@ -15,26 +15,27 @@ import org.adonai.model.Song;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 08.11.16.
  */
 public class PlaylistExport {
 
-  private static final Logger LOGGER = Logger.getLogger(PlaylistExport.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlaylistExport.class);
 
 
   private void adaptMp3Tags (final File inputfile, final File outputfile, final Song song) {
 
     try {
       Mp3File mp3file = new Mp3File(inputfile);
-      System.out.println("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");
-      System.out.println("Bitrate: " + mp3file.getBitrate() + " kbps " + (mp3file.isVbr() ? "(VBR)" : "(CBR)"));
-      System.out.println("Sample rate: " + mp3file.getSampleRate() + " Hz");
-      System.out.println("Has ID3v1 tag?: " + (mp3file.hasId3v1Tag() ? "YES" : "NO"));
-      System.out.println("Has ID3v2 tag?: " + (mp3file.hasId3v2Tag() ? "YES" : "NO"));
-      System.out.println("Has custom tag?: " + (mp3file.hasCustomTag() ? "YES" : "NO"));
+      LOGGER.info("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");
+      LOGGER.info("Bitrate: " + mp3file.getBitrate() + " kbps " + (mp3file.isVbr() ? "(VBR)" : "(CBR)"));
+      LOGGER.info("Sample rate: " + mp3file.getSampleRate() + " Hz");
+      LOGGER.info("Has ID3v1 tag?: " + (mp3file.hasId3v1Tag() ? "YES" : "NO"));
+      LOGGER.info("Has ID3v2 tag?: " + (mp3file.hasId3v2Tag() ? "YES" : "NO"));
+      LOGGER.info("Has custom tag?: " + (mp3file.hasCustomTag() ? "YES" : "NO"));
 
       if (mp3file.hasId3v1Tag())
         mp3file.removeId3v1Tag();

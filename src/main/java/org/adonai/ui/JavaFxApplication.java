@@ -1,17 +1,18 @@
 package org.adonai.ui;
 
+import java.io.File;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaFxApplication extends Application {
 
-  private static final Logger LOGGER = Logger.getLogger(JavaFxApplication.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);
 
   public static void main(String[] args) {
     launch(args);
@@ -20,6 +21,7 @@ public class JavaFxApplication extends Application {
   @Override
   public void start(Stage primaryStage) throws IOException {
 
+    LOGGER.info("Starting adonai in folder " + new File("").getAbsolutePath());
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/mainpage.fxml"));
     Parent root = loader.load();

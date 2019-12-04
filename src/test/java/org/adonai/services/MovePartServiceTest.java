@@ -1,23 +1,22 @@
 package org.adonai.services;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.adonai.model.SongPartType;
 import org.adonai.SongTestData;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
+import org.adonai.model.SongPartType;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class MovePartServiceTest {
+
 
   private MovePartService movePartService = new MovePartService();
 
   @Test
   public void moveFirstPartUp () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = movePartService.movePartUp(cursor);
-    System.out.println("Afterwards:" + songWithOnePart);
     Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
     Assert.assertEquals (2, songWithOnePart.getSongParts().size());
     Assert.assertEquals (SongPartType.VERS, songWithOnePart.getSongParts().get(0).getSongPartType());
@@ -28,10 +27,8 @@ public class MovePartServiceTest {
   @Test
   public void moveLastPartUp () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = movePartService.movePartUp(cursor);
-    System.out.println("Afterwards:" + songWithOnePart);
 
     Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
     Assert.assertEquals (2, songWithOnePart.getSongParts().size());
@@ -43,10 +40,8 @@ public class MovePartServiceTest {
   @Test
   public void moveFirstPartDown () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = movePartService.movePartDown(cursor);
-    System.out.println("Afterwards:" + songWithOnePart);
     Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
     Assert.assertEquals (2, songWithOnePart.getSongParts().size());
     Assert.assertEquals (SongPartType.REFRAIN, songWithOnePart.getSongParts().get(0).getSongPartType());
@@ -57,10 +52,8 @@ public class MovePartServiceTest {
   @Test
   public void moveLastPartDown () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = movePartService.movePartDown(cursor);
-    System.out.println(songWithOnePart);
     Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
     Assert.assertEquals (2, songWithOnePart.getSongParts().size());
     Assert.assertEquals (SongPartType.VERS, songWithOnePart.getSongParts().get(0).getSongPartType());

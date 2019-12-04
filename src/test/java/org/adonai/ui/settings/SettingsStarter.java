@@ -14,8 +14,13 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SettingsStarter extends Application {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SettingsStarter.class);
+
 
   public static void main(String[] args) {
     launch(args);
@@ -45,7 +50,7 @@ public class SettingsStarter extends Application {
       public void handle(WindowEvent event) {
         configurationService.save();
         try {
-          System.out.println (FileUtils.readFileToString(configurationService.getConfigFile(), "UTF-8") );
+          LOGGER.info(FileUtils.readFileToString(configurationService.getConfigFile(), "UTF-8") );
 
         } catch (IOException e) {
           throw new IllegalStateException(e);

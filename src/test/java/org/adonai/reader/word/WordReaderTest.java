@@ -1,5 +1,7 @@
 package org.adonai.reader.word;
 
+import org.adonai.model.Line;
+import org.adonai.model.LinePart;
 import org.junit.Assert;
 import org.junit.Test;
 import org.adonai.model.SongPartType;
@@ -64,7 +66,7 @@ public class WordReaderTest {
 
     Collection<Song> songs = reader.read(null);
     Song firstSong = songs.iterator().next();
-    Assert.assertEquals (new Integer("1"), firstSong.getId());
+    Assert.assertEquals (Integer.valueOf("1"), firstSong.getId());
 
   }
 
@@ -72,16 +74,19 @@ public class WordReaderTest {
   public void numbers () throws IOException {
     DefaultTokenizer tokenizer = new DefaultTokenizer();
     tokenizer = tokenizer.add("1			EVERLASTING GOD").add("").add("");
-    tokenizer = tokenizer.add("ZWISCHEN  6x	I will worship,             I will worship, You");
+    tokenizer = tokenizer.add("ZWISCHENSPIEL  6x	I will worship,             I will worship, You");
 
     WordReader reader = new WordReader();
     reader.setWordTokenizer(tokenizer);
 
     Collection<Song> songs = reader.read(null);
     Song firstSong = songs.iterator().next();
-    System.out.println (firstSong.getSongParts().get(0).getLines().get(0).getText());
+    SongPart songPart = firstSong.getFirstSongPart();
+    LinePart linePart = songPart.getFirstLine().getFirstLinePart();
 
-
+    Assert.assertEquals ("Type invalid", SongPartType.ZWISCHENSPIEL, songPart.getSongPartType());
+    Assert.assertEquals ("Numbers invalid", "6", songPart.getQuantity());
+    Assert.assertEquals ("Text invalid", "I will worship, I will worship, You", linePart.getText());
   }
 
   @Test

@@ -11,11 +11,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 15.09.16.
  */
 public class WordReader {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(WordReader.class);
+
 
 
   private ITokenizer wordTokenizer = new WordTokenizer();
@@ -52,7 +57,7 @@ public class WordReader {
           currentSong.setId(Integer.valueOf(id));
           currentSongPart = null;
           songs.add(currentSong);
-          //System.out.println("\n\n\nTitle: " + paragraph);
+          LOGGER.info("Determined title <" + paragraph + ">");
         } else {
           String[] lines = paragraph.split("\n");
           for (String nextLine : lines) {
@@ -66,6 +71,11 @@ public class WordReader {
               currentSongPart.setSongPartType(songPartType);
             }
 
+            String quantity = extractQuantity(nextLine);
+            if (quantity != null) {
+              currentSongPart.setQuantity(quantity.substring(0, quantity.length() - 1));
+              nextLine = nextLine.replace(quantity + " ", "");
+            }
 
             if (nextLine.isEmpty()) {
               if (currentSongPart == null || !currentSongPart.isEmpty()) {
@@ -90,9 +100,6 @@ public class WordReader {
               currentSongPart.getLines().add(newLine);
 
             }
-            //else
-            //System.out.println ("Chordline: " + nextLine);
-
           }
 
         }
@@ -116,6 +123,14 @@ public class WordReader {
     }
 
     return songs;
+  }
+
+  private String extractQuantity(String line) {
+    for (String next: line.split(" ")) {
+      if (next.endsWith("x"))
+        return next;
+    }
+    return null;
   }
 
   private SongPartType extractPartType (String line) {
@@ -143,7 +158,8 @@ public class WordReader {
 
       Chord chordAsObject = new Chord(nextChord);
       chords.add(chordAsObject);
-      //System.out.println (">" + nextChord + "< is a chord");
+      if (LOGGER.isDebugEnabled())
+        LOGGER.debug(">" + nextChord + "< is a chord");
     }
 
     return chords;

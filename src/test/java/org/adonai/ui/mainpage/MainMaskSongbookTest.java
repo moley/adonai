@@ -18,7 +18,6 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
 
   @Override
   public void start(Stage stage) throws Exception {
-    System.out.println ("java.class.path=" + System.getProperty("java.class.path"));
     TestDataCreator testDataCreator = new TestDataCreator();
     testDataCreator.createTestData(false);
     super.start(stage);
@@ -45,9 +44,10 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
   @Test
   public void clickOnListStepsToSongDetails () {
     mainMaskPage.stepToSongbook();
-    Assert.assertEquals ("SONGBOOK", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("", mainMaskPage.getCurrentContentText());
     doubleClickOn(mainMaskPage.getLviSongs(), MouseButton.PRIMARY);
-    Assert.assertEquals ("SONG 'Song1'", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("song", mainMaskPage.getCurrentTypeText());
     Assert.assertTrue ("SongEditorPane is not visible", mainMaskPage.getSongEditorPane().isVisible());
   }
 

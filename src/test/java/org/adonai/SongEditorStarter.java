@@ -8,19 +8,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.*;
+import org.adonai.services.SongTransposeService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.editor2.SongEditor;
 
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 22.11.16.
  */
 public class SongEditorStarter extends Application {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongEditorStarter.class);
 
 
-    private static int songnumber = 0;
+
+
+  private static int songnumber = 0;
 
     public static void main(String[] args) {
       if (args.length > 0)
@@ -57,7 +63,7 @@ public class SongEditorStarter extends Application {
           configurationService.setConfigFile(tmpConfig);
           configurationService.save();
 
-          System.out.println ("Save in " + configurationService.getConfigFile().getAbsolutePath());
+          LOGGER.info("Save configuration in " + configurationService.getConfigFile().getAbsolutePath());
 
         }
       });

@@ -17,9 +17,7 @@ public class SplitLineServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 1, 0);
 
-    System.out.println(songWithOnePart);
     LinePart focusedLinePart = splitLineService.splitLine(cursor);
-    System.out.println(songWithOnePart);
 
     Assert.assertEquals (2, cursor.getCurrentSongPart().getLines().size());
     Line firstLine = cursor.getCurrentSongPart().getLines().get(0);
@@ -39,9 +37,7 @@ public class SplitLineServiceTest {
   public void splitLineBeginning () {
     Song songWithOnePart = SongTestData.getSongWithOnePart();
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
-    System.out.println(songWithOnePart);
     LinePart focusedLinePart = splitLineService.splitLine(cursor);
-    System.out.println(songWithOnePart);
 
     Assert.assertEquals (2, cursor.getCurrentSongPart().getLines().size());
     Assert.assertTrue ("Empty part not added in first line", cursor.getCurrentSongPart().getLines().get(0).getFirstLinePart().getText().trim().isEmpty());
@@ -53,9 +49,7 @@ public class SplitLineServiceTest {
     Song songWithOnePart = SongTestData.getSongWithOnePart();
     int lastIndex = songWithOnePart.getSongParts().get(0).getLines().get(0).getFirstLinePart().getText().length();
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, lastIndex);
-    System.out.println(songWithOnePart);
     LinePart focusedLinePart = splitLineService.splitLine(cursor);
-    System.out.println(songWithOnePart);
     Assert.assertEquals (2, songWithOnePart.getSongParts().get(0).getLines().size());
     Assert.assertTrue ("Wrong type", cursor.getCurrentSongPart().getLines().get(1).getFirstLinePart().getText().trim().isEmpty());
     Assert.assertEquals ("Wrong part focused", cursor.getCurrentSongPart().getLines().get(1).getFirstLinePart(), focusedLinePart);
@@ -68,9 +62,7 @@ public class SplitLineServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 4);
 
-    System.out.println(songWithOnePart);
     LinePart focusedLinePart = splitLineService.splitLine(cursor);
-    System.out.println(songWithOnePart);
 
     Assert.assertEquals (2, cursor.getCurrentSongPart().getLines().size());
     Line firstLine = cursor.getCurrentSongPart().getLines().get(0);

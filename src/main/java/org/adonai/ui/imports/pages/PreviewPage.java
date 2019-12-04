@@ -7,10 +7,16 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.adonai.model.ConfigurationService;
+import org.adonai.ui.JavaFxApplication;
 import org.adonai.ui.editor2.SongEditor;
 import org.adonai.ui.imports.SongImportController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PreviewPage extends WizardPage {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PreviewPage.class);
+
 
   public final static String TITLE = "Preview";
   public PreviewPage(SongImportController controller) {
@@ -24,9 +30,10 @@ public class PreviewPage extends WizardPage {
     rootpanel.sceneProperty().addListener(new ChangeListener<Scene>() {
       @Override
       public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
-        System.out.println ("Visibility change: " + oldValue + "->" + newValue);
+        if (LOGGER.isDebugEnabled())
+          LOGGER.debug("Visibility change: " + oldValue + "->" + newValue);
         if (oldValue == null && newValue != null) {
-          System.out.println ("Preview for " + controller.getSongToImport().toString() );
+          LOGGER.info("Preview for " + controller.getSongToImport().toString() );
           ConfigurationService configurationService = new ConfigurationService();
 
           SongEditor songEditor = new SongEditor(configurationService.get(), controller.getSongToImport());

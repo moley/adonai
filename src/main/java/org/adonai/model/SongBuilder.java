@@ -1,5 +1,7 @@
 package org.adonai.model;
 
+import java.io.File;
+
 public class SongBuilder {
 
   private Song song = new Song();
@@ -12,6 +14,15 @@ public class SongBuilder {
 
   public static SongBuilder instance() {
     return new SongBuilder();
+  }
+
+  public SongBuilder withMp3 (final File file) {
+    Additional additional = new Additional();
+    additional.setAdditionalType(AdditionalType.AUDIO);
+    additional.setLink(file.getAbsolutePath());
+    additional.setCacheLink(file.getAbsolutePath());
+    song.getAdditionals().add(additional);
+    return this;
   }
 
   public SongBuilder withTitle (final String title) {

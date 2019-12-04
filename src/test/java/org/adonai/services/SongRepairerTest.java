@@ -87,10 +87,13 @@ public class SongRepairerTest {
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
 
+    Assert.assertEquals("D", linePart.getChord());
+    Assert.assertEquals("A", linePart.getOriginalChord());
 
-    System.out.println (linePart.getChord() + "-" + linePart.getOriginalChord());
-    System.out.println (linePar2.getChord() + "-" + linePar2.getOriginalChord());
-    System.out.println (linePar3.getChord() + "-" + linePar3.getOriginalChord());
+    Assert.assertEquals("A", linePar2.getChord());
+    Assert.assertEquals("E", linePar2.getOriginalChord());
 
+    Assert.assertEquals("G", linePar3.getChord());
+    Assert.assertEquals("D", linePar3.getOriginalChord());
   }
 }

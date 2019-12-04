@@ -1,15 +1,12 @@
 package org.adonai.ui.editor2;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -30,12 +27,16 @@ import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.UiUtils;
-import org.controlsfx.control.PopOver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 22.11.16.
  */
 public class PartEditor extends PanelHolder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PartEditor.class);
+
 
   private List<LineEditor> lineEditors = new ArrayList<LineEditor>();
 
@@ -201,7 +202,7 @@ public class PartEditor extends PanelHolder {
     btnMoveUp.setGraphic(Consts.createIcon("fa-angle-up", Consts.ICON_SIZE_VERY_SMALL));
     btnMoveUp.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        System.out.println("Move up");
+        LOGGER.info("Move up");
       }
     });
 
@@ -211,7 +212,7 @@ public class PartEditor extends PanelHolder {
     btnRemove.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         SongCursor songCursor = getSongCursor();
-        System.out.println("Remove" + songCursor.toString());
+        LOGGER.info("Remove" + songCursor.toString());
         RemovePartService removePartService = new RemovePartService();
         removePartService.removePart(songCursor);
         getSongEditor().reload();
@@ -227,7 +228,7 @@ public class PartEditor extends PanelHolder {
 
     btnMoveDown.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        System.out.println("Move down");
+        LOGGER.info("Move down");
       }
     });
 

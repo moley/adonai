@@ -45,11 +45,9 @@ public class SongEditorPage {
     String key = "editor_" + lineIndex + "_" + posInLine;
     VBox editorContent = getSongEditorContentPane();
     for (Node nextNode: editorContent.getChildren()) {
-      System.out.println ("Id: " + nextNode.getId());
       HBox nextHBox = (HBox) nextNode;
       for (Node nextHBoxEntry: nextHBox.getChildren()) {
         VBox nextHBoxEntryHbox = (VBox) nextHBoxEntry;
-        System.out.println (nextHBoxEntryHbox.getId());
           if (nextHBoxEntryHbox.getId().equals(key))
             return nextHBoxEntryHbox;
       }

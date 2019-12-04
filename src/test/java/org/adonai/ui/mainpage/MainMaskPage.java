@@ -71,6 +71,10 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithId("lblCurrentEntity")).query();
   }
 
+  public Label getLblCurrentType () {
+    return applicationTest.lookup(nodeWithId("lblCurrentType")).query();
+  }
+
   public ListView<Song> getLviSession () {
     return applicationTest.lookup(nodeWithId("lviSession")).query();
   }
@@ -101,6 +105,15 @@ public class MainMaskPage extends AbstractPage {
     return getLblCurrentEntity().getText();
   }
 
+  public String getCurrentTypeText () {
+    return getLblCurrentType().getText();
+
+  }
+
+  public String getSelectedSession () {
+    return getLviSessions().getSelectionModel().getSelectedItem().getName();
+  }
+
   public void stepToSessions () {
     applicationTest.clickOn(getBtnSessions(), MouseButton.PRIMARY);
     Assert.assertTrue (getLviSessions().isVisible());
@@ -118,8 +131,7 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void export () {
-    applicationTest.clickOn(getBtnExport());
-    //WaitForAsyncUtils.waitForFxEvents();
+    applicationTest.clickOn(getBtnExport(), MouseButton.PRIMARY).sleep(1000);
   }
 
   public void remove () {

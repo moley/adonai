@@ -20,7 +20,6 @@ public class PdfWriterStarter {
     Configuration configuration = configurationService.get();
 
     List<Song> songs = configuration.getSongBooks().get(0).getSongs();
-    System.out.println (songs.get(0).toString());
     PdfExporter pdfExporter = new PdfExporter();
     PdfDocumentBuilder pdfDocumentBuilder = new PdfDocumentBuilder();
     ExportConfiguration exportConfiguration = pdfDocumentBuilder.getDefaultConfiguration();

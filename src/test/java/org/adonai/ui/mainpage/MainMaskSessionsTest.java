@@ -45,20 +45,23 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   @Test
   public void clickOnListStepsToSessionDetails () {
     mainMaskPage.stepToSessions();
-    Assert.assertEquals ("SESSIONS", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("sessions", mainMaskPage.getCurrentTypeText());
+    Assert.assertEquals ("", mainMaskPage.getCurrentContentText());
+
     doubleClickOn(mainMaskPage.getLviSessions(), MouseButton.PRIMARY);
-    Assert.assertEquals ("SESSION 'Session1'", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
     Assert.assertTrue ("SessionList is not visible", mainMaskPage.getLviSession().isVisible());
   }
 
-  @Test
-  public void applyMp3Disabled () {
-    throw new IllegalStateException("TODO");
-  }
 
 
   @Test
-  public void exportSongsInCurrentSession () {
-    throw new IllegalStateException("TODO");
+  public void exportSongsInSessions () {
+    mainMaskPage.stepToSessions();
+    Assert.assertEquals ("Session1", mainMaskPage.getSelectedSession());
+    Assert.assertFalse (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
+    mainMaskPage.export();
+    Assert.assertTrue (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
   }
 }

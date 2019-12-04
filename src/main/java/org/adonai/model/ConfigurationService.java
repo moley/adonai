@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -13,13 +12,15 @@ import org.adonai.export.DefaultExportConfigurationCreator;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 03.09.16.
  */
 public class ConfigurationService {
 
-  private static final Logger LOGGER = Logger.getLogger(ConfigurationService.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationService.class);
 
 
 
@@ -43,7 +44,7 @@ public class ConfigurationService {
     if (configFile == null) {
 
       configFile = new File(Consts.LEGUAN_HOME, "config.xml");
-      LOGGER.info("configFile = " + configFile.getAbsolutePath());
+      LOGGER.info("set configFile (" + configFile.getAbsolutePath() + ")");
     }
     return configFile;
 

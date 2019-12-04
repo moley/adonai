@@ -26,7 +26,8 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   public void addNewSongToSession () throws InterruptedException {
     mainMaskPage.stepToSession(0);
     mainMaskPage.add();
-    Thread.sleep(3000);
+
+    //TODO Asserts
   }
 
   @Test
@@ -39,25 +40,20 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   public void clickOnListStepsToSongDetails () throws InterruptedException {
     mainMaskPage.stepToSession(0);
     Thread.sleep(2000);
-    Assert.assertEquals ("SESSION 'Session1'", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
     doubleClickOn(mainMaskPage.getLviSession(), MouseButton.PRIMARY);
     Thread.sleep(2000);
-    Assert.assertEquals ("SONG 'Song1'", mainMaskPage.getCurrentContentText());
-    Assert.assertTrue ("SongEditorPane is not visible", mainMaskPage.getSongEditorPane().isVisible());
+    Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
+    Assert.assertTrue ("song", mainMaskPage.getSongEditorPane().isVisible());
   }
 
   @Test
-  public void applyMp3ToCurrentSong () {
-    throw new IllegalStateException("TODO");
-  }
-
-  @Test
-  public void exportSongsInCurrentSession () {
+  public void exportSongsInCurrentSession () throws InterruptedException {
     mainMaskPage.stepToSession(0);
-    System.out.println (mainMaskPage.getExportedFiles());
-    Assert.assertFalse (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
+    Assert.assertFalse (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
     mainMaskPage.export();
-    Assert.assertTrue (mainMaskPage.exportFileExists("Session1_Chords.pdf"));
+    Assert.assertTrue (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
 
 
 

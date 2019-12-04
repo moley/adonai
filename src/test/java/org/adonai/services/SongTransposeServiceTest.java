@@ -28,29 +28,40 @@ public class SongTransposeServiceTest {
   @Test
   public void transposeUp () {
     Song song = createSongInC();
-    System.out.println ("In C:" + song.toString());
+    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    Assert.assertEquals ("C", linePart.getChord());
     songTransposeService.transpose(song, Key.C, Key.G);
-
-
-    System.out.println ("In G:" + song.toString());
-
+    Assert.assertEquals ("G", linePart.getChord());
   }
 
   @Test
   public void transposeDown () {
     Song song = createSongInC();
+    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    Assert.assertEquals ("C", linePart.getChord());
+    songTransposeService.transpose(song, Key.C, Key.Bb);
+    Assert.assertEquals ("Bb", linePart.getChord());
 
   }
 
   @Test
   public void transposeUpBorder () {
-    Song song = createSongInC();
-
+    SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "H");
+    Song song = songbuilder.get();
+    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    Assert.assertEquals ("H", linePart.getChord());
+    songTransposeService.transpose(song, Key.H, Key.Bb);
+    Assert.assertEquals ("Bb", linePart.getChord());
   }
 
   @Test
   public void transposeDownBorder () {
-    Song song = createSongInC();
+    SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "Bb");
+    Song song = songbuilder.get();
+    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    Assert.assertEquals ("Bb", linePart.getChord());
+    songTransposeService.transpose(song, Key.Bb, Key.H);
+    Assert.assertEquals ("H", linePart.getChord());
 
   }
 

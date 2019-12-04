@@ -24,7 +24,6 @@ public class SongPartColorMap {
     String color = null;
     if (songPart != null && songPart.getSongPartType() != null) {
        color = colorMap.get(songPart.getSongPartType());
-      System.out.println("Determined color " + color + " for type " + songPart.getSongPartType());
     }
     if (color == null)
       color = COLOR_DEFAULT;
@@ -37,7 +36,6 @@ public class SongPartColorMap {
     String color = null;
     if (songPart != null && songPart.getSongPartType() != null) {
       color = colorMapSelected.get(songPart.getSongPartType());
-      System.out.println("Determined color " + color + " for type " + songPart.getSongPartType());
     }
     if (color == null)
       color = COLOR_SELECTED_DEFAULT;

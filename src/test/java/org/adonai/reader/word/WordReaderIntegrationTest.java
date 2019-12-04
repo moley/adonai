@@ -1,17 +1,21 @@
 package org.adonai.reader.word;
 
-import org.junit.Test;
-import org.adonai.model.Song;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Collection;
+import org.adonai.model.Song;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 17.01.17.
  */
 public class WordReaderIntegrationTest {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(WordReaderIntegrationTest.class);
+
 
   @Test
   public void importRealTexts () throws IOException {
@@ -19,7 +23,7 @@ public class WordReaderIntegrationTest {
     WordReader wordReader = new WordReader();
     Collection<Song> songs = wordReader.read(new FileInputStream(testWorshipmappe));
     for (Song next: songs) {
-      System.out.println ("Song " + next.getId() + "-" + next.getTitle());
+      LOGGER.info("Song " + next.getId() + "-" + next.getTitle());
     }
 
   }

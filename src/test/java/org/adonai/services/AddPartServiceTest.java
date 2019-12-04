@@ -16,9 +16,7 @@ public class AddPartServiceTest {
     Song songWithTwoParts = SongTestData.getSongWithTwoParts();
     SongCursor cursor = new SongCursor(songWithTwoParts, 1, 0, 0, 0);
 
-    System.out.println(songWithTwoParts);
     SongPart focusedLinePart = songService.addPartAfter(cursor);
-    System.out.println(songWithTwoParts);
 
     Assert.assertEquals (3, songWithTwoParts.getSongParts().size());
     SongPart songPart = songWithTwoParts.getSongParts().get(2);
@@ -33,9 +31,7 @@ public class AddPartServiceTest {
     Song songWithTwoParts = SongTestData.getSongWithTwoParts();
     SongCursor cursor = new SongCursor(songWithTwoParts, 0, 0, 0, 0);
 
-    System.out.println(songWithTwoParts);
     SongPart focusedLinePart = songService.addPartAfter(cursor);
-    System.out.println(songWithTwoParts);
 
     Assert.assertEquals (3, songWithTwoParts.getSongParts().size());
     SongPart songPart = songWithTwoParts.getSongParts().get(1);

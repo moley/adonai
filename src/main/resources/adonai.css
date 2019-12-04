@@ -120,16 +120,15 @@
     -fx-insets: 0 20 0 0;
 }
 
-#currentEntity {
+#lblCurrentEntity {
     -fx-font-family: Verdana;
     -fx-font-weight: bold;
     -fx-text-fill: rgb(158, 153, 141);
 
 }
 
-#currentType {
+#lblCurrentType {
     -fx-font-family: Verdana;
-    -fx-font-weight: extra-light;
     -fx-text-fill: rgb(158, 153, 141);
 
 }

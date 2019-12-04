@@ -1,6 +1,11 @@
 package org.adonai.ui.settings;
 
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,13 +19,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.adonai.ui.Consts;
-import org.adonai.ui.search.SearchController;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.util.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SettingsController {
 
@@ -34,7 +36,7 @@ public class SettingsController {
 
   ObservableList<SettingsItem> configurations = FXCollections.observableArrayList();
 
-  private static final Logger LOGGER = Logger.getLogger(SettingsController.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
 
 
 
@@ -88,7 +90,9 @@ public class SettingsController {
     lviConfigurationList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SettingsItem>() {
       @Override
       public void changed(ObservableValue<? extends SettingsItem> observable, SettingsItem oldValue, SettingsItem newValue) {
-        System.out.println ("Changed from " + oldValue + " to " + newValue);
+
+        if (LOGGER.isDebugEnabled())
+          LOGGER.debug("Changed from " + oldValue + " to " + newValue);
 
         if (newValue != null) {
           Parent parent = panes.get(newValue.getId());

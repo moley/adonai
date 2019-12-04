@@ -18,7 +18,6 @@ public class AddChordServiceTest {
 
     AddChordService addChordService = new AddChordService();
     addChordService.addChord(new SongCursor(song, 0, 0, 0, 4), new Chord("A"));
-    System.out.println (song);
     Assert.assertEquals (3, linePart.getLineParts().size());
     Assert.assertEquals ("D", linePart.getLineParts().get(0).getChord());
     Assert.assertEquals ("That", linePart.getLineParts().get(0).getText());

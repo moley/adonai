@@ -10,8 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(TextfileDocumentBuilder.class);
+
 
 
   @Override
@@ -32,7 +37,8 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
       }
 
       for (ExportToken next : exportTokenContainer.getExportTokenList()) {
-        System.out.println (next);
+        if (LOGGER.isDebugEnabled())
+          LOGGER.debug("Adding next export token " + next);
         if (next.getAreaInfo() != null) {
           int x = next.getAreaInfo().getX().intValue();
           int y = next.getAreaInfo().getY().intValue();

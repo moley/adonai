@@ -29,7 +29,6 @@ public class PdfWriterTest extends AbstractExportTest {
   public void exportSongPartReference () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     Song song = getSongWithReference();
-    System.out.println (song.toString());
     PdfExporter pdfExporter = new PdfExporter();
 
     ExportConfiguration exportConfiguration = new ExportConfiguration();
@@ -53,7 +52,6 @@ public class PdfWriterTest extends AbstractExportTest {
   public void exportSongPartDescriptorStrategyLong () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
-    System.out.println (songs.get(0).toString());
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setChordTextDistance(new Double(5));
@@ -74,7 +72,6 @@ public class PdfWriterTest extends AbstractExportTest {
   public void exportSongPartDescriptorStrategyShort () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
-    System.out.println (songs.get(0).toString());
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setStructureDistance(new Double(5));
@@ -94,7 +91,6 @@ public class PdfWriterTest extends AbstractExportTest {
   public void export () throws IOException, ExportException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
-    System.out.println (songs.get(0).toString());
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithTitle(true);

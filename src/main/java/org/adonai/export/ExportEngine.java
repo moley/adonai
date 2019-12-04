@@ -10,8 +10,14 @@ import org.adonai.services.SongInfoService;
 
 import java.io.File;
 import java.util.Collection;
+import org.adonai.ui.settings.SettingsController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExportEngine {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExportEngine.class);
+
 
   private LocationInfoCalculator locationInfoCalculator = new LocationInfoCalculator();
 
@@ -225,7 +231,8 @@ public class ExportEngine {
     if (exportFile.exists()) {
       exportFile.setWritable(true);
       exportFile.setExecutable(false);
-      System.out.println("Presentation created successfully in " + exportFile.getAbsolutePath());
+
+      LOGGER.info("Presentation created successfully in " + exportFile.getAbsolutePath());
     }
   }
 

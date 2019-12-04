@@ -10,8 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ListOrganizer extends Application {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ListOrganizer.class);
+
   private static final String PREFIX =
     "http://icons.iconarchive.com/icons/jozef89/origami-birds/72/bird";
 
@@ -103,7 +108,7 @@ public class ListOrganizer extends Application {
 
           int thisIdx = items.indexOf(getItem());
 
-          System.out.println ("Vorher: " + song);
+          LOGGER.info("Vorher: " + song);
 
           SongPart temp = song.getSongParts().get(draggedIdx);
           song.getSongParts().set(draggedIdx, song.getSongParts().get(thisIdx));
@@ -112,7 +117,7 @@ public class ListOrganizer extends Application {
           items.set(draggedIdx, getItem());
           items.set(thisIdx, temp);
 
-          System.out.println ("Nachher: " + song);
+          LOGGER.info("Nachher: " + song);
 
           getListView().setItems(FXCollections.observableArrayList(song.getSongParts()));
 

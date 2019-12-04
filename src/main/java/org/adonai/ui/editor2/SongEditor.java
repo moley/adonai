@@ -5,23 +5,16 @@ import java.util.List;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -294,114 +287,9 @@ public class SongEditor extends PanelHolder {
     return showOriginChords.get();
   }
 
-  public void save() {
-    throw new IllegalStateException("NYI");
-    //currentPartEditor.save();
-  }
-
-  public boolean hasChange() {
-    throw new IllegalStateException("NYI");
-    //return currentPartEditor.hasChanged();
-  }
-
-  public void log() {
-    System.out.println("After save:" + song.toString());
-  }
-
   public Configuration getConfiguration() {
     return configuration;
   }
 
-  private class SongPartCell extends ListCell<SongPart> {
-
-    public SongPartCell() {
-      ListCell thisCell = this;
-
-      setOnDragDetected(event -> {
-        if (getItem() == null) {
-          return;
-        }
-
-        Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putString(new Integer(getItem().hashCode()).toString());
-        dragboard.setContent(content);
-
-        event.consume();
-      });
-
-      setOnDragOver(event -> {
-        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
-          event.acceptTransferModes(TransferMode.MOVE);
-        }
-
-        event.consume();
-      });
-
-      setOnDragEntered(event -> {
-        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
-          setOpacity(0.3);
-        }
-      });
-
-      setOnDragExited(event -> {
-        if (event.getGestureSource() != thisCell && event.getDragboard().hasString()) {
-          setOpacity(1);
-        }
-      });
-
-      setOnDragDropped(event -> {
-        if (getItem() == null) {
-          return;
-        }
-
-        Dragboard db = event.getDragboard();
-        boolean success = false;
-
-        if (db.hasString()) {
-          ObservableList<SongPart> items = getListView().getItems();
-          int draggedIdx = -1;
-          for (int i = 0; i < items.size(); i++) {
-            if (new Integer(items.get(i).hashCode()).toString().equals(db.getString()))
-              draggedIdx = i;
-
-          }
-
-          int thisIdx = items.indexOf(getItem());
-
-          System.out.println("Vorher: " + song);
-
-          SongPart temp = song.getSongParts().get(draggedIdx);
-          song.getSongParts().set(draggedIdx, song.getSongParts().get(thisIdx));
-          song.getSongParts().set(thisIdx, temp);
-
-          items.set(draggedIdx, getItem());
-          items.set(thisIdx, temp);
-
-          System.out.println("Nachher: " + song);
-
-          getListView().setItems(FXCollections.observableArrayList(song.getSongParts()));
-
-          success = true;
-
-        }
-        event.setDropCompleted(success);
-
-        event.consume();
-      });
-
-      setOnDragDone(DragEvent::consume);
-    }
-
-    @Override protected void updateItem(SongPart item, boolean empty) {
-
-      super.updateItem(item, empty);
-
-      if (item != null) {
-        setText(songInfoService.getPreview(song, item));
-      } else
-        setText(null);
-
-    }
-  }
+  
 }

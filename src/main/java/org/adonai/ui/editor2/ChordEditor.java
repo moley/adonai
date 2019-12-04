@@ -111,9 +111,6 @@ public class ChordEditor {
 
     txtChord.selectAll();
 
-    System.out.println ("Position " + locationCaret.getX() + "-" + locationCaret.getY() + "(Caret " + txt.getCaretPosition() + ")");
-    System.out.println ("Textfield: " + txt.getText());
-
     Window window = txt.getScene().getWindow();
 
     double x = locationCaret.getX() + txt.getLayoutX();

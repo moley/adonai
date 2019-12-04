@@ -15,9 +15,7 @@ public class RemovePartServiceTest {
     Song songWithTwoParts = SongTestData.getSongWithTwoParts();
     SongCursor cursor = new SongCursor(songWithTwoParts, 0, 0, 0, 0);
 
-    System.out.println(songWithTwoParts);
     SongPart focusedPart = songService.removePart(cursor);
-    System.out.println(songWithTwoParts);
 
     Assert.assertEquals ("Number of parts after removal invalid", 1, songWithTwoParts.getSongParts().size());
     SongPart notRemovedPart = songWithTwoParts.getSongParts().get(0);
@@ -29,9 +27,7 @@ public class RemovePartServiceTest {
     Song songWithTwoParts = SongTestData.getSongWithTwoParts();
     SongCursor cursor = new SongCursor(songWithTwoParts, 1, 0, 0, 0);
 
-    System.out.println(songWithTwoParts);
     SongPart focusedPart = songService.removePart(cursor);
-    System.out.println(songWithTwoParts);
 
     Assert.assertEquals ("Number of parts after removal invalid", 1, songWithTwoParts.getSongParts().size());
     SongPart notRemovedPart = songWithTwoParts.getSongParts().get(0);
@@ -43,9 +39,7 @@ public class RemovePartServiceTest {
     Song songWithOnePart = SongTestData.getSongWithOnePart();
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
 
-    System.out.println(songWithOnePart);
     SongPart focusedPart = songService.removePart(cursor);
-    System.out.println(songWithOnePart);
 
     Assert.assertEquals ("Number of parts after removal invalid", 1, songWithOnePart.getSongParts().size());
     SongPart notRemovedPart = songWithOnePart.getSongParts().get(0);

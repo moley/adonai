@@ -10,8 +10,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import org.adonai.ui.settings.SettingsController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BibleReader {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(BibleReader.class);
+
 
   //https://github.com/kohelet-net-admin/zefania-xml-bibles/tree/master/Bibles
   public final static void main (String [] args) {
@@ -26,19 +32,19 @@ public class BibleReader {
       if (configFile.exists()) {
         JAXBElement rootElement = (JAXBElement) unmarshaller.unmarshal(configFile);
         XMLBIBLE xmlbible = (XMLBIBLE) rootElement.getValue();
-        System.out.println (xmlbible.getBiblename());
+        LOGGER.info(xmlbible.getBiblename());
         for (JAXBElement<BIBLEBOOK> book:  xmlbible.getBIBLEBOOK()) {
           BIBLEBOOK biblebook = book.getValue();
-          System.out.println ("Book " + biblebook.getBname() + "-" + biblebook.getBnumber());
+          LOGGER.info ("Book " + biblebook.getBname() + "-" + biblebook.getBnumber());
           for (JAXBElement<CHAPTER> chapterjaxbElement : biblebook.getCHAPTER()) {
             CHAPTER chapter = chapterjaxbElement.getValue();
-            System.out.println ("   " + chapter.getCnumber());
+            LOGGER.info ("   " + chapter.getCnumber());
             for (JAXBElement nextElement: chapter.getPROLOGOrCAPTIONOrVERS()) {
 
 
               if (nextElement.getDeclaredType().equals(VERS.class)) {
                 VERS vers = (VERS) nextElement.getValue();
-                System.out.println ("        VERS " + vers.getVnumber()  + "-" +  vers.getContent());
+                LOGGER.info ("        VERS " + vers.getVnumber()  + "-" +  vers.getContent());
               }
               else
                 throw new IllegalStateException(nextElement.getDeclaredType().toString());

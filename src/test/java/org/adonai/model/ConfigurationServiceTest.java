@@ -117,9 +117,10 @@ public class ConfigurationServiceTest {
     configurationService.save();
 
     String fromText = FileUtils.readFileToString(tmpFile, (String)null);
+    Assert.assertNotNull("configuration content is null", fromText);
 
 
-    System.out.println (fromText);
+
 
   }
 

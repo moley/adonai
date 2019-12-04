@@ -2,17 +2,18 @@ package org.adonai.ui;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.logging.Logger;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 25.10.16.
  */
 public class Consts {
 
-  private static final Logger LOGGER = Logger.getLogger(Consts.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(Consts.class);
 
   public final static int ICON_SIZE_VERY_SMALL = 20;
   public final static int ICON_SIZE_SMALL = 30;
@@ -51,12 +52,15 @@ public class Consts {
   public final static ImageView getOrLoadImage (final ImageKey imageKey) {
     Image cachedImage = imagesCache.get(imageKey);
     if (cachedImage == null) {
-      LOGGER.info("create image " + imageKey.getName());
+      if (LOGGER.isDebugEnabled())
+        LOGGER.debug("create image " + imageKey.getName());
       cachedImage = new Image("/icons/" + imageKey.getName() + ".png", imageKey.getIconSize(), imageKey.getIconSize(), true, true, true);
       imagesCache.put(imageKey, cachedImage);
     }
-    else
-      LOGGER.info("load image " + imageKey.getName() + " from cache");
+    else {
+      if (LOGGER.isDebugEnabled())
+        LOGGER.debug("load image " + imageKey.getName() + " from cache");
+    }
 
     return new ImageView(cachedImage);
 

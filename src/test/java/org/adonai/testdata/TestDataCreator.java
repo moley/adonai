@@ -1,21 +1,29 @@
 package org.adonai.testdata;
 
-import org.adonai.AbstractAdonaiUiTest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import org.adonai.export.ExportConfiguration;
-import org.adonai.model.*;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Line;
+import org.adonai.model.LinePart;
+import org.adonai.model.Session;
+import org.adonai.model.Song;
+import org.adonai.model.SongBook;
+import org.adonai.model.SongPart;
+import org.adonai.model.SongPartType;
+import org.adonai.model.User;
 import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestDataCreator {
 
-  protected static final Logger LOGGER = Logger.getLogger(TestDataCreator.class.getName());
+  protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
 
   public void createTestData (final boolean preview) throws IOException {

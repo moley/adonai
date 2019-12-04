@@ -1,7 +1,11 @@
 package org.adonai.ui.mainpage;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,17 +17,41 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
-import org.adonai.actions.*;
+import org.adonai.actions.ConfigurationAction;
+import org.adonai.actions.ConnectSongWithMp3Action;
+import org.adonai.actions.ExportAction;
+import org.adonai.actions.SearchAction;
+import org.adonai.actions.SelectAction;
+import org.adonai.actions.UsersAdminAction;
 import org.adonai.actions.add.AddSongAction;
 import org.adonai.additionals.AdditionalsImporter;
-import org.adonai.model.*;
+import org.adonai.model.Additional;
+import org.adonai.model.AdditionalType;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Session;
+import org.adonai.model.Song;
+import org.adonai.model.SongBook;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
@@ -34,9 +62,8 @@ import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor2.SongEditor;
-
-import java.util.*;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainPageController {
 
@@ -104,7 +131,7 @@ public class MainPageController {
 
   private int iconSizeToolbar = Consts.ICON_SIZE_VERY_SMALL;
 
-  private static final Logger LOGGER = Logger.getLogger(MainPageController.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
 
   private Session currentSession = null;
 
@@ -121,8 +148,8 @@ public class MainPageController {
     lviSession.setCellFactory(new SongCellFactory());
     lviSessions.setPlaceholder(new Label("No sessions available, press + to add ones"));
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
-    lblCurrentEntity.setId("currentEntity");
-    lblCurrentType.setId("currentType");
+    lblCurrentEntity.setId("lblCurrentEntity");
+    lblCurrentType.setId("lblCurrentType");
 
 
 
@@ -273,20 +300,6 @@ public class MainPageController {
 
     tbaActions.getItems().add(new Separator());
 
-    //Button Export origin
-    /**Button btnExportWithChords = new Button ("Export origin");
-     btnExportWithChords.setId("btnExportWithChords");
-     btnExportWithChords.setGraphic(Consts.createImageView("export", iconSizeToolbar));
-     tbaActions.getItems().add(btnExportWithChords);
-     btnExportWithChords.setOnAction(new EventHandler<ActionEvent>() {
-    @Override
-    public void handle(ActionEvent event) {
-    ExportAction exportAction = new ExportAction();
-    exportAction.export(configuration, getCurrentSongs(), getExportName(), true, false);
-
-    }
-    });**/
-
     //Button Export transposed
     Button btnExport = new Button ("Export");
     btnExport.setTooltip(new Tooltip("Export to pdf"));
@@ -296,8 +309,14 @@ public class MainPageController {
     btnExport.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        ExportAction exportAction = new ExportAction();
-        exportAction.export(configuration, getCurrentSongs(), getExportName());
+
+        Collection<Song> currentSongs = getCurrentSongs();
+        if (! currentSongs.isEmpty()) {
+          ExportAction exportAction = new ExportAction();
+          exportAction.export(configuration, getCurrentSongs(), getExportName());
+        }
+        else
+          LOGGER.warn("No songs selected to be exported");
       }
     });
 
@@ -695,6 +714,14 @@ public class MainPageController {
     else if (currentContent == MainPageContent.SONG) {
       return Arrays.asList(currentSong);
     }
+    else if (currentContent == MainPageContent.SESSIONS) {
+      Session currentSession = getCurrentSession();
+      if (currentSession != null) {
+        return sessionService.getSongs(currentSession, getCurrentSongBook());
+      }
+      else
+        return new ArrayList<>();
+    }
     else throw new IllegalStateException("Invalid page content " + currentContent);
   }
 
@@ -716,10 +743,13 @@ public class MainPageController {
       return "songbook";
     }
     else if (currentContent == MainPageContent.SESSION) {
-      return currentSession.getName();
+      return getCurrentSession().getName();
     }
     else if (currentContent == MainPageContent.SONG) {
       return currentSong.getName();
+    }
+    else if (currentContent == MainPageContent.SESSIONS) {
+      return getCurrentSession().getName();
     }
     else
       return "";

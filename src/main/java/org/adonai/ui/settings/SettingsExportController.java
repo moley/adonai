@@ -11,6 +11,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import org.adonai.PlaylistExport;
 import org.adonai.export.AbstractDocumentBuilder;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
@@ -21,8 +22,13 @@ import org.adonai.ui.Consts;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SettingsExportController extends AbstractSettingsController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SettingsExportController.class);
+
 
   @FXML
   private TextField txtExportpath;
@@ -78,9 +84,9 @@ public class SettingsExportController extends AbstractSettingsController {
       @Override
       public void handle(ActionEvent event) {
         ExportConfiguration currentExportConfiguration = configurationPerPane.get(accExportschemas.getExpandedPane());
-        System.out.println ("Clone current confioguration " + currentExportConfiguration.getName());
+        LOGGER.info("Clone current configuration " + currentExportConfiguration.getName());
 
-        System.out.println ("Before: " + configuration.getExportConfigurations().size());
+        LOGGER.info("Size before: " + configuration.getExportConfigurations().size());
         ExportConfigurationMerger merger = new ExportConfigurationMerger();
         ExportConfiguration merged = merger.getMergedExportConfiguration(currentExportConfiguration, currentExportConfiguration);
         merged.setName(currentExportConfiguration.getName() + "(2)");
@@ -88,7 +94,7 @@ public class SettingsExportController extends AbstractSettingsController {
         merged.getId(); //to initialize
         configuration.getExportConfigurations().add(merged);
 
-        System.out.println ("After: " + configuration.getExportConfigurations().size());
+        LOGGER.info("Size after: " + configuration.getExportConfigurations().size());
         try {
           reloadConfigurations();
         } catch (IOException e) {
@@ -103,7 +109,7 @@ public class SettingsExportController extends AbstractSettingsController {
       @Override
       public void handle(ActionEvent event) {
         ExportConfiguration currentExportConfiguration = configurationPerPane.get(accExportschemas.getExpandedPane());
-        System.out.println ("Remove current confioguration " + currentExportConfiguration.getName());
+        LOGGER.info("Remove current configuration " + currentExportConfiguration.getName());
         configuration.getExportConfigurations().remove(currentExportConfiguration);
 
         try {
@@ -132,7 +138,8 @@ public class SettingsExportController extends AbstractSettingsController {
       TitledPane titledPane = new TitledPane(exportConfiguration.getName(), root);
 
       String icon = resources.getString(exportConfiguration.getDocumentBuilderClass() + "_icon_black");
-      System.out.println ("Icon " + icon + " for " + exportConfiguration.getName());
+      if (LOGGER.isDebugEnabled())
+        LOGGER.debug("Using Icon " + icon + " for " + exportConfiguration.getName());
 
       titledPane.setGraphic(Consts.createImageView(icon, Consts.ICON_SIZE_SMALL));
       accExportschemas.getPanes().add(titledPane);

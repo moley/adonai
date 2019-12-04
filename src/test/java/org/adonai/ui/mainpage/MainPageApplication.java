@@ -1,6 +1,5 @@
 package org.adonai.ui.mainpage;
 
-import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,11 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.adonai.player.Mp3Player;
 import org.adonai.screens.ScreenManager;
 import org.adonai.ui.Consts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainPageApplication extends Application {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MainPageApplication.class);
+
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -23,8 +26,10 @@ public class MainPageApplication extends Application {
 
     scene.getStylesheets().add("/adonai.css");
 
-    for (String next: Font.getFamilies()) {
-      System.out.println ("Font Family " + next  + " found");
+    if (LOGGER.isDebugEnabled()) {
+      for (String next : Font.getFamilies()) {
+        LOGGER.debug("Font Family " + next + " found");
+      }
     }
 
     ScreenManager screenManager = new ScreenManager();

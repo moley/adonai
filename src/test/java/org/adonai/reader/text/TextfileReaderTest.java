@@ -60,7 +60,6 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Was fuer ein Gott.txt"), "UTF-8");
 
     Song song = textfileReader.read(content, new TextfileReaderParam());
-    System.out.println ("Song: " + song.toString());
     SongPart refrain = song.getSongParts().get(2);
     Assert.assertTrue (refrain.getFirstLine().getText().startsWith("Jesus hier knie ich vor dir"));
 
@@ -123,7 +122,6 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich hab noch nie.txt"), "UTF-8");
 
     Song song = textfileReader.read(content, new TextfileReaderParam());
-    System.out.println ("Song: " + song.toString());
 
   }
 
@@ -132,7 +130,6 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Das Glaube ich.txt"), "UTF-8");
 
     Song song = textfileReader.read(content, new TextfileReaderParam());
-    System.out.println ("Song: " + song.toString());
   }
 
   @Test
@@ -156,7 +153,6 @@ public class TextfileReaderTest {
   @Test
   public void doNotStripInMiddle () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool");
-    System.out.println(String.join("\n", allLines));
     SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
@@ -168,7 +164,6 @@ public class TextfileReaderTest {
   @Test
   public void stripBeginning () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles ist cool");
-    System.out.println(String.join("\n", allLines));
     SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
@@ -223,7 +218,6 @@ public class TextfileReaderTest {
   @Test
   public void twoTextLines () {
     Song imported = textfileReader.read(createLine("First line","second line"), new TextfileReaderParam());
-    System.out.println (imported);
     Assert.assertEquals ("First line", imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getText());
     Assert.assertNull(imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getChord());
     Assert.assertEquals ("second line", imported.getFirstSongPart().getLines().get(1).getFirstLinePart().getText());
@@ -240,7 +234,6 @@ public class TextfileReaderTest {
   @Test
   public void withoutText () {
     Song imported = textfileReader.read(createLine("A G/H C",null), new TextfileReaderParam());
-    System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     Assert.assertEquals ("A", linePart1.getChord());
@@ -257,7 +250,6 @@ public class TextfileReaderTest {
   @Test
   public void withoutChords () {
     Song imported = textfileReader.read(createLine("Dies ist ein Test",null), new TextfileReaderParam());
-    System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart = line.getLineParts().get(0);
     Assert.assertEquals ("Dies ist ein Test", linePart.getText());
@@ -273,15 +265,11 @@ public class TextfileReaderTest {
 
     //F                          G  a  G/H
     //Und an Christus, Seinen Sohn
-    System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
     LinePart linePart3 =  line.getLineParts().get(2);
     LinePart linePart4 =  line.getLineParts().get(3);
-
-    System.out.println (line);
-
     Assert.assertEquals ("F", linePart1.getChord());
     Assert.assertEquals ("Und an Christus, Seinen Soh", linePart1.getText());
 
@@ -303,12 +291,9 @@ public class TextfileReaderTest {
 
     //F
     //Und an Christus, Seinen Sohn
-    System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
-
-    System.out.println (line);
 
     Assert.assertEquals ("F", linePart1.getChord());
     Assert.assertEquals ("Und an Christus, Seinen Soh", linePart1.getText());
@@ -323,13 +308,10 @@ public class TextfileReaderTest {
                                                                 "Und an Christus, Seinen Sohn"), new TextfileReaderParam());
 
     //Und an Christus, Seinen Sohn
-    System.out.println (imported);
     Line line = imported.getFirstSongPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
     LinePart linePart3 =  line.getLineParts().get(2);
-
-    System.out.println (line);
 
     Assert.assertNull (linePart1.getChord());
     Assert.assertEquals ("Und an ", linePart1.getText());

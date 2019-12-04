@@ -21,7 +21,7 @@ public class CreatePlaylistService {
 
       for (Additional nextAdditional: next.getAdditionals()) {
         if (nextAdditional.getAdditionalType().equals(AdditionalType.AUDIO)) {
-          String length = "100";
+          String length = "100"; //TODO
           lines.add("#EXTINF:" + length + "," + next.getName());
           lines.add(nextAdditional.getLink());
         }

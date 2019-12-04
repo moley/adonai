@@ -14,8 +14,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.adonai.AdonaiProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DropboxAdapter implements OnlineAdapter {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DropboxAdapter.class);
+
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
@@ -27,13 +32,13 @@ public class DropboxAdapter implements OnlineAdapter {
 
       try (InputStream in = new FileInputStream(configFile)) {
         FileMetadata metadata = clientV2.files().uploadBuilder("/" + configFile.getName()).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
-        System.out.println (metadata.getId());
+        LOGGER.info ("Metadata ID " + metadata.getId());
       } catch (FileNotFoundException e) {
         throw new IllegalStateException(e);
       } catch (IOException e) {
         throw new IllegalStateException(e);
       }
-      System.out.println (fullAccount.getEmail());
+      LOGGER.info ("Email: " + fullAccount.getEmail());
     } catch (DbxException e) {
       throw new IllegalStateException(e);
     }

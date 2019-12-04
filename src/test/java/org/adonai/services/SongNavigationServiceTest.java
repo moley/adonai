@@ -13,7 +13,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousLineNonFirst () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
@@ -24,7 +23,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousLineFirst () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
@@ -35,7 +33,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextLineLast () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLine(cursor);
@@ -46,7 +43,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextLineNotLast () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLine(cursor);
@@ -61,7 +57,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousPartNonFirst () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousPart(cursor);
@@ -72,7 +67,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousPartFirst () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousPart(cursor);
@@ -83,7 +77,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextPartNonLast () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextPart(cursor);
@@ -94,7 +87,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextPartLast () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextPart(cursor);
@@ -105,7 +97,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousLastPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 1, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
@@ -116,7 +107,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousFirstPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
@@ -126,7 +116,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToPreviousVeryFirstPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
@@ -137,7 +126,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextFirstPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithOnePart();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLinePart(cursor);
@@ -148,7 +136,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextLastPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLinePart(cursor);
@@ -159,7 +146,6 @@ public class SongNavigationServiceTest {
   @Test
   public void stepToNextVeryLastPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
-    System.out.println(songWithOnePart);
 
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLinePart(cursor);

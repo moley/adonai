@@ -18,8 +18,13 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WordImporter {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(WordImporter.class);
+
 
   private AddSongService addSongService = new AddSongService();
 
@@ -94,8 +99,8 @@ public class WordImporter {
 
     for (WordImporterItem nextItem : importerItems) {
 
-      System.out.println(String.join("\n", nextItem.getContent()));
-      System.out.println("------");
+      LOGGER.info(String.join("\n", nextItem.getContent()));
+      LOGGER.info("------");
 
       TextfileReader textfileReader = new TextfileReader();
       TextfileReaderParam param = new TextfileReaderParam();

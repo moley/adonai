@@ -5,8 +5,14 @@ import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.reader.word.WordReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SongTransposeService {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongTransposeService.class);
+
 
   private KeyManager manager = new KeyManager();
 
@@ -79,8 +85,8 @@ public class SongTransposeService {
 
     NoteEntryType noteEntryType = manager.getType(to);
 
+    LOGGER.info("Transposing song " + song.getId() + " from " + fromIndex + "(" + from + ") to " + toIndex + "(" + to + ")");
 
-    System.out.println ("From " + fromIndex + " to " + toIndex);
     for (SongPart nextPart: song.getSongParts()) {
       for (Line line: nextPart.getLines()) {
         for (LinePart nextLinePart: line.getLineParts()) {

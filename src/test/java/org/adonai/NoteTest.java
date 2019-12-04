@@ -1,10 +1,9 @@
 package org.adonai;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class NoteTest {
 
@@ -13,11 +12,10 @@ public class NoteTest {
     Collection<NoteEntry> notes = Note.getLengthOrderedNotes();
     Collection<Integer> lengths = new ArrayList<Integer>();
     for (NoteEntry nextOne: notes) {
-      System.out.println (nextOne.getLabel());
       lengths.add(nextOne.getLabel().length());
     }
 
-    Integer last = new Integer(4);
+    Integer last = 4;
 
     for (Integer next: lengths) {
 
