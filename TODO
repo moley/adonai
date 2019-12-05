@@ -1,3 +1,8 @@
+34 fertig
+
+Falscher Cord -> Return soll nicht beenden
+Wenn Additional Mp3 changes the cached file is not adapted
+
 - Edit chord when origin chord is visible does not work completely
 
 
@@ -11,6 +16,6 @@ TODO
 - Import mp3s and configure at song
 
 - Configure different ExportConfigurations
-- Presentation
+- Presentationt
 
 

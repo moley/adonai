@@ -12,6 +12,7 @@ import org.junit.Test;
 
 public class SongRepairerTest {
 
+
   @Test
   public void removeEmptyLine () {
     Song song = SongBuilder.instance().withPart(SongPartType.VERS).withLine().withLine().withLinePart("Hallo", "D").get();

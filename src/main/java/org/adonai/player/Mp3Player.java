@@ -18,6 +18,9 @@ public class Mp3Player {
 
 
   public void setFile (final File mp3File) {
+    if (mp3File == null)
+      throw new IllegalArgumentException("Parameter mp3File must not be null");
+
     if (! mp3File.exists())
       throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
 

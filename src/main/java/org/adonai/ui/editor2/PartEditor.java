@@ -70,7 +70,7 @@ public class PartEditor extends PanelHolder {
   private void reloadTitle () {
     boolean isRef = part.getReferencedSongPart() != null;
     String type = getShownPart().getSongPartTypeLabel();
-    if (part.getQuantity() != null) { //quantity is always used from the part itself
+    if (part.getQuantity() != null && ! part.getQuantity().trim().isEmpty()) { //quantity is always used from the part itself
       type += " (" + part.getQuantity().trim() + "x)";
     }
 
