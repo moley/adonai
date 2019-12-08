@@ -26,16 +26,15 @@ public class TestDataCreator {
   protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
 
-  public void createTestData (final boolean preview) throws IOException {
+  public void createTestData (final File testDataPath, final boolean preview) throws IOException {
     LOGGER.info("Create testdata");
 
     AddSongService addSongService = new AddSongService();
     SessionService sessionService = new SessionService();
 
-    File testData = new File("build/testdata");
-    FileUtils.deleteDirectory(testData);
+    FileUtils.deleteDirectory(testDataPath);
 
-    System.setProperty(Consts.ADONAI_HOME_PROP, testData.getAbsoluteFile().getAbsolutePath());
+    System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
     ConfigurationService configurationService = new ConfigurationService();
 
     SongBook songBook = new SongBook();
@@ -116,8 +115,8 @@ public class TestDataCreator {
 
 
 
-    File exportDir = new File (testData, "export");
-    File extensionPath = new File (testData, "additionals");
+    File exportDir = new File (testDataPath, "export");
+    File extensionPath = new File (testDataPath, "additionals");
     exportDir.mkdirs();
     extensionPath.mkdirs();
 

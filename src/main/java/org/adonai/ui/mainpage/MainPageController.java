@@ -421,7 +421,6 @@ public class MainPageController {
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        mp3Player.setFile(getMp3FileOfCurrentSong());
         configurationService.set(configuration);
       }
     });
@@ -588,6 +587,7 @@ public class MainPageController {
   }
 
   private File getMp3FileOfCurrentSong () {
+    Song currentSong = getSelectedSong();
     if (currentSong == null) {
       LOGGER.info("getMp3FileOfCurrentSong returns null (currentSong=null)");
       return null;

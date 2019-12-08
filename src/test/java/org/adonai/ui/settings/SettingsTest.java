@@ -1,6 +1,5 @@
 package org.adonai.ui.settings;
 
-import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.ui.TestUtil;

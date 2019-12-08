@@ -25,10 +25,10 @@ public class AdditionalsImporter {
     return new File (additionalsTypePath, song.getId().toString() + suffix);
   }
 
-  public void refreshCache (final Song song, final Additional additional) {
+  public void refreshCache (final Song song, final Additional additional, boolean clean) {
     File additionalFile = getAdditionalFile(song, additional);
     additional.setCacheLink(additionalFile.getAbsolutePath());
-    if (! additionalFile.exists()) {
+    if (clean || ! additionalFile.exists()) {
 
       try {
         LOGGER.info("Refresh cache (" + additional.getLink() + "->" + additionalFile.getAbsolutePath());

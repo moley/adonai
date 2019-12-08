@@ -1,7 +1,5 @@
 package org.adonai.actions;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -26,8 +24,10 @@ public class ConnectSongWithMp3Action {
 
   public void connect (final Double x, final Double y, Song selectedSong) {
 
-    if (selectedSong == null)
+    if (selectedSong == null) {
+      LOGGER.warning("Selected song is <null>");
       return;
+    }
 
     MaskLoader<ExtensionSelectorController> maskLoader = new MaskLoader<>();
     Mask<ExtensionSelectorController> mask = maskLoader.load("extensionselector");
@@ -42,13 +42,13 @@ public class ConnectSongWithMp3Action {
       @Override
       public void handle(WindowEvent event) {
 
-        if (selectedSong != null && extensionSelectorController.getSelectedExtension() != null) {
+        if (extensionSelectorController.getSelectedExtension() != null) {
           String songExtension = extensionSelectorController.getSelectedExtension().getAbsolutePath();
           Additional additional = new Additional();
           additional.setAdditionalType(AdditionalType.AUDIO);
           additional.setLink(songExtension);
           AdditionalsImporter additionalsImporter = new AdditionalsImporter();
-          additionalsImporter.refreshCache(selectedSong, additional);
+          additionalsImporter.refreshCache(selectedSong, additional, true);
           selectedSong.setAdditional(additional);
           LOGGER.info("connect song " + selectedSong + " with songfile " + extensionSelectorController.getSelectedExtension());
 

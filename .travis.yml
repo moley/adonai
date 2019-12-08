@@ -1,8 +1,8 @@
 language: java
 
-dist: trusty
+dist: xenial
 
-jdk: oraclejdk13
+jdk: openjdk13
 
 before_install:
   - export DISPLAY=:99.0

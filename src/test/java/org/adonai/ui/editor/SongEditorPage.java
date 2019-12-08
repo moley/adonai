@@ -1,18 +1,17 @@
 package org.adonai.ui.editor;
 
+import java.util.List;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.adonai.model.SongPart;
+import org.adonai.ui.AbstractPage;
+import org.adonai.ui.MyNodeMatchers;
+import org.adonai.ui.NodeUtils;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
 
-import java.util.List;
-
-public class SongEditorPage {
+public class SongEditorPage extends AbstractPage {
 
   private ApplicationTest applicationTest;
 
@@ -20,73 +19,45 @@ public class SongEditorPage {
     this.applicationTest = applicationTest;
   }
 
-  private ListView<SongPart> getPartStructureListView () {
-    NodeQuery partStructure = applicationTest.lookup("#partstructure");
-    ListView<SongPart> partStructureListView = partStructure.query();
-    return partStructureListView;
-  }
 
-  public List<SongPart> getSongParts () {
-    return getPartStructureListView().getItems();
-  }
-
-  public void addPartAfter () {
-    applicationTest.rightClickOn(getPartStructureListView());
-    applicationTest.clickOn("#menuitemAddPartAfter");
-  }
 
   public VBox getSongEditorContentPane () {
-    NodeQuery partEditorContentPane = applicationTest.lookup("#parteditorcontentPane");
+    NodeQuery partEditorContentPane = applicationTest.lookup(MyNodeMatchers.withId("songEditorContent"));
     return partEditorContentPane.query();
   }
 
-  public VBox getContentElement (final int lineIndex, final int posInLine) {
+  public VBox findSongLinePartTextField (final int partIndex, final int lineIndex, final int posInLine) {
 
-    String key = "editor_" + lineIndex + "_" + posInLine;
+    String key = "linePartEditor_" + partIndex + "_" + lineIndex + "_" + posInLine;
     VBox editorContent = getSongEditorContentPane();
-    for (Node nextNode: editorContent.getChildren()) {
-      HBox nextHBox = (HBox) nextNode;
+
+    NodeUtils children = new NodeUtils();
+
+    List<Node> list = children.paneNodes(editorContent);
+    for (Node next: list) {
+      System.out.println (next.getId() + "-" + next.getClass().getSimpleName());
+    }
+
+    System.out.println ("Hello");
+
+    for (Node nextPartEditor: editorContent.getChildren()) { //parteditor
+      HBox nextHBox = (HBox) nextPartEditor; //e.g. partEditor_0
       for (Node nextHBoxEntry: nextHBox.getChildren()) {
-        VBox nextHBoxEntryHbox = (VBox) nextHBoxEntry;
-          if (nextHBoxEntryHbox.getId().equals(key))
-            return nextHBoxEntryHbox;
+        if (nextHBoxEntry instanceof TitledPane) {
+          TitledPane titledPane = (TitledPane) nextHBoxEntry;
+          VBox content = (VBox) titledPane.getContent();
+          for (Node nextLineEditor: content.getChildren()) {
+
+            HBox lineEditorContent = (HBox) nextLineEditor;
+            for (Node nextLinePartEditor: lineEditorContent.getChildren()) {
+              if (nextLinePartEditor.getId().equals(key))
+                return (VBox) nextLinePartEditor;
+            }
+          }
+        }
       }
     }
 
     throw new IllegalStateException("No content found on position " + lineIndex + "-" + posInLine);
   }
-
-  public Label getChordLabel (final int lineIndex, final int posInLine) {
-    VBox vbox = getContentElement(lineIndex, posInLine);
-    return (Label) vbox.getChildren().get(0);
-  }
-
-  public TextField getTextTextField (final int lineIndex, final int posInLine) {
-    VBox vbox = getContentElement(lineIndex, posInLine);
-    return (TextField) vbox.getChildren().get(1);
-  }
-
-  public void addPartBefore () {
-    applicationTest.rightClickOn(getPartStructureListView());
-    applicationTest.clickOn("#menuitemAddPartBefore");
-  }
-
-  public void removePart () {
-    applicationTest.rightClickOn(getPartStructureListView());
-    applicationTest.clickOn("#menuItemRemovePart");
-  }
-
-  public String getSongTitle () {
-    TextField txtSongtitle = applicationTest.lookup("#songtitle").query();
-    return txtSongtitle.getText();
-  }
-
-  public boolean isInSongEditor () {
-    return getPartStructureListView() != null;
-  }
-
-
-
-
-
 }

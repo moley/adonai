@@ -88,7 +88,7 @@ public class SongRepairer {
     if (song.findAdditional(AdditionalType.AUDIO) != null) {
       Additional additional = song.findAdditional(AdditionalType.AUDIO);
 
-      additionalsImporter.refreshCache(song, additional);
+      additionalsImporter.refreshCache(song, additional, false);
 
     }
 

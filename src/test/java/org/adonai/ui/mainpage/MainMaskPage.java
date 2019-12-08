@@ -13,6 +13,7 @@ import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
+import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -99,6 +100,16 @@ public class MainMaskPage extends AbstractPage {
   public void stepToSongbook ()  {
     applicationTest.clickOn(getBtnSongbook());
     Assert.assertTrue (getLviSongs().isVisible());
+  }
+
+  public void stepToSong (int index) {
+    stepToSongbook();
+    getLviSongs().getSelectionModel().select(index);
+    applicationTest.doubleClickOn(getLviSongs());
+  }
+
+  public SongEditorPage songEditorPage () {
+    return new SongEditorPage(applicationTest);
   }
 
   public String getCurrentContentText () {

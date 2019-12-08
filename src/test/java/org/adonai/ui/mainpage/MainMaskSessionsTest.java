@@ -24,7 +24,7 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     TestDataCreator testDataCreator = new TestDataCreator();
-    testDataCreator.createTestData(false);
+    testDataCreator.createTestData(TestUtil.getDefaultTestDataPath(), false);
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();

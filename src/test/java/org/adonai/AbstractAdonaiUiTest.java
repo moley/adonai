@@ -5,6 +5,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.CreateTestDataUiTests;
+import org.adonai.ui.TestUtil;
 import org.adonai.ui.mainpage.MainMaskPage;
 import org.junit.BeforeClass;
 import org.testfx.framework.junit.ApplicationTest;
@@ -21,7 +22,7 @@ public abstract class AbstractAdonaiUiTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws Exception {
 
-    new TestDataCreator().createTestData(false);
+    new TestDataCreator().createTestData(TestUtil.getDefaultTestDataPath(), false);
   }
 
 
