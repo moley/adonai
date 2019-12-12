@@ -1,14 +1,13 @@
 package org.adonai.ui.settings;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.adonai.ui.Consts;
 import org.testfx.framework.junit.ApplicationTest;
-
-import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class SettingsMaskPage {
 
@@ -22,7 +21,7 @@ public class SettingsMaskPage {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/settings.fxml"));
     loader.setResources(ResourceBundle.getBundle("languages.adonai"));
     Parent root = loader.load();
-    scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+    scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     scene.getStylesheets().add("/adonai.css");
     stage.setScene(scene);
     stage.show();

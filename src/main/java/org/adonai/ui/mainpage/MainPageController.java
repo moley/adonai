@@ -183,7 +183,7 @@ public class MainPageController {
 
         Bounds controlBounds = UiUtils.getBounds(btnAdd);
         Double x = controlBounds.getMinX() + 10;
-        Double y = controlBounds.getMinY() - 20 - AddSongAction.ADD_SONG_DIALOG_HEIGHT;
+        Double y = controlBounds.getMinY() - 20 - Consts.getDefaultHeight();
 
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {

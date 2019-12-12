@@ -21,8 +21,11 @@ public class Consts {
   public final static int ICON_SIZE_LARGE = 70;
 
   public final static int DEFAULT_LISTVIEW_WIDTH = 450;
-  public final static int DEFAULT_WIDTH = 1800;
-  public final static int DEFAULT_HEIGHT = 1200;
+
+
+
+  private static int defaultWidth = 1800;
+  private static int defaultHeight = 1200;
 
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
@@ -32,6 +35,8 @@ public class Consts {
   public final static File ADDITIONALS_PATH = new File (LEGUAN_HOME, "additionals");
 
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
+
+
 
   public final static ImageView createImageView (final String name, int iconSize) {
     ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
@@ -64,6 +69,22 @@ public class Consts {
 
     return new ImageView(cachedImage);
 
+  }
+
+  public static int getDefaultWidth() {
+    return defaultWidth;
+  }
+
+  public static int getDefaultHeight() {
+    return defaultHeight;
+  }
+
+  public static void setDefaultWidth(int defaultWidth) {
+    Consts.defaultWidth = defaultWidth;
+  }
+
+  public static void setDefaultHeight(int defaultHeight) {
+    Consts.defaultHeight = defaultHeight;
   }
 
 

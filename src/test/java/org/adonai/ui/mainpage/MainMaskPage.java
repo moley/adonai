@@ -11,6 +11,7 @@ import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
+import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.editor.SongEditorPage;
@@ -36,10 +37,10 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void openStage () {
+    Consts.setDefaultHeight(920);
+    Consts.setDefaultWidth(1200);
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
     Mask mask = maskLoader.load("mainpage");
-    mask.getStage().setWidth(800);
-    mask.getStage().setHeight(640);
     mask.getStage().setX(10);
     mask.getStage().setY(10);
     mask.getStage().setAlwaysOnTop(false);

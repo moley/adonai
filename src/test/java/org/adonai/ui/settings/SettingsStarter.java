@@ -1,5 +1,7 @@
 package org.adonai.ui.settings;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +13,6 @@ import org.adonai.model.ConfigurationService;
 import org.adonai.screens.ScreenManager;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
-
-import java.io.IOException;
-import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +36,7 @@ public class SettingsStarter extends Application {
     loader.setResources(ResourceBundle.getBundle("languages.adonai"));
     Parent root = loader.load();
 
-    Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+    Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     scene.getStylesheets().add("/adonai.css");
     screenManager.layoutOnScreen(primaryStage);
 

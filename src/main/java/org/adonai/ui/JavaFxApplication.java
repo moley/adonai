@@ -26,7 +26,7 @@ public class JavaFxApplication extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/mainpage.fxml"));
     Parent root = loader.load();
 
-    Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT);
+    Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     scene.getStylesheets().add("/adonai.css");
     //primaryStage.setMaximized(true);
     //primaryStage.setFullScreen(true);

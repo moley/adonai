@@ -111,7 +111,7 @@ public class PartEditor extends PanelHolder {
       }
     });
 
-    contentPane.setMinWidth(Consts.DEFAULT_WIDTH * 0.5);
+    contentPane.setMinWidth(Consts.getDefaultWidth() * 0.5);
     contentPane.setUserData(getPointer() + "paContentPane");
 
     titledPane.setUserData(getPointer() + "paTitledPane");

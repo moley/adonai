@@ -1,18 +1,19 @@
 package org.adonai;
 
 import java.io.File;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.adonai.model.*;
-import org.adonai.services.SongTransposeService;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Song;
+import org.adonai.model.SongBook;
 import org.adonai.ui.Consts;
 import org.adonai.ui.editor2.SongEditor;
-
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class SongEditorStarter extends Application {
 
 
 
-      Scene scene = new Scene(editor, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
+      Scene scene = new Scene(editor, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
 
       scene.getStylesheets().add("/adonai.css");
 

@@ -22,7 +22,7 @@ public class MainPageApplication extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/mainpage.fxml"));
     Parent root = loader.load();
 
-    Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
+    Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
 
     scene.getStylesheets().add("/adonai.css");
 

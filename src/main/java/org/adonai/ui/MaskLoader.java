@@ -1,5 +1,6 @@
 package org.adonai.ui;
 
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,8 +8,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +22,7 @@ public class MaskLoader<T> {
       Parent root = loader.load();
       T controller = loader.getController();
 
-      Scene scene = new Scene(root, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, true);
+      Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight(), true);
       scene.getStylesheets().add("/adonai.css");
       Stage stage = new Stage();
       stage.setScene(scene);
