@@ -24,8 +24,8 @@ public class Consts {
 
 
 
-  private static int defaultWidth = 1800;
-  private static int defaultHeight = 1200;
+  private static int defaultWidth = 1400;
+  private static int defaultHeight = 800;
 
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
