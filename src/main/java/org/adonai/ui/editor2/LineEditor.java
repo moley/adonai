@@ -2,18 +2,19 @@ package org.adonai.ui.editor2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 22.11.16.
  */
 public class LineEditor extends PanelHolder {
 
-  private static final Logger LOGGER = Logger.getLogger(LineEditor.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(LineEditor.class);
 
 
 

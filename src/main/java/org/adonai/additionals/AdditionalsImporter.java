@@ -1,19 +1,19 @@
 package org.adonai.additionals;
 
-import java.util.logging.Logger;
 import org.adonai.model.Additional;
 import org.adonai.model.Song;
-import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdditionalsImporter {
 
-  private static final Logger LOGGER = Logger.getLogger(AdditionalsImporter.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalsImporter.class);
 
 
   public File getAdditionalFile (final Song song, final Additional additional) {

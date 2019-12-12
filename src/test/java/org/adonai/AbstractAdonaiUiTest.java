@@ -4,20 +4,14 @@ import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.CreateTestDataUiTests;
 import org.adonai.ui.TestUtil;
-import org.adonai.ui.mainpage.MainMaskPage;
-import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
-
-import java.io.File;
-import java.util.logging.Logger;
-
-import static org.adonai.ui.Consts.ADONAI_HOME_PROP;
 
 public abstract class AbstractAdonaiUiTest extends ApplicationTest {
 
-  protected static final Logger LOGGER = Logger.getLogger(AbstractAdonaiUiTest.class.getName());
+  protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdonaiUiTest.class);
 
   @Override
   public void start(Stage stage) throws Exception {

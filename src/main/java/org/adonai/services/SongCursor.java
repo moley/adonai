@@ -1,14 +1,15 @@
 package org.adonai.services;
 
-import java.util.logging.Logger;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SongCursor {
 
-  private static final Logger LOGGER = Logger.getLogger(SongCursor.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongCursor.class.getName());
 
 
   private Song currentSong;

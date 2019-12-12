@@ -1,6 +1,5 @@
 package org.adonai.ui;
 
-import java.util.logging.Logger;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,11 +8,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.adonai.ui.editor2.LinePartEditor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UiUtils {
 
-  private static final Logger LOGGER = Logger.getLogger(UiUtils.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(UiUtils.class);
 
   public static void close (final Stage stage) {
     stage.fireEvent( new WindowEvent( stage, WindowEvent.WINDOW_CLOSE_REQUEST));

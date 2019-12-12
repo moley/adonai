@@ -1,10 +1,7 @@
 package org.adonai.services;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 import org.adonai.Key;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
@@ -13,10 +10,12 @@ import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SongRepairer {
 
-  private static final Logger LOGGER = Logger.getLogger(SongRepairer.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongRepairer.class.getName());
 
   private AdditionalsImporter additionalsImporter = new AdditionalsImporter();
   private SongTransposeService songTransposeService = new SongTransposeService();

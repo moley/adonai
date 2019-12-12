@@ -45,7 +45,7 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setLeftBorder(new Double(5));
     exportConfiguration.setUpperBorder(new Double(5));
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-    exportConfiguration.setOpenPreview(true); //openPreview);
+    exportConfiguration.setOpenPreview(openPreview);
 
 
     PdfExporter pdfExporter = new PdfExporter();

@@ -25,6 +25,7 @@ public class PreviewPage extends WizardPage {
 
   Parent getContent() {
     VBox rootpanel = new VBox();
+    rootpanel.setUserData("importsongwizard.rootpanel");
 
     VBox.setVgrow(rootpanel, Priority.ALWAYS);
     rootpanel.sceneProperty().addListener(new ChangeListener<Scene>() {

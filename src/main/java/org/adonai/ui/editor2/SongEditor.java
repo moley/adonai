@@ -2,7 +2,6 @@ package org.adonai.ui.editor2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -32,13 +31,15 @@ import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.UiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 22.11.16.
  */
 public class SongEditor extends PanelHolder {
 
-  private static final Logger LOGGER = Logger.getLogger(SongEditor.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongEditor.class);
 
 
   private Song song;

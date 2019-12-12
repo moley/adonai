@@ -32,28 +32,28 @@ public class ImportSongWizardPage extends AbstractPage {
     applicationTest.clickOn(getBtnFinish());
   }
 
-  private TextField getTxtTitle () { return applicationTest.lookup(nodeWithId("txtTitle")).query(); }
+  private TextField getTxtTitle () { return applicationTest.lookup(nodeWithUserData("importsongwizard.txtTitle")).query(); }
 
 
   private RadioButton getRbFromClipboard () {
-    return applicationTest.lookup(nodeWithId("rbFromTextFile")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.rbFromTextFile")).query();
   }
   private RadioButton getRbFromNewSong() {
-    return applicationTest.lookup(nodeWithId("rbNewSong")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.rbNewSong")).query();
   }
 
 
   private Node getBtnPrevious () {
-    return applicationTest.lookup(nodeWithId("btnPrevious")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.btnPrevious")).query();
   }
   private Node getBtnNext () {
-    return applicationTest.lookup(nodeWithId("btnNext")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.btnNext")).query();
   }
   private Node getBtnCancel () {
-    return applicationTest.lookup(nodeWithId("btnCancel")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.btnCancel")).query();
   }
   private Node getBtnFinish () {
-    return applicationTest.lookup(nodeWithId("btnFinish")).query();
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.btnFinish")).query();
   }
 
   public void newSong (final String title) {

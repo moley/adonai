@@ -1,12 +1,11 @@
 package org.adonai.player;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Mp3Player {
 
@@ -14,7 +13,7 @@ public class Mp3Player {
 
   private File currentMp3File;
 
-  private static final Logger LOGGER = Logger.getLogger(Mp3Player.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(Mp3Player.class.getName());
 
 
   public void setFile (final File mp3File) {

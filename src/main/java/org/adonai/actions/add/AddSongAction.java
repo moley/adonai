@@ -37,7 +37,7 @@ public class AddSongAction {
     Scene scene = new Scene(importWizard, Consts.DEFAULT_WIDTH, Consts.DEFAULT_HEIGHT, false);
     scene.getStylesheets().add("/adonai.css");
 
-    stage.setOnCloseRequest(closeRequest);
+    stage.setOnHiding(closeRequest);
     stage.setTitle("Import new song");
     stage.setScene(scene);
     stage.showAndWait();

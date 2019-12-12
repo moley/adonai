@@ -6,14 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.Stage;
 import org.adonai.actions.SearchAction;
-
-import java.util.logging.Logger;
 import org.adonai.model.NamedElement;
 import org.adonai.model.Song;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchPageTester extends Application {
 
-  private static final Logger LOGGER = Logger.getLogger(SearchPageTester.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SearchPageTester.class.getName());
 
 
   public static void main(String[] args) {

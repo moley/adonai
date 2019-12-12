@@ -1,12 +1,13 @@
 package org.adonai.services;
 
-import java.util.logging.Logger;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RemoveSongService {
 
-  private static final Logger LOGGER = Logger.getLogger(RemoveSongService.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(RemoveSongService.class.getName());
 
   public Song removeSong (final Song removeSong, final SongBook songBook) {
     LOGGER.info("Remove song " + removeSong.getName());

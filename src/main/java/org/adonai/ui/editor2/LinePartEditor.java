@@ -1,6 +1,5 @@
 package org.adonai.ui.editor2;
 
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,11 +19,12 @@ import org.adonai.services.MoveChordService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongNavigationService;
 import org.adonai.services.SplitLineService;
-import org.adonai.ui.UiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LinePartEditor extends PanelHolder {
 
-  private static final Logger LOGGER = Logger.getLogger(LinePartEditor.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(LinePartEditor.class);
 
   private TextField txtText;
 
@@ -94,8 +94,10 @@ public class LinePartEditor extends PanelHolder {
         LOGGER.info(
             "Request focus of textfield <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText
                 .isVisible() + ", " + txtText.isNeedsLayout() + ")");
-        if (txtText.getScene() == null)
-          throw new IllegalStateException("Scene is null, cannot focus");
+        if (txtText.getScene() == null) {
+          LOGGER.error("Scene is null, cannot focus (" + getTxtText().getText() + "-" + getLblChord().getText() + ")");
+          return;
+        }
 
         txtText.requestFocus();
 

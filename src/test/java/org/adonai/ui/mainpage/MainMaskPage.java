@@ -38,63 +38,67 @@ public class MainMaskPage extends AbstractPage {
   public void openStage () {
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
     Mask mask = maskLoader.load("mainpage");
+    mask.getStage().setWidth(800);
+    mask.getStage().setHeight(640);
+    mask.getStage().setX(10);
+    mask.getStage().setY(10);
     mask.getStage().setAlwaysOnTop(false);
     mask.getStage().show();
   }
 
 
   public ToggleButton getBtnSongbook () {
-    return applicationTest.lookup(nodeWithId("togSongbooks")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.togSongbooks")).query();
   }
 
 
   public ToggleButton getBtnSessions () {
-    return applicationTest.lookup(nodeWithId("togSessions")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.togSessions")).query();
   }
 
   public ToggleButton getBtnSession () {
-    return applicationTest.lookup(nodeWithId("togSession")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.togSession")).query();
   }
 
   public ListView<Song> getLviSongs () {
-    return applicationTest.lookup(nodeWithId("lviSongs")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.lviSongs")).query();
   }
 
   public BorderPane getSongEditorPane () {
-    return applicationTest.lookup(nodeWithId("songeditor")).query();
+    return applicationTest.lookup(nodeWithUserData("songeditor.panRoot")).query();
   }
 
   public ListView<Session> getLviSessions () {
-    return applicationTest.lookup(nodeWithId("lviSessions")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.lviSessions")).query();
   }
 
   public Label getLblCurrentEntity () {
-    return applicationTest.lookup(nodeWithId("lblCurrentEntity")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.lblCurrentEntity")).query();
   }
 
   public Label getLblCurrentType () {
-    return applicationTest.lookup(nodeWithId("lblCurrentType")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.lblCurrentType")).query();
   }
 
   public ListView<Song> getLviSession () {
-    return applicationTest.lookup(nodeWithId("lviSession")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.lviSession")).query();
   }
 
   public Button getBtnPlus() {
-    return applicationTest.lookup(nodeWithId("btnPlus")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnAdd")).query();
   }
 
   public Button getBtnExport() {
-    return applicationTest.lookup(nodeWithId("btnExport")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnExport")).query();
   }
 
 
   public Button getBtnMinus() {
-    return applicationTest.lookup(nodeWithId("btnMinus")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnRemove")).query();
   }
 
   public Button getBtnMp3() {
-    return applicationTest.lookup(nodeWithId("btnMp3")).query();
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnMp3")).query();
   }
 
   public void stepToSongbook ()  {

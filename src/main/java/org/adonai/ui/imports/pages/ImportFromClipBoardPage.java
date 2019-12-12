@@ -21,6 +21,7 @@ public class ImportFromClipBoardPage extends WizardPage {
 
   Parent getContent() {
     txaImport = new TextArea();
+    txaImport.setUserData("importsongwizard.txaImport");
     txaImport.setWrapText(true);
     txaImport.setPromptText("Please copy your song with Copy and Paste into this textfield and press Next");
     nextButton.setDisable(true);

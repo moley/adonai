@@ -9,12 +9,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MaskLoader<T> {
 
-  private static final Logger LOGGER = Logger.getLogger(MaskLoader.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
   public Mask<T> load (final String name) {
     Mask<T> mask = new Mask<T>();
@@ -41,7 +41,7 @@ public class MaskLoader<T> {
 
       return mask;
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);
+      LOGGER.error(e.getLocalizedMessage(), e);
       throw new IllegalStateException(e);
     }
   }

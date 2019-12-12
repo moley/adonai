@@ -19,7 +19,7 @@ public class NewSongPage extends WizardPage {
   @Override
   public Parent getContent() {
     txtTitle = new TextField();
-    txtTitle.setId("txtTitle");
+    txtTitle.setUserData("importsongwizard.txtTitle");
     txtTitle.setPromptText("Please type the name of your new song");
     nextButton.setDisable(true);
     txtTitle.textProperty().addListener((observableValue, oldValue, newValue) -> {

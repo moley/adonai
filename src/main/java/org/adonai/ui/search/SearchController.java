@@ -1,6 +1,5 @@
 package org.adonai.ui.search;
 
-import java.util.logging.Logger;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,14 +7,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.adonai.model.NamedElement;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchController {
 
   @FXML
   TextField txtSearchQuery;
 
-  private static final Logger LOGGER = Logger.getLogger(SearchController.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
 
   private FilteredList<? extends NamedElement> filteredData;
 

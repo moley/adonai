@@ -9,6 +9,10 @@ public class AbstractPage<T> {
     return MyNodeMatchers.withId(id);
   }
 
+  protected Matcher<Node> nodeWithUserData (final String userdata) {
+    return MyNodeMatchers.withUserData(userdata);
+  }
+
 
 
 

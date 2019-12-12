@@ -1,11 +1,11 @@
 package org.adonai.actions.openAdditionals;
 
 import org.adonai.model.Song;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OpenAudioAction implements OpenAdditionalHandler {
-  private static final Logger LOGGER = Logger.getLogger(OpenAudioAction.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(OpenAudioAction.class);
 
   @Override
   public void open(Song song) {

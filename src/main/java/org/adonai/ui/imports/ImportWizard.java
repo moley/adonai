@@ -1,20 +1,19 @@
 package org.adonai.ui.imports;
 
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.adonai.ui.imports.pages.ChooseImportTypePage;
 import org.adonai.ui.imports.pages.ImportFromClipBoardPage;
 import org.adonai.ui.imports.pages.NewSongPage;
 import org.adonai.ui.imports.pages.PreviewPage;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class shows a satisfaction survey
  */
 public class ImportWizard extends Wizard {
 
-  private static final Logger LOGGER = Logger.getLogger(ImportWizard.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(ImportWizard.class);
 
   Stage owner;
   SongImportController importController;
@@ -41,6 +40,7 @@ public class ImportWizard extends Wizard {
   }
 
   public void close () {
-    owner.fireEvent( new WindowEvent( owner, WindowEvent.WINDOW_CLOSE_REQUEST));
+    LOGGER.info("Closing stage " + owner.getTitle());
+    owner.close();
   }
 }

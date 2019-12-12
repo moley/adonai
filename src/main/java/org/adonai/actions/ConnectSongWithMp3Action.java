@@ -1,6 +1,5 @@
 package org.adonai.actions;
 
-import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -13,10 +12,12 @@ import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConnectSongWithMp3Action {
 
-  private static final Logger LOGGER = Logger.getLogger(OpenAudioAction.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(OpenAudioAction.class);
 
   public final static int CONNECTSONGDIALOG_WIDTH = 800;
   public final static int CONNECTSONGDIALOG_HEIGHT = 600;
@@ -25,7 +26,7 @@ public class ConnectSongWithMp3Action {
   public void connect (final Double x, final Double y, Song selectedSong) {
 
     if (selectedSong == null) {
-      LOGGER.warning("Selected song is <null>");
+      LOGGER.warn("Selected song is <null>");
       return;
     }
 
