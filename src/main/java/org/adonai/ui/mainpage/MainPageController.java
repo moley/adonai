@@ -148,8 +148,8 @@ public class MainPageController {
     lviSession.setCellFactory(new SongCellFactory());
     lviSessions.setPlaceholder(new Label("No sessions available, press + to add ones"));
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
-    lblCurrentEntity.setId("lblCurrentEntity");
-    lblCurrentType.setId("lblCurrentType");
+    lblCurrentEntity.setUserData("lblCurrentEntity");
+    lblCurrentType.setUserData("lblCurrentType");
 
 
 
@@ -176,7 +176,7 @@ public class MainPageController {
     Button btnAdd = new Button();
     btnAdd.setTooltip(new Tooltip("Add new item"));
     btnAdd.setGraphic(Consts.createIcon("fa-plus", iconSizeToolbar));
-    btnAdd.setId("btnPlus");
+    btnAdd.setUserData("btnPlus");
     tbaActions.getItems().add(btnAdd);
     btnAdd.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -251,7 +251,7 @@ public class MainPageController {
 
     //Button Minus
     Button btnRemove = new Button();
-    btnRemove.setId("btnMinus");
+    btnRemove.setUserData("btnMinus");
     btnRemove.setTooltip(new Tooltip("Remove selected item"));
     btnRemove.setGraphic(Consts.createIcon("fa-minus", iconSizeToolbar));
     tbaActions.getItems().add(btnRemove);
@@ -280,7 +280,7 @@ public class MainPageController {
     tbaActions.getItems().add(new Separator());
     Button btnMp3 = new Button();
     btnMp3.setTooltip(new Tooltip("Attach mp3 file to the song"));
-    btnMp3.setId("btnMp3");
+    btnMp3.setUserData("btnMp3");
     btnMp3.setText("Mp3");
     btnMp3.setGraphic(Consts.createIcon(AdditionalType.AUDIO.getIconName(), iconSizeToolbar));
     tbaActions.getItems().add(btnMp3);
@@ -303,7 +303,7 @@ public class MainPageController {
     //Button Export transposed
     Button btnExport = new Button ("Export");
     btnExport.setTooltip(new Tooltip("Export to pdf"));
-    btnExport.setId("btnExport");
+    btnExport.setUserData("btnExport");
     btnExport.setGraphic(Consts.createIcon("fa-desktop", iconSizeToolbar));
     tbaActions.getItems().add(btnExport);
     btnExport.setOnAction(new EventHandler<ActionEvent>() {
@@ -324,7 +324,7 @@ public class MainPageController {
 
     Button btnUserAdmin = new Button("Users");
     btnUserAdmin.setTooltip(new Tooltip("Administrate all users"));
-    btnUserAdmin.setId("btnUserAdmin");
+    btnUserAdmin.setUserData("btnUserAdmin");
     btnUserAdmin.setGraphic(Consts.createIcon("fa-user", iconSizeToolbar));
     tbaActions.getItems().add(btnUserAdmin);
     btnUserAdmin.setOnAction(new EventHandler<ActionEvent>() {

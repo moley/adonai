@@ -83,8 +83,10 @@ public class SongEditor extends PanelHolder {
 
     setIndex("songeditor");
     tbaActions.setStyle("-fx-background-color: transparent;");
+    tbaActions.setUserData("songeditor.tbaActions");
 
     btnStart.setTooltip(new Tooltip("Navigate to the beginning of the song"));
+    btnStart.setUserData("songeditor.btnStart");
     btnStart.setGraphic(Consts.createIcon("fa-arrow-up", Consts.ICON_SIZE_VERY_SMALL));
     btnStart.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -95,6 +97,7 @@ public class SongEditor extends PanelHolder {
     tbaActions.getItems().add(btnStart);
 
     btnEnd.setTooltip(new Tooltip("Navigate to the end of the song"));
+    btnEnd.setUserData("songeditor.btnEnd");
     btnEnd.setGraphic(Consts.createIcon("fa-arrow-down", Consts.ICON_SIZE_VERY_SMALL));
     btnEnd.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -105,6 +108,7 @@ public class SongEditor extends PanelHolder {
     tbaActions.getItems().add(btnEnd);
 
     btnOriginalChord.setTooltip(new Tooltip("Show original chords"));
+    btnOriginalChord.setUserData("songeditor.btnOriginalChord");
     btnOriginalChord.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         showOriginChords.setValue(true);
@@ -115,7 +119,7 @@ public class SongEditor extends PanelHolder {
 
 
 
-
+    btnCurrentChord.setUserData("songeditor.btnCurrentChord");
     btnCurrentChord.setTooltip(new Tooltip("Show current chords"));
     btnCurrentChord.setGraphic(Consts.createIcon("fa-arrow-right", Consts.ICON_SIZE_VERY_SMALL));
     btnCurrentChord.setOnAction(new EventHandler<ActionEvent>() {
@@ -128,6 +132,7 @@ public class SongEditor extends PanelHolder {
 
 
     btnSongInfo.setTooltip(new Tooltip("Edit song informations"));
+    btnSongInfo.setUserData("songeditor.btnSongInfo");
     btnSongInfo.setGraphic(Consts.createIcon("fa-cogs", Consts.ICON_SIZE_VERY_SMALL));
     btnSongInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event) {
@@ -160,10 +165,13 @@ public class SongEditor extends PanelHolder {
     BorderPane root = new BorderPane();
     setPanel(root);
 
+    content.setUserData("songeditor.panContent");
     content.setPadding(new Insets(20, 20, 20, 20));
     scrollPane.setContent(content);
     root.setId("songeditor");
+    root.setUserData("songeditor.panRoot");
     lblHeaderInfo.setMaxHeight(Double.MAX_VALUE);
+    lblHeaderInfo.setUserData("songeditor.lblHeaderInfo");
 
 
     HBox.setMargin(lblHeaderInfo, new Insets(3, 100, 0, 10));
@@ -173,6 +181,7 @@ public class SongEditor extends PanelHolder {
     header.getChildren().add(region);
     header.getChildren().add(tbaActions);
     header.setId("songheader");
+    header.setUserData("songeditor.panHeader");
 
 
     root.setCenter(scrollPane);
@@ -263,8 +272,9 @@ public class SongEditor extends PanelHolder {
     songRepairer.repairSong(song);
 
 
-    for (SongPart next : song.getSongParts()) {
-      PartEditor currentPartEditor = new PartEditor(this, next, next.getReferencedSongPart() == null);
+    for (int i = 0; i < song.getSongParts().size(); i++) {
+      SongPart next = song.getSongParts().get(i);
+      PartEditor currentPartEditor = new PartEditor(this, next, next.getReferencedSongPart() == null, i);
       partEditors.add(currentPartEditor);
       content.getChildren().add(currentPartEditor.getPanel());
     }

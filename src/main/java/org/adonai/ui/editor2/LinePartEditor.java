@@ -53,6 +53,9 @@ public class LinePartEditor extends PanelHolder {
 
   private boolean editable;
 
+  private int partIndex, lineIndex, linepartIndex;
+
+
   private LinePartEditor getEditor() {
     return this;
   }
@@ -72,6 +75,10 @@ public class LinePartEditor extends PanelHolder {
 
   public void toEnd() {
     requestFocusAndSetCaret(false, txtText.getText().length() - 1);
+  }
+
+  private String getPointer () {
+    return "songeditor.linepart_" + partIndex + "_" + lineIndex + "_" + linepartIndex +  ".";
   }
 
   public void requestFocus(final boolean select) {
@@ -148,23 +155,28 @@ public class LinePartEditor extends PanelHolder {
     }
   }
 
-  public LinePartEditor(final LineEditor lineEditor, final LinePart linePart, final boolean editable, final String id) {
+  public LinePartEditor(final LineEditor lineEditor, final LinePart linePart, final boolean editable, final int partIndex, final int lineIndex, final int linepartIndex) {
     this.editable = editable;
-    this.index = id;
+    this.index = partIndex + "_" + lineIndex + "_" + linepartIndex;
     this.lineEditor = lineEditor;
     this.linePart = linePart;
 
     lblChord = new Label();
     lblChord.setText(linePart.getChord());
     lblChord.setId("chordlabel");
+    lblChord.setUserData(getPointer() + "lblChord");
 
     lblChordOriginal = new Label();
     lblChordOriginal.setText(linePart.getOriginalChord());
     lblChordOriginal.setId("chordlabel");
+    lblChordOriginal.setUserData(getPointer() + "lblChordOriginal");
 
     txtText = new TextField(linePart.getText());
 
     txtText.setId("texteditor");
+    txtText.setUserData(getPointer() + "txtText");
+
+
 
     //Debug layouting
     /**    lblChord.setStyle("-fx-border-color: red;");

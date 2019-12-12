@@ -124,7 +124,7 @@ public class ExportEngine {
 
         } else {
 
-          if (!nextPart.hasText() && exportConfiguration.isWithChords() == false)
+          if (!nextPart.hasText() && ! exportConfiguration.isWithChords() && exportConfiguration.getSongPartDescriptorType().equals(SongPartDescriptorStrategy.NONE))
             continue;
 
           if (documentBuilder.getExportTokenContainer().hasTokens() && exportConfiguration.getNewPageStrategy().equals(NewPageStrategy.PER_PART)) {

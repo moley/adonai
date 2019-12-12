@@ -1,4 +1,6 @@
-74   fertig
+- Meldungen nach speichern / upload (Fehlerhandling)
+- Export ohne Chords -  Teil ohne Text wird nicht exportiert
+-
 
 Wenn Additional Mp3 changes the cached file is not adapted
 

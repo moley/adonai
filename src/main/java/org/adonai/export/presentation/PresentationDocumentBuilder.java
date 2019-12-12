@@ -27,7 +27,6 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithChords(false);
-    exportConfiguration.setWithPartType(false);
     exportConfiguration.setNewPageStrategy(NewPageStrategy.PER_PART);
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Exportschema Presentation Default");

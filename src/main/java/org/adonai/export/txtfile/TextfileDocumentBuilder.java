@@ -65,7 +65,6 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithChords(false);
-    exportConfiguration.setWithPartType(false);
     exportConfiguration.setNewPageStrategy(NewPageStrategy.NEVER);
     exportConfiguration.setInterPartDistance(new Double(1));
     exportConfiguration.setInterSongDistance(new Double(2));

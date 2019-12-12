@@ -26,14 +26,19 @@ public class LineEditor extends PanelHolder {
 
   HBox content = new HBox();
 
+  private int partIndex;
+  private int lineIndex;
 
 
 
-  public LineEditor (final PartEditor partEditor, final Line line, final boolean editable, final String index) {
-    this.index = index;
+
+  public LineEditor (final PartEditor partEditor, final Line line, final boolean editable, final int partIndex, final int lineIndex) {
+    this.index = partIndex + "_" + lineIndex;
     this.partEditor = partEditor;
     this.editable = editable;
     this.line = line;
+    this.partIndex = partIndex;
+    this.lineIndex = lineIndex;
 
     setPanel(content);
 
@@ -52,14 +57,19 @@ public class LineEditor extends PanelHolder {
 
   public void reload () {
     content.getChildren().clear();
+    content.setUserData(getPointer() + "content");
     linePartEditors.clear();
-    int partIndex = 0;
-    for (LinePart linePart: line.getLineParts()) {
-      LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable, getIndex() + "_" + partIndex++);
+    for (int i = 0; i < line.getLineParts().size(); i++) {
+      LinePart linePart = line.getLineParts().get(0);
+      LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable, partIndex, lineIndex, i);
       linePartEditors.add(linePartEditor);
       content.getChildren().add(linePartEditor.getPanel());
     }
 
+  }
+
+  private String getPointer () {
+    return "songeditor.line_" + partIndex + "_" + lineIndex + ".";
   }
 
 

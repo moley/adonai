@@ -33,8 +33,6 @@ public class SettingsExportConfigurationController {
   @FXML
   CheckBox chkShowChords;
 
-  @FXML
-  CheckBox chkShowPart;
 
   @FXML
   ResourceBundle resources;
@@ -69,8 +67,6 @@ public class SettingsExportConfigurationController {
     chkOpenPreview.selectedProperty().bindBidirectional(exportConfiguration.openPreviewProperty());
     chkShowChords.selectedProperty().bindBidirectional(exportConfiguration.withChordsProperty());
     chkShowTitle.selectedProperty().bindBidirectional(exportConfiguration.withTitleProperty());
-    chkShowPart.selectedProperty().bindBidirectional(exportConfiguration.withPartTypeProperty());
-
 
     /**exportConfiguration.getChordTextDistance();
     exportConfiguration.getInterLineDistance();

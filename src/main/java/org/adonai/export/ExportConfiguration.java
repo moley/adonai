@@ -20,8 +20,6 @@ public class ExportConfiguration {
 
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
 
-  private SimpleBooleanProperty withPartType = new SimpleBooleanProperty(false);
-
   private SimpleBooleanProperty withTitle = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withContentPage = new SimpleBooleanProperty(false);
@@ -100,19 +98,6 @@ public class ExportConfiguration {
   }
   public void setWithChords(Boolean withChords) {
     this.withChords.set(withChords);
-  }
-
-  //// with part types
-  public Boolean isWithPartType() {
-    return withPartType.get();
-  }
-
-  public void setWithPartType(Boolean withPartType) {
-    this.withPartType.set(withPartType);
-  }
-
-  public SimpleBooleanProperty withPartTypeProperty () {
-    return withPartType;
   }
 
   //page size

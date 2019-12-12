@@ -1,5 +1,7 @@
 package org.adonai.export.txtfile;
 
+import org.adonai.export.ReferenceStrategy;
+import org.adonai.model.SongPartDescriptorStrategy;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,6 +33,23 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
+  public void exportEmptyPartWithStructure () throws IOException, ExportException {
+    SongBuilder songBuilder = new SongBuilder();
+    songBuilder.withPart(SongPartType.INTRO).withLine().withLinePart("", "C").withLinePart("", "G");
+    songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
+    List<Song> songs = Arrays.asList(songBuilder.get());
+    ExportConfiguration exportConfiguration = createExportConfiguration();
+    exportConfiguration.setWithChords(false);
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+    exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+    File exportFile = createExportFile(textfileWriter, "exportEmptyPartWithStructure");
+    textfileWriter.export(songs, exportFile, exportConfiguration);
+    List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
+    Assert.assertTrue ("Empty part not exported without content (" + lines.get(0) + ")", lines.get(0).trim().startsWith("INTRO"));
+
+  }
+
+  @Test
   public void exportOnlyChordPart () throws ExportException, IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("", "A").withLinePart("", "D").withLinePart("", "A");
@@ -57,7 +76,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
     Assert.assertEquals("This is a vers", StringUtils.trimRight(lines.get(0)));
-    Assert.assertEquals("<" + StringUtils.trimRight(lines.get(2)) + "> is invalid", "This is a second vers", StringUtils.trimRight(lines.get(2)));
+    Assert.assertEquals("<" + StringUtils.trimRight(lines.get(2)) + "> is invalid (" + lines + ")", "This is a second vers", StringUtils.trimRight(lines.get(2)));
 
 
   }

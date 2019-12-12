@@ -29,9 +29,6 @@
     <Label text="Show chords:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
     <CheckBox fx:id="chkShowChords" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
-    <Label text="Show part:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-    <CheckBox fx:id="chkShowPart" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-
 
 
 

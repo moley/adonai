@@ -2,6 +2,7 @@ package org.adonai.export.pdf;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,10 @@ import org.adonai.export.ReferenceStrategy;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Song;
+import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPartDescriptorStrategy;
+import org.adonai.model.SongPartType;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,6 +27,39 @@ public class PdfWriterTest extends AbstractExportTest {
 
   private boolean openPreview = false;
 
+
+  @Test
+  public void exportEmptyPartWithStructure () throws IOException, ExportException {
+    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
+
+    SongBuilder songBuilder = new SongBuilder();
+    songBuilder.withPart(SongPartType.INTRO).withLine().withLinePart("", "C").withLinePart("", "G");
+    songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
+    List<Song> songs = Arrays.asList(songBuilder.get());
+    ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.setWithChords(false);
+    exportConfiguration.setChordTextDistance(new Double(5));
+    exportConfiguration.setInterLineDistance(new Double(5));
+    exportConfiguration.setInterPartDistance(new Double(5));
+    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setLeftBorder(new Double(5));
+    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+    exportConfiguration.setOpenPreview(true); //openPreview);
+
+
+    PdfExporter pdfExporter = new PdfExporter();
+    pdfExporter.export(songs, tmpExportFile, exportConfiguration);
+    List<String> lines = FileUtils.readLines(tmpExportFile, Charset.defaultCharset());
+    for (String next: lines) {
+      System.out.println ("> " + next);
+    }
+
+    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
+    ExportToken firstExportToken = exportTokenContainer.getExportTokenList().get(0);
+    Assert.assertEquals ("Part with no text is not exported when exporting without chords", "INTRO", firstExportToken.getText());
+
+  }
 
 
   @Test

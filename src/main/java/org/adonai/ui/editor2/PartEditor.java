@@ -55,6 +55,8 @@ public class PartEditor extends PanelHolder {
 
   private boolean editable;
 
+  private int partIndex;
+
 
   Label label;
 
@@ -78,18 +80,27 @@ public class PartEditor extends PanelHolder {
       label.setGraphic(Consts.createIcon("fa-external-link", Consts.ICON_SIZE_VERY_SMALL));
 
     label.setText(type);
+    label.setUserData(getPointer() + "lblHeader");
 
     String color = songPartColorMap.getColorForPart(getShownPart());
     String colorSelected = songPartColorMap.getColorSelectedForPart(getShownPart());
     titledPane.setStyle("-fx-color: " + color + "; -fx-focus-color: " + colorSelected );
+    titledPane.setUserData(getPointer() + "paTitledPane");
   }
 
-  public PartEditor(final SongEditor songEditor, final SongPart part, final boolean editable) {
+  private String getPointer () {
+    return "songeditor.part_" + partIndex + ".";
+  }
+
+  public PartEditor(final SongEditor songEditor, final SongPart part, final boolean editable, final int partIndex) {
     this.editable = editable;
     this.part = part;
     this.songEditor = songEditor;
+    this.partIndex = partIndex;
 
     rootPane.setPadding(new Insets(0, 10, 0, 10));
+    rootPane.setUserData(getPointer() + "paRootPane");
+
 
     label = new Label();
     reloadTitle();
@@ -101,7 +112,9 @@ public class PartEditor extends PanelHolder {
     });
 
     contentPane.setMinWidth(Consts.DEFAULT_WIDTH * 0.5);
+    contentPane.setUserData(getPointer() + "paContentPane");
 
+    titledPane.setUserData(getPointer() + "paTitledPane");
     titledPane.setContent(contentPane);
     titledPane.setCollapsible(false);
     titledPane.setGraphic(label);
@@ -316,11 +329,9 @@ public class PartEditor extends PanelHolder {
   public void reload() {
     contentPane.getChildren().clear();
 
-
-
-    int index = 0;
-    for (Line nextLine : getShownPart().getLines()) {
-      LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, "editor_" + index++);
+    for (int i = 0 ; i < getShownPart().getLines().size(); i++) {
+      Line nextLine = getShownPart().getLines().get(i);
+      LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, partIndex, i);
       lineEditors.add(lineEditor);
       contentPane.getChildren().add(lineEditor.getPanel());
     }
