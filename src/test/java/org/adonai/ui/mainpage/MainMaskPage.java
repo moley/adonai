@@ -17,6 +17,8 @@ import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
@@ -27,8 +29,7 @@ import org.testfx.util.WaitForAsyncUtils;
 
 public class MainMaskPage extends AbstractPage {
 
-
-
+  private static final Logger LOGGER = LoggerFactory.getLogger(MainMaskPage.class);
 
   ApplicationTest applicationTest;
 
@@ -148,7 +149,9 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void export () {
+    LOGGER.info("Trigger export");
     applicationTest.clickOn(getBtnExport(), MouseButton.PRIMARY).sleep(2000);
+    LOGGER.info("Export triggered");
   }
 
   public void remove () {
@@ -173,6 +176,7 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void exportFileExists (String name, final boolean exists) {
+    LOGGER.info("Check if export file exists (" + name + "," + exists + ")");
     Configuration configuration = new ConfigurationService().get();
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
     Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles(), exists, expectedFile.exists());
