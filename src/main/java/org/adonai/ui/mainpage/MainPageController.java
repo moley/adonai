@@ -636,6 +636,7 @@ public class MainPageController {
 
   private void selectSongbook () {
     LOGGER.info("select songbook on " + System.identityHashCode(this));
+    LOGGER.error("Called from", new IllegalStateException());
     currentSong = null;
     currentContent = MainPageContent.SONGBOOK;
     lblCurrentType.setText("songbook");

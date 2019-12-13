@@ -9,8 +9,13 @@ import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainMaskSongTest extends AbstractAdonaiUiTest {
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(MainMaskSongTest.class);
+
 
   private MainMaskPage mainMaskPage;
 
@@ -21,11 +26,18 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Override
   public void start(Stage stage) throws Exception {
+    LOGGER.info("start called with stage " + System.identityHashCode(stage));
     TestDataCreator testDataCreator = new TestDataCreator();
     testDataCreator.createTestData(TestUtil.getDefaultTestDataPath(), false);
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();
+  }
+
+  @Override
+  public void stop () {
+    LOGGER.info("stop called");
+
   }
 
   @Test
