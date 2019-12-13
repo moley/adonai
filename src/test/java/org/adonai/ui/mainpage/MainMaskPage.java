@@ -174,7 +174,7 @@ public class MainMaskPage extends AbstractPage {
   public void exportFileExists (String name, final boolean exists) {
     Configuration configuration = new ConfigurationService().get();
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
-    Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong", expectedFile.exists(), exists);
+    Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong (existing: " + getExportedFiles() + ")", exists, expectedFile.exists());
   }
 
 

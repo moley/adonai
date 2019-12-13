@@ -62,9 +62,6 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", false);
     mainMaskPage.export();
     mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", true);
-
-
-
   }
 
 
