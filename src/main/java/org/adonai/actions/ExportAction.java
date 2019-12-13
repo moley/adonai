@@ -60,6 +60,7 @@ public class ExportAction {
     exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setInterPartDistance(new Double(5));
 
     File exportFile = new File(exportPath, name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();
@@ -79,6 +80,7 @@ public class ExportAction {
     exportConfigurationNoChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     exportConfigurationNoChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfigurationNoChords.setStructureDistance(new Double(5));
+    
 
     File exportFileNoChords = new File(exportPath, name + ".pdf");
     exportFileNoChords.getParentFile().mkdirs();
