@@ -20,6 +20,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+import jfxtras.util.NodeUtil;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -30,6 +31,7 @@ import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
+import org.adonai.ui.NodeUtils;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +49,6 @@ public class SongEditor extends PanelHolder {
   private VBox content = new VBox(5); //spacing between parts
 
   private List<PartEditor> partEditors = new ArrayList<>();
-
-  private SongInfoService songInfoService = new SongInfoService();
 
   private Label lblHeaderInfo = new Label();
 
@@ -193,8 +193,10 @@ public class SongEditor extends PanelHolder {
     reload();
 
     PartEditor firstPartEditor = getFirstPartEditor();
-    if (firstPartEditor != null)
+    if (firstPartEditor != null) {
+      LOGGER.info("Request first line part editor");
       firstPartEditor.getFirstLineEditor().getLinePartEditors().get(0).requestFocus(false);
+    }
   }
 
   public double getCurrentScrollPosition () {
@@ -257,6 +259,7 @@ public class SongEditor extends PanelHolder {
   }
 
   public void reloadDetail() {
+    LOGGER.info("reloadDetail()");
 
     currentScrollPosition = getScrollPane().getVvalue();
     content.getChildren().clear();
@@ -281,6 +284,7 @@ public class SongEditor extends PanelHolder {
     }
 
     getScrollPane().setVvalue(currentScrollPosition);
+
 
   }
 

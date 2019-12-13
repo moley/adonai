@@ -1,5 +1,6 @@
 package org.adonai.ui.editor2;
 
+import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
@@ -19,6 +21,7 @@ import org.adonai.services.MoveChordService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongNavigationService;
 import org.adonai.services.SplitLineService;
+import org.adonai.ui.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +45,8 @@ public class LinePartEditor extends PanelHolder {
   private LinePart linePart;
 
   private VBox root = new VBox();
+
+  private NodeUtils nodeUtils = new NodeUtils();
 
   private MoveChordService moveChordService = new MoveChordService();
 
@@ -82,75 +87,18 @@ public class LinePartEditor extends PanelHolder {
   }
 
   public void requestFocus(final boolean select) {
+    nodeUtils.requestFocusOnSceneAvailable(txtText, select, -1);
 
-    LOGGER.info(
-        "Request focus of textfield normal <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText
-            .isVisible() + ", " + txtText.isNeedsLayout() + ")");
-
-    try {
-      Thread.sleep(100);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    Platform.runLater(new Runnable() {
-      @Override public void run() {
-        LOGGER.info(
-            "Request focus of textfield <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText
-                .isVisible() + ", " + txtText.isNeedsLayout() + ")");
-        if (txtText.getScene() == null) {
-          LOGGER.error("Scene is null, cannot focus (" + getTxtText().getText() + "-" + getLblChord().getText() + ")");
-          return;
-        }
-
-        txtText.requestFocus();
-
-        if (select)
-          txtText.selectAll();
-        else
-          txtText.deselect();
-
-        LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
-        getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
-
-
-      }
-    });
+    LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
+    getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
 
   }
 
   public void requestFocusAndSetCaret(final boolean select, final Integer newCaretPosition) {
+    nodeUtils.requestFocusOnSceneAvailable(txtText, select, newCaretPosition);
 
-
-
-    try {
-      Thread.sleep(100);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    Platform.runLater(new Runnable() {
-      @Override public void run() {
-        LOGGER.info("Request focus and set caret of textfield <" + txtText.getText() + ">");
-        txtText.requestFocus();
-        if (select)
-          txtText.selectAll();
-        else
-          txtText.deselect();
-
-        if (newCaretPosition != null) {
-          LOGGER.info("isFocused: " + txtText.isFocused());
-
-          LOGGER.info("set caret position to " + newCaretPosition);
-          txtText.positionCaret(newCaretPosition);
-        }
-
-        LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
-        getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
-      }
-    });
-
-
+    LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
+    getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
   }
 
   private void adaptChordLabel() {
@@ -164,6 +112,7 @@ public class LinePartEditor extends PanelHolder {
   }
 
   public LinePartEditor(final LineEditor lineEditor, final LinePart linePart, final boolean editable, final int partIndex, final int lineIndex, final int linepartIndex) {
+    LOGGER.info("Create new lineparteditor for linepart " + lineIndex + "-" + linepartIndex +  ":" + System.identityHashCode(this));
     this.editable = editable;
     this.index = partIndex + "_" + lineIndex + "_" + linepartIndex;
     this.lineEditor = lineEditor;

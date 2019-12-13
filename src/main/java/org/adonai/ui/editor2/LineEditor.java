@@ -34,6 +34,7 @@ public class LineEditor extends PanelHolder {
 
 
   public LineEditor (final PartEditor partEditor, final Line line, final boolean editable, final int partIndex, final int lineIndex) {
+    LOGGER.info("Create new lineeditor for line " + lineIndex + ":" + System.identityHashCode(this));
     this.index = partIndex + "_" + lineIndex;
     this.partEditor = partEditor;
     this.editable = editable;

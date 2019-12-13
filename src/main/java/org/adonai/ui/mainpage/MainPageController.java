@@ -165,8 +165,6 @@ public class MainPageController {
     configuration = configurationService.get();
     selectSongbook();
 
-    refreshListViews(null);
-
     lviSongs.toFront();
 
     tbLeft.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbLeft.prefWidthProperty()));
@@ -579,8 +577,9 @@ public class MainPageController {
     lviSongs.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        LOGGER.info("mouseClicked on lviSongs " + event.getClickCount());
+
         if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+          LOGGER.info("doubleClick recieved on lviSongs");
           selectSong(lviSongs.getSelectionModel().getSelectedItem());
         }
       }
@@ -671,7 +670,7 @@ public class MainPageController {
   }
 
   private void selectSong (Song song) {
-    LOGGER.info("Select song " + song);
+    LOGGER.info("selectSong (" + song + ")");
     currentSong = song;
     currentContent = MainPageContent.SONG;
     SongEditor songEditor = new SongEditor(configuration, song);
@@ -761,7 +760,6 @@ public class MainPageController {
 
   private void refreshListViews(Song selectSong) {
     LOGGER.info("refreshListViews (" + selectSong + ")");
-    LOGGER.error("Coming from: ", new IllegalStateException());
     filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()), s->true);
     lviSongs.setItems(filteredSongList);
     List<Song> sessionSongs = currentSession != null ? sessionService.getSongs(currentSession, getCurrentSongBook()): new ArrayList<>();

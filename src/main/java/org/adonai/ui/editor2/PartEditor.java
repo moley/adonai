@@ -93,6 +93,7 @@ public class PartEditor extends PanelHolder {
   }
 
   public PartEditor(final SongEditor songEditor, final SongPart part, final boolean editable, final int partIndex) {
+    LOGGER.info("Create new parteditor for part " + part.getId() + ": " + System.identityHashCode(this));
     this.editable = editable;
     this.part = part;
     this.songEditor = songEditor;
