@@ -6,6 +6,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import org.adonai.actions.ExportAction;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
@@ -174,7 +175,7 @@ public class MainMaskPage extends AbstractPage {
   public void exportFileExists (String name, final boolean exists) {
     Configuration configuration = new ConfigurationService().get();
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
-    Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong (existing: " + getExportedFiles() + ")", exists, expectedFile.exists());
+    Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles() + "\n done actions: " + ExportAction.done, exists, expectedFile.exists());
   }
 
 

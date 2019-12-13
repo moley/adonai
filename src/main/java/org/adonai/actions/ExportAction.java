@@ -1,6 +1,7 @@
 package org.adonai.actions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import org.adonai.CreatePlaylistService;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
@@ -24,6 +25,8 @@ public class ExportAction {
 
   private ExportConfigurationMerger exportConfigurationMerger = new ExportConfigurationMerger();
 
+  public static Collection<String> done = new ArrayList<>();
+
 
   public void export (Configuration configuration, Collection<Song> songs,
                       String name) {
@@ -38,6 +41,7 @@ public class ExportAction {
         throw new IllegalStateException(e);
       }
     }
+    done.add("Added " + exportPath.getAbsolutePath());
 
     //With chords
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
@@ -55,6 +59,7 @@ public class ExportAction {
     } catch (ExportException e) {
       throw new IllegalStateException(e);
     }
+    done.add("Exported with chords " + exportPath.getAbsolutePath());
 
     //Without chords
     writer = new PdfExporter();
@@ -73,6 +78,7 @@ public class ExportAction {
     } catch (ExportException e) {
       throw new IllegalStateException(e);
     }
+    done.add("Exported without chords " + exportPath.getAbsolutePath());
 
     File songsPath = new File (exportPath, "mp3s");
     for (Song next: songs) {
@@ -89,6 +95,7 @@ public class ExportAction {
         }
       }
     }
+    done.add("Copied mp3s");
 
     File iTunesPlayList = new File (exportPath, name + ".m3u");
     CreatePlaylistService createPlaylistService = new CreatePlaylistService();
@@ -97,6 +104,8 @@ public class ExportAction {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+    done.add("Created playlist");
+
 
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     clipboard.setContents(new StringSelection(configuration.getExportPathAsFile().getAbsolutePath()), null);
