@@ -149,8 +149,9 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void export () {
-    LOGGER.info("Trigger export");
-    applicationTest.clickOn(getBtnExport(), MouseButton.PRIMARY).sleep(2000);
+    Button btnExport = getBtnExport();
+    LOGGER.info("Trigger export on button " + btnExport.getText());
+    applicationTest.clickOn(btnExport, MouseButton.PRIMARY).sleep(2000);
     LOGGER.info("Export triggered");
   }
 
