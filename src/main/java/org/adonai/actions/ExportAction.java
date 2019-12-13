@@ -62,7 +62,7 @@ public class ExportAction {
     exportConfiguration.setWithIndexPage(songs.size() > 1);
     exportConfiguration.setWithContentPage(songs.size() > 1);
     exportConfiguration.setStructureDistance(new Double(5));
-    exportConfiguration.setInterPartDistance(new Double(5));
+    //exportConfiguration.setInterPartDistance(new Double(5));
 
     File exportFile = new File(exportPath, name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();

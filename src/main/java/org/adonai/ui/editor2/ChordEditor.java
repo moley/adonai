@@ -53,11 +53,14 @@ public class ChordEditor {
         if (event.getCode() == KeyCode.ENTER) {
 
           Chord chord = null;
-          try {
-            chord = new Chord(txtChord.getText());
-          } catch (InvalidChordException e) {
-            LOGGER.error("Invalid chord entered: " + txtChord.getText());
-            return;
+
+          if (! txtChord.getText().trim().isEmpty()) {
+            try {
+              chord = new Chord(txtChord.getText());
+            } catch (InvalidChordException e) {
+              LOGGER.error("Invalid chord entered: " + txtChord.getText());
+              return;
+            }
           }
 
 
@@ -111,6 +114,7 @@ public class ChordEditor {
   }
 
   public void show(final boolean originalChord) {
+    LOGGER.info("show (" + originalChord + ")");
     this.originalChord = originalChord;
 
     TextField txt = linePartEditor.getTxtText();
