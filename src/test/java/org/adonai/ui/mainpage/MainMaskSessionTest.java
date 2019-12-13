@@ -6,6 +6,7 @@ import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.ConfigurationService;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.TestUtil;
+import org.adonai.ui.selectsong.SelectSongPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,25 +34,31 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   @Test
   public void addNewSongToSession () throws InterruptedException {
     mainMaskPage.stepToSession(0);
+    int numberOfSongs = mainMaskPage.getSongsInSession().size();
     mainMaskPage.add();
 
-    //TODO Asserts
+    SelectSongPage selectSongPage = new SelectSongPage(this);
+    selectSongPage.search("Song4");
+    int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
+    Assert.assertEquals ("Number of songs not increased", numberOfSongs + 1, numberOfSongsAfter);
   }
 
   @Test
   public void removeSongFromSession () {
     mainMaskPage.stepToSession(0);
+    int numberOfSongs = mainMaskPage.getSongsInSession().size();
     mainMaskPage.remove();
+    int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
+    Assert.assertEquals ("Number of songs not decreased", numberOfSongs -1, numberOfSongsAfter);
+
   }
 
   @Test
   public void clickOnListStepsToSongDetails () throws InterruptedException {
     mainMaskPage.stepToSession(0);
-    Thread.sleep(2000);
     Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
     Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
     doubleClickOn(mainMaskPage.getLviSession(), MouseButton.PRIMARY);
-    Thread.sleep(2000);
     Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
     Assert.assertTrue ("song", mainMaskPage.getSongEditorPane().isVisible());
   }

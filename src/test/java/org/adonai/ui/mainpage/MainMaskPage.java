@@ -17,6 +17,7 @@ import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditorPage;
+import org.adonai.ui.selectsong.SelectSongPage;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,10 @@ public class MainMaskPage extends AbstractPage {
     return new SongEditorPage(applicationTest);
   }
 
+  public SelectSongPage selectSongPage () {
+    return new SelectSongPage(applicationTest);
+  }
+
   public String getCurrentContentText () {
     return getLblCurrentEntity().getText();
   }
@@ -170,6 +175,10 @@ public class MainMaskPage extends AbstractPage {
 
   public List<Song> getSongsInSongbook () {
     return getLviSongs().getItems();
+  }
+
+  public List<Song> getSongsInSession () {
+    return getLviSession().getItems();
   }
 
   public List<File> getExportedFiles () {
