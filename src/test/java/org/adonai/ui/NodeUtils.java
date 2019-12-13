@@ -5,12 +5,14 @@ import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Window;
 
 public class NodeUtils {
 
   public <T extends Pane> List<Node> paneNodes(Node parent) {
     return paneNodes(parent, new ArrayList<Node>());
   }
+
 
   private  <T extends Pane> List<Node> paneNodes(Node parent, List<Node> nodes) {
     if (parent instanceof Pane) {

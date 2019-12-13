@@ -565,7 +565,7 @@ public class MainPageController {
       @Override
       public void handle(MouseEvent event) {
         LOGGER.info("mouseClicked on lviSession " + event.getClickCount());
-        LOGGER.info("btnExport visible: " + btnExport.isVisible() + "-" + btnExport.getLayoutBounds() + "-" + btnExport.getScene().getWindow());
+        LOGGER.info("btnExport visible: " + btnExport.isVisible() + "-" + btnExport.getLayoutBounds() + "-" + UiUtils.getLayout(btnExport.getScene().getWindow()));
         if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
           selectSong(lviSession.getSelectionModel().getSelectedItem());
         }
