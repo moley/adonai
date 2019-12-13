@@ -8,6 +8,7 @@ import org.adonai.ui.AbstractPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class SelectSongPage extends AbstractPage {
 
@@ -23,8 +24,10 @@ public class SelectSongPage extends AbstractPage {
   public void search (final String query) {
     LOGGER.info("Search " + query);
     applicationTest.write(query);
-    applicationTest.type(KeyCode.DOWN);
+    applicationTest.press(KeyCode.DOWN);
+    WaitForAsyncUtils.waitForFxEvents();
     applicationTest.type(KeyCode.ENTER);
+    WaitForAsyncUtils.waitForFxEvents();
     LOGGER.info("Searched " + query);
   }
 
