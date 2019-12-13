@@ -91,9 +91,6 @@ test {
         showStandardStreams = true
     }
 
-    include '**/MainMaskSongTest**'
-    include '**/SmallUiTest**'
-
 }
 
 jacocoTestReport {
