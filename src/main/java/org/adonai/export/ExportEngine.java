@@ -116,8 +116,7 @@ public class ExportEngine {
       for (SongPart nextPart : nextSong.getSongParts()) {
 
         if (nextPart.getReferencedSongPart() != null && exportConfiguration.getReferenceStrategy().equals(ReferenceStrategy.SHOW_STRUCTURE)) {
-          SongPart referencedSongpart = nextSong.findSongPartByUUID(nextPart.getReferencedSongPart());
-          String structure = songInfoService.getStructure(nextSong, referencedSongpart, exportConfiguration.getSongPartDescriptorType());
+          String structure = songInfoService.getStructure(nextSong, nextPart, exportConfiguration.getSongPartDescriptorType());
           SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
           documentBuilder.newToken(new ExportToken(structure, new AreaInfo(locationInfo, sizeInfoStructure), ExportTokenType.STRUCTURE));
           locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getInterPartDistance() + sizeInfoStructure.getHeight());

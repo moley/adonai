@@ -35,16 +35,17 @@ public class TextfileExporterTest extends AbstractExportTest {
   @Test
   public void numbersForReferencesPart () throws IOException, ExportException {
     SongBuilder songBuilder = new SongBuilder();
-    songBuilder.withPart(SongPartType.VERS).withPartId("1").withQuantity(2).withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
+    songBuilder.withPart(SongPartType.VERS).withPartId("1").withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
     songBuilder.withPartReference("1", SongPartType.VERS).withQuantity(2).withLine().withLinePart("Second", "F");
-    List<Song> songs = Arrays.asList(songBuilder.get());
+    Song song = songBuilder.get();
+    List<Song> songs = Arrays.asList(song);
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(false);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     File exportFile = createExportFile(textfileWriter, "exportEmptyPartWithStructure");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
-    System.out.println (lines);
+    Assert.assertTrue ("VERS 2x not found (" + lines + ")", lines.toString().contains("VERS 2x"));
 
   }
   @Test
