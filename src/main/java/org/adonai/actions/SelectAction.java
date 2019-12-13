@@ -27,7 +27,7 @@ public class SelectAction<T> {
   private Mask<SelectController> selectMask;
 
   public void open (final List<T> objects, final Double x, final Double y, Callback<ListView<T>, ListCell<T>> cellFactory,
-                    final EventHandler<WindowEvent> onCloseEventHandler) {
+                    final EventHandler<WindowEvent> onHiding) {
     List<T> objectsToAdd = new ArrayList<T>();
     objectsToAdd.addAll(objects);
     MaskLoader<SelectController> maskLoader = new MaskLoader<SelectController>();
@@ -46,7 +46,7 @@ public class SelectAction<T> {
     controller.getLviSelectItems().getSelectionModel().selectFirst();
     controller.getLviSelectItems().getStyleClass().add("selectlist");
 
-    selectMask.getStage().setOnCloseRequest(onCloseEventHandler);
+    selectMask.getStage().setOnHiding(onHiding);
 
     selectMask.show();
   }
