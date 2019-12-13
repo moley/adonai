@@ -39,6 +39,8 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
 
     SelectSongPage selectSongPage = new SelectSongPage(this);
     selectSongPage.search("Song4");
+    Thread.sleep(1000);
+
     int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
     Assert.assertEquals ("Number of songs not increased", numberOfSongs + 1, numberOfSongsAfter);
   }
