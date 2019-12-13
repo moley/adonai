@@ -27,6 +27,7 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();
+
   }
   @Test
   public void addNewSongToSession () {

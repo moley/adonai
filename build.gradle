@@ -90,6 +90,8 @@ test {
         showStackTraces = true
         showStandardStreams = true
     }
+
+    include '**/MainMaskSongTest**'
 }
 
 jacocoTestReport {
