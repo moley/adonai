@@ -83,6 +83,10 @@ public class LinePartEditor extends PanelHolder {
 
   public void requestFocus(final boolean select) {
 
+    LOGGER.info(
+        "Request focus of textfield normal <" + txtText.getText() + "> (scene: " + txtText.getScene() + ", " + txtText
+            .isVisible() + ", " + txtText.isNeedsLayout() + ")");
+
     try {
       Thread.sleep(100);
     } catch (InterruptedException e) {
@@ -116,6 +120,8 @@ public class LinePartEditor extends PanelHolder {
   }
 
   public void requestFocusAndSetCaret(final boolean select, final Integer newCaretPosition) {
+
+
 
     try {
       Thread.sleep(100);

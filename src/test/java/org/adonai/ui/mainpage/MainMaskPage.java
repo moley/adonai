@@ -35,6 +35,8 @@ public class MainMaskPage extends AbstractPage {
 
   ApplicationTest applicationTest;
 
+  private Mask mask;
+
 
   public MainMaskPage (final ApplicationTest applicationTest) throws IOException {
     this.applicationTest = applicationTest;
@@ -44,12 +46,15 @@ public class MainMaskPage extends AbstractPage {
     Consts.setDefaultHeight(640);
     Consts.setDefaultWidth(800);
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
-    Mask mask = maskLoader.load("mainpage");
+    mask = maskLoader.load("mainpage");
     mask.getStage().setX(10);
     mask.getStage().setY(10);
     mask.getStage().setAlwaysOnTop(false);
     mask.getStage().show();
+  }
 
+  public void closeStage () {
+    mask.getStage().close();
   }
 
 

@@ -31,6 +31,11 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     mainMaskPage.openStage();
   }
 
+  @Override
+  public void stop () {
+    mainMaskPage.closeStage();
+  }
+
   @Test
   public void addNewSongToSession () throws InterruptedException {
     mainMaskPage.stepToSession(0);
