@@ -42,7 +42,6 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void enterValidChord () throws InterruptedException {
-    mainMaskPage.stepToSongbook();
     mainMaskPage.stepToSong(0);
 
     SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
@@ -55,7 +54,6 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void enterInvalidChord () throws InterruptedException {
-    mainMaskPage.stepToSongbook();
     mainMaskPage.stepToSong(0);
 
     SongEditorPage songEditorPage = mainMaskPage.songEditorPage();

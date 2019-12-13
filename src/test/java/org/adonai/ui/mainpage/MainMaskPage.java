@@ -113,11 +113,13 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void stepToSongbook ()  {
+    LOGGER.info("stepToSongbook");
     applicationTest.clickOn(getBtnSongbook());
     Assert.assertTrue (getLviSongs().isVisible());
   }
 
   public void stepToSong (int index) {
+    LOGGER.info("stepToSong " + index);
     stepToSongbook();
     getLviSongs().getSelectionModel().select(index);
     applicationTest.doubleClickOn(getLviSongs());

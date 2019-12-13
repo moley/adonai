@@ -635,8 +635,7 @@ public class MainPageController {
   }
 
   private void selectSongbook () {
-    LOGGER.info("select songbook on " + System.identityHashCode(this));
-    LOGGER.error("Called from", new IllegalStateException());
+    LOGGER.info("selectSongbook on " + System.identityHashCode(this));
     currentSong = null;
     currentContent = MainPageContent.SONGBOOK;
     lblCurrentType.setText("songbook");
@@ -761,7 +760,7 @@ public class MainPageController {
   }
 
   private void refreshListViews(Song selectSong) {
-    LOGGER.info("Refresh views");
+    LOGGER.info("refreshListViews (" + selectSong + ")");
     filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()), s->true);
     lviSongs.setItems(filteredSongList);
     List<Song> sessionSongs = currentSession != null ? sessionService.getSongs(currentSession, getCurrentSongBook()): new ArrayList<>();
