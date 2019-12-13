@@ -3,6 +3,7 @@ package org.adonai.ui.selectsong;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import org.adonai.model.Song;
 import org.adonai.ui.AbstractPage;
 import org.slf4j.Logger;
@@ -25,7 +26,9 @@ public class SelectSongPage extends AbstractPage {
     LOGGER.info("Search " + query);
     applicationTest.write(query);
     pressAndRelease(applicationTest, KeyCode.DOWN);
-    pressAndRelease(applicationTest, KeyCode.ENTER);
+    LOGGER.info("Selected item: " + getLviSelectedSongs().getSelectionModel().getSelectedItem());
+    applicationTest.doubleClickOn(getLviSelectedSongs(), MouseButton.PRIMARY);
+
     LOGGER.info("Searched " + query);
   }
 
