@@ -47,7 +47,7 @@ public class SongEditorPage extends AbstractPage {
   }
 
   public void chord (final String chord) throws InterruptedException {
-    applicationTest.press(KeyCode.CONTROL, KeyCode.C);
+    applicationTest.press(KeyCode.CONTROL, KeyCode.C).release(KeyCode.CONTROL, KeyCode.C);
     TextField txtChordEditor = getTxtChordEditor();
     applicationTest.write(chord);
     applicationTest.press(KeyCode.ENTER);
