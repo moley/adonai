@@ -761,6 +761,7 @@ public class MainPageController {
 
   private void refreshListViews(Song selectSong) {
     LOGGER.info("refreshListViews (" + selectSong + ")");
+    LOGGER.error("Coming from: ", new IllegalStateException());
     filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()), s->true);
     lviSongs.setItems(filteredSongList);
     List<Song> sessionSongs = currentSession != null ? sessionService.getSongs(currentSession, getCurrentSongBook()): new ArrayList<>();
