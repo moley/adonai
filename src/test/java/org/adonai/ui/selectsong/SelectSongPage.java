@@ -21,6 +21,7 @@ public class SelectSongPage extends AbstractPage {
   }
 
   public void search (final String query) {
+    LOGGER.info("Search " + query);
     applicationTest.write(query);
     applicationTest.type(KeyCode.DOWN);
     applicationTest.type(KeyCode.ENTER);
