@@ -25,6 +25,7 @@ public class SelectSongPage extends AbstractPage {
     applicationTest.write(query);
     applicationTest.type(KeyCode.DOWN);
     applicationTest.type(KeyCode.ENTER);
+    LOGGER.info("Searched " + query);
   }
 
 

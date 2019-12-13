@@ -48,6 +48,7 @@ public class SelectController<T> {
   }
 
   public void initialize() {
+    txtSearchQuery.requestFocus();
     txtSearchQuery.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
