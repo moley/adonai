@@ -6,12 +6,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.adonai.AbstractAdonaiUiTest;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
 
 public class SmallUiTest extends ApplicationTest {
 
   private TextField txtSometing;
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(SmallUiTest.class);
+
 
   @Override
   public void start(Stage stage) throws Exception {
@@ -29,7 +35,7 @@ public class SmallUiTest extends ApplicationTest {
     stage.initStyle(StageStyle.UNDECORATED);
 
     stage.show();
-    System.out.println (txtSometing.getScene());
+    LOGGER.info("Scene: " + txtSometing.getScene());
   }
 
   @Test

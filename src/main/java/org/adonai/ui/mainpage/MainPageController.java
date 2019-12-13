@@ -635,7 +635,7 @@ public class MainPageController {
   }
 
   private void selectSongbook () {
-    LOGGER.info("select songbook");
+    LOGGER.info("select songbook on " + System.identityHashCode(this));
     currentSong = null;
     currentContent = MainPageContent.SONGBOOK;
     lblCurrentType.setText("songbook");
