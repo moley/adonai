@@ -231,8 +231,8 @@ public class MainPageController {
           selectSong.open(allSongs, xSession, ySession,  new SongCellFactory(), new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-              LOGGER.info("handle window closed in selectsong");
               Song selectedSong = selectSong.getSelectedItem();
+              LOGGER.info("handle window closed in selectsong on " + selectedSong);
               if (selectedSong != null) {
                 LOGGER.info("Add song " + selectedSong.getId() + " to session " + getCurrentSession().getName());
                 sessionService.addSong(getCurrentSession(), selectedSong);

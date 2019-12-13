@@ -12,9 +12,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.adonai.ui.UiUtils;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SelectController<T> {
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(SelectController.class);
+
 
   @FXML TextField txtSearchQuery;
 
@@ -83,12 +87,15 @@ public class SelectController<T> {
     lviSelectItems.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
+        LOGGER.info("handle key event " + event.getCode());
+
         if (event.getCode().equals(KeyCode.UP) && lviSelectItems.getSelectionModel().isSelected(0)) {
           txtSearchQuery.requestFocus();
           txtSearchQuery.setText("");
         }
         if (event.getCode().equals(KeyCode.ENTER)) {
           selectedItem = getLviSelectItems().getSelectionModel().getSelectedItem();
+          LOGGER.info("Select " + selectedItem);
           close();
         }
       }
