@@ -9,10 +9,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 import org.adonai.Chord;
+import org.adonai.InvalidChordException;
 import org.adonai.model.LinePart;
 import org.adonai.services.AddChordService;
 import org.adonai.services.RemoveChordService;
 import org.adonai.services.SongCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 17.01.17.
@@ -31,6 +34,8 @@ public class ChordEditor {
 
   private boolean originalChord;
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(ChordEditor.class);
+
   public ChordEditor(final LinePartEditor linePartEditor) {
     this.linePartEditor = linePartEditor;
     popup = new Popup();
@@ -39,21 +44,30 @@ public class ChordEditor {
 
     txtChord = new TextField("");
     txtChord.setId("chordeditor");
+    txtChord.setUserData("chordeditor.txtChord");
     txtChord.setPrefWidth(100);
 
     txtChord.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override
-      public void handle(KeyEvent event) {
+      @Override public void handle(KeyEvent event) {
 
         if (event.getCode() == KeyCode.ENTER) {
+
+          Chord chord = null;
+          try {
+            chord = new Chord(txtChord.getText());
+          } catch (InvalidChordException e) {
+            LOGGER.error("Invalid chord entered: " + txtChord.getText());
+            return;
+          }
+
+
           popup.hide();
           event.consume();
-
 
           SongCursor songCursor = linePartEditor.getCursor();
           SongEditor songEditor = linePartEditor.getSongEditor();
           if (linePartEditor.getTxtText().getCaretPosition() > 0) { //if we are not below an existing chord
-            if (! txtChord.getText().trim().isEmpty()) {
+            if (!txtChord.getText().trim().isEmpty()) {
 
               LinePart selectedLinePart;
 
@@ -65,21 +79,19 @@ public class ChordEditor {
               final LinePartEditor newLinePartEditor = songEditor.reload().getPartEditor(selectedLinePart);
               newLinePartEditor.requestFocusAndSetCaret(false, 0);
             }
-          }
-          else {
+          } else {
             if (!txtChord.getText().trim().isEmpty()) {
-              Chord chord = new Chord(txtChord.getText());
+
               if (originalChord) {
                 linePartEditor.getLinePart().setOriginalChord(chord.toString());
                 linePartEditor.getLinePart().setChord(null); //to recalculate in reload
-              }
-              else {
+              } else {
                 linePartEditor.getLinePart().setChord(chord.toString());
                 linePartEditor.getLinePart().setOriginalChord(null); ////to recalculate in reload
               }
 
-              songEditor.reload().getPartEditor(linePartEditor.getLinePart()).requestFocusAndSetCaret(false, songCursor.getPositionInLinePart());
-
+              songEditor.reload().getPartEditor(linePartEditor.getLinePart())
+                  .requestFocusAndSetCaret(false, songCursor.getPositionInLinePart());
 
             } else {
               LinePart selectedLinePart = removeChordService.removeChord(songCursor);
@@ -98,14 +110,15 @@ public class ChordEditor {
     popup.getContent().add(dialogVbox);
   }
 
-  public void show (final boolean originalChord) {
+  public void show(final boolean originalChord) {
     this.originalChord = originalChord;
 
     TextField txt = linePartEditor.getTxtText();
     Point2D locationCaret = txt.getInputMethodRequests().getTextLocation(0);
 
     if (linePartEditor.getTxtText().getCaretPosition() == 0)
-      txtChord.setText(originalChord ? linePartEditor.getLinePart().getOriginalChord() : linePartEditor.getLinePart().getChord());
+      txtChord.setText(
+          originalChord ? linePartEditor.getLinePart().getOriginalChord() : linePartEditor.getLinePart().getChord());
     else
       txtChord.setText("");
 
@@ -117,6 +130,5 @@ public class ChordEditor {
     double y = locationCaret.getY() - txt.getHeight() - txt.getHeight();
     popup.show(window, x, y);
   }
-
 
 }

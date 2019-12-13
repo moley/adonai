@@ -1,6 +1,5 @@
 package org.adonai.ui.mainpage;
 
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
@@ -30,21 +29,31 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   }
 
   @Test
-  public void invalidChordNonExiting () throws InterruptedException {
+  public void enterValidChord () throws InterruptedException {
     mainMaskPage.stepToSongbook();
     mainMaskPage.stepToSong(0);
 
     SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
-    TextField textField = songEditorPage.getSongLinePartTextField(0, 0,0);
-    Assert.assertEquals ("First textfield invalid content", "This is a", textField.getText().trim());
-    press(KeyCode.CONTROL, KeyCode.C);
+    String text = songEditorPage.getSongLinePartText(0, 0,0);
+    Assert.assertEquals ("First textfield invalid content", "This is a", text.trim());
+    songEditorPage.chord("G");
+    Assert.assertFalse ("ChordEditor is visible after adding an valid chord", songEditorPage.isChordEditorVisible());
 
+  }
 
-    Thread.sleep(1000);
+  @Test
+  public void enterInvalidChord () throws InterruptedException {
+    mainMaskPage.stepToSongbook();
+    mainMaskPage.stepToSong(0);
 
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    String text = songEditorPage.getSongLinePartText(0, 0,0);
+    Assert.assertEquals ("First textfield invalid content", "This is a", text.trim());
+    songEditorPage.chord("Ghh");
+    Assert.assertTrue ("ChordEditor is not visible after adding an invalid chord", songEditorPage.isChordEditorVisible());
 
-
-    //TODO Asserts
+    key(KeyCode.ESCAPE);
+    Assert.assertFalse ("ChordEditor is visible after escaping an invalid chord", songEditorPage.isChordEditorVisible());
   }
 
 
