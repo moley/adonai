@@ -39,7 +39,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
 
     SelectSongPage selectSongPage = new SelectSongPage(this);
     selectSongPage.search("Song4");
-    Thread.sleep(1000);
+    Thread.sleep(10000);
 
     int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
     LOGGER.info("Number of songs after add");

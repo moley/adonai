@@ -51,10 +51,14 @@ public class SelectController<T> {
     txtSearchQuery.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
+        LOGGER.info("handle key event in txtSearchQuery " + event.getCode());
+
         if (event.getCode().equals(KeyCode.ESCAPE)) {
+          LOGGER.info("Return to default");
           filteredData.setPredicate(s-> true);
         }
         else if (event.getCode().equals(KeyCode.DOWN)) {
+          LOGGER.info("Step to searchlist");
           lviSelectItems.requestFocus();
           lviSelectItems.getSelectionModel().selectFirst();
         }
@@ -87,7 +91,7 @@ public class SelectController<T> {
     lviSelectItems.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        LOGGER.info("handle key event " + event.getCode());
+        LOGGER.info("handle key event in lviSelectItems" + event.getCode());
 
         if (event.getCode().equals(KeyCode.UP) && lviSelectItems.getSelectionModel().isSelected(0)) {
           txtSearchQuery.requestFocus();
