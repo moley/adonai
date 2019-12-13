@@ -143,11 +143,11 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void add () {
-    applicationTest.clickOn(getBtnPlus());
+    applicationTest.clickOn(getBtnPlus()).sleep(1000);
   }
 
   public void export () {
-    applicationTest.clickOn(getBtnExport(), MouseButton.PRIMARY).sleep(1000);
+    applicationTest.clickOn(getBtnExport(), MouseButton.PRIMARY).sleep(2000);
   }
 
   public void remove () {
