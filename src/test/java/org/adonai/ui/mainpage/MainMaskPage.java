@@ -15,6 +15,7 @@ import org.adonai.ui.AbstractPage;
 import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -150,7 +151,7 @@ public class MainMaskPage extends AbstractPage {
 
   public void export () {
     Button btnExport = getBtnExport();
-    LOGGER.info("Trigger export on button " + btnExport.getText());
+    LOGGER.info("Trigger export on button " + btnExport.getText() + "-" + UiUtils.getBounds(btnExport));
     applicationTest.clickOn(btnExport, MouseButton.PRIMARY).sleep(2000);
     LOGGER.info("Export triggered");
   }
