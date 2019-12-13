@@ -24,10 +24,8 @@ public class SelectSongPage extends AbstractPage {
   public void search (final String query) {
     LOGGER.info("Search " + query);
     applicationTest.write(query);
-    applicationTest.press(KeyCode.DOWN);
-    WaitForAsyncUtils.waitForFxEvents();
-    applicationTest.type(KeyCode.ENTER);
-    WaitForAsyncUtils.waitForFxEvents();
+    pressAndRelease(applicationTest, KeyCode.DOWN);
+    pressAndRelease(applicationTest, KeyCode.ENTER);
     LOGGER.info("Searched " + query);
   }
 
