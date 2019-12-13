@@ -61,7 +61,7 @@ public class LineEditor extends PanelHolder {
     content.setUserData(getPointer() + "content");
     linePartEditors.clear();
     for (int i = 0; i < line.getLineParts().size(); i++) {
-      LinePart linePart = line.getLineParts().get(0);
+      LinePart linePart = line.getLineParts().get(i);
       LinePartEditor linePartEditor = new LinePartEditor(this, linePart, editable, partIndex, lineIndex, i);
       linePartEditors.add(linePartEditor);
       content.getChildren().add(linePartEditor.getPanel());

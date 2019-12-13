@@ -181,7 +181,7 @@ public class SongEditor extends PanelHolder {
     header.getChildren().add(lblHeaderInfo);
     header.getChildren().add(region);
     header.getChildren().add(tbaActions);
-    header.setId("songheader");
+    header.setId("songtitle");
     header.setUserData("songeditor.panHeader");
 
 

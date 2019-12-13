@@ -55,6 +55,15 @@ public class SongBuilder {
 
   }
 
+  public SongBuilder withPartReference (final String referencedId, final SongPartType partType) {
+    currentSongPart = new SongPart();
+    currentSongPart.setReferencedSongPart(referencedId);
+    currentSongPart.setSongPartType(partType);
+    song.getSongParts().add(currentSongPart);
+    return this;
+
+  }
+
   public SongBuilder withLine () {
     currentLine = new Line();
     currentSongPart.getLines().add(currentLine);
@@ -89,8 +98,8 @@ public class SongBuilder {
     return song;
   }
 
-
-
-
-
+  public SongBuilder withQuantity(int i) {
+    currentSongPart.setQuantity(String.valueOf(i));
+    return this;
+  }
 }
