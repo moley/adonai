@@ -92,6 +92,8 @@ test {
     }
 
     include '**/MainMaskSongTest**'
+    include '**/SmallUiTest**'
+
 }
 
 jacocoTestReport {
