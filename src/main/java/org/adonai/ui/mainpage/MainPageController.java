@@ -308,6 +308,7 @@ public class MainPageController {
     btnExport.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        LOGGER.info("handle export action");
 
         Collection<Song> currentSongs = getCurrentSongs();
         if (! currentSongs.isEmpty()) {
