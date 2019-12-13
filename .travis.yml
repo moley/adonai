@@ -12,7 +12,7 @@ before_script:
 
 
 before_install:
-  - export _JAVA_OPTIONS="-Dtestfx.robot=awt"
+  - export _JAVA_OPTIONS="-Dtestfx.robot=awt -Dprism.forceGPU=true"
 
 
 script:

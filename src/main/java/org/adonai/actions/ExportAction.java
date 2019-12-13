@@ -19,9 +19,15 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.util.Collection;
+import org.adonai.ui.mainpage.MainPageController;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExportAction {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExportAction.class);
+
 
   private ExportConfigurationMerger exportConfigurationMerger = new ExportConfigurationMerger();
 
@@ -30,6 +36,8 @@ public class ExportAction {
 
   public void export (Configuration configuration, Collection<Song> songs,
                       String name) {
+
+    LOGGER.info("Export " + name + " with " + songs.size() + " songs");
     PdfExporter writer = new PdfExporter();
 
     File exportPath = new File (configuration.getExportPathAsFile(), name);
@@ -41,7 +49,8 @@ public class ExportAction {
         throw new IllegalStateException(e);
       }
     }
-    done.add("Added " + exportPath.getAbsolutePath());
+    
+    LOGGER.info("Added " + exportPath.getAbsolutePath());
 
     //With chords
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
@@ -59,7 +68,7 @@ public class ExportAction {
     } catch (ExportException e) {
       throw new IllegalStateException(e);
     }
-    done.add("Exported with chords " + exportPath.getAbsolutePath());
+    LOGGER.info("Exported with chords " + exportPath.getAbsolutePath());
 
     //Without chords
     writer = new PdfExporter();
@@ -78,7 +87,7 @@ public class ExportAction {
     } catch (ExportException e) {
       throw new IllegalStateException(e);
     }
-    done.add("Exported without chords " + exportPath.getAbsolutePath());
+    LOGGER.info("Exported without chords " + exportPath.getAbsolutePath());
 
     File songsPath = new File (exportPath, "mp3s");
     for (Song next: songs) {
@@ -95,7 +104,7 @@ public class ExportAction {
         }
       }
     }
-    done.add("Copied mp3s");
+    LOGGER.info("Copied mp3s");
 
     File iTunesPlayList = new File (exportPath, name + ".m3u");
     CreatePlaylistService createPlaylistService = new CreatePlaylistService();
@@ -104,7 +113,7 @@ public class ExportAction {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
-    done.add("Created playlist");
+    LOGGER.info("Created playlist");
 
 
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
