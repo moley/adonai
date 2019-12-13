@@ -171,10 +171,10 @@ public class MainMaskPage extends AbstractPage {
     return Arrays.asList(configuration.getExportPathAsFile().listFiles());
   }
 
-  public boolean exportFileExists (String name) {
+  public void exportFileExists (String name, final boolean exists) {
     Configuration configuration = new ConfigurationService().get();
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
-    return expectedFile.exists();
+    Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong", expectedFile.exists(), exists);
   }
 
 

@@ -1,6 +1,5 @@
 package org.adonai.ui.mainpage;
 
-import javafx.application.Platform;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
@@ -66,8 +65,8 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   public void exportSongsInSessions () {
     mainMaskPage.stepToSessions();
     Assert.assertEquals ("Session1", mainMaskPage.getSelectedSession());
-    Assert.assertFalse (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
+    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", false);
     mainMaskPage.export();
-    Assert.assertTrue (mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf"));
+    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", true);
   }
 }
