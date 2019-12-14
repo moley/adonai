@@ -33,7 +33,7 @@ public class ConnectSongWithMp3Action {
     ExtensionSelectorController extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG);
     Stage stage = mask.getStage();
-    mask.setSize(Consts.getDefaultWidth(), Consts.getDefaultHeight());
+    mask.setSize(800, 600);
     mask.setPosition(x, y);
     stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
     stage.setOnHiding(new EventHandler<WindowEvent>() {

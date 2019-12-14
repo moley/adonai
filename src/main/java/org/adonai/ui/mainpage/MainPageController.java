@@ -289,7 +289,7 @@ public class MainPageController {
           ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
           Bounds controlBounds = UiUtils.getBounds(btnMp3);
           Double x = controlBounds.getMinX() + 10;
-          Double y = controlBounds.getMinY() - 20 - ConnectSongWithMp3Action.CONNECTSONGDIALOG_HEIGHT;
+          Double y = controlBounds.getMinY() - 20 - 600;
           connectSongWithMp3Action.connect(x, y, getSelectedSong());
         }
       }
