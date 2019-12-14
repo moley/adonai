@@ -159,10 +159,9 @@ public class MainMaskPage extends AbstractPage {
     Assert.assertTrue (getLviSession().isVisible());
   }
 
-  public void selectMp3 (final String name) {
+  public void selectMp3 () {
     applicationTest.clickOn(getBtnMp3()).sleep(1000);
-    SelectAdditionalPage selectAdditionalPage = new SelectAdditionalPage(applicationTest);
-    selectAdditionalPage.select(name);
+
   }
 
   public void add () {
