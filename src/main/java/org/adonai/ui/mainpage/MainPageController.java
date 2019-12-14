@@ -279,7 +279,6 @@ public class MainPageController {
     Button btnMp3 = new Button();
     btnMp3.setTooltip(new Tooltip("Attach mp3 file to the song"));
     btnMp3.setUserData("mainpage.btnMp3");
-    btnMp3.setText("Mp3");
     btnMp3.setGraphic(Consts.createIcon(AdditionalType.AUDIO.getIconName(), iconSizeToolbar));
     tbaActions.getItems().add(btnMp3);
     btnMp3.setOnAction(new EventHandler<ActionEvent>() {
@@ -299,7 +298,7 @@ public class MainPageController {
     tbaActions.getItems().add(new Separator());
 
     //Button Export transposed
-    Button btnExport = new Button ("Export");
+    Button btnExport = new Button ();
     btnExport.setTooltip(new Tooltip("Export to pdf"));
     btnExport.setUserData("mainpage.btnExport");
     btnExport.setGraphic(Consts.createIcon("fa-desktop", iconSizeToolbar));
@@ -321,7 +320,7 @@ public class MainPageController {
 
 
 
-    Button btnUserAdmin = new Button("Users");
+    Button btnUserAdmin = new Button();
     btnUserAdmin.setTooltip(new Tooltip("Administrate all users"));
     btnUserAdmin.setUserData("mainpage.btnUserAdmin");
     btnUserAdmin.setGraphic(Consts.createIcon("fa-user", iconSizeToolbar));
