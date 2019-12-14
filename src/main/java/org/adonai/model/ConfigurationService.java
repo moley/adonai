@@ -72,8 +72,10 @@ public class ConfigurationService {
   }
 
   public Configuration get() {
-    if (currentConfiguration != null)
+    if (currentConfiguration != null) {
+      LOGGER.info("get cached configuration " + System.identityHashCode(currentConfiguration));
       return currentConfiguration;
+    }
 
     JAXBContext jc = null;
     try {
@@ -82,10 +84,14 @@ public class ConfigurationService {
 
       File configFile = getConfigFile();
       //unmarshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
-      if (configFile.exists())
+      if (configFile.exists()) {
         currentConfiguration = (Configuration) unmarshaller.unmarshal(configFile);
-      else
-        currentConfiguration =  new Configuration();
+        LOGGER.info("Configuration " + System.identityHashCode(currentConfiguration) + " loaded from " + configFile.getAbsolutePath());
+      }
+      else {
+        currentConfiguration = new Configuration();
+        LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration));
+      }
 
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
       defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
@@ -120,7 +126,7 @@ public class ConfigurationService {
 //      marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-      LOGGER.info("Save configuration " + getConfigFile().getAbsolutePath());
+      LOGGER.info("Save configuration " + System.identityHashCode(currentConfiguration) + " to " + getConfigFile().getAbsolutePath());
 
       if (! getConfigFile().getParentFile().exists())
         getConfigFile().getParentFile().mkdirs();

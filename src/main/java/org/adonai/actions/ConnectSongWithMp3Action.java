@@ -38,10 +38,11 @@ public class ConnectSongWithMp3Action {
     mask.setSize(CONNECTSONGDIALOG_WIDTH, CONNECTSONGDIALOG_HEIGHT);
     mask.setPosition(x, y);
     stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
-    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+    stage.setOnHiding(new EventHandler<WindowEvent>() {
 
       @Override
       public void handle(WindowEvent event) {
+        LOGGER.info("handle onHiding event");
 
         if (extensionSelectorController.getSelectedExtension() != null) {
           String songExtension = extensionSelectorController.getSelectedExtension().getAbsolutePath();
