@@ -9,6 +9,7 @@ import org.adonai.model.Song;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.TestUtil;
 import org.adonai.ui.editor.SongEditorPage;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -85,6 +86,12 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     mainMaskPage.save ();
 
     Configuration configuration = testDataCreator.getConfiguration(testDataPath);
+
+    for (Song next: configuration.getSongBooks().get(0).getSongs()) {
+      LOGGER.info("Next: " + next.getAdditionals());
+    }
+
+
     firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
     Assert.assertTrue ("Wrong additional added", firstSong.getAdditionals().get(0).getLink().endsWith("build/testdata/additionals/AnotherMp3.mp3"));
 
