@@ -17,6 +17,8 @@ import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 
 import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by OleyMa on 15.09.16.
@@ -43,12 +45,18 @@ public class ExtensionSelectorController {
 
   ExtensionType currentType = ExtensionType.SONG;
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionSelectorController.class);
+
+
 
   private void refreshListView(final String filter) {
+    LOGGER.info("refreshListView (" + filter + ")");
     if (extensionIndex != null) {
       lviExtensions.setItems(FXCollections.observableArrayList(extensionIndex.getFiles(currentType, filter)));
-      if (lviExtensions.getItems().size() == 1)
+      if (lviExtensions.getItems().size() == 1) {
         lviExtensions.getSelectionModel().selectFirst();
+        LOGGER.info("Selecting first (" + lviExtensions.getItems().get(0));
+      }
     }
   }
 
@@ -101,6 +109,7 @@ public class ExtensionSelectorController {
   }
 
   public File getSelectedExtension() {
+    LOGGER.info("getSelectedExtension " + lviExtensions.getSelectionModel().getSelectedItem());
     return lviExtensions.getSelectionModel().getSelectedItem() != null ? lviExtensions.getSelectionModel().getSelectedItem().getFile(): null;
   }
 
