@@ -85,6 +85,8 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     mainMaskPage.stepToSong(0);
     mainMaskPage.selectMp3("AnotherMp3");
 
+
+
     Configuration configuration = testDataCreator.getConfiguration(testDataPath);
     firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
     Assert.assertTrue ("Wrong additional added", firstSong.getAdditionals().get(0).getLink().endsWith("build/testdata/additionals/AnotherMp3.mp3"));

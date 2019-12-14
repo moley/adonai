@@ -25,7 +25,7 @@ public class SelectAdditionalPage extends AbstractPage {
   public void select (final String name) {
     applicationTest.write(name);
     pressAndRelease(applicationTest, KeyCode.DOWN);
-    applicationTest.clickOn(getBtnSelect());
+    applicationTest.clickOn(getBtnSelect()).sleep(1000);
   }
 
   private Button getBtnSelect () {
