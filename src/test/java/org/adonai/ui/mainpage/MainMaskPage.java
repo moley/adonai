@@ -44,8 +44,8 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void openStage () {
-    Consts.setDefaultHeight(950);
-    Consts.setDefaultWidth(1184);
+    Consts.setDefaultHeight(800);
+    Consts.setDefaultWidth(1024);
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
     mask = maskLoader.load("mainpage");
     mask.getStage().setX(10);
