@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import org.adonai.actions.ExportAction;
@@ -156,6 +157,12 @@ public class MainMaskPage extends AbstractPage {
     getLviSessions().getSelectionModel().select(index);
     applicationTest.doubleClickOn(getLviSessions());
     Assert.assertTrue (getLviSession().isVisible());
+  }
+
+  public void selectMp3 (final String name) {
+    applicationTest.clickOn(getBtnMp3()).sleep(1000);
+    SelectAdditionalPage selectAdditionalPage = new SelectAdditionalPage(applicationTest);
+    selectAdditionalPage.select(name);
   }
 
   public void add () {

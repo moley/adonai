@@ -11,10 +11,10 @@
         <ColumnConstraints percentWidth="90"/>
     </columnConstraints>
 
-    <TextField fx:id="txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-    <ListView fx:id="lviExtensions" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+    <TextField fx:id="txtSearch" userData="extensionselector.txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <ListView fx:id="lviExtensions" userData="extensionselector.lviExtensions" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
               GridPane.rowIndex="1" GridPane.columnSpan="2" GridPane.fillHeight="true" GridPane.fillWidth="true"/>
 
-    <Button text="Select" fx:id="btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <Button text="Cancel" fx:id="btnCancel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <Button text="Select" fx:id="btnSelect" userData="extensionselector.btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Button text="Cancel" fx:id="btnCancel" userData="extensionselector.btnCancel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 </GridPane>

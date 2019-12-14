@@ -1,9 +1,14 @@
 package org.adonai.ui.mainpage;
 
+import java.io.File;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Song;
 import org.adonai.testdata.TestDataCreator;
+import org.adonai.ui.Consts;
 import org.adonai.ui.TestUtil;
 import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
@@ -19,6 +24,13 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   private MainMaskPage mainMaskPage;
 
+  private Configuration configuration;
+
+  private TestDataCreator testDataCreator = new TestDataCreator();
+
+  private File testDataPath = TestUtil.getDefaultTestDataPath();
+
+
   @BeforeClass
   public static void beforeClass () {
     TestUtil.initialize();
@@ -27,8 +39,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     LOGGER.info("start called with stage " + System.identityHashCode(stage));
-    TestDataCreator testDataCreator = new TestDataCreator();
-    testDataCreator.createTestData(TestUtil.getDefaultTestDataPath(), false);
+    configuration = testDataCreator.createTestData(testDataPath, false);
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();
@@ -64,6 +75,23 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
     key(KeyCode.ESCAPE);
     Assert.assertFalse ("ChordEditor is visible after escaping an invalid chord", songEditorPage.isChordEditorVisible());
+  }
+
+  @Test
+  public void assignMp3 () {
+    Song firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
+    Assert.assertEquals ("Number of additionals invalid before", 0, firstSong.getAdditionals().size());
+
+    mainMaskPage.stepToSong(0);
+    mainMaskPage.selectMp3("AnotherMp3");
+
+    Configuration configuration = testDataCreator.getConfiguration(testDataPath);
+    firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
+    Assert.assertTrue ("Wrong additional added", firstSong.getAdditionals().get(0).getLink().endsWith("build/testdata/additionals/AnotherMp3.mp3"));
+
+
+
+
   }
 
 

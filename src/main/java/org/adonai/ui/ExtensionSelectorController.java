@@ -59,8 +59,10 @@ public class ExtensionSelectorController {
       @Override
       public void handle(KeyEvent event) {
         refreshListView(txtSearch.getText());
-        if (event.getCode().equals(KeyCode.DOWN))
+        if (event.getCode().equals(KeyCode.DOWN)) {
           lviExtensions.requestFocus();
+          lviExtensions.getSelectionModel().selectFirst();
+        }
       }
     });
 
@@ -72,7 +74,6 @@ public class ExtensionSelectorController {
       }
     });
 
-    refreshListView(txtSearch.getText());
 
     btnSelect.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -109,6 +110,9 @@ public class ExtensionSelectorController {
   public void init(ExtensionType type) {
     currentType = type;
     extensionIndex  = new ExtensionIndex(configuration.getExtensionPaths());
+
+    refreshListView(txtSearch.getText());
+
 
   }
 }

@@ -25,8 +25,14 @@ public class TestDataCreator {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
+  private ConfigurationService configurationService = new ConfigurationService();
 
-  public void createTestData (final File testDataPath, final boolean preview) throws IOException {
+  public Configuration getConfiguration(final File testDataPath) {
+    System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
+    return configurationService.get();
+  }
+
+  public Configuration createTestData(final File testDataPath, final boolean preview) throws IOException {
     LOGGER.info("Create testdata");
 
     AddSongService addSongService = new AddSongService();
@@ -34,12 +40,9 @@ public class TestDataCreator {
 
     FileUtils.deleteDirectory(testDataPath);
 
-    System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
-    ConfigurationService configurationService = new ConfigurationService();
-
     SongBook songBook = new SongBook();
 
-    Configuration configuration = configurationService.get();
+    Configuration configuration = getConfiguration(testDataPath);
     configuration.getSongBooks().add(songBook);
 
     User user1 = new User();
@@ -81,8 +84,6 @@ public class TestDataCreator {
     line2.getLineParts().addAll(Arrays.asList(linePart21, linePart22));
     songPart2.getLines().add(line2);
 
-
-
     song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
     song1.setPreset("preset");
     song1.setLeadVoice(user1);
@@ -108,25 +109,19 @@ public class TestDataCreator {
     sessionService.addSong(session2, song4);
     configuration.getSessions().add(session2);
 
-
-
-
     configuration.getUsers().addAll(Arrays.asList(user1, user2));
 
-
-
-    File exportDir = new File (testDataPath, "export");
-    File extensionPath = new File (testDataPath, "additionals");
+    File exportDir = new File(testDataPath, "export");
+    File extensionPath = new File(testDataPath, "additionals");
     exportDir.mkdirs();
     extensionPath.mkdirs();
-
 
     configuration.setExportPath(exportDir.getAbsolutePath());
     configuration.getExportPathAsFile().mkdirs();
     configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
 
-    new File (extensionPath, "SomeMp3.mp3").createNewFile();
-    new File (extensionPath, "AnotherMp3.mp3").createNewFile();
+    new File(extensionPath, "SomeMp3.mp3").createNewFile();
+    new File(extensionPath, "AnotherMp3.mp3").createNewFile();
 
     configurationService.set(configuration);
 
@@ -137,9 +132,11 @@ public class TestDataCreator {
     configurationService.set(configuration);
     configurationService.close();
 
+    return configuration;
+
   }
 
-  private static Song createSong (final String title) {
+  private static Song createSong(final String title) {
     Song song = new Song();
     song.setTitle(title);
     return song;
