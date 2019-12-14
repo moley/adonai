@@ -47,6 +47,8 @@ public class ExtensionSelectorController {
   private void refreshListView(final String filter) {
     if (extensionIndex != null) {
       lviExtensions.setItems(FXCollections.observableArrayList(extensionIndex.getFiles(currentType, filter)));
+      if (lviExtensions.getItems().size() == 1)
+        lviExtensions.getSelectionModel().selectFirst();
     }
   }
 
@@ -95,12 +97,7 @@ public class ExtensionSelectorController {
 
   public void close() {
     Stage stage = (Stage) btnSelect.getScene().getWindow();
-    stage.fireEvent(
-      new WindowEvent(
-        stage,
-        WindowEvent.WINDOW_CLOSE_REQUEST
-      )
-    );
+    stage.close();
   }
 
   public File getSelectedExtension() {

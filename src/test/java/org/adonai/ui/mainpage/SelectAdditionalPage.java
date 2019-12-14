@@ -1,10 +1,8 @@
 package org.adonai.ui.mainpage;
 
-import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import org.adonai.ui.AbstractPage;
 import org.slf4j.Logger;
@@ -25,7 +23,7 @@ public class SelectAdditionalPage extends AbstractPage {
   public void select (final String name) {
     LOGGER.info("select " + name);
     applicationTest.write(name);
-    pressAndRelease(applicationTest, KeyCode.DOWN);
+    applicationTest.clickOn(getLviExtensions());
     applicationTest.clickOn(getBtnSelect());
   }
 
@@ -42,7 +40,7 @@ public class SelectAdditionalPage extends AbstractPage {
   }
 
   private ListView getLviExtensions () {
-    return applicationTest.lookup(nodeWithUserData("  extensionselector.lviExtensions")).query();
+    return applicationTest.lookup(nodeWithUserData("extensionselector.lviExtensions")).query();
   }
 
 }

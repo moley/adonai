@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class ConnectSongWithMp3Action {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(OpenAudioAction.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ConnectSongWithMp3Action.class);
 
   public final static int CONNECTSONGDIALOG_WIDTH = 800;
   public final static int CONNECTSONGDIALOG_HEIGHT = 600;
@@ -53,8 +53,9 @@ public class ConnectSongWithMp3Action {
           additionalsImporter.refreshCache(selectedSong, additional, true);
           selectedSong.setAdditional(additional);
           LOGGER.info("connect song " + selectedSong + " with songfile " + extensionSelectorController.getSelectedExtension());
-
         }
+        else
+          LOGGER.info("no extension selected");
       }
     });
 

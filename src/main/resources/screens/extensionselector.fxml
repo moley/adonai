@@ -4,17 +4,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
 <GridPane fx:controller="org.adonai.ui.ExtensionSelectorController"
           xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10" >
-    <padding><Insets top="5" bottom="5" left="5" right="5"/> </padding>
+    <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
-        <ColumnConstraints percentWidth="90"/>
+        <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
 
-    <TextField fx:id="txtSearch" userData="extensionselector.txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-    <ListView fx:id="lviExtensions" userData="extensionselector.lviExtensions" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-              GridPane.rowIndex="1" GridPane.columnSpan="2" GridPane.fillHeight="true" GridPane.fillWidth="true"/>
+    <Label fx:id="lblTitle" text="ASSIGN MP3 TO SONG" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
 
-    <Button text="Select" fx:id="btnSelect" userData="extensionselector.btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <Button text="Cancel" fx:id="btnCancel" userData="extensionselector.btnCancel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <TextField fx:id="txtSearch" userData="extensionselector.txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <ListView fx:id="lviExtensions" userData="extensionselector.lviExtensions" GridPane.columnIndex="0" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="2" GridPane.columnSpan="2" GridPane.fillHeight="true" GridPane.fillWidth="true"/>
+
+    <Button text="Select" fx:id="btnSelect" userData="extensionselector.btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <Button text="Cancel" fx:id="btnCancel" userData="extensionselector.btnCancel" GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 </GridPane>
