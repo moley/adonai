@@ -5,10 +5,8 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
 import org.adonai.model.Song;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.Consts;
 import org.adonai.ui.TestUtil;
 import org.adonai.ui.editor.SongEditorPage;
 import org.junit.Assert;
@@ -78,14 +76,14 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   }
 
   @Test
-  public void assignMp3 () {
+  public void assignMp3 () throws InterruptedException {
     Song firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
     Assert.assertEquals ("Number of additionals invalid before", 0, firstSong.getAdditionals().size());
 
     mainMaskPage.stepToSong(0);
     mainMaskPage.selectMp3("AnotherMp3");
 
-
+    mainMaskPage.save ();
 
     Configuration configuration = testDataCreator.getConfiguration(testDataPath);
     firstSong = configuration.getSongBooks().get(0).getSongs().get(0);

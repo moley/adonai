@@ -208,7 +208,11 @@ public class MainMaskPage extends AbstractPage {
     Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles(), exists, expectedFile.exists());
   }
 
+  public void save() throws InterruptedException {
+    applicationTest.clickOn(getBtnSave()).wait(1000);
+  }
 
-
-
+  private Button getBtnSave() {
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnSave")).query();
+  }
 }

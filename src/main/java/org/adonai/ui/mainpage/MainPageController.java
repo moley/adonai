@@ -414,6 +414,7 @@ public class MainPageController {
     //Button Save
     Button btnSave = new Button ();
     btnSave.setTooltip(new Tooltip("Save all data"));
+    btnSave.setUserData("mainpage.btnSave");
     btnSave.setGraphic(Consts.createIcon("fa-save", iconSizeToolbar));
 
     tbaActions.getItems().add(btnSave);
