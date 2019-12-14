@@ -44,8 +44,8 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void openStage () {
-    Consts.setDefaultHeight(640);
-    Consts.setDefaultWidth(800);
+    Consts.setDefaultHeight(950);
+    Consts.setDefaultWidth(1184);
     MaskLoader<MainPageController> maskLoader = new MaskLoader<>();
     mask = maskLoader.load("mainpage");
     mask.getStage().setX(10);
@@ -208,11 +208,12 @@ public class MainMaskPage extends AbstractPage {
     Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles(), exists, expectedFile.exists());
   }
 
-  public void save() throws InterruptedException {
-    applicationTest.clickOn(getBtnSave()).wait(1000);
+  public void save() {
+    applicationTest.clickOn(getBtnSave());
   }
 
   private Button getBtnSave() {
+
     return applicationTest.lookup(nodeWithUserData("mainpage.btnSave")).query();
   }
 }

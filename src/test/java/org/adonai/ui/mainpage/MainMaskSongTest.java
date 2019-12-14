@@ -82,7 +82,6 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
     mainMaskPage.stepToSong(0);
     mainMaskPage.selectMp3("AnotherMp3");
-
     mainMaskPage.save ();
 
     Configuration configuration = testDataCreator.getConfiguration(testDataPath);
