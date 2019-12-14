@@ -9,6 +9,7 @@ import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Song;
+import org.adonai.ui.Consts;
 import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
 import org.adonai.ui.Mask;
@@ -19,10 +20,6 @@ import org.slf4j.LoggerFactory;
 public class ConnectSongWithMp3Action {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConnectSongWithMp3Action.class);
-
-  public final static int CONNECTSONGDIALOG_WIDTH = 800;
-  public final static int CONNECTSONGDIALOG_HEIGHT = 600;
-
 
   public void connect (final Double x, final Double y, Song selectedSong) {
 
@@ -36,7 +33,7 @@ public class ConnectSongWithMp3Action {
     ExtensionSelectorController extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG);
     Stage stage = mask.getStage();
-    mask.setSize(CONNECTSONGDIALOG_WIDTH, CONNECTSONGDIALOG_HEIGHT);
+    mask.setSize(Consts.getDefaultWidth(), Consts.getDefaultHeight());
     mask.setPosition(x, y);
     stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
     stage.setOnHiding(new EventHandler<WindowEvent>() {

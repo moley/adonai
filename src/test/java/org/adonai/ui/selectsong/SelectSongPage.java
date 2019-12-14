@@ -24,7 +24,6 @@ public class SelectSongPage extends AbstractPage {
 
   public void search (final String query) {
     LOGGER.info("Search " + query);
-    applicationTest.clickOn(getTxtSearch(), MouseButton.PRIMARY);
     applicationTest.write(query);
     pressAndRelease(applicationTest, KeyCode.DOWN);
     LOGGER.info("Selected item: " + getLviSelectedSongs().getSelectionModel().getSelectedItem());
