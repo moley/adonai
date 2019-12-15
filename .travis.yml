@@ -14,7 +14,7 @@ before_script:
 
 
 script:
-  - ./gradlew build check -s 
+  - ./gradlew build check -s
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

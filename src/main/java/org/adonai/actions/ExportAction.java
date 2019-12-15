@@ -120,9 +120,5 @@ public class ExportAction {
       throw new IllegalStateException(e);
     }
     LOGGER.info("Created playlist");
-
-
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents(new StringSelection(configuration.getExportPathAsFile().getAbsolutePath()), null);
   }
 }
