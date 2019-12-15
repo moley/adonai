@@ -64,14 +64,16 @@ public class ExtensionSelectorController {
   public void initialize() {
     configuration = configurationService.get();
 
-    txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
+    txtSearch.setOnKeyTyped(new EventHandler<KeyEvent>() {
 
       @Override
       public void handle(KeyEvent event) {
+        LOGGER.info("handle KeyReleased on txtSearch " + event.getCode());
         refreshListView(txtSearch.getText());
         if (event.getCode().equals(KeyCode.DOWN)) {
           lviExtensions.requestFocus();
           lviExtensions.getSelectionModel().selectFirst();
+          event.consume();
         }
       }
     });
@@ -79,8 +81,10 @@ public class ExtensionSelectorController {
     lviExtensions.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER))
+        if (event.getCode().equals(KeyCode.ENTER)) {
+          event.consume();
           close();
+        }
       }
     });
 
@@ -88,6 +92,7 @@ public class ExtensionSelectorController {
     btnSelect.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        event.consume();
         close();
       }
     });
@@ -95,6 +100,7 @@ public class ExtensionSelectorController {
     btnCancel.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        event.consume();
         lviExtensions.getSelectionModel().clearSelection();
         close();
       }

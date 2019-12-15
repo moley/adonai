@@ -65,7 +65,9 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     mainMaskPage.stepToSession(0);
     Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
     Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
-    doubleClickOn(mainMaskPage.getLviSession(), MouseButton.PRIMARY);
+    LOGGER.info("Click first song in session 1");
+    mainMaskPage.getLviSession().getSelectionModel().select(0);
+    doubleClickOn(mainMaskPage.getLviSession());
     Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
     Assert.assertTrue ("song", mainMaskPage.getSongEditorPane().isVisible());
   }

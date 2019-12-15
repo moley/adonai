@@ -22,7 +22,9 @@ public class SelectAdditionalPage extends AbstractPage {
 
   public void select (final String name) {
     LOGGER.info("select " + name);
-    applicationTest.write(name);
+    applicationTest.type(KeyCode.A);
+    pressAndRelease(applicationTest, KeyCode.DOWN);
+    LOGGER.info("Available: " + getLviExtensions().getItems());
     applicationTest.clickOn(getLviExtensions());
     applicationTest.clickOn(getBtnSelect());
   }

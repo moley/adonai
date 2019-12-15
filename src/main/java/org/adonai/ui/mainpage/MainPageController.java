@@ -179,6 +179,8 @@ public class MainPageController {
       @Override
       public void handle(ActionEvent event) {
 
+        event.consume();
+
         Bounds controlBounds = UiUtils.getBounds(btnAdd);
         Double x = controlBounds.getMinX() + 10;
         Double y = controlBounds.getMinY() - 20 - Consts.getDefaultHeight();
@@ -550,14 +552,16 @@ public class MainPageController {
           sessionToSelect = configuration.getSessions().get(0);
 
         selectSession(sessionToSelect);
+        event.consume();
       }
     });
 
     lviSessions.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1) {
           selectSession(lviSessions.getSelectionModel().getSelectedItem());
+          event.consume();
         }
       }
     });
@@ -569,8 +573,9 @@ public class MainPageController {
         LOGGER.info("scene: " + UiUtils.getBounds(btnExport.getScene().getRoot()));
         LOGGER.info("mouseClicked on lviSession " + event.getClickCount() + "-" + event.getSource() + "-" + event.getSceneX() + "-" + event.getSceneY());
         LOGGER.info("btnExport  " + btnExport.isVisible() + "-" + UiUtils.getBounds(btnExport));
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1) {
           selectSong(lviSession.getSelectionModel().getSelectedItem());
+          event.consume();
         }
       }
     });
@@ -579,9 +584,10 @@ public class MainPageController {
       @Override
       public void handle(MouseEvent event) {
 
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1) {
           LOGGER.info("doubleClick recieved on lviSongs");
           selectSong(lviSongs.getSelectionModel().getSelectedItem());
+          event.consume();
         }
       }
     });
