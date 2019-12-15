@@ -91,6 +91,9 @@ test {
         showStandardStreams = true
     }
 
+    exclude 'org/adonai/ui/**'
+
+
 }
 
 jacocoTestReport {
