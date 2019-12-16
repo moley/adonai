@@ -14,7 +14,7 @@ public class DefaultExportConfigurationCreatorTest {
     DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
     defaultExportConfigurationCreator.createDefaultExportConfigurations(configuration);
 
-    int expectedNumberOfDefaultConfigurations = 4;
+    int expectedNumberOfDefaultConfigurations = 2;
 
     Assert.assertEquals ("Number of default export configurations invalid", expectedNumberOfDefaultConfigurations, configuration.getExportConfigurations().size());
 

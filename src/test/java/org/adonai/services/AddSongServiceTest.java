@@ -1,4 +1,4 @@
-package org.adonai.services.sample.services;
+package org.adonai.services;
 
 import org.junit.Assert;
 import org.junit.Test;

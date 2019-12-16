@@ -7,10 +7,20 @@ public class SizeInfo {
   private final Double height;
 
   public SizeInfo (final Integer computeStringWidth, final Integer computeStringHeight) {
+    if (computeStringWidth == null)
+      throw new IllegalArgumentException("Argument computeStringWidth must not be null");
+    if (computeStringHeight == null)
+      throw new IllegalArgumentException("Argument computeStringHeight must not be null");
+
     this.height = new Double(computeStringHeight.doubleValue());
     this.width = new Double(computeStringWidth.doubleValue());
   }
   public SizeInfo (final Double computeStringWidth, final Double computeStringHeight) {
+    if (computeStringWidth == null)
+      throw new IllegalArgumentException("Argument computeStringWidth must not be null");
+    if (computeStringHeight == null)
+      throw new IllegalArgumentException("Argument computeStringHeight must not be null");
+
     this.height = computeStringHeight;
     this.width = computeStringWidth;
   }
@@ -39,7 +49,7 @@ public class SizeInfo {
     if (!(object instanceof SizeInfo))
       return false;
     SizeInfo sizeinfoCompare = (SizeInfo) object;
-    return sizeinfoCompare.height == height && sizeinfoCompare.width == width;
+    return sizeinfoCompare.height.equals(height) && sizeinfoCompare.width.equals(width);
   }
 
 

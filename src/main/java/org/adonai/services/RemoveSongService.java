@@ -20,7 +20,7 @@ public class RemoveSongService {
     int nextSong = songBook.getSongs().size() > indexSong ? indexSong : songBook.getSongs().size() - 1;
     LOGGER.info("Select " + nextSong);
 
-    return songBook.getSongs().get(nextSong);
+    return songBook.getSongs().isEmpty() ? null: songBook.getSongs().get(nextSong);
   }
 
 
