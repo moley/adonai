@@ -9,21 +9,21 @@ import org.slf4j.LoggerFactory;
 
 public class Mp3Player {
 
+
+
   private MediaPlayer mediaPlayer;
+
+
 
   private File currentMp3File;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Mp3Player.class.getName());
 
+  void setFile (final File mp3File, MediaPlayer mp3Player) {
+    this.mediaPlayer = mp3Player;
 
-  public void setFile (final File mp3File) {
-    if (mp3File == null)
-      throw new IllegalArgumentException("Parameter mp3File must not be null");
 
-    if (! mp3File.exists())
-      throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
-
-    if (mediaPlayer != null && ! currentMp3File.equals(mp3File)) {
+    if (mediaPlayer != null && currentMp3File != null && ! currentMp3File.equals(mp3File)) {
       LOGGER.info("Close former player with file " + currentMp3File.getAbsolutePath());
       currentMp3File = null;
       mediaPlayer.dispose();
@@ -33,7 +33,6 @@ public class Mp3Player {
     if (currentMp3File == null) {
       LOGGER.info("Create new player with file " + mp3File.getAbsolutePath());
       currentMp3File = mp3File;
-      mediaPlayer = new MediaPlayer(new Media(mp3File.toURI().toString()));
       mediaPlayer.setVolume(0.5); //TODO
       mediaPlayer.setOnReady(new Runnable() {
         @Override public void run() {
@@ -44,6 +43,16 @@ public class Mp3Player {
       if (mediaPlayer.getError() != null)
         throw new IllegalStateException("Error playing song " + currentMp3File.getAbsolutePath(), mediaPlayer.getError());
     }
+
+  }
+
+  public void setFile (final File mp3File) {
+    if (mp3File == null)
+      throw new IllegalArgumentException("Parameter mp3File must not be null");
+
+    if (! mp3File.exists())
+      throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
+    setFile(mp3File, new MediaPlayer(new Media(mp3File.toURI().toString())));
   }
 
   public void play () {
@@ -93,5 +102,21 @@ public class Mp3Player {
     if (mediaPlayer.getError() != null)
       throw new IllegalStateException("Error playing song " + currentMp3File.getAbsolutePath(), mediaPlayer.getError());
 
+  }
+
+  public MediaPlayer getMediaPlayer() {
+    return mediaPlayer;
+  }
+
+  public void setMediaPlayer(MediaPlayer mediaPlayer) {
+    this.mediaPlayer = mediaPlayer;
+  }
+
+  public File getCurrentMp3File() {
+    return currentMp3File;
+  }
+
+  public void setCurrentMp3File(File currentMp3File) {
+    this.currentMp3File = currentMp3File;
   }
 }

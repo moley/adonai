@@ -25,7 +25,6 @@ public class PlaylistExport {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PlaylistExport.class);
 
-
   private void adaptMp3Tags (final File inputfile, final File outputfile, final Song song) {
 
     try {
@@ -78,10 +77,11 @@ public class PlaylistExport {
       if (additionalAudio != null) {
         LOGGER.info("Add " + additionalAudio + " to playlist");
 
-        File inputFile = new File (additionalAudio.getLink());
+        File inputFile = new File (additionalAudio.getCacheLink());
+        if (! inputFile.exists())
+          throw new IllegalStateException("CachedLink " + inputFile.getAbsolutePath() + " does not exist");
         String id = String.format("%03d", next.getId());
-        File outputFile = new File (playlistpath, id + "-" + sonderzeichen(next.getTitle()) + ".mp3");
-
+        File outputFile = new File (playlistpath, id + "-" + removeSpecialSymbols(next.getTitle()) + ".mp3");
         adaptMp3Tags(inputFile, outputFile, next);
       }
       else
@@ -90,7 +90,7 @@ public class PlaylistExport {
 
   }
 
-  private String sonderzeichen (final String withoutSonderzeichen){
+  private String removeSpecialSymbols(final String withoutSonderzeichen){
     String filtered = withoutSonderzeichen.replaceAll("Ö", "OE");
     filtered = filtered.replace("Ä", "AE");
     filtered = filtered.replace("Ü", "UE");
@@ -100,4 +100,5 @@ public class PlaylistExport {
     return filtered;
 
   }
+
 }
