@@ -120,6 +120,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   @Override
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration =  new ExportConfiguration();
+    exportConfiguration.initializeValues();
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithContentPage(true);
     exportConfiguration.setTitleSongDistance(new Double(5));

@@ -64,10 +64,13 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
   @Override
   public ExportConfiguration getDefaultConfiguration() {
     ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.initializeValues();
     exportConfiguration.setWithChords(false);
     exportConfiguration.setNewPageStrategy(NewPageStrategy.NEVER);
     exportConfiguration.setInterPartDistance(new Double(1));
     exportConfiguration.setInterSongDistance(new Double(2));
+    exportConfiguration.setMinimalChordDistance(Double.valueOf(0));
+
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Exportschema Textfile Default");
     return exportConfiguration;

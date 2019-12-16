@@ -230,6 +230,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void exportWithoutChordsTooSmall () throws IOException, ExportException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
+    exportConfiguration.initializeValues();
     exportConfiguration.setWithChords(false);
     exportConfiguration.setPageSize(new SizeInfo(10, 40));
     File exportFile = createExportFile(textfileWriter, "exportWithoutChords");

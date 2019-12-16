@@ -1,5 +1,7 @@
 package org.adonai.export;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -388,5 +390,25 @@ public class ExportConfiguration {
         chordTextDistance + "\n structureDistance=" + structureDistance + "\n upperBorder=" + upperBorder + "\n lowerBorder=" + lowerBorder +
         "\n leftBorder=" + leftBorder + "\n minimalChordDistance=" + minimalChordDistance + "\n titleSongDistance=" + titleSongDistance +
         "\n openPreview=" + openPreview + "\n pageSize=" + pageSize + '}';
+  }
+
+  public void initializeValues() {
+    for (Method next: getClass ().getMethods()) {
+      if (next.getName().startsWith("set") && next.getParameterTypes().length == 1 && next.getParameterTypes()[0].equals(Double.class)) {
+        try {
+          next.invoke(this, Double.valueOf(0));
+        } catch (IllegalAccessException e) {
+          throw new IllegalStateException(e);
+        } catch (InvocationTargetException e) {
+          throw new IllegalStateException(e);
+        }
+        System.out.println(next.getName());
+        System.out.println (next.getParameterTypes()[0]);
+      }
+
+    }
+
+    System.out.println ("");
+
   }
 }
