@@ -402,13 +402,8 @@ public class ExportConfiguration {
         } catch (InvocationTargetException e) {
           throw new IllegalStateException(e);
         }
-        System.out.println(next.getName());
-        System.out.println (next.getParameterTypes()[0]);
       }
 
     }
-
-    System.out.println ("");
-
   }
 }
