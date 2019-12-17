@@ -43,7 +43,8 @@ import org.adonai.actions.ExportAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.actions.SelectAction;
 import org.adonai.actions.UsersAdminAction;
-import org.adonai.actions.add.AddSongAction;
+import org.adonai.actions.AddSessionAction;
+import org.adonai.actions.AddSongAction;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
@@ -242,9 +243,10 @@ public class MainPageController {
           });
 
         } else if (currentContent.equals(MainPageContent.SESSIONS)) {
-          SessionService sessionService = new SessionService();
-          sessionService.newSession(configuration);
+          AddSessionAction addSessionAction = new AddSessionAction();
+          Session session = addSessionAction.add(configuration);
           refreshListViews(null);
+          selectSession(session);
         }
       }
     });

@@ -16,8 +16,12 @@ public class AdditionalsImporter {
   private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalsImporter.class);
 
 
+
+  private File additionalsPath = Consts.ADDITIONALS_PATH;
+
+
   public File getAdditionalFile (final Song song, final Additional additional) {
-    File additionalsPath = Consts.ADDITIONALS_PATH;
+
 
     File additionalsTypePath = new File (additionalsPath, additional.getAdditionalType().name().toLowerCase());
     String suffix = additional.getLink().substring(additional.getLink().indexOf("."));
@@ -47,5 +51,13 @@ public class AdditionalsImporter {
     else
       additionalFile.delete();
 
+  }
+
+  public File getAdditionalsPath() {
+    return additionalsPath;
+  }
+
+  public void setAdditionalsPath(File additionalsPath) {
+    this.additionalsPath = additionalsPath;
   }
 }

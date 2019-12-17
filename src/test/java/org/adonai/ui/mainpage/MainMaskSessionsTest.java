@@ -30,10 +30,12 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
 
   }
   @Test
-  public void addNewSongToSession () {
+  public void addNewSession () {
     mainMaskPage.stepToSessions();
     int sizeSessionsBefore = mainMaskPage.getSessions().size();
     mainMaskPage.add();
+    //TODO Check empty songs
+    mainMaskPage.stepToSessions();
     int sizeSessionsAfter = mainMaskPage.getSessions().size();
     Assert.assertEquals("Number of sessions did not increase", sizeSessionsBefore + 1, sizeSessionsAfter);
   }

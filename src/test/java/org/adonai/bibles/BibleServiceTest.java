@@ -25,7 +25,17 @@ public class BibleServiceTest {
     Bible bible = bibleService.getBible(Bibles.ELBERFELDER_1905);
     Verse verse = bible.findVerse(Book.GENESIS, 1, 2);
     Assert.assertEquals ("Und die Erde war wüst und leer, und Finsternis war über der Tiefe; und der Geist Gottes schwebte über den Wassern.", verse.getText());
+  }
 
+  @Test(expected = IllegalStateException.class)
+  public void findInvalidChapter () {
+    Bible bible = bibleService.getBible(Bibles.ELBERFELDER_1905);
+    bible.findVerse(Book.GENESIS, 51, 2);
+  }
 
+  @Test(expected = IllegalStateException.class)
+  public void findInvalidVerse () {
+    Bible bible = bibleService.getBible(Bibles.ELBERFELDER_1905);
+    bible.findVerse(Book.GENESIS, 50, 27);
   }
 }

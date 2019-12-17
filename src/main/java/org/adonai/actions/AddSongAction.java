@@ -1,4 +1,4 @@
-package org.adonai.actions.add;
+package org.adonai.actions;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
