@@ -2,7 +2,6 @@ package org.adonai.online;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.WriteMode;
@@ -24,9 +23,14 @@ public class DropboxAdapter implements OnlineAdapter {
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
+  public final static String PROPERTY_DROPBOX_ACCESSTOKEN = "adonai.dropbox.accesstoken";
+
+
+  private DbxClientV2 clientV2;
+
   @Override
   public void upload(File configFile) {
-    DbxClientV2 clientV2 = getAccount();
+    DbxClientV2 clientV2 = getClientV2();
     try {
       FullAccount fullAccount = clientV2.users().getCurrentAccount();
 
@@ -53,7 +57,7 @@ public class DropboxAdapter implements OnlineAdapter {
 
     try {
       FileOutputStream fos = new FileOutputStream(downloadFile);
-      DbxClientV2 clientV2 = getAccount();
+      DbxClientV2 clientV2 = getClientV2();
       clientV2.files().downloadBuilder("/config.xml").download(fos);
     } catch (FileNotFoundException e) {
       throw new IllegalStateException(e);
@@ -66,10 +70,26 @@ public class DropboxAdapter implements OnlineAdapter {
     return downloadFile;
   }
 
-  private DbxClientV2 getAccount () {
-    DbxRequestConfig config = DbxRequestConfig.newBuilder("adonai/1.0").build();
-    String accessToken = adonaiProperties.getProperty("adonai.dropbox.accesstoken");
-    DbxClientV2 client = new DbxClientV2(config, accessToken);
-    return client;
+  public DbxClientV2 getClientV2() {
+    if (clientV2 == null) {
+      DbxRequestConfig config = DbxRequestConfig.newBuilder("adonai/1.0").build();
+      String accessToken = adonaiProperties.getProperty(PROPERTY_DROPBOX_ACCESSTOKEN);
+      clientV2 = new DbxClientV2(config, accessToken);
+    }
+    return clientV2;
   }
+
+  public void setClientV2(DbxClientV2 clientV2) {
+    this.clientV2 = clientV2;
+  }
+
+  public AdonaiProperties getAdonaiProperties() {
+    return adonaiProperties;
+  }
+
+  public void setAdonaiProperties(AdonaiProperties adonaiProperties) {
+    this.adonaiProperties = adonaiProperties;
+  }
+
+
 }

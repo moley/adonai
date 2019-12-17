@@ -24,4 +24,8 @@ public class AdonaiProperties {
   public String getProperty (final String key) {
     return properties.getProperty(key);
   }
+
+  public void setProperty (final String key, final String value) {
+    properties.setProperty(key, value);
+  }
 }

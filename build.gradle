@@ -93,6 +93,9 @@ test {
 
     exclude 'org/adonai/ui/**'
 
+    systemProperty "file.encoding", "UTF-8"
+
+
 
 }
 
