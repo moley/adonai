@@ -60,8 +60,10 @@ public class AdditionalsImporterTest {
     AdditionalsImporter additionalsImporter = new AdditionalsImporter();
     additionalsImporter.setAdditionalsPath(additionalsPath);
     File cacheFile = additionalsImporter.getAdditionalFile(song, song.getAdditionals().get(0));
-    if (! cacheFile.exists())
+    if (! cacheFile.exists()) {
+      cacheFile.getParentFile().mkdirs();
       cacheFile.createNewFile();
+    }
     long lastModified = cacheFile.lastModified();
 
     Thread.sleep(20);
@@ -81,8 +83,10 @@ public class AdditionalsImporterTest {
     AdditionalsImporter additionalsImporter = new AdditionalsImporter();
     additionalsImporter.setAdditionalsPath(additionalsPath);
     File cacheFile = additionalsImporter.getAdditionalFile(song, song.getAdditionals().get(0));
-    if (! cacheFile.exists())
+    if (! cacheFile.exists()) {
+      cacheFile.getParentFile().mkdirs();
       cacheFile.createNewFile();
+    }
 
     FileUtils.write(originalFile, "newContent", Charset.defaultCharset());
 
@@ -105,8 +109,10 @@ public class AdditionalsImporterTest {
     AdditionalsImporter additionalsImporter = new AdditionalsImporter();
     additionalsImporter.setAdditionalsPath(additionalsPath);
     File cacheFile = additionalsImporter.getAdditionalFile(song, song.getAdditionals().get(0));
-    if (! cacheFile.exists())
+    if (! cacheFile.exists()) {
+      cacheFile.getParentFile().mkdirs();
       cacheFile.createNewFile();
+    }
 
     Assert.assertTrue (cacheFile.exists());
     additionalsImporter.removeAdditional(song, song.getAdditionals().get(0));
