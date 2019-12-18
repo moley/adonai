@@ -13,7 +13,7 @@ public class SongTestData {
     SongBuilder builder = SongBuilder.instance();
     builder = builder.withId("1").withTitle("Example 1");
     builder = builder.withPart(SongPartType.VERS).withPartId("1").withLine();
-    builder = builder.withLinePart("This is", "D");
+    builder = builder.withLinePart("This is ", "D");
     builder = builder.withLinePart("the first testline", "G");
     builder = builder.withLine().withLinePart("This is the second", "A");
 

@@ -1,5 +1,6 @@
 package org.adonai.services;
 
+import java.util.Collection;
 import org.adonai.SongTestData;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
@@ -10,6 +11,22 @@ import org.junit.Test;
 public class SongInfoServiceTest {
 
   private SongInfoService songInfoService = new SongInfoService();
+
+  @Test
+  public void getRealWithoutCurrent () {
+    Song song = SongTestData.getSongWithTwoPartsAndOneReference();
+    SongPart currentPart = song.getSongParts().get(0);
+    Collection<SongPart> realSongPartsWithoutCurrent = songInfoService.getRealSongPartsWithoutCurrent(song, currentPart);
+    Assert.assertFalse ("current song part must not be contained", realSongPartsWithoutCurrent.contains(currentPart));
+    Assert.assertEquals ("Number of parts invalid", 1, realSongPartsWithoutCurrent.size());
+  }
+
+  @Test
+  public void getPreview () {
+    Song song = SongTestData.getSongWithTwoPartsAndOneReference();
+    String preview = songInfoService.getPreview(song, song.getSongParts().get(0));
+    Assert.assertEquals ("Invalid preview", "VERS (This is the first te...)", preview);
+  }
 
   @Test
   public void getStructureRealLong () {

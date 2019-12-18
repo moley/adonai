@@ -10,6 +10,25 @@ public class AddPartServiceTest {
 
   AddPartService songService = new AddPartService();
 
+  @Test
+  public void addPartBeforeFirstPart () {
+    Song songWithTwoParts = SongTestData.getSongWithTwoParts();
+    SongCursor cursor = new SongCursor(songWithTwoParts, 0, 0, 0, 0);
+    SongPart focusedLinePart = songService.addPartBefore(cursor);
+    Assert.assertEquals (3, songWithTwoParts.getSongParts().size());
+    SongPart songPart = songWithTwoParts.getSongParts().get(0);
+    Assert.assertEquals ("Focus linepart", focusedLinePart, songPart);
+  }
+
+  @Test
+  public void addPartBeforeSecondPart () {
+    Song songWithTwoParts = SongTestData.getSongWithTwoParts();
+    SongCursor cursor = new SongCursor(songWithTwoParts, 1, 0, 0, 0);
+    SongPart focusedLinePart = songService.addPartBefore(cursor);
+    Assert.assertEquals (3, songWithTwoParts.getSongParts().size());
+    SongPart songPart = songWithTwoParts.getSongParts().get(1);
+    Assert.assertEquals ("Focus linepart", focusedLinePart, songPart);
+  }
 
   @Test
   public void addPartAfterLastPart () {
