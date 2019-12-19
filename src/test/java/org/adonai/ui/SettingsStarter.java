@@ -1,4 +1,4 @@
-package org.adonai.ui.settings;
+package org.adonai.ui;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.ConfigurationService;
 import org.adonai.ui.screens.ScreenManager;
-import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

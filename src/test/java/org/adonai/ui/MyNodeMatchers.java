@@ -4,8 +4,13 @@ import javafx.scene.Node;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyNodeMatchers {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(MyNodeMatchers.class);
+
 
   public static Matcher<Node> withId (final String id) {
     return new BaseMatcher<Node>() {
@@ -37,8 +42,7 @@ public class MyNodeMatchers {
         if (item instanceof Node) {
           Node node = (Node) item;
           //for debugging
-          //if (node.getUserData() != null)
-          //  System.out.println (node.getUserData() + " - " + node.getClass().getSimpleName());
+          //LOGGER.info(node.getUserData() + " - " + node.getClass().getSimpleName());
           return node.getUserData() != null && node.getUserData().equals(userData);
         }
         return false;

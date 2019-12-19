@@ -1,10 +1,11 @@
-package org.adonai.ui.mainpage;
+package org.adonai.ui;
 
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.TestUtil;
+import org.adonai.ui.pages.MainMaskPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

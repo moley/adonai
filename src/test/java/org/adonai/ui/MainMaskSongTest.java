@@ -1,4 +1,4 @@
-package org.adonai.ui.mainpage;
+package org.adonai.ui;
 
 import java.io.File;
 import javafx.scene.input.KeyCode;
@@ -7,9 +7,9 @@ import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.TestUtil;
-import org.adonai.ui.editor.SongEditorPage;
-import org.apache.commons.io.FileUtils;
+import org.adonai.ui.pages.SongEditorPage;
+import org.adonai.ui.pages.MainMaskPage;
+import org.adonai.ui.pages.SelectAdditionalPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

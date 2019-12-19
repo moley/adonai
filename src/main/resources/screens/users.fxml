@@ -10,18 +10,18 @@
         <ColumnConstraints percentWidth="30"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" text="ADMINISTRATE USERS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+    <Label fx:id="lblTitle" userData="users.lblTitle" text="ADMINISTRATE USERS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
-    <ListView fx:id="lviUsers" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
+    <ListView fx:id="lviUsers" userData="users.lviUsers" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="2"
              GridPane.fillHeight="false" GridPane.vgrow="NEVER" spacing="5">
-        <Button fx:id="btnAddUser"/>
-        <Button fx:id="btnRemoveUser"/>
+        <Button fx:id="btnAddUser" userData="users.btnAdd" />
+        <Button fx:id="btnRemoveUser" userData="users.btnRemove" />
     </HBox>
 
     <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    <TextField fx:id="txtUsername" GridPane.columnIndex="2" GridPane.rowIndex="1"
+    <TextField fx:id="txtUsername" userData="users.txtUsername" GridPane.columnIndex="2" GridPane.rowIndex="1"
                GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
 
 

@@ -1,11 +1,19 @@
-package org.adonai.ui;
+package org.adonai.ui.pages;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import org.adonai.ui.MyNodeMatchers;
 import org.hamcrest.Matcher;
 import org.testfx.framework.junit.ApplicationTest;
 
 public class AbstractPage<T> {
+
+  protected ApplicationTest applicationTest;
+
+  public AbstractPage (ApplicationTest applicationTest) {
+    this.applicationTest = applicationTest;
+  }
+
 
   protected Matcher<Node> nodeWithId (final String id) {
     return MyNodeMatchers.withId(id);
@@ -17,6 +25,10 @@ public class AbstractPage<T> {
 
   public void pressAndRelease (ApplicationTest applicationTest, KeyCode keyCode) {
     applicationTest.press(keyCode).release(keyCode);
+  }
+
+  public ApplicationTest getApplicationTest () {
+    return applicationTest;
   }
 
 

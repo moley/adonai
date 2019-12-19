@@ -1,4 +1,4 @@
-package org.adonai.ui.mainpage;
+package org.adonai.ui.pages;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,13 +12,11 @@ import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
-import org.adonai.ui.AbstractPage;
 import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.UiUtils;
-import org.adonai.ui.editor.SongEditorPage;
-import org.adonai.ui.selectsong.SelectSongPage;
+import org.adonai.ui.mainpage.MainPageController;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +31,11 @@ public class MainMaskPage extends AbstractPage {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainMaskPage.class);
 
-  ApplicationTest applicationTest;
-
   private Mask mask;
 
 
   public MainMaskPage (final ApplicationTest applicationTest) throws IOException {
-    this.applicationTest = applicationTest;
+    super (applicationTest);
   }
 
   public void openStage () {
@@ -101,6 +97,10 @@ public class MainMaskPage extends AbstractPage {
 
   public Button getBtnExport() {
     return applicationTest.lookup(nodeWithUserData("mainpage.btnExport")).query();
+  }
+
+  private Button getBtnUserAdmin() {
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnUserAdmin")).query();
   }
 
 
@@ -182,6 +182,11 @@ public class MainMaskPage extends AbstractPage {
     LOGGER.info("Trigger export on button " + btnExport.getText() + "-" + UiUtils.getBounds(btnExport));
     applicationTest.clickOn(btnExport, MouseButton.PRIMARY).sleep(2000);
     LOGGER.info("Export triggered");
+  }
+
+  public UserAdminPage stepToUserAdmin () {
+    applicationTest.clickOn(getBtnUserAdmin());
+    return new UserAdminPage(applicationTest);
   }
 
   public void remove () {

@@ -1,20 +1,18 @@
-package org.adonai.ui.editor;
+package org.adonai.ui.pages;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import org.adonai.ui.AbstractPage;
+import org.adonai.ui.pages.AbstractPage;
 import org.adonai.ui.MyNodeMatchers;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
 
 public class SongEditorPage extends AbstractPage {
 
-  private ApplicationTest applicationTest;
-
   public SongEditorPage (final ApplicationTest applicationTest) {
-    this.applicationTest = applicationTest;
+    super (applicationTest);
   }
 
 

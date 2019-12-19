@@ -1,9 +1,8 @@
-package org.adonai.ui.mainpage;
+package org.adonai.ui;
 
 import java.io.File;
 import java.io.IOException;
 import org.adonai.testdata.TestDataCreator;
-import org.apache.commons.io.FileUtils;
 
 public class MainPageTesterTestData {
   public static void main(String[] args) throws IOException {

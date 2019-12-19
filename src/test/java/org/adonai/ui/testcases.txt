@@ -1,8 +1,0 @@
-
-MainPage:
-
-1. Songbook selektiere und Liste Songs prüfen
-2. Sessions selektieren und Liste Sessions prüfen
-3. Session selektieren und Liste Songs prüfen
-4. Import neuer Song (Neuer Song selektiert? In Song Details Anzeige?)
-5. Import vom Clipboard

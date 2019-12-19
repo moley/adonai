@@ -1,10 +1,9 @@
-package org.adonai.ui.mainpage;
+package org.adonai.ui.pages;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import org.adonai.ui.AbstractPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
@@ -13,11 +12,10 @@ public class SelectAdditionalPage extends AbstractPage {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainMaskPage.class);
 
-  ApplicationTest applicationTest;
 
 
   public SelectAdditionalPage(final ApplicationTest applicationTest) {
-    this.applicationTest = applicationTest;
+    super (applicationTest);
   }
 
   public void select (final String name) {
