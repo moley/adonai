@@ -10,20 +10,7 @@ public class AreaInfo {
     this.location = location;
     this.size = size;
   }
-
-  public AreaInfo(final Double x, final Double y, final SizeInfo size) {
-    this.location = new LocationInfo(x, y);
-    this.size = size;
-  }
-
-  public SizeInfo getSize() {
-    return size;
-  }
-
-  public LocationInfo getLocation() {
-    return location;
-  }
-
+  
   public Double getX () {
     return location.getX();
   }

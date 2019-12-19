@@ -37,8 +37,6 @@ public class DropboxAdapter implements OnlineAdapter {
       try (InputStream in = new FileInputStream(configFile)) {
         FileMetadata metadata = clientV2.files().uploadBuilder("/" + configFile.getName()).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
         LOGGER.info ("Metadata ID " + metadata.getId());
-      } catch (FileNotFoundException e) {
-        throw new IllegalStateException(e);
       } catch (IOException e) {
         throw new IllegalStateException(e);
       }
@@ -59,11 +57,7 @@ public class DropboxAdapter implements OnlineAdapter {
       FileOutputStream fos = new FileOutputStream(downloadFile);
       DbxClientV2 clientV2 = getClientV2();
       clientV2.files().downloadBuilder("/config.xml").download(fos);
-    } catch (FileNotFoundException e) {
-      throw new IllegalStateException(e);
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    } catch (DbxException e) {
+    } catch (IOException | DbxException e) {
       throw new IllegalStateException(e);
     }
 
@@ -87,9 +81,6 @@ public class DropboxAdapter implements OnlineAdapter {
     return adonaiProperties;
   }
 
-  public void setAdonaiProperties(AdonaiProperties adonaiProperties) {
-    this.adonaiProperties = adonaiProperties;
-  }
 
 
 }

@@ -29,7 +29,6 @@ public class Chord {
    * @param diff
    */
   public void transpose (final int diff, final NoteEntryType noteEntryType) {
-    if (leftPart != null)
     leftPart.transpose(diff, noteEntryType);
 
     if (basePart != null)
@@ -42,11 +41,7 @@ public class Chord {
    */
   public void transpose (final int diff) {
     NoteEntryType noteEntryType = diff >= 0 ? NoteEntryType.INCREMENT : NoteEntryType.DECREMENT;
-    if (leftPart != null)
-      leftPart.transpose(diff, noteEntryType);
-
-    if (basePart != null)
-      basePart.transpose(diff, noteEntryType);
+    transpose(diff, noteEntryType);
   }
 
 

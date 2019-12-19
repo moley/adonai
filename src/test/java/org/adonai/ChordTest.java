@@ -8,6 +8,11 @@ import org.junit.Test;
  */
 public class ChordTest {
 
+  @Test(expected = InvalidChordException.class)
+  public void threeParts () {
+    new Chord("C/G/A");
+  }
+
   @Test
   public void es () {
     Chord chord = new Chord("Es");
@@ -126,13 +131,28 @@ public class ChordTest {
 
   @Test
   public void transposeUp () {
+    Chord chord = new Chord ("D");
+    chord.transpose(2, NoteEntryType.INCREMENT);
+    Assert.assertEquals ("E", chord.toString());
+  }
+
+  @Test
+  public void transposeDown () {
+    Chord chord = new Chord ("D");
+    chord.transpose(-2, NoteEntryType.INCREMENT);
+    Assert.assertEquals ("C", chord.toString());
+
+  }
+
+  @Test
+  public void transposeWithBassUp () {
     Chord chord = new Chord ("D/F#");
     chord.transpose(2, NoteEntryType.INCREMENT);
     Assert.assertEquals ("E/G#", chord.toString());
   }
 
   @Test
-  public void transposeDown () {
+  public void transposeWithBassDown () {
     Chord chord = new Chord ("D/F#");
     chord.transpose(-2, NoteEntryType.INCREMENT);
     Assert.assertEquals ("C/E", chord.toString());
