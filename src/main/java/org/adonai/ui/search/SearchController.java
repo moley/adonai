@@ -22,9 +22,10 @@ public class SearchController {
 
   @FXML
   public void initialize() {
-    txtSearchQuery.setOnKeyReleased(new EventHandler<KeyEvent>() {
+    txtSearchQuery.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
+        LOGGER.info("event keyreleased " + event.getCode() + " notified at txtSearchQuery");
         if (event.getCode().equals(KeyCode.ESCAPE)) {
           filteredData.setPredicate(s-> true);
         }

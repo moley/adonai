@@ -1,5 +1,6 @@
 package org.adonai.ui.mainpage;
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
@@ -27,6 +28,16 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();
+  }
+
+  @Test
+  public void search () throws InterruptedException {
+    mainMaskPage.stepToSongbook();
+    int unfilteredNumber = mainMaskPage.getLviSongs().getItems().size();
+    mainMaskPage.search("Song1");
+    Assert.assertEquals(1, mainMaskPage.getLviSongs().getItems().size());
+    mainMaskPage.applicationTest.type(KeyCode.ESCAPE);
+    Assert.assertEquals(unfilteredNumber, mainMaskPage.getLviSongs().getItems().size());
   }
 
   @Test

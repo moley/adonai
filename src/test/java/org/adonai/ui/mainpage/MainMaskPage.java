@@ -3,11 +3,11 @@ package org.adonai.ui.mainpage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
-import org.adonai.actions.ExportAction;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import org.testfx.util.WaitForAsyncUtils;
 
 public class MainMaskPage extends AbstractPage {
 
@@ -119,11 +118,21 @@ public class MainMaskPage extends AbstractPage {
     Assert.assertTrue (getLviSongs().isVisible());
   }
 
+  public void search (final String searchString) throws InterruptedException {
+    applicationTest.type(KeyCode.SPACE);
+    applicationTest.clickOn(getTxtSearch());
+    applicationTest.write(searchString);
+  }
+
   public void stepToSong (int index) {
     LOGGER.info("stepToSong " + index);
     stepToSongbook();
     getLviSongs().getSelectionModel().select(index);
     applicationTest.doubleClickOn(getLviSongs());
+  }
+
+  public TextField getTxtSearch() {
+    return applicationTest.lookup(nodeWithUserData("searchpage.txtSearchQuery")).query();
   }
 
   public SongEditorPage songEditorPage () {

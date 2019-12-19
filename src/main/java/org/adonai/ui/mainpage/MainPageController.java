@@ -519,14 +519,15 @@ public class MainPageController {
     });
 
     //Views
-    lviSongs.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    lviSongs.setOnKeyTyped(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-            LOGGER.info("KeyHandler " + event.getCode().toString());
+            LOGGER.info("handle lviSongs.KeyTyped <" + event.getText() + ">");
 
-            if (event.getCode().equals(KeyCode.SPACE)) {
+            if (event.getCode().equals(KeyCode.SPACE) || event.getText().equalsIgnoreCase("")) {
+              LOGGER.info("Space typed, go to search action");
               SearchAction searchAction = new SearchAction();
-              Point2D point2D = lviSongs.localToScreen(lviSongs.getWidth() - 305, lviSongs.getHeight() - 55);
+              Point2D point2D = lviSongs.localToScreen(lviSongs.getLayoutX() + 10, lviSongs.getHeight() - 55);
               searchAction.open(filteredSongList, "", point2D.getX(), point2D.getY());
             }
           }

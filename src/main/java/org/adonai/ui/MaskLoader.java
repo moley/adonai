@@ -16,6 +16,7 @@ public class MaskLoader<T> {
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
   public Mask<T> load (final String name) {
+    LOGGER.info("load mask " + name);
     Mask<T> mask = new Mask<T>();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/" + name + ".fxml"));
     try {

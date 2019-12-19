@@ -2,8 +2,14 @@ package org.adonai.ui;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.adonai.ui.mainpage.MainPageController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Mask<T> {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Mask.class);
+
 
   private Scene scene;
 
@@ -28,6 +34,7 @@ public class Mask<T> {
   }
 
   public void show () {
+    LOGGER.info("Show mask for controller " + controller.getClass().getName());
     getStage().show();
   }
 
