@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.ConfigurationService;
-import org.adonai.screens.ScreenManager;
+import org.adonai.ui.screens.ScreenManager;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;

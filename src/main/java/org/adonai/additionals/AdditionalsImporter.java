@@ -17,7 +17,7 @@ public class AdditionalsImporter {
 
 
 
-  private File additionalsPath = Consts.ADDITIONALS_PATH;
+  private File additionalsPath = Consts.getAdditionalsPath();
 
 
   public File getAdditionalFile (final Song song, final Additional additional) {

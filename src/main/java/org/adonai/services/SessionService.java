@@ -25,6 +25,8 @@ public class SessionService {
     List<Song> sessionSongs = new ArrayList<Song>();
     for (Integer nextSong : session.getSongs()) {
       Song foundSong = songBook.findSong(nextSong);
+      if (foundSong == null)
+        throw new IllegalStateException("Song with id " + nextSong + " not found");
       sessionSongs.add(foundSong);
     }
     return sessionSongs;

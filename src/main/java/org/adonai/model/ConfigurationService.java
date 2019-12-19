@@ -27,9 +27,9 @@ public class ConfigurationService {
   private File configFile;
 
 
-  private static Configuration currentConfiguration;
+  private Configuration currentConfiguration;
 
-  private static String lastSavedConfigurationAsString;
+  private String lastSavedConfigurationAsString;
 
 
   public void save () {
@@ -42,8 +42,7 @@ public class ConfigurationService {
 
   public File getConfigFile ( ){
     if (configFile == null) {
-
-      configFile = new File(Consts.LEGUAN_HOME, "config.xml");
+      configFile = new File(Consts.getAdonaiHome(), "config.xml");
       LOGGER.info("set configFile (" + configFile.getAbsolutePath() + ")");
     }
     return configFile;
@@ -110,7 +109,7 @@ public class ConfigurationService {
       lastSavedConfigurationAsString = stringWriter.toString();
 
     } catch (JAXBException e) {
-      throw new IllegalStateException(e);
+      throw new IllegalStateException("JAXBException reading " + configFile.getAbsolutePath(), e);
     }
 
     return currentConfiguration;

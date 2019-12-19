@@ -20,6 +20,7 @@ import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.adonai.model.SongPartType;
 import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,6 +28,13 @@ public class PdfWriterTest extends AbstractExportTest {
 
   private boolean openPreview = false;
 
+
+  @AfterClass
+  public static void afterClass () {
+    ConfigurationService configurationService = new ConfigurationService();
+    configurationService.close();
+
+  }
 
   @Test
   public void exportEmptyPartWithStructure () throws IOException, ExportException {

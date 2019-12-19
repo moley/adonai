@@ -1,9 +1,7 @@
 package org.adonai.ui.mainpage;
 
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
-import org.adonai.model.ConfigurationService;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.ui.TestUtil;
 import org.adonai.ui.selectsong.SelectSongPage;

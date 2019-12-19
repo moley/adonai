@@ -153,6 +153,7 @@ public class MainPageController {
 
     lviSessions.setPlaceholder(new Label("No sessions available, press + to add ones"));
 
+
     panSongDetails.setBackground(Background.EMPTY);
 
     panSessionDetails.setBackground(Background.EMPTY);
@@ -562,6 +563,7 @@ public class MainPageController {
       @Override
       public void handle(MouseEvent event) {
         if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() > 1) {
+          LOGGER.info("handle onMouseClicked (" + lviSessions.getSelectionModel().getSelectedItem() + ")");
           selectSession(lviSessions.getSelectionModel().getSelectedItem());
           event.consume();
         }
@@ -653,6 +655,8 @@ public class MainPageController {
     lviSongs.requestFocus();
     refreshListViews(null);
     lviSongs.getSelectionModel().selectFirst();
+    lviSessions.getSelectionModel().selectFirst();
+    lviSession.getSelectionModel().selectFirst();
     togSongbooks.setSelected(true);
   }
 
@@ -724,6 +728,8 @@ public class MainPageController {
       return sessionService.getSongs(currentSession, getCurrentSongBook());
     }
     else if (currentContent == MainPageContent.SONG) {
+      if (currentSong == null)
+        throw new IllegalStateException("No song selected in song view");
       return Arrays.asList(currentSong);
     }
     else if (currentContent == MainPageContent.SESSIONS) {

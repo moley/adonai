@@ -28,6 +28,7 @@ public class TestDataCreator {
   private ConfigurationService configurationService = new ConfigurationService();
 
   public Configuration getConfiguration(final File testDataPath) {
+    configurationService.close();
     System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
     return configurationService.get();
   }
@@ -42,6 +43,7 @@ public class TestDataCreator {
 
     SongBook songBook = new SongBook();
 
+    configurationService.close();
     Configuration configuration = getConfiguration(testDataPath);
     configuration.getSongBooks().add(songBook);
 

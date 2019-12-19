@@ -1,4 +1,4 @@
-package org.adonai.screens;
+package org.adonai.ui.screens;
 
 import javafx.stage.Screen;
 import javafx.stage.Stage;

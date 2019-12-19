@@ -30,12 +30,19 @@ public class Consts {
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
-  public final static String USER_HOME = System.getProperty(ADONAI_HOME_PROP) != null ? System.getProperty(ADONAI_HOME_PROP) : System.getProperty("user.home");
-  public final static File LEGUAN_HOME = new File (USER_HOME, ".adonai");
-  public final static File ADDITIONALS_PATH = new File (LEGUAN_HOME, "additionals");
-
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
 
+  public final static File getUserHome () {
+    return new File (System.getProperty(ADONAI_HOME_PROP) != null ? System.getProperty(ADONAI_HOME_PROP) : System.getProperty("user.home"));
+  }
+
+  public final static File getAdonaiHome () {
+    return new File (getUserHome(), ".adonai");
+  }
+
+  public final static File getAdditionalsPath () {
+    return new File (getAdonaiHome(), "additionals");
+  }
 
 
   public final static ImageView createImageView (final String name, int iconSize) {

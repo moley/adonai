@@ -2,7 +2,7 @@ package org.adonai.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.adonai.screens.ScreenManager;
+import org.adonai.ui.screens.ScreenManager;
 
 import java.io.IOException;
 
