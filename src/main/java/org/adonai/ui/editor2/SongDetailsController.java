@@ -49,18 +49,9 @@ public class SongDetailsController {
 
 
   private Configuration configuration;
-
-  public Configuration getConfiguration() {
-    return configuration;
-  }
-
+  
   public void setConfiguration(Configuration configuration) {
     this.configuration = configuration;
-  }
-
-
-  public Song getCurrentSong() {
-    return currentSong;
   }
 
   public void setCurrentSong(Song currentSong) {
