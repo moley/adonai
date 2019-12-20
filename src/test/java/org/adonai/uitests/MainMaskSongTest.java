@@ -1,6 +1,7 @@
 package org.adonai.uitests;
 
 import java.io.File;
+import java.io.IOException;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
@@ -16,6 +17,7 @@ import org.adonai.uitests.pages.SongEditorPage;
 import org.adonai.uitests.pages.MainMaskPage;
 import org.adonai.uitests.pages.SelectAdditionalPage;
 import org.adonai.uitests.pages.SongPartDetailsPage;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,6 +55,36 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   @Override
   public void stop () {
     LOGGER.info("stop called");
+  }
+
+  @Test
+  public void importSongInSongViewWithPreview () throws IOException {
+    String clipboard = FileUtils.readFileToString(new File("src/test/resources/import/text/Das Glaube ich.txt"), "UTF-8");
+    int numberOfSongsBefore = mainMaskPage.getSongsInSongbook().size();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
+    mainMaskPage.add();
+    ImportSongWizardPage importSongWizardPage = new ImportSongWizardPage(this);
+    importSongWizardPage.importSongViaPreview(clipboard);
+    Assert.assertEquals ("5 - DAS GLAUBE ICH", mainMaskPage.getCurrentContentText());
+    mainMaskPage.stepToSongbook();
+    int numberOfSongsAfter = mainMaskPage.getSongsInSongbook().size();
+    Assert.assertEquals ("Number of songs did not increase", numberOfSongsBefore + 1, numberOfSongsAfter);
+
+  }
+
+  @Test
+  public void importSongInSongView () throws IOException {
+    String clipboard = FileUtils.readFileToString(new File("src/test/resources/import/text/Das Glaube ich.txt"), "UTF-8");
+    int numberOfSongsBefore = mainMaskPage.getSongsInSongbook().size();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
+    mainMaskPage.add();
+    ImportSongWizardPage importSongWizardPage = new ImportSongWizardPage(this);
+    importSongWizardPage.importSong(clipboard);
+    Assert.assertEquals ("5 - DAS GLAUBE ICH", mainMaskPage.getCurrentContentText());
+    mainMaskPage.stepToSongbook();
+    int numberOfSongsAfter = mainMaskPage.getSongsInSongbook().size();
+    Assert.assertEquals ("Number of songs did not increase", numberOfSongsBefore + 1, numberOfSongsAfter);
+
   }
 
   @Test

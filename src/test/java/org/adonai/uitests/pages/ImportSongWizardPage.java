@@ -2,6 +2,7 @@ package org.adonai.uitests.pages;
 
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.testfx.framework.junit.ApplicationTest;
 
@@ -14,6 +15,10 @@ public class ImportSongWizardPage extends AbstractPage {
 
   public void chooseFromNewSong () {
     applicationTest.clickOn(getRbFromNewSong());
+  }
+
+  public void chooseImport () {
+    applicationTest.clickOn(getRbFromClipboard());
   }
 
   public void chooseFromClipboard () {
@@ -38,6 +43,10 @@ public class ImportSongWizardPage extends AbstractPage {
     return applicationTest.lookup(nodeWithUserData("importsongwizard.rbNewSong")).query();
   }
 
+  private TextArea getTxaClipboard () {
+    return applicationTest.lookup(nodeWithUserData("importsongwizard.txaImport")).query();
+  }
+
 
   private Node getBtnPrevious () {
     return applicationTest.lookup(nodeWithUserData("importsongwizard.btnPrevious")).query();
@@ -56,6 +65,21 @@ public class ImportSongWizardPage extends AbstractPage {
     chooseFromNewSong();
     next();
     getTxtTitle().setText(title);
+    next();
+    finish();
+  }
+
+  public void importSong (final String clipboard) {
+    chooseFromClipboard();
+    next();
+    getTxaClipboard().setText(clipboard);
+    finish();
+  }
+
+  public void importSongViaPreview (final String clipboard) {
+    chooseFromClipboard();
+    next();
+    getTxaClipboard().setText(clipboard);
     next();
     finish();
   }
