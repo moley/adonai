@@ -28,10 +28,6 @@ public class JavaFxApplication extends Application {
 
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     scene.getStylesheets().add("/adonai.css");
-    //primaryStage.setMaximized(true);
-    //primaryStage.setFullScreen(true);
-    //primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    //primaryStage.setFullScreenExitHint("");
 
     primaryStage.setScene(scene);
     primaryStage.show();

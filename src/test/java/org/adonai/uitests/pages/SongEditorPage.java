@@ -1,11 +1,12 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import org.adonai.ui.pages.AbstractPage;
-import org.adonai.ui.MyNodeMatchers;
+import org.adonai.uitests.MyNodeMatchers;
+import org.apache.commons.math3.analysis.function.Add;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
 
@@ -27,6 +28,17 @@ public class SongEditorPage extends AbstractPage {
 
   public String getSongLinePartChordOriginal (final int partIndex, final int lineIndex, final int posInLine) {
     return getSongLinePartLabelOriginal(partIndex, lineIndex, posInLine).getText();
+  }
+
+  private Button getBtnSongDetails () {
+    NodeQuery nodeQuery = applicationTest.lookup(MyNodeMatchers.withUserData("songeditor.btnSongInfo"));
+    return nodeQuery.query();
+  }
+
+  public SongDetailsPage songDetailsPage () {
+    applicationTest.clickOn(getBtnSongDetails());
+    SongDetailsPage songDetailsPage = new SongDetailsPage(applicationTest);
+    return songDetailsPage;
   }
 
   public boolean isChordEditorVisible () {
@@ -71,5 +83,37 @@ public class SongEditorPage extends AbstractPage {
     String key = "songeditor.linepart_" + partIndex + "_" + lineIndex + "_" + posInLine + ".lblChordOriginal";
     NodeQuery partEditorContentPane = applicationTest.lookup(MyNodeMatchers.withUserData(key));
     return partEditorContentPane.query();
+  }
+
+  private Label getSongPartHeader (final int partIndex) {
+    String key = "songeditor.part_" + partIndex + ".lblHeader";
+    NodeQuery partEditorContentPane = applicationTest.lookup(MyNodeMatchers.withUserData(key));
+    return partEditorContentPane.query();
+  }
+
+  private Button getBtnAddBefore (final int partIndex) {
+    String key = "songeditor.part_" + partIndex + ".btnAddBefore";
+    NodeQuery partEditorContentPane = applicationTest.lookup(MyNodeMatchers.withUserData(key));
+    return partEditorContentPane.query();
+  }
+
+  private Button getBtnAddAfter (final int partIndex) {
+    String key = "songeditor.part_" + partIndex + ".btnAddAfter";
+    NodeQuery partEditorContentPane = applicationTest.lookup(MyNodeMatchers.withUserData(key));
+    return partEditorContentPane.query();
+  }
+
+  public void mouseOverSongPartHeader (final int partIndex) {
+    applicationTest.moveTo(getSongPartHeader(partIndex));
+  }
+
+  public AddPartPage addBefore (final int partIndex) {
+    applicationTest.clickOn(getBtnAddBefore(partIndex));
+    return new AddPartPage(applicationTest);
+  }
+
+  public AddPartPage addAfter (final int partIndex) {
+    applicationTest.clickOn(getBtnAddAfter(partIndex));
+    return new AddPartPage(applicationTest);
   }
 }

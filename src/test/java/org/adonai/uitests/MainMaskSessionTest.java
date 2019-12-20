@@ -1,11 +1,10 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.TestUtil;
-import org.adonai.ui.pages.MainMaskPage;
-import org.adonai.ui.pages.SelectSongPage;
+import org.adonai.uitests.pages.MainMaskPage;
+import org.adonai.uitests.pages.SelectSongPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

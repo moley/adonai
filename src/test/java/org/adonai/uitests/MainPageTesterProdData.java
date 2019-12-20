@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import java.io.File;
 import java.io.IOException;

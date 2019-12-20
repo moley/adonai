@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import java.io.File;
 import javafx.scene.input.KeyCode;
@@ -6,10 +6,13 @@ import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
+import org.adonai.model.SongPartType;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.pages.SongEditorPage;
-import org.adonai.ui.pages.MainMaskPage;
-import org.adonai.ui.pages.SelectAdditionalPage;
+import org.adonai.uitests.pages.AddPartPage;
+import org.adonai.uitests.pages.SongDetailsPage;
+import org.adonai.uitests.pages.SongEditorPage;
+import org.adonai.uitests.pages.MainMaskPage;
+import org.adonai.uitests.pages.SelectAdditionalPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,7 +50,70 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   @Override
   public void stop () {
     LOGGER.info("stop called");
+  }
 
+  @Test
+  public void editSongDetails () {
+    mainMaskPage.stepToSong(0);
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongDetailsPage songDetailsPage = songEditorPage.songDetailsPage();
+    Assert.assertEquals ("Song1", songDetailsPage.getTitle());
+
+    songDetailsPage.setTitle("Song1Changed");
+
+    mainMaskPage.getApplicationTest().type(KeyCode.ESCAPE);
+
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    Assert.assertEquals ("Song1Changed", selectedSong.getTitle());
+  }
+
+  @Test
+  public void addPartAfter () {
+    mainMaskPage.stepToSong(0);
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    songEditorPage.mouseOverSongPartHeader(0);
+    AddPartPage addPartPage = songEditorPage.addAfter(0);
+    addPartPage.search("New Intro");
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, selectedSong.getSongParts().get(1).getSongPartType());
+  }
+
+  @Test
+  public void cancelAddPartAfter () {
+    mainMaskPage.stepToSong(0);
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    songEditorPage.mouseOverSongPartHeader(0);
+    AddPartPage addPartPage = songEditorPage.addAfter(0);
+    addPartPage.cancelSearch("New Intro");
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.REFRAIN, selectedSong.getSongParts().get(1).getSongPartType());
+  }
+
+  @Test
+  public void addPartBefore () {
+    mainMaskPage.stepToSong(0);
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    songEditorPage.mouseOverSongPartHeader(0);
+    AddPartPage addPartPage = songEditorPage.addBefore(0);
+    addPartPage.search("New Intro");
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, selectedSong.getSongParts().get(0).getSongPartType());
+  }
+
+  @Test
+  public void cancelAddPartBefore () {
+    mainMaskPage.stepToSong(0);
+    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    songEditorPage.mouseOverSongPartHeader(0);
+    AddPartPage addPartPage = songEditorPage.addBefore(0);
+    addPartPage.cancelSearch("New Intro");
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.VERS, selectedSong.getSongParts().get(0).getSongPartType());
   }
 
   @Test

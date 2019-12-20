@@ -1,9 +1,8 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import org.adonai.ui.pages.AbstractPage;
 import org.testfx.framework.junit.ApplicationTest;
 
 public class ImportSongWizardPage extends AbstractPage {

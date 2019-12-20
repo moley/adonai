@@ -13,11 +13,11 @@
         <ColumnConstraints percentWidth="60"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+    <Label fx:id="lblTitle" userData="songdetails.lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
 
     <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <TextField fx:id="txtTitle" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+    <TextField fx:id="txtTitle" userData="songdetails.txtTitle" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
                GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
     <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>

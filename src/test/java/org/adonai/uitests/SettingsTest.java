@@ -1,8 +1,8 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
-import org.adonai.ui.pages.SettingsMaskPage;
+import org.adonai.uitests.pages.SettingsMaskPage;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

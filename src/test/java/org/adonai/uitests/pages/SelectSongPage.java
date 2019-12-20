@@ -1,4 +1,4 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;

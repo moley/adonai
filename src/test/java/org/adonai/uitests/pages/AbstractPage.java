@@ -1,8 +1,8 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import org.adonai.ui.MyNodeMatchers;
+import org.adonai.uitests.MyNodeMatchers;
 import org.hamcrest.Matcher;
 import org.testfx.framework.junit.ApplicationTest;
 

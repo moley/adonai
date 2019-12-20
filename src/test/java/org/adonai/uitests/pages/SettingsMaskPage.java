@@ -1,4 +1,4 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import java.io.IOException;
 import java.util.ResourceBundle;

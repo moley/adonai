@@ -12,11 +12,19 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.ui.Mask;
+import org.adonai.ui.UiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddPartController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(AddPartController.class);
+
 
   @FXML
   private ListView<String> lviTypes;
@@ -31,9 +39,17 @@ public class AddPartController {
 
   private FilteredList<String> filteredNewPartList;
 
+  private String selectedType;
 
-  ListView<String> getLviTypes () {
+  private Mask mask;
+
+
+  private ListView<String> getLviTypes () {
     return lviTypes;
+  }
+
+  public String getSelectedType () {
+    return selectedType;
   }
 
   public SongPart getSongPart (final String key) {
@@ -45,12 +61,14 @@ public class AddPartController {
   }
 
 
-  public void init (Song song) {
+  public void init (Mask mask, Song song) {
+    this.mask = mask;
+
+    UiUtils.hideOnEsc(mask.getStage());
+    UiUtils.hideOnFocusLost(mask.getStage());
+
 
     txtSearch.requestFocus();
-
-
-
 
     List<String> newTypeItems = new ArrayList<>();
 
@@ -75,20 +93,43 @@ public class AddPartController {
     filteredNewPartList = new FilteredList<String>(FXCollections.observableArrayList(newTypeItems), s->true);
     lviTypes.setItems(filteredNewPartList);
 
+    lviTypes.setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+          log();
+          selectedType = getLviTypes().getSelectionModel().getSelectedItem();
+          mask.getStage().close();
+        } else if (event.getCode().equals(KeyCode.UP) && event.getSource().equals(lviTypes) && lviTypes.getSelectionModel().getSelectedIndex() == 0) {
+          txtSearch.requestFocus();
+          lviTypes.getSelectionModel().clearSelection();
+        }
+      }
+    });
+    lviTypes.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+          log();
+          selectedType = getLviTypes().getSelectionModel().getSelectedItem();
+          mask.getStage().close();
+        }
+      }
+    });
 
-    txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+    txtSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
+        LOGGER.info("handle onKeyTyped of txtSearch with " + event.getCode() + "-" + event.getText());
         if (event.getCode().equals(KeyCode.ESCAPE)) {
+          LOGGER.info("default search");
           filteredNewPartList.setPredicate(s-> true);
         }
         else if (event.getCode().equals(KeyCode.DOWN)) {
+          LOGGER.info("step down");
           lviTypes.requestFocus();
           lviTypes.getSelectionModel().selectFirst();
         }
-        else if (event.getCode().equals(KeyCode.UP) && event.getSource().equals(lviTypes) && lviTypes.getSelectionModel().getSelectedIndex() == 0) {
-          txtSearch.requestFocus();
-        }
+
       }
     });
     txtSearch.textProperty().addListener(obs->{
@@ -102,5 +143,11 @@ public class AddPartController {
     });
 
 
+  }
+
+  private void log () {
+    LOGGER.info("Search: " + txtSearch.getText());
+    LOGGER.info("Number of found types: " + lviTypes.getItems().size() + "(" + lviTypes.getItems() + ")");
+    LOGGER.info("Selected type: " + lviTypes.getSelectionModel().getSelectedItem());
   }
 }

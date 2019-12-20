@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.adonai.ui.Consts;
 import org.adonai.ui.screens.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

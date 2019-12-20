@@ -1,11 +1,11 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.adonai.model.User;
-import org.adonai.ui.MyNodeMatchers;
+import org.adonai.uitests.MyNodeMatchers;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
 

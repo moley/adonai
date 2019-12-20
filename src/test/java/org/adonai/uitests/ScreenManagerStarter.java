@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

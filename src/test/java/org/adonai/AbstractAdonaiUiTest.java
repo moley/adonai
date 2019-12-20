@@ -4,7 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.TestUtil;
+import org.adonai.uitests.TestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;

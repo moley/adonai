@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.uitests;
 
 import javafx.scene.Node;
 import org.hamcrest.BaseMatcher;

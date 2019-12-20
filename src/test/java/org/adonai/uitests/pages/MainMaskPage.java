@@ -1,4 +1,4 @@
-package org.adonai.ui.pages;
+package org.adonai.uitests.pages;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -138,6 +138,7 @@ public class MainMaskPage extends AbstractPage {
   public SongEditorPage songEditorPage () {
     return new SongEditorPage(applicationTest);
   }
+
 
   public SelectSongPage selectSongPage () {
     return new SelectSongPage(applicationTest);

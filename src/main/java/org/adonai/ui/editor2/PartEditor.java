@@ -15,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.Line;
 import org.adonai.model.Song;
@@ -37,7 +38,6 @@ public class PartEditor extends PanelHolder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PartEditor.class);
 
-
   private List<LineEditor> lineEditors = new ArrayList<LineEditor>();
 
   private SongEditor songEditor;
@@ -50,29 +50,26 @@ public class PartEditor extends PanelHolder {
 
   private VBox contentPane = new VBox();
 
-
   private SongPartColorMap songPartColorMap = new SongPartColorMap();
 
   private boolean editable;
 
   private int partIndex;
 
-
   Label label;
 
   TitledPane titledPane = new TitledPane();
 
-
-
-  private SongCursor getSongCursor () {
+  private SongCursor getSongCursor() {
     Song song = songEditor.getSong();
     return new SongCursor(song, song.getIndex(part), 0, 0, 0);
   }
 
-  private void reloadTitle () {
+  private void reloadTitle() {
     boolean isRef = part.getReferencedSongPart() != null;
     String type = getShownPart().getSongPartTypeLabel();
-    if (part.getQuantity() != null && ! part.getQuantity().trim().isEmpty()) { //quantity is always used from the part itself
+    if (part.getQuantity() != null && !part.getQuantity().trim()
+        .isEmpty()) { //quantity is always used from the part itself
       type += " (" + part.getQuantity().trim() + "x)";
     }
 
@@ -84,11 +81,11 @@ public class PartEditor extends PanelHolder {
 
     String color = songPartColorMap.getColorForPart(getShownPart());
     String colorSelected = songPartColorMap.getColorSelectedForPart(getShownPart());
-    titledPane.setStyle("-fx-color: " + color + "; -fx-focus-color: " + colorSelected );
+    titledPane.setStyle("-fx-color: " + color + "; -fx-focus-color: " + colorSelected);
     titledPane.setUserData(getPointer() + "paTitledPane");
   }
 
-  private String getPointer () {
+  private String getPointer() {
     return "songeditor.part_" + partIndex + ".";
   }
 
@@ -101,7 +98,6 @@ public class PartEditor extends PanelHolder {
 
     rootPane.setPadding(new Insets(0, 10, 0, 10));
     rootPane.setUserData(getPointer() + "paRootPane");
-
 
     label = new Label();
     reloadTitle();
@@ -119,11 +115,7 @@ public class PartEditor extends PanelHolder {
     titledPane.setContent(contentPane);
     titledPane.setCollapsible(false);
     titledPane.setGraphic(label);
-    contentPane.setOnMouseEntered(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) {
-        bbaSongPartActions.setVisible(false);
-      }
-    });
+
     label.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override public void handle(MouseEvent event) {
         bbaSongPartActions.setVisible(false);
@@ -159,10 +151,10 @@ public class PartEditor extends PanelHolder {
     });
 
     Button btnAddBefore = new Button();
+    btnAddBefore.setUserData(getPointer() + "btnAddBefore");
     btnAddBefore.setGraphic(Consts.createIcon("fa-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAddBefore.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-
 
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
         Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
@@ -170,44 +162,31 @@ public class PartEditor extends PanelHolder {
         mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
         AddPartController addPartController = mask.getController();
-        addPartController.init(getSongEditor().getSong());
-        UiUtils.hideOnEsc(mask.getStage());
-        UiUtils.hideOnFocusLost(mask.getStage());
+        addPartController.init(mask, getSongEditor().getSong());
 
-        addPartController.getLviTypes().setOnKeyPressed(new EventHandler<KeyEvent>() {
-          @Override public void handle(KeyEvent event) {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-              mask.getStage().close();
-            }
-          }
-        });
-        addPartController.getLviTypes().setOnMouseClicked(new EventHandler<MouseEvent>() {
-          @Override public void handle(MouseEvent event) {
-            if (event.getClickCount() == 2)
-              mask.getStage().close();
-          }
-        });
 
-        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+        mask.getStage().setOnHidden(new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
-            SongCursor songCursor = getSongCursor();
-            AddPartService addPartService = new AddPartService();
-            SongPart newSongPart = addPartService.addPartBefore(songCursor);
-            String selectedItem = addPartController.getLviTypes().getSelectionModel().getSelectedItem();
-            SongPart copiedPart = addPartController.getSongPart(selectedItem);
-            SongPartType songPartType = addPartController.getNewType(selectedItem);
-            if (copiedPart != null) {
-              newSongPart.setSongPartType(copiedPart.getSongPartType());
-              newSongPart.setReferencedSongPart(copiedPart.getId());
-            }
-            else
-              newSongPart.setSongPartType(songPartType);
+            LOGGER.info("onHidden called on addBefore");
+            if (addPartController.getSelectedType() != null) {
+              LOGGER.info("... with selected type " + addPartController.getSelectedType());
+              SongCursor songCursor = getSongCursor();
+              AddPartService addPartService = new AddPartService();
+              SongPart newSongPart = addPartService.addPartBefore(songCursor);
+              String selectedItem = addPartController.getSelectedType();
+              SongPart copiedPart = addPartController.getSongPart(selectedItem);
+              SongPartType songPartType = addPartController.getNewType(selectedItem);
+              if (copiedPart != null) {
+                newSongPart.setSongPartType(copiedPart.getSongPartType());
+                newSongPart.setReferencedSongPart(copiedPart.getId());
+              } else
+                newSongPart.setSongPartType(songPartType);
 
-            getSongEditor().reload();
+              getSongEditor().reload();
+            }
           }
         });
         mask.show();
-
 
       }
     });
@@ -247,6 +226,7 @@ public class PartEditor extends PanelHolder {
     });
 
     Button btnAddAfter = new Button();
+    btnAddAfter.setUserData(getPointer() + "btnAddAfter");
     btnAddAfter.setGraphic(Consts.createIcon("fa-plus", Consts.ICON_SIZE_VERY_SMALL));
 
     btnAddAfter.setOnAction(new EventHandler<ActionEvent>() {
@@ -257,61 +237,49 @@ public class PartEditor extends PanelHolder {
         mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
         AddPartController addPartController = mask.getController();
-        addPartController.init(getSongEditor().getSong());
+        addPartController.init(mask, getSongEditor().getSong());
         UiUtils.hideOnEsc(mask.getStage());
         UiUtils.hideOnFocusLost(mask.getStage());
 
-        addPartController.getLviTypes().setOnKeyPressed(new EventHandler<KeyEvent>() {
-          @Override public void handle(KeyEvent event) {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-              mask.getStage().close();
-            }
-          }
-        });
-        addPartController.getLviTypes().setOnMouseClicked(new EventHandler<MouseEvent>() {
-          @Override public void handle(MouseEvent event) {
-            if (event.getClickCount() == 2)
-              mask.getStage().close();
-          }
-        });
-        mask.getStage().setOnHiding(new EventHandler<WindowEvent>() {
+        mask.getStage().setOnHidden(new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
-            SongCursor songCursor = getSongCursor();
-            AddPartService addPartService = new AddPartService();
-            SongPart newSongPart = addPartService.addPartAfter(songCursor); //TODO move to service together with addPartBefore
-            String selectedItem = addPartController.getLviTypes().getSelectionModel().getSelectedItem();
-            SongPart copiedPart = addPartController.getSongPart(selectedItem);
-            SongPartType songPartType = addPartController.getNewType(selectedItem);
-            if (copiedPart != null) {
-              newSongPart.setSongPartType(copiedPart.getSongPartType());
-              newSongPart.setReferencedSongPart(copiedPart.getId());
-            }
-            else
-              newSongPart.setSongPartType(songPartType);
+            LOGGER.info("onHidden called on addAfter");
+            if (addPartController.getSelectedType() != null) {
+              LOGGER.info("... with selected type " + addPartController.getSelectedType());
 
-            getSongEditor().reload();
+              SongCursor songCursor = getSongCursor();
+              AddPartService addPartService = new AddPartService();
+              SongPart newSongPart = addPartService
+                  .addPartAfter(songCursor); //TODO move to service together with addPartBefore
+              String selectedItem = addPartController.getSelectedType();
+              SongPart copiedPart = addPartController.getSongPart(selectedItem);
+              SongPartType songPartType = addPartController.getNewType(selectedItem);
+              if (copiedPart != null) {
+                newSongPart.setSongPartType(copiedPart.getSongPartType());
+                newSongPart.setReferencedSongPart(copiedPart.getId());
+              } else
+                newSongPart.setSongPartType(songPartType);
+
+              getSongEditor().reload();
+            }
           }
         });
         mask.show();
       }
     });
 
-
-
     bbaSongPartActions.setVisible(false);
     bbaSongPartActions.setFillWidth(false);
     bbaSongPartActions.getChildren().addAll(btnAddBefore,
-                                            //btnMoveUp,
-                                            btnRemove,
-                                            //btnMoveDown,
-                                            btnAddAfter);
+        //btnMoveUp,
+        btnRemove,
+        //btnMoveDown,
+        btnAddAfter);
 
     rootPane.setSpacing(5);
     rootPane.setAlignment(Pos.CENTER_LEFT);
 
-
     setIndex("parteditor");
-
 
     rootPane.getChildren().add(bbaSongPartActions);
     rootPane.getChildren().add(titledPane);
@@ -320,7 +288,7 @@ public class PartEditor extends PanelHolder {
 
   }
 
-  private SongPart getShownPart () {
+  private SongPart getShownPart() {
     SongPart shownPart = part;
     if (part.getReferencedSongPart() != null)
       shownPart = songEditor.getSong().findSongPartByUUID(part.getReferencedSongPart());
@@ -330,7 +298,7 @@ public class PartEditor extends PanelHolder {
   public void reload() {
     contentPane.getChildren().clear();
 
-    for (int i = 0 ; i < getShownPart().getLines().size(); i++) {
+    for (int i = 0; i < getShownPart().getLines().size(); i++) {
       Line nextLine = getShownPart().getLines().get(i);
       LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, partIndex, i);
       lineEditors.add(lineEditor);
