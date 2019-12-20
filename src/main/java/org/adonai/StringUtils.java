@@ -26,6 +26,10 @@ public class StringUtils {
     return CharBuffer.allocate( spaces ).toString().replace( '\0', ' ' );
   }
 
+  public final static String removeWhitespaces (final String withWhiteSpaces) {
+    return withWhiteSpaces.replace(" ", "");
+  }
+
   /**
    *
    * @param name

@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import org.adonai.PlaylistExport;
+import org.adonai.StringUtils;
 import org.adonai.export.AbstractDocumentBuilder;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
@@ -136,6 +137,8 @@ public class SettingsExportController extends AbstractSettingsController {
       SettingsExportConfigurationController settingsExportConfigurationController = loader.getController();
       settingsExportConfigurationController.setExportConfiguration(exportConfiguration);
       TitledPane titledPane = new TitledPane(exportConfiguration.getName(), root);
+      titledPane.setUserData("tpa" + StringUtils.removeWhitespaces(exportConfiguration.getName()));
+      LOGGER.info("ExportConfiguration " + titledPane.getUserData() + " created");
 
       String icon = resources.getString(exportConfiguration.getDocumentBuilderClass() + "_icon_black");
       if (LOGGER.isDebugEnabled())

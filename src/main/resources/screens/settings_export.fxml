@@ -14,14 +14,14 @@
 
 
     <Label text="Path" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <TextField fx:id="txtExportpath" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <TextField fx:id="txtExportpath" userData="settings_export.txtExportpath" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
     <Label text="Schemas" GridPane.valignment="TOP" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <Accordion fx:id="accExportschemas" GridPane.columnIndex="1" GridPane.rowIndex = "1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
+    <Accordion fx:id="accExportschemas" userData="settings_export.accExportschemas" GridPane.columnIndex="1" GridPane.rowIndex = "1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
 
     <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" spacing="5">
-        <Button text="Clone" fx:id="btnCloneConfiguration"></Button>
-        <Button text="Remove" fx:id="btnRemoveConfiguration"></Button>
+        <Button text="Clone" fx:id="btnCloneConfiguration" userData="settings_export.btnCloneConfiguration"></Button>
+        <Button text="Remove" fx:id="btnRemoveConfiguration" userData="settings_export.btnRemoveConfiguration"></Button>
 
     </VBox>
 
