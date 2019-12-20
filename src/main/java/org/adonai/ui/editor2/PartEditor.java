@@ -318,10 +318,6 @@ public class PartEditor extends PanelHolder {
 
   }
 
-  public LineEditor getLastLineEditor() {
-    return lineEditors.get(lineEditors.size() - 1);
-  }
-
   public LineEditor getFirstLineEditor() {
     return !lineEditors.isEmpty() ? lineEditors.get(0) : null;
   }
@@ -330,11 +326,6 @@ public class PartEditor extends PanelHolder {
     return lineEditors;
   }
 
-  public void save() {
-    for (LineEditor nextLine : lineEditors) {
-      nextLine.save();
-    }
-  }
 
   public SongEditor getSongEditor() {
     return songEditor;
@@ -342,14 +333,6 @@ public class PartEditor extends PanelHolder {
 
   public SongPart getPart() {
     return part;
-  }
-
-  public boolean hasChanged() {
-    for (LineEditor nextLine : lineEditors) {
-      if (nextLine.hasChanged())
-        return true;
-    }
-    return false;
   }
 
 }

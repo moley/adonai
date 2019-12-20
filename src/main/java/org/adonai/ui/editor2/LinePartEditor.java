@@ -291,10 +291,6 @@ public class LinePartEditor extends PanelHolder {
     return cursor;
   }
 
-  public void save() {
-    getLinePart().setText(txtText.getText());
-    getLinePart().setChord(lblChord.getText());
-  }
 
   public String toString() {
     return linePart.toString();
@@ -317,14 +313,6 @@ public class LinePartEditor extends PanelHolder {
     if (linePart != null ? !linePart.equals(that.linePart) : that.linePart != null)
       return false;
     return root != null ? root.equals(that.root) : that.root == null;
-  }
-
-  public boolean hasChanged() {
-    if (lblChord.getText() != null ? !lblChord.getText().equals(linePart.getChord()) : linePart.getChord() != null)
-      return true;
-    if (txtText.getText() != null ? !txtText.getText().equals(linePart.getText()) : linePart.getText() != null)
-      return true;
-    return false;
   }
 
 }

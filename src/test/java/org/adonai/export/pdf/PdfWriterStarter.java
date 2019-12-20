@@ -1,20 +1,18 @@
 package org.adonai.export.pdf;
 
-import org.adonai.export.ExportConfiguration;
-import org.adonai.export.ExportException;
-import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
-import org.adonai.model.Song;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import org.adonai.export.ExportConfiguration;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Song;
 
 public class PdfWriterStarter {
 
-  public final static void main (final String [] args) throws IOException, ExportException {
+  public final static void main (final String [] args) throws IOException {
     File tmpExportFile = Files.createTempFile(PdfWriterStarter.class.getSimpleName(), "exportWithSongs").toFile();
     ConfigurationService configurationService = new ConfigurationService();
     Configuration configuration = configurationService.get();

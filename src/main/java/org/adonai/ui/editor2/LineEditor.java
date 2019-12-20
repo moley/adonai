@@ -48,10 +48,6 @@ public class LineEditor extends PanelHolder {
 
   }
 
-  public HBox getContent () {
-    return content;
-  }
-
   public PartEditor getPartEditor () {
     return partEditor;
   }
@@ -83,8 +79,6 @@ public class LineEditor extends PanelHolder {
     return linePartEditors.get(index);
   }
 
-
-
   public Line getLine (){
     return line;
   }
@@ -93,43 +87,8 @@ public class LineEditor extends PanelHolder {
     return linePartEditors;
   }
 
-
-  public void select(final LineEditor lastPosition) {
-    int oldCaretPosition = lastPosition.getCaretPosition();
-    TextField txtFieldNew = linePartEditors.get(0).getTxtText();
-    txtFieldNew.requestFocus();
-    txtFieldNew.positionCaret(Math.min(oldCaretPosition, txtFieldNew.getText().length()));
-
-  }
-
-  public LinePartEditor getFirstLinePartEditor () {
-    return ! linePartEditors.isEmpty() ? linePartEditors.get(0): null;
-  }
-
-  public int getCaretPosition () {
-    TextField txtFieldNew = linePartEditors.get(0).getTxtText();
-    return txtFieldNew.getCaretPosition();
-  }
-
-
-
-  public void save () {
-    for (LinePartEditor linePartEditor: linePartEditors) {
-      linePartEditor.save();
-    }
-  }
-
   public String toString () {
     return line.toString();
   }
 
-  public boolean hasChanged() {
-    for (LinePartEditor linePartEditor: linePartEditors) {
-      if (linePartEditor.hasChanged()) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }

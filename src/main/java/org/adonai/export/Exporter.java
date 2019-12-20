@@ -15,7 +15,7 @@ public interface Exporter {
    * @param config
    * @throws Exception
    */
-  void export (final Collection<Song> songs, final File exportFile, final ExportConfiguration config) throws ExportException;
+  void export (final Collection<Song> songs, final File exportFile, final ExportConfiguration config);
 
   /**
    * gets the suffix for this export

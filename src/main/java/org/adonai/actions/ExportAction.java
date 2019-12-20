@@ -1,11 +1,12 @@
 package org.adonai.actions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import org.adonai.CreatePlaylistService;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
-import org.adonai.export.ExportException;
 import org.adonai.export.ReferenceStrategy;
 import org.adonai.export.pdf.PdfExporter;
 import org.adonai.model.Additional;
@@ -13,13 +14,6 @@ import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.SongPartDescriptorStrategy;
-
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.io.File;
-import java.util.Collection;
-import org.adonai.ui.mainpage.MainPageController;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +60,7 @@ public class ExportAction {
 
     File exportFile = new File(exportPath, name + "_Chords.pdf");
     exportFile.getParentFile().mkdirs();
-    try {
-      writer.export(songs, exportFile, exportConfiguration);
-    } catch (ExportException e) {
-      throw new IllegalStateException(e);
-    }
+    writer.export(songs, exportFile, exportConfiguration);
     LOGGER.info("Exported with chords " + exportPath.getAbsolutePath());
 
     //Without chords
@@ -88,11 +78,7 @@ public class ExportAction {
 
     File exportFileNoChords = new File(exportPath, name + ".pdf");
     exportFileNoChords.getParentFile().mkdirs();
-    try {
-      writer.export(songs, exportFileNoChords, exportConfigurationNoChords);
-    } catch (ExportException e) {
-      throw new IllegalStateException(e);
-    }
+    writer.export(songs, exportFileNoChords, exportConfigurationNoChords);
     LOGGER.info("Exported without chords " + exportPath.getAbsolutePath());
 
     File songsPath = new File (exportPath, "mp3s");

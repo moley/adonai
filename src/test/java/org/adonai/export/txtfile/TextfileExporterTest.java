@@ -1,26 +1,24 @@
 package org.adonai.export.txtfile;
 
-import org.adonai.export.ReferenceStrategy;
-import org.adonai.model.SongPartDescriptorStrategy;
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.adonai.StringUtils;
-import org.adonai.export.AbstractExportTest;
-import org.adonai.export.ExportConfiguration;
-import org.adonai.export.ExportException;
-import org.adonai.export.Exporter;
-import org.adonai.model.SongBuilder;
-import org.adonai.model.SongPartType;
-import org.adonai.SizeInfo;
-import org.adonai.model.Song;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import org.adonai.SizeInfo;
+import org.adonai.StringUtils;
+import org.adonai.export.AbstractExportTest;
+import org.adonai.export.ExportConfiguration;
+import org.adonai.export.Exporter;
+import org.adonai.export.ReferenceStrategy;
+import org.adonai.model.Song;
+import org.adonai.model.SongBuilder;
+import org.adonai.model.SongPartDescriptorStrategy;
+import org.adonai.model.SongPartType;
+import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TextfileExporterTest extends AbstractExportTest {
 
@@ -33,7 +31,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void numbersForReferencesPart () throws IOException, ExportException {
+  public void numbersForReferencesPart () throws IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withPartId("1").withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
     songBuilder.withPartReference("1", SongPartType.VERS).withQuantity(2).withLine().withLinePart("Second", "F");
@@ -49,7 +47,7 @@ public class TextfileExporterTest extends AbstractExportTest {
 
   }
   @Test
-  public void exportEmptyPartWithStructure () throws IOException, ExportException {
+  public void exportEmptyPartWithStructure () throws IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.INTRO).withLine().withLinePart("", "C").withLinePart("", "G");
     songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
@@ -66,7 +64,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportOnlyChordPart () throws ExportException, IOException {
+  public void exportOnlyChordPart () throws IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("", "A").withLinePart("", "D").withLinePart("", "A");
     List<Song> songs = Arrays.asList(songBuilder.get());
@@ -80,7 +78,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportFilterEmptyPart () throws ExportException, IOException {
+  public void exportFilterEmptyPart () throws IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withLine().withLinePart("This is a vers", "A");
     songBuilder.withPart(SongPartType.INSTRUMENTAL).withLinePart("", "A").withLinePart(" ", "D");
@@ -98,7 +96,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportLeftBorder () throws ExportException, IOException {
+  public void exportLeftBorder () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setLeftBorder(new Double(5));
@@ -112,7 +110,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportUpperBorder () throws ExportException, IOException {
+  public void exportUpperBorder () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setUpperBorder(new Double(1));
@@ -126,7 +124,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportChordTextDistance () throws ExportException, IOException {
+  public void exportChordTextDistance () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setChordTextDistance(new Double(2));
@@ -143,7 +141,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportInterLineDistance () throws ExportException, IOException {
+  public void exportInterLineDistance () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setInterLineDistance(new Double(2));
@@ -158,7 +156,7 @@ public class TextfileExporterTest extends AbstractExportTest {
 
   }
   @Test
-  public void exportWithChords () throws ExportException, IOException {
+  public void exportWithChords () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(true);
@@ -181,7 +179,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithoutChords () throws IOException, ExportException {
+  public void exportWithoutChords () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(false);
@@ -197,7 +195,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithChordsSmallSize () throws ExportException, IOException {
+  public void exportWithChordsSmallSize () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(true);
@@ -207,7 +205,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithoutChordsSmallSize () throws IOException, ExportException {
+  public void exportWithoutChordsSmallSize () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(false);
@@ -217,7 +215,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithChordsTooSmall () throws ExportException, IOException {
+  public void exportWithChordsTooSmall () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(true);
@@ -227,7 +225,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithoutChordsTooSmall () throws IOException, ExportException {
+  public void exportWithoutChordsTooSmall () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.initializeValues();
@@ -238,7 +236,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportWithTitleAndId () throws IOException, ExportException {
+  public void exportWithTitleAndId () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithTitle(true);

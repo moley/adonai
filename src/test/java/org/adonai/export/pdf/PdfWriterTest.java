@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.adonai.export.AbstractExportTest;
 import org.adonai.export.ExportConfiguration;
-import org.adonai.export.ExportException;
 import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenContainer;
 import org.adonai.export.ExportTokenNewPage;
@@ -37,7 +36,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportEmptyPartWithStructure () throws IOException, ExportException {
+  public void exportEmptyPartWithStructure () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
 
     SongBuilder songBuilder = new SongBuilder();
@@ -71,7 +70,7 @@ public class PdfWriterTest extends AbstractExportTest {
 
 
   @Test
-  public void exportSongPartReference () throws IOException, ExportException {
+  public void exportSongPartReference () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     Song song = getSongWithReference();
     PdfExporter pdfExporter = new PdfExporter();
@@ -94,7 +93,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportSongPartDescriptorStrategyLong () throws IOException, ExportException {
+  public void exportSongPartDescriptorStrategyLong () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
     PdfExporter pdfExporter = new PdfExporter();
@@ -114,7 +113,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportSongPartDescriptorStrategyShort () throws IOException, ExportException {
+  public void exportSongPartDescriptorStrategyShort () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
     PdfExporter pdfExporter = new PdfExporter();
@@ -133,7 +132,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void export () throws IOException, ExportException {
+  public void export () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "export").toFile();
     List<Song> songs = getExportTestData();
     PdfExporter pdfExporter = new PdfExporter();
@@ -157,7 +156,7 @@ public class PdfWriterTest extends AbstractExportTest {
 
 
   @Test
-  public void emptySecondSide () throws IOException, ExportException {
+  public void emptySecondSide () throws IOException {
     Song layoutTestSong = getTestdata("emptySecondSide");
 
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "emptySecondSide").toFile();
@@ -175,7 +174,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void exportLayout () throws IOException, ExportException {
+  public void exportLayout () throws IOException {
 
     Song layoutTestSong = getTestdata("layouttest");
 
@@ -195,7 +194,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void firstChordEmpty () throws IOException, ExportException {
+  public void firstChordEmpty () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "emptychord").toFile();
 
     Song layoutTestSong = getTestdata("emptychord");
@@ -212,7 +211,7 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   @Test
-  public void songMultiSides () throws IOException, ExportException {
+  public void songMultiSides () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "multisides").toFile();
 
     Song layoutTestSong = getTestdata("multisides");
