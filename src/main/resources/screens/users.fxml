@@ -24,5 +24,9 @@
     <TextField fx:id="txtUsername" userData="users.txtUsername" GridPane.columnIndex="2" GridPane.rowIndex="1"
                GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
 
+    <Label text="Mailadresse" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="txtMailadress" userData="users.txtMailadress" GridPane.columnIndex="2" GridPane.rowIndex="2"
+               GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
+
 
 </GridPane>

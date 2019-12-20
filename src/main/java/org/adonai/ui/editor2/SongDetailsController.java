@@ -49,7 +49,7 @@ public class SongDetailsController {
 
 
   private Configuration configuration;
-  
+
   public void setConfiguration(Configuration configuration) {
     this.configuration = configuration;
   }

@@ -23,6 +23,9 @@ public class UsersController {
   TextField txtUsername;
 
   @FXML
+  TextField txtMailadress;
+
+  @FXML
   Button btnAddUser;
 
   @FXML
@@ -76,10 +79,14 @@ public class UsersController {
   }
 
   public void select (User oldUser, User user) {
-    if (oldUser != null)
+    if (oldUser != null) {
       this.txtUsername.textProperty().unbindBidirectional(oldUser.usernameProperty());
+      this.txtMailadress.textProperty().unbindBidirectional(oldUser.mailProperty());
+    }
 
-    if (user != null)
+    if (user != null) {
       this.txtUsername.textProperty().bindBidirectional(user.usernameProperty());
+      this.txtMailadress.textProperty().bindBidirectional(user.mailProperty());
+    }
   }
 }

@@ -4,7 +4,7 @@ import java.io.File;
 
 public interface OnlineAdapter {
 
-  void upload (final File configFile);
+  String upload (final File configFile, final String path);
 
   File download (final File folder);
 }

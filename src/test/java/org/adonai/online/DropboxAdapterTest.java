@@ -60,7 +60,7 @@ public class DropboxAdapterTest {
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
     dropboxAdapter.getAdonaiProperties().setProperty(DropboxAdapter.PROPERTY_DROPBOX_ACCESSTOKEN, "helloworld");
-    dropboxAdapter.upload(configFile);
+    dropboxAdapter.upload(configFile, "");
 
   }
 
