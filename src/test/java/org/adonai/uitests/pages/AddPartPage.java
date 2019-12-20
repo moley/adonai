@@ -23,7 +23,7 @@ public class AddPartPage extends AbstractPage {
     LOGGER.info("Search <" + query + ">");
     applicationTest.clickOn(getTxtSearch());
     applicationTest.write(query);
-    pressAndRelease(applicationTest, KeyCode.DOWN);
+    pressAndRelease(KeyCode.DOWN);
     LOGGER.info("Text found: <" + getTxtSearch().getText() + ">");
     LOGGER.info("Items found: " + getLviTypes().getItems());
     LOGGER.info("Selected item: " + getLviTypes().getSelectionModel().getSelectedItem());
@@ -35,9 +35,9 @@ public class AddPartPage extends AbstractPage {
   public void cancelSearch (final String query) {
     LOGGER.info("Search " + query);
     applicationTest.write(query);
-    pressAndRelease(applicationTest, KeyCode.DOWN);
+    pressAndRelease(KeyCode.DOWN);
     LOGGER.info("Selected item: " + getLviTypes().getSelectionModel().getSelectedItem());
-    pressAndRelease(applicationTest, KeyCode.ESCAPE);
+    pressAndRelease(KeyCode.ESCAPE);
 
     LOGGER.info("Searched " + query);
   }

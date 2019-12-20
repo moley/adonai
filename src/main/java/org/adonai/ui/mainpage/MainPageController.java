@@ -475,6 +475,7 @@ public class MainPageController {
     //Button Configurations
     Button btnConfigurations = new Button();
     btnConfigurations.setTooltip(new Tooltip("Configure adonai"));
+    btnConfigurations.setUserData("mainpage.btnConfigurations");
 
     btnConfigurations.setGraphic(Consts.createIcon("fa-wrench", iconSizeToolbar));
     tbaActions.getItems().add(btnConfigurations);

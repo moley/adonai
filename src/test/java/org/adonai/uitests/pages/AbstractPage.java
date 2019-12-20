@@ -23,7 +23,7 @@ public class AbstractPage<T> {
     return MyNodeMatchers.withUserData(userdata);
   }
 
-  public void pressAndRelease (ApplicationTest applicationTest, KeyCode keyCode) {
+  public void pressAndRelease (KeyCode keyCode) {
     applicationTest.press(keyCode).release(keyCode);
   }
 

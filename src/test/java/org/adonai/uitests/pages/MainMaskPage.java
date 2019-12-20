@@ -58,6 +58,10 @@ public class MainMaskPage extends AbstractPage {
     return applicationTest.lookup(nodeWithUserData("mainpage.togSongbooks")).query();
   }
 
+  private Button getBtnConfigurations () {
+    return applicationTest.lookup(nodeWithUserData("mainpage.btnConfigurations")).query();
+  }
+
 
   public ToggleButton getBtnSessions () {
     return applicationTest.lookup(nodeWithUserData("mainpage.togSessions")).query();
@@ -173,6 +177,11 @@ public class MainMaskPage extends AbstractPage {
   public void selectMp3 () {
     applicationTest.clickOn(getBtnMp3()).sleep(1000);
 
+  }
+
+  public ConfigurationsPage configurations () {
+    applicationTest.clickOn(getBtnConfigurations());
+    return new ConfigurationsPage (applicationTest);
   }
 
   public void add () {
