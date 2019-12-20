@@ -6,13 +6,16 @@ import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
+import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.uitests.pages.AddPartPage;
+import org.adonai.uitests.pages.ImportSongWizardPage;
 import org.adonai.uitests.pages.SongDetailsPage;
 import org.adonai.uitests.pages.SongEditorPage;
 import org.adonai.uitests.pages.MainMaskPage;
 import org.adonai.uitests.pages.SelectAdditionalPage;
+import org.adonai.uitests.pages.SongPartDetailsPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,11 +56,36 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   }
 
   @Test
+  public void addNewSongInSongView () {
+    int numberOfSongsBefore = mainMaskPage.getSongsInSongbook().size();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
+    mainMaskPage.add();
+    final String TITLE_TEST = "Test";
+    ImportSongWizardPage importSongWizardPage = new ImportSongWizardPage(this);
+    importSongWizardPage.newSong(TITLE_TEST);
+    Assert.assertEquals ("5 - TEST", mainMaskPage.getCurrentContentText());
+    mainMaskPage.stepToSongbook();
+    int numberOfSongsAfter = mainMaskPage.getSongsInSongbook().size();
+    Assert.assertEquals ("Number of songs did not increase", numberOfSongsBefore + 1, numberOfSongsAfter);
+  }
+
+  @Test
+  public void editSongPartDetails () {
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
+    SongPartDetailsPage songPartDetailsPage = songEditorPage.clickPartHeader(0);
+    songPartDetailsPage.setQuantity("10");
+    mainMaskPage.getApplicationTest().type(KeyCode.ESCAPE);
+    mainMaskPage.stepToSongbook();
+    Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
+    SongPart selectedSongPart = selectedSong.getSongParts().get(0);
+    Assert.assertEquals ("10", selectedSongPart.getQuantity());
+  }
+
+  @Test
   public void editSongDetails () {
-    mainMaskPage.stepToSong(0);
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     SongDetailsPage songDetailsPage = songEditorPage.songDetailsPage();
-    Assert.assertEquals ("Song1", songDetailsPage.getTitle());
+    Assert.assertEquals ("SONG1", songDetailsPage.getTitle());
 
     songDetailsPage.setTitle("Song1Changed");
 
@@ -70,8 +98,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void addPartAfter () {
-    mainMaskPage.stepToSong(0);
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     songEditorPage.mouseOverSongPartHeader(0);
     AddPartPage addPartPage = songEditorPage.addAfter(0);
     addPartPage.search("New Intro");
@@ -82,8 +109,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void cancelAddPartAfter () {
-    mainMaskPage.stepToSong(0);
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     songEditorPage.mouseOverSongPartHeader(0);
     AddPartPage addPartPage = songEditorPage.addAfter(0);
     addPartPage.cancelSearch("New Intro");
@@ -94,8 +120,8 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void addPartBefore () {
-    mainMaskPage.stepToSong(0);
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
+
     songEditorPage.mouseOverSongPartHeader(0);
     AddPartPage addPartPage = songEditorPage.addBefore(0);
     addPartPage.search("New Intro");
@@ -106,8 +132,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void cancelAddPartBefore () {
-    mainMaskPage.stepToSong(0);
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     songEditorPage.mouseOverSongPartHeader(0);
     AddPartPage addPartPage = songEditorPage.addBefore(0);
     addPartPage.cancelSearch("New Intro");
@@ -118,9 +143,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void enterValidChord () throws InterruptedException {
-    mainMaskPage.stepToSong(0);
-
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     String text = songEditorPage.getSongLinePartText(0, 0,0);
     Assert.assertEquals ("First textfield invalid content", "This is a", text.trim());
     songEditorPage.chord("G");
@@ -130,9 +153,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   @Test
   public void enterInvalidChord () throws InterruptedException {
-    mainMaskPage.stepToSong(0);
-
-    SongEditorPage songEditorPage = mainMaskPage.songEditorPage();
+    SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     String text = songEditorPage.getSongLinePartText(0, 0,0);
     Assert.assertEquals ("First textfield invalid content", "This is a", text.trim());
     songEditorPage.chord("Ghh");
@@ -158,14 +179,8 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     for (Song next: configuration.getSongBooks().get(0).getSongs()) {
       LOGGER.info("Next: " + next.getAdditionals());
     }
-
-
     firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
     Assert.assertTrue ("Wrong additional added", firstSong.getAdditionals().get(0).getLink().endsWith("build/testdata/additionals/AnotherMp3.mp3"));
-
-
-
-
   }
 
 

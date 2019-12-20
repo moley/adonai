@@ -197,8 +197,10 @@ public class MainPageController {
               Song song = addSongHandler.getNewSong();
               LOGGER.info("New song " + song + " created");
               if (song != null) {
-                currentSong.getSongParts().clear();
-                currentSong.getSongParts().addAll(song.getSongParts());
+                SongBook songBook = getCurrentSongBook();
+                AddSongService addSongService = new AddSongService();   //Add new song to songbook
+                addSongService.addSong(song, songBook);
+                currentSong = song;
                 refreshListViews(song);                                 //Refresh list data and select the new song in editor
                 selectSong(song);
               }

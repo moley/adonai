@@ -4,15 +4,17 @@ import org.adonai.model.*;
 
 public class AddSongService {
 
-  public Song createSong (String title) {
+  public Song createSong (String title, final boolean withDefaultPart) {
     Song newSong = new Song();
     newSong.setTitle(title != null ? title.toUpperCase(): "NEW SONG");
-    SongPart songPart = new SongPart();
-    songPart.setSongPartType(SongPartType.INTRO);
-    Line newLine = new Line();
-    newLine.getLineParts().add(new LinePart());
-    songPart.getLines().add(newLine);
-    newSong.getSongParts().add(songPart);
+    if (withDefaultPart) {
+      SongPart songPart = new SongPart();
+      songPart.setSongPartType(SongPartType.VERS);
+      Line newLine = new Line();
+      newLine.getLineParts().add(new LinePart());
+      songPart.getLines().add(newLine);
+      newSong.getSongParts().add(songPart);
+    }
     return newSong;
   }
 
@@ -27,14 +29,10 @@ public class AddSongService {
   }
 
   public Song addSong (final Song newSong, final SongBook songBook) {
+    if (newSong.getSongParts().isEmpty())
+      throw new IllegalStateException("You cannot add a song with no songparts");
 
     newSong.setId(getNextNumber(songBook));
-
-    SongPart newSongpart = new SongPart();
-    newSong.getSongParts().add(newSongpart);
-
-    Line line = new Line(" ");
-    newSongpart.getLines().add(line);
 
     songBook.getSongs().add(newSong);
 

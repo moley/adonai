@@ -107,6 +107,11 @@ public class SongEditorPage extends AbstractPage {
     applicationTest.moveTo(getSongPartHeader(partIndex));
   }
 
+  public SongPartDetailsPage clickPartHeader (final int partIndex) {
+    applicationTest.clickOn(getSongPartHeader(partIndex));
+    return new SongPartDetailsPage(applicationTest);
+  }
+
   public AddPartPage addBefore (final int partIndex) {
     applicationTest.clickOn(getBtnAddBefore(partIndex));
     return new AddPartPage(applicationTest);

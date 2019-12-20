@@ -36,9 +36,24 @@ public class ImportFromClipBoardPage extends WizardPage {
   }
 
   void nextPage() {
-    TextfileReader textfileReader = new TextfileReader();
-    TextfileReaderParam param = new TextfileReaderParam();
-    controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n")), param));
+    importTextArea();
     navTo(PreviewPage.TITLE);
   }
+
+  void finish () {
+    importTextArea();
+    super.finish();
+  }
+
+  void importTextArea () {
+    if (! txaImport.getText().trim().isEmpty()) {
+      TextfileReader textfileReader = new TextfileReader();
+      TextfileReaderParam param = new TextfileReaderParam();
+      controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n")), param));
+    }
+
+
+  }
+
+
 }

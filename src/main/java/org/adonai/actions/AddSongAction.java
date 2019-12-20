@@ -21,7 +21,6 @@ public class AddSongAction {
 
     songImportController = new SongImportController();
     songImportController.setSongBook(songBook);
-    songImportController.setSongToImport(null);
     Stage stage = new Stage();
     stage.setWidth(Consts.getDefaultWidth());
     stage.setHeight(Consts.getDefaultHeight());

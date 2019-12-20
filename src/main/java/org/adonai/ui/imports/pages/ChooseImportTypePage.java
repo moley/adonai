@@ -17,12 +17,10 @@ public class ChooseImportTypePage extends WizardPage {
 
   public ChooseImportTypePage(final SongImportController controller) {
     super(TITLE, controller);
-
-
-
     fromTextFile.setToggleGroup(options);
     newSong.setToggleGroup(options);
     options.selectToggle(fromTextFile);
+    finishButton.setDisable(true);
 
   }
 
@@ -38,6 +36,7 @@ public class ChooseImportTypePage extends WizardPage {
 
   void nextPage() {
     // If they have complaints, go to the normal next page
+    finishButton.setDisable(false);
     Toggle selectedToggle = options.getSelectedToggle();
     if (selectedToggle.equals(fromTextFile)) {
       navTo(ImportFromClipBoardPage.TITLE);

@@ -39,8 +39,8 @@ public abstract class WizardPage extends VBox {
 
     priorButton.setOnAction(event -> priorPage());
     nextButton.setOnAction(event -> nextPage());
-    cancelButton.setOnAction(event -> getWizard().cancel());
-    finishButton.setOnAction(event -> getWizard().finish());
+    cancelButton.setOnAction(event -> cancel());
+    finishButton.setOnAction(event -> finish());
   }
 
   HBox getButtons() {
@@ -65,6 +65,14 @@ public abstract class WizardPage extends VBox {
 
   void nextPage() {
     getWizard().nextPage();
+  }
+
+  void finish() {
+    getWizard().finish();
+  }
+
+  void cancel () {
+    getWizard().cancel();
   }
 
   void priorPage() {

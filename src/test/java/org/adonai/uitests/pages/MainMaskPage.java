@@ -124,11 +124,12 @@ public class MainMaskPage extends AbstractPage {
     applicationTest.write(searchString);
   }
 
-  public void stepToSong (int index) {
+  public SongEditorPage stepToSong (int index) {
     LOGGER.info("stepToSong " + index);
     stepToSongbook();
     getLviSongs().getSelectionModel().select(index);
     applicationTest.doubleClickOn(getLviSongs());
+    return new SongEditorPage(applicationTest);
   }
 
   public TextField getTxtSearch() {

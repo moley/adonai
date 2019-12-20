@@ -55,7 +55,7 @@ public class TestDataCreator {
     user2.setMail("user2@gmail.com");
     user2.setUsername("user2");
 
-    Song song1 = createSong("Song1");
+    Song song1 = createSong("Song1", false);
     song1.setCurrentKey("C");
     song1.setOriginalKey("G");
 
@@ -89,9 +89,9 @@ public class TestDataCreator {
     song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
     song1.setPreset("preset");
     song1.setLeadVoice(user1);
-    Song song2 = createSong("Song2");
-    Song song3 = createSong("Song3");
-    Song song4 = createSong("Song4");
+    Song song2 = createSong("Song2", true);
+    Song song3 = createSong("Song3", true);
+    Song song4 = createSong("Song4", true);
     addSongService.addSong(song1, songBook);
     addSongService.addSong(song2, songBook);
     addSongService.addSong(song3, songBook);
@@ -138,9 +138,8 @@ public class TestDataCreator {
 
   }
 
-  private static Song createSong(final String title) {
-    Song song = new Song();
-    song.setTitle(title);
-    return song;
+  private static Song createSong(final String title, final boolean withDefaultPart) {
+    AddSongService addSongService = new AddSongService();
+    return addSongService.createSong(title, withDefaultPart);
   }
 }

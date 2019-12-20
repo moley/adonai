@@ -2,6 +2,7 @@ package org.adonai.ui.imports.pages;
 
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 import org.adonai.services.AddSongService;
 import org.adonai.ui.imports.SongImportController;
@@ -20,12 +21,12 @@ public class NewSongPage extends WizardPage {
   public Parent getContent() {
     txtTitle = new TextField();
     txtTitle.setUserData("importsongwizard.txtTitle");
-    txtTitle.setPromptText("Please type the name of your new song");
-    nextButton.setDisable(true);
-    txtTitle.textProperty().addListener((observableValue, oldValue, newValue) -> {
-      nextButton.setDisable(newValue.isEmpty());
-      finishButton.setDisable(true);
-    });
+    txtTitle.selectAll();
+    txtTitle.setTextFormatter(new TextFormatter<>((change) -> {
+      change.setText(change.getText().toUpperCase());
+      return change;
+    }));
+    txtTitle.textProperty().bindBidirectional(controller.getSongToImport().titleProperty());
 
     return new VBox(
       5,
@@ -34,9 +35,7 @@ public class NewSongPage extends WizardPage {
   }
 
   public void nextPage() {
-
-    AddSongService addSongService = new AddSongService();
-    controller.setSongToImport(addSongService.createSong(txtTitle.getText()));
     navTo(PreviewPage.TITLE);
   }
+
 }

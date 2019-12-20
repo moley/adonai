@@ -11,8 +11,8 @@ public class AddSongServiceTest {
 
   @Test public void addSong() {
     SongBook songBook = new SongBook();
-    Song firstSong = new Song();
-    Song secondSong = new Song();
+    Song firstSong = addSongService.createSong("Hello", true);
+    Song secondSong = addSongService.createSong("World", true);
     addSongService.addSong(firstSong, songBook);
     addSongService.addSong(secondSong, songBook);
 
@@ -20,10 +20,17 @@ public class AddSongServiceTest {
     Assert.assertEquals(Integer.valueOf(2), secondSong.getId());
   }
 
-  @Test public void createSong() {
-    Song song = addSongService.createSong("My way");
+  @Test public void createSongWithDefaultPart() {
+    Song song = addSongService.createSong("My way", true);
     Assert.assertEquals("MY WAY", song.getTitle());
     Assert.assertEquals(1, song.getSongParts().size());
+
+  }
+
+  @Test public void createSongWithoutDefaultPart() {
+    Song song = addSongService.createSong("My way", false);
+    Assert.assertEquals("MY WAY", song.getTitle());
+    Assert.assertEquals(0, song.getSongParts().size());
 
   }
 }
