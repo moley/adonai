@@ -1,7 +1,6 @@
 package org.adonai.player;
 
 import java.io.File;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import org.slf4j.Logger;
@@ -13,15 +12,20 @@ public class Mp3Player {
 
   private MediaPlayer mediaPlayer;
 
-
+  private MediaPlayerSupport mediaPlayerSupport = new MediaPlayerSupport();
 
   private File currentMp3File;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Mp3Player.class.getName());
 
-  void setFile (final File mp3File, MediaPlayer mp3Player) {
-    this.mediaPlayer = mp3Player;
+  public void setFile (final File mp3File) {
+    if (mp3File == null)
+      throw new IllegalArgumentException("Parameter mp3File must not be null");
 
+    if (! mp3File.exists())
+      throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
+
+    mediaPlayer = mediaPlayerSupport.createMediaPlayer(mp3File);
 
     if (mediaPlayer != null && currentMp3File != null && ! currentMp3File.equals(mp3File)) {
       LOGGER.info("Close former player with file " + currentMp3File.getAbsolutePath());
@@ -44,15 +48,6 @@ public class Mp3Player {
         throw new IllegalStateException("Error playing song " + currentMp3File.getAbsolutePath(), mediaPlayer.getError());
     }
 
-  }
-
-  public void setFile (final File mp3File) {
-    if (mp3File == null)
-      throw new IllegalArgumentException("Parameter mp3File must not be null");
-
-    if (! mp3File.exists())
-      throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
-    setFile(mp3File, new MediaPlayer(new Media(mp3File.toURI().toString())));
   }
 
   public void play () {
@@ -104,19 +99,15 @@ public class Mp3Player {
 
   }
 
-  public MediaPlayer getMediaPlayer() {
-    return mediaPlayer;
-  }
-
   public void setMediaPlayer(MediaPlayer mediaPlayer) {
     this.mediaPlayer = mediaPlayer;
   }
 
-  public File getCurrentMp3File() {
-    return currentMp3File;
-  }
-
   public void setCurrentMp3File(File currentMp3File) {
     this.currentMp3File = currentMp3File;
+  }
+
+  public void setMediaPlayerSupport (MediaPlayerSupport mediaPlayerSupport) {
+    this.mediaPlayerSupport = mediaPlayerSupport;
   }
 }

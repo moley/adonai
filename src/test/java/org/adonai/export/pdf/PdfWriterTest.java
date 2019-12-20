@@ -22,8 +22,13 @@ import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PdfWriterTest extends AbstractExportTest {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PdfWriterTest.class);
+
 
   private boolean openPreview = false;
 
@@ -59,10 +64,12 @@ public class PdfWriterTest extends AbstractExportTest {
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(tmpExportFile, Charset.defaultCharset());
     for (String next: lines) {
-      System.out.println ("> " + next);
+      LOGGER.info("> " + next);
     }
 
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
+    LOGGER.info("ExportTokenContainer: " + exportTokenContainer);
+
     ExportToken firstExportToken = exportTokenContainer.getExportTokenList().get(0);
     Assert.assertEquals ("Part with no text is not exported when exporting without chords", "INTRO", firstExportToken.getText());
 

@@ -21,10 +21,6 @@ public class Configuration {
 
   private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
 
-  private List<String> screensAdmin = new ArrayList<String>();
-
-  private List<String> screensPresentation = new ArrayList<String>();
-
   private List<Session> sessions = new ArrayList<Session>();
 
   private List<SongBook> songBooks = new ArrayList<>();
@@ -55,22 +51,6 @@ public class Configuration {
 
   public void setExtensionPaths(List<String> extensionPaths) {
     this.extensionPaths = extensionPaths;
-  }
-
-  public List<String> getScreensPresentation() {
-    return screensPresentation;
-  }
-
-  public void setScreensPresentation(List<String> screensPresentation) {
-    this.screensPresentation = screensPresentation;
-  }
-
-  public List<String> getScreensAdmin() {
-    return screensAdmin;
-  }
-
-  public void setScreensAdmin(List<String> screensAdmin) {
-    this.screensAdmin = screensAdmin;
   }
 
   @XmlTransient

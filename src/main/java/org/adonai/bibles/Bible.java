@@ -28,14 +28,15 @@ public class Bible {
   }
 
   public BibleBook findBook (final Book book) {
+    BibleBook bibleBook = null;
     for (BibleBook next: getBibleBooks()) {
       if (next.getBook().equals(book)) {
-        return next;
+        bibleBook = next;
+        break;
       }
     }
 
-    throw new IllegalStateException("Book " + book.getBibleserverName() + " not found in bible " + getName());
-
+    return bibleBook;
   }
 
   public Verse findVerse (final Book book, final int chapter, final int verse ) {

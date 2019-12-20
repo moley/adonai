@@ -1,11 +1,14 @@
 package org.adonai.services;
 
-import org.adonai.*;
+import org.adonai.Chord;
+import org.adonai.Key;
+import org.adonai.KeyManager;
+import org.adonai.Note;
+import org.adonai.NoteEntryType;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
-import org.adonai.reader.word.WordReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

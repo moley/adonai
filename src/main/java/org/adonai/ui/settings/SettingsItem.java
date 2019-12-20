@@ -2,13 +2,11 @@ package org.adonai.ui.settings;
 
 public class SettingsItem {
 
-  private String id;
+  private final String id;
 
-  private String icon;
+  private final String icon;
 
-
-
-  private String name;
+  private final String name;
 
   public SettingsItem (final String id, final String name, final String icon) {
     this.id = id;
@@ -20,10 +18,6 @@ public class SettingsItem {
     return id;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
   public String toString () {
     return id;
   }
@@ -33,15 +27,10 @@ public class SettingsItem {
     return icon;
   }
 
-  public void setIcon(String icon) {
-    this.icon = icon;
-  }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+
 }

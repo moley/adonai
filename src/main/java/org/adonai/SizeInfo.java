@@ -29,14 +29,6 @@ public class SizeInfo {
     return width;
   }
 
-  public int getWidthAsInt () {
-    return width.intValue();
-  }
-
-  public int getHeightAsInt () {
-    return height.intValue();
-  }
-
   public Double getHeight() {
     return height;
   }

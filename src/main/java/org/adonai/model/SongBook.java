@@ -11,8 +11,6 @@ import java.util.List;
 @XmlRootElement
 public class SongBook {
 
-  private File file;
-
   private List<Song> songs = new ArrayList<Song>();
 
   public List<Song> getSongs() {
@@ -31,11 +29,4 @@ public class SongBook {
     return null;
   }
 
-  public File getFile() {
-    return file;
-  }
-
-  public void setFile(File file) {
-    this.file = file;
-  }
 }

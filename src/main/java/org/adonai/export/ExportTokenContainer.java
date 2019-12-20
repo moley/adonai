@@ -2,8 +2,13 @@ package org.adonai.export;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.adonai.ui.Consts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExportTokenContainer {
+
+
 
   private List<ExportToken> exportTokenList = new ArrayList<ExportToken>();
 
@@ -36,16 +41,6 @@ public class ExportTokenContainer {
         max = Double.max(max, next.getAreaInfo().getX());
     }
     return max;
-  }
-
-  public List<ExportToken> findTokensByTokenType (ExportTokenType exportTokenType) {
-    List<ExportToken> exportTokens = new ArrayList<ExportToken>();
-    for (ExportToken next: exportTokenList) {
-      if (next.getExportTokenType().equals(exportTokenType))
-        exportTokens.add(next);
-    }
-
-    return exportTokens;
   }
 
   public ExportToken findTokenByText (String text) {
