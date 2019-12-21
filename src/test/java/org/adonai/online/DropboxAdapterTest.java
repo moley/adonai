@@ -6,11 +6,15 @@ import com.dropbox.core.v2.files.DbxUserFilesRequests;
 import com.dropbox.core.v2.files.DownloadBuilder;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.UploadBuilder;
+import com.dropbox.core.v2.sharing.DbxUserSharingRequests;
+import com.dropbox.core.v2.sharing.ListSharedLinksResult;
 import com.dropbox.core.v2.users.DbxUserUsersRequests;
 import com.dropbox.core.v2.users.FullAccount;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -45,6 +49,10 @@ public class DropboxAdapterTest {
     FullAccount mockedFullAcount = Mockito.mock(FullAccount.class);
     Mockito.when(mockedUserUsersRequest.getCurrentAccount()).thenReturn(mockedFullAcount);
     UploadBuilder mockedUploadBuilder = Mockito.mock(UploadBuilder.class);
+    DbxUserSharingRequests mockedDbxUserSharingRequests = Mockito.mock(DbxUserSharingRequests.class);
+    ListSharedLinksResult mockedListSharedLinksResult = Mockito.mock(ListSharedLinksResult.class);
+    Mockito.when(mockedListSharedLinksResult.getLinks()).thenReturn(new ArrayList<>());
+    Mockito.when(mockedDbxUserSharingRequests.listSharedLinks()).thenReturn(mockedListSharedLinksResult);
     Mockito.when(mockedUploadBuilder.withMode(Mockito.any())).thenReturn(mockedUploadBuilder);
     Mockito.when(mockedUploadBuilder.uploadAndFinish(Mockito.any())).thenReturn(mockedFileMetaData);
 
@@ -52,6 +60,7 @@ public class DropboxAdapterTest {
     Mockito.when(mockedUserFileRequests.uploadBuilder(Mockito.anyString())).thenReturn(mockedUploadBuilder);
     Mockito.when(mockedClient.files()).thenReturn(mockedUserFileRequests);
     Mockito.when(mockedClient.users()).thenReturn(mockedUserUsersRequest);
+    Mockito.when(mockedClient.sharing()).thenReturn(mockedDbxUserSharingRequests);
 
     File tmpPath = Files.createTempDir();
     File configFile = new File(tmpPath, "config.xml");
@@ -60,7 +69,7 @@ public class DropboxAdapterTest {
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
     dropboxAdapter.getAdonaiProperties().setProperty(DropboxAdapter.PROPERTY_DROPBOX_ACCESSTOKEN, "helloworld");
-    dropboxAdapter.upload(configFile, "");
+    Assert.assertNull (dropboxAdapter.upload(configFile, ""));
 
   }
 

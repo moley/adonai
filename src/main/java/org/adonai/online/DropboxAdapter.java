@@ -45,7 +45,8 @@ public class DropboxAdapter implements OnlineAdapter {
 
         List<SharedLinkMetadata> links = clientV2.sharing().listSharedLinks().getLinks();
         SharedLinkMetadata sharedLinkMetadata = getOrCreateLinkMetadata(metadata.getPathLower(), links);
-        String url = sharedLinkMetadata.getUrl();
+
+        String url = sharedLinkMetadata != null ? sharedLinkMetadata.getUrl(): null;
         LOGGER.info("URL: " + url);
 
         return url;
