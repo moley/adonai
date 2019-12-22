@@ -5,8 +5,14 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.adonai.ui.JavaFxApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScreenManager {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ScreenManager.class);
+
 
   private Screen primary;
 
@@ -22,6 +28,12 @@ public class ScreenManager {
 
     if (externalScreens.size() > 1)
       throw new IllegalStateException("Multi screen setups with more than one external monitors are currently not supported");
+
+    LOGGER.info("Primary screen:  " + primary.toString() + "(" + primary.getBounds() + ")");
+    for (Screen nextExternalScreen: externalScreens) {
+      LOGGER.info("External screen:  " + nextExternalScreen.toString() + "(" + nextExternalScreen.getBounds() + ")");
+    }
+
   }
 
   public Screen getExternalOrPrimaryScreen () {

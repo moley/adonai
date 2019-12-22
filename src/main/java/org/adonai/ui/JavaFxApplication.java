@@ -6,7 +6,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.adonai.ui.screens.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +31,13 @@ public class JavaFxApplication extends Application {
 
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     scene.getStylesheets().add("/adonai.css");
+    primaryStage.initStyle(StageStyle.UNDECORATED);
+    ScreenManager screenManager = new ScreenManager();
+    Screen primaryScreen = screenManager.getPrimary();
+    primaryStage.setX(primaryScreen.getVisualBounds().getMinX());
+    primaryStage.setY(primaryScreen.getVisualBounds().getMinY());
+    primaryStage.setWidth(primaryScreen.getVisualBounds().getWidth());
+    primaryStage.setHeight(primaryScreen.getVisualBounds().getHeight());
 
     primaryStage.setScene(scene);
     primaryStage.show();

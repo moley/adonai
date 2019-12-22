@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
@@ -36,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.adonai.actions.AddSessionAction;
 import org.adonai.actions.AddSongAction;
@@ -491,6 +493,13 @@ public class MainPageController {
           alert.setTitle("Exit adonai");
           alert.setHeaderText("You have unsaved changes!");
           alert.setContentText("Do you want to save your changes?");
+          DialogPane dialogPane = alert.getDialogPane();
+          alert.initStyle(StageStyle.UNDECORATED);
+          dialogPane.setMinWidth(600);
+          dialogPane.setMinHeight(200);
+          dialogPane.getStylesheets().add("/adonai.css");
+          dialogPane.getStyleClass().add("myDialog");
+
 
           Optional<ButtonType> result = alert.showAndWait();
           if (result.get() == ButtonType.OK) {

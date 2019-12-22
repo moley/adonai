@@ -180,4 +180,24 @@
 }
 
 
+.myDialog{
+    -fx-background-color: rgb(222, 219, 204);
+}
+.myDialog > *.button-bar > *.container{
+    -fx-background-color: rgb(222, 219, 204);
+}
+.myDialog > *.label.content{
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+.myDialog:header *.header-panel{
+    -fx-background-color: rgb(158, 153, 141);
+}
+.myDialog:header *.header-panel *.label{
+    -fx-font-size: 22px;
+    -fx-font-style: bold;
+    -fx-fill: #292929;
+}
+
+
 
