@@ -229,7 +229,7 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setOpenPreview(openPreview);
     pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
     ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Du machst Himmel und Erde einmal neu");
+    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Doch dein Reich ist schon da und du bist treu");
     Assert.assertTrue ("Y-Position of second side token invalid (" + exportTokenSecondSide + ")",
       exportTokenSecondSide.getAreaInfo().getY() < 50);
 

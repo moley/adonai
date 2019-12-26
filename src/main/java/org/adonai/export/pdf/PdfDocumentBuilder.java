@@ -22,7 +22,6 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
 
   BaseFont bf;
   BaseFont bfBold;
-  BaseFont bfOblique;
 
 
   public PdfDocumentBuilder () {
@@ -32,7 +31,6 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     try {
       bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
       bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
-      bfOblique = BaseFont.createFont(BaseFont.HELVETICA_OBLIQUE, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
     } catch (IOException e) {
       throw new IllegalStateException(e);
     } catch (DocumentException e) {
@@ -52,12 +50,20 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   @Override
   public SizeInfo getSize(String text, final ExportTokenType exportTokenType) {
     int fontsize = getFontsize(exportTokenType);
-    Chunk chunk = new Chunk(text, new Font(bfBold, fontsize));
-    float ascent = bfBold.getAscentPoint(text, fontsize);
-    float descent = bfBold.getDescentPoint(text, fontsize);
+    BaseFont baseFont = getBaseFont(exportTokenType);
+    Chunk chunk = new Chunk(text, new Font(baseFont, fontsize));
+    float ascent = baseFont.getAscentPoint(text, fontsize);
+    float descent = baseFont.getDescentPoint(text, fontsize);
     float width = chunk.getWidthPoint();
     float height = ascent - descent;
     return new SizeInfo(new Double(width), new Double(height));
+  }
+
+  private BaseFont getBaseFont (final ExportTokenType exportTokenType) {
+    if (exportTokenType.isBold())
+      return bfBold;
+    else
+      return bf;
   }
 
   private int getFontsize (final ExportTokenType exportTokenType) {

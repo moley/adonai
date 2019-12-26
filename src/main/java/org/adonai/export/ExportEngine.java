@@ -176,7 +176,7 @@ public class ExportEngine {
                   SizeInfo sizeinfoChord = documentBuilder.getSize(eventuallyTransformedChord, ExportTokenType.CHORD);
                   documentBuilder.newToken(new ExportToken(eventuallyTransformedChord, new AreaInfo(locationInfoChord, sizeinfoChord), ExportTokenType.CHORD));
 
-                  widthOfChord = sizeinfoChord.getWidth();
+                  widthOfChord = sizeinfoChord.getWidth() + exportConfiguration.getMinimalChordDistance();
                 }
 
                 documentBuilder.newToken(new ExportToken(nextLinePart.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
