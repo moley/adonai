@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.pf4j.demo;
+package org.adonai.app;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import org.adonai.api.Application;
 import org.apache.commons.lang3.StringUtils;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.ManifestPluginDescriptorFinder;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
-import org.pf4j.demo.api.Greeting;
 import org.pf4j.update.DefaultUpdateRepository;
 import org.pf4j.update.PluginInfo;
 import org.pf4j.update.UpdateManager;
@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A boot class that start the demo.
+ * A boot class that starts the application
  *
  * @author Decebal Suiu
  */
@@ -66,6 +66,7 @@ public class Boot {
             plugins.mkdirs();
 
         // create update manager
+        /** TODO
         UpdateRepository updateRepository = new DefaultUpdateRepository("default", new URL("https://raw.githubusercontent.com/moley/adonai_plugin/master/"));
         UpdateManager updateManager = new UpdateManager(pluginManager, Arrays.asList(updateRepository));
 
@@ -118,6 +119,7 @@ public class Boot {
         if (systemUpToDate) {
             logger.debug("System up-to-date");
         }
+         **/
 
         // enable a disabled plugin
 //        pluginManager.enablePlugin("welcome-plugin");
@@ -129,11 +131,11 @@ public class Boot {
         logger.info("\t" + System.getProperty("pf4j.pluginsDir", "plugins") + "\n");
 
         // retrieves the extensions for Greeting extension point
-        List<Greeting> greetings = pluginManager.getExtensions(Greeting.class);
-        logger.info(String.format("Found %d extensions for extension point '%s'", greetings.size(), Greeting.class.getName()));
-        for (Greeting greeting : greetings) {
-            logger.info(">>> " + greeting.getGreeting());
+        List<Application> applications = pluginManager.getExtensions(Application.class);
+        if (applications.size() != 1) {
+            throw new IllegalStateException("Not found exactly one application extension point, but " + applications);
         }
+        applications.get(0).run(args);
 
         // // print extensions from classpath (non plugin)
         // logger.info(String.format("Extensions added by classpath:"));
@@ -169,7 +171,7 @@ public class Boot {
 
     private static void printLogo() {
         logger.info(StringUtils.repeat("#", 40));
-        logger.info(StringUtils.center("PF4J-DEMO", 40));
+        logger.info(StringUtils.center("ADONAI", 40));
         logger.info(StringUtils.repeat("#", 40));
     }
 

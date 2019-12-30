@@ -129,7 +129,7 @@ public class BibleImporter {
           throw new IllegalStateException("File " + configFile.getAbsolutePath() + " does not exist");
       }
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Error importing " + importPath.getAbsolutePath(), e);
     }
 
   }

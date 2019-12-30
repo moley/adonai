@@ -11,6 +11,7 @@ javafx {
 }
 
 dependencies {
+    compile project (':api')
     compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
     compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
@@ -41,11 +42,9 @@ dependencies {
     runtime 'org.openjfx:javafx-swing:14-ea+2'
     runtime 'org.openjfx:javafx-media:14-ea+2'
 
-    testCompile 'junit:junit:4.12'
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
     testCompile "org.testfx:openjfx-monocle:jdk-12.0.1+2"
-    testCompile 'org.mockito:mockito-core:3.2.4'
 
 }
 
