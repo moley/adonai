@@ -25,7 +25,6 @@ public class Mp3Player {
     if (! mp3File.exists())
       throw new IllegalStateException("Mp3file " + mp3File.getAbsolutePath() + " does not exist");
 
-    mediaPlayer = mediaPlayerSupport.createMediaPlayer(mp3File);
 
     if (mediaPlayer != null && currentMp3File != null && ! currentMp3File.equals(mp3File)) {
       LOGGER.info("Close former player with file " + currentMp3File.getAbsolutePath());
@@ -37,6 +36,7 @@ public class Mp3Player {
     if (currentMp3File == null) {
       LOGGER.info("Create new player with file " + mp3File.getAbsolutePath());
       currentMp3File = mp3File;
+      mediaPlayer = mediaPlayerSupport.createMediaPlayer(mp3File);
       mediaPlayer.setVolume(0.5); //TODO
       mediaPlayer.setOnReady(new Runnable() {
         @Override public void run() {

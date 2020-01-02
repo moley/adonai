@@ -31,6 +31,8 @@ subprojects {
   project.tasks.build.dependsOn project.tasks.assemblePlugin
 }
 
+tasks.jar.onlyIf {false}
+
 task assemblePlugins(type: Copy) {
   dependsOn subprojects.assemblePlugin
 }
