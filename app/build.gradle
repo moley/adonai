@@ -1,8 +1,17 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.6'
+}
+
 apply plugin: 'application'
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.swing', 'javafx.media']
+    version = "11.0.2" //12-ea+8"
+}
 
 mainClassName = 'org.adonai.app.Boot'
 run {
-  systemProperty 'pf4j.pluginsDir', '../build/plugins'
+  //systemProperty 'pf4j.pluginsDir', '../build/plugins'
 }
 
 dependencies {
@@ -12,6 +21,18 @@ dependencies {
   annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
   compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
   compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+  runtime 'org.openjfx:javafx-controls:14-ea+2'
+  runtime 'org.openjfx:javafx-graphics:14-ea+2'
+  runtime 'org.openjfx:javafx-swing:14-ea+2'
+  runtime 'org.openjfx:javafx-media:14-ea+2'
+  runtime 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
+  runtime 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
+  runtime 'org.controlsfx:controlsfx:11.0.0'
+  runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.3-b02'
+  runtime 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
+
+
 }
 
 task uberjar(type: Jar, dependsOn: ['compileJava']) {

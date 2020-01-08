@@ -497,7 +497,7 @@ public class MainPageController {
           alert.initStyle(StageStyle.UNDECORATED);
           dialogPane.setMinWidth(600);
           dialogPane.setMinHeight(200);
-          dialogPane.getStylesheets().add("/adonai.css");
+          UiUtils.applyCss(dialogPane.getScene());
           dialogPane.getStyleClass().add("myDialog");
 
 

@@ -20,11 +20,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import org.adonai.api.Application;
 import org.apache.commons.lang3.StringUtils;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.ManifestPluginDescriptorFinder;
+import org.pf4j.PluginClassLoader;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.pf4j.update.DefaultUpdateRepository;
@@ -58,8 +60,29 @@ public class Boot {
           }
         };
 
+        logger.info("Development mode: " + pluginManager.isDevelopment());
+
         // load the plugins
         pluginManager.loadPlugins();
+
+        logger.info("Found " + pluginManager.getPlugins().size() + " plugins");
+        for (PluginWrapper pluginWrapper: pluginManager.getPlugins()) {
+            logger.info("Loaded " + pluginWrapper.getPluginId());
+            logger.info(pluginWrapper.getPluginPath().toString());
+            URL[] urls = ((PluginClassLoader)pluginWrapper.getPluginClassLoader()).getURLs();
+            logger.info(Arrays.toString(urls));
+
+            String pluginId = pluginWrapper.getDescriptor().getPluginId();
+            logger.info(String.format("Extensions added by plugin '%s':", pluginId));
+            Set<String> extensionClassNames = pluginManager.getExtensionClassNames(pluginId);
+             for (String extension : extensionClassNames) {
+                 logger.info("   " + extension);
+             }
+        }
+
+        logger.info("Plugindirectory: ");
+        logger.info("\t" + System.getProperty("pf4j.pluginsDir") + "\n");
+
 
         File plugins = new File ("plugins");
         if (! plugins.exists())
@@ -125,10 +148,9 @@ public class Boot {
 //        pluginManager.enablePlugin("welcome-plugin");
 
         // start (active/resolved) the plugins
+
         pluginManager.startPlugins();
 
-        logger.info("Plugindirectory: ");
-        logger.info("\t" + System.getProperty("pf4j.pluginsDir", "plugins") + "\n");
 
         // retrieves the extensions for Greeting extension point
         List<Application> applications = pluginManager.getExtensions(Application.class);
@@ -147,12 +169,7 @@ public class Boot {
         // print extensions for each started plugin
         List<PluginWrapper> startedPlugins = pluginManager.getStartedPlugins();
         for (PluginWrapper plugin : startedPlugins) {
-            String pluginId = plugin.getDescriptor().getPluginId();
-            logger.info(String.format("Extensions added by plugin '%s':", pluginId));
-            // extensionClassNames = pluginManager.getExtensionClassNames(pluginId);
-            // for (String extension : extensionClassNames) {
-            //     logger.info("   " + extension);
-            // }
+
         }
 
         // stop the plugins

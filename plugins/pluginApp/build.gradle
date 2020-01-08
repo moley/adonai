@@ -11,7 +11,8 @@ javafx {
 }
 
 dependencies {
-    compile project (':api')
+    // compileOnly important!!! We do not want to put the api into the zip file since the main program has it already!
+    compileOnly project(':api')
     compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
     compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
     compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
@@ -37,14 +38,20 @@ dependencies {
     runtime 'ch.qos.logback:logback-classic:1.0.13'
     runtime 'ch.qos.logback:logback-core:1.0.13'
 
-    runtime 'org.openjfx:javafx-controls:14-ea+2'
-    runtime 'org.openjfx:javafx-graphics:14-ea+2'
-    runtime 'org.openjfx:javafx-swing:14-ea+2'
-    runtime 'org.openjfx:javafx-media:14-ea+2'
+    compile 'org.openjfx:javafx-controls:14-ea+2'
+    compile 'org.openjfx:javafx-graphics:14-ea+2'
+    compile 'org.openjfx:javafx-swing:14-ea+2'
+    compile 'org.openjfx:javafx-media:14-ea+2'
 
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
     testCompile "org.testfx:openjfx-monocle:jdk-12.0.1+2"
+
+    compileOnly(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}") {
+        exclude group: "org.slf4j"
+    }
+
+    annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
 
 }
 

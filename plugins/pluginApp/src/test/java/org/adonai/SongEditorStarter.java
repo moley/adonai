@@ -13,6 +13,7 @@ import org.adonai.model.ConfigurationService;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor2.SongEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,7 @@ public class SongEditorStarter extends Application {
 
       Scene scene = new Scene(editor, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
 
-      scene.getStylesheets().add("/adonai.css");
+      UiUtils.applyCss(scene);
 
       primaryStage.setScene(scene);
 

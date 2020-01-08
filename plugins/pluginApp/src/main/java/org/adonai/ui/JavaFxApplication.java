@@ -18,7 +18,7 @@ public class JavaFxApplication extends Application {
   private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxApplication.class);
 
   public static void main(String[] args) {
-    launch(args);
+    launch(JavaFxApplication.class, args);
   }
 
   @Override
@@ -27,10 +27,11 @@ public class JavaFxApplication extends Application {
     LOGGER.info("Starting adonai in folder " + new File("").getAbsolutePath());
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/mainpage.fxml"));
+    loader.setClassLoader(getClass().getClassLoader());
     Parent root = loader.load();
 
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
-    scene.getStylesheets().add("/adonai.css");
+    UiUtils.applyCss(scene);
     primaryStage.initStyle(StageStyle.UNDECORATED);
     ScreenManager screenManager = new ScreenManager();
     Screen primaryScreen = screenManager.getPrimary();

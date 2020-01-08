@@ -195,7 +195,6 @@
 }
 .myDialog:header *.header-panel *.label{
     -fx-font-size: 22px;
-    -fx-font-style: bold;
     -fx-fill: #292929;
 }
 

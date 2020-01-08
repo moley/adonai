@@ -9,7 +9,7 @@ public class DefaultExportConfigurationCreator {
 
   public void createDefaultExportConfigurations (final Configuration configuration) {
 
-    Reflections reflections = new Reflections("org.adonai");
+    Reflections reflections = new Reflections("org.adonai.export");
     Set<Class<? extends AbstractDocumentBuilder>> subTypes = reflections.getSubTypesOf(AbstractDocumentBuilder.class);
     for (Class<?extends AbstractDocumentBuilder> next: subTypes) {
 

@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.screens.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,8 @@ public class MainPageApplication extends Application {
 
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
 
-    scene.getStylesheets().add("/adonai.css");
+    UiUtils.applyCss(scene);
+
 
     if (LOGGER.isDebugEnabled()) {
       for (String next : Font.getFamilies()) {

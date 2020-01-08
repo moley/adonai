@@ -1,6 +1,7 @@
 package org.adonai.ui;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -66,7 +67,11 @@ public class Consts {
     if (cachedImage == null) {
       if (LOGGER.isDebugEnabled())
         LOGGER.debug("create image " + imageKey.getName());
-      cachedImage = new Image("/icons/" + imageKey.getName() + ".png", imageKey.getIconSize(), imageKey.getIconSize(), true, true, true);
+      InputStream inputStream = Consts.class.getResourceAsStream("/icons/" + imageKey.getName() + ".png");
+      if (inputStream == null)
+        throw new IllegalStateException("Could not load image " + imageKey.getName() + " with classloader " + Consts.class.getClassLoader());
+
+      cachedImage = new Image(inputStream, imageKey.getIconSize(), imageKey.getIconSize(), true, true);
       imagesCache.put(imageKey, cachedImage);
     }
     else {

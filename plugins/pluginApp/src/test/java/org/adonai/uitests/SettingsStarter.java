@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.ConfigurationService;
 import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.screens.ScreenManager;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class SettingsStarter extends Application {
     Parent root = loader.load();
 
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
-    scene.getStylesheets().add("/adonai.css");
+    UiUtils.applyCss(scene);
     screenManager.layoutOnScreen(primaryStage);
 
     primaryStage.setTitle("Settings");

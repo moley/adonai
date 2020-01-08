@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 import org.adonai.uitests.MyNodeMatchers;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
@@ -30,7 +31,8 @@ public class SettingsMaskPage {
     loader.setResources(ResourceBundle.getBundle("languages.adonai"));
     Parent root = loader.load();
     scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
-    scene.getStylesheets().add("/adonai.css");
+    UiUtils.applyCss(scene);
+
     stage.setScene(scene);
     stage.show();
   }

@@ -8,6 +8,7 @@ import javafx.stage.WindowEvent;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.ui.Consts;
+import org.adonai.ui.UiUtils;
 import org.adonai.ui.imports.ImportWizard;
 import org.adonai.ui.imports.SongImportController;
 
@@ -31,7 +32,7 @@ public class AddSongAction {
 
     ImportWizard importWizard = new ImportWizard(stage, songImportController);
     Scene scene = new Scene(importWizard, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
-    scene.getStylesheets().add("/adonai.css");
+    UiUtils.applyCss(scene);
 
     stage.setOnHiding(closeRequest);
     stage.setTitle("Import new song");

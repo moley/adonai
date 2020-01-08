@@ -1,8 +1,8 @@
 package org.adonai.ui;
 
-import java.util.function.Predicate;
 import javafx.geometry.Bounds;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 public class UiUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UiUtils.class);
+
+  public static void applyCss (final Scene scene) {
+    scene.getStylesheets().add(UiUtils.class.getResource("/adonai.css").toExternalForm());
+  }
 
   public static void close (final Stage stage) {
     stage.fireEvent( new WindowEvent( stage, WindowEvent.WINDOW_CLOSE_REQUEST));
