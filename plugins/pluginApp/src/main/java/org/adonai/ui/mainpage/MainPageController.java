@@ -44,6 +44,7 @@ import org.adonai.actions.AddSongAction;
 import org.adonai.actions.ConfigurationAction;
 import org.adonai.actions.ConnectSongWithMp3Action;
 import org.adonai.actions.ExportAction;
+import org.adonai.actions.LiveAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.actions.SelectAction;
 import org.adonai.actions.UsersAdminAction;
@@ -294,6 +295,25 @@ public class MainPageController {
         if (!currentSongs.isEmpty()) {
           ExportAction exportAction = new ExportAction();
           exportAction.export(configuration, getCurrentSongs(), getExportName());
+        } else
+          LOGGER.warn("No songs selected to be exported");
+      }
+    });
+
+    //Button Live Session
+    Button btnLive = new Button();
+    btnLive.setTooltip(new Tooltip("Live"));
+    btnLive.setUserData("mainpage.btnLive");
+    btnLive.setGraphic(Consts.createIcon("fa-music", iconSizeToolbar));
+    tbaActions.getItems().add(btnLive);
+    btnLive.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        LOGGER.info("handle export action");
+
+        Collection<Song> currentSongs = getCurrentSongs();
+        if (!currentSongs.isEmpty()) {
+          LiveAction liveAction = new LiveAction();
+          liveAction.startLiveSession(configuration, getCurrentSongs(), getExportName());
         } else
           LOGGER.warn("No songs selected to be exported");
       }

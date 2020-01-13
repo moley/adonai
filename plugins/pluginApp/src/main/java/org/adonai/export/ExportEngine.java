@@ -227,7 +227,7 @@ public class ExportEngine {
 
 
 
-    if (exportFile.exists()) {
+    if (exportFile != null && exportFile.exists()) {
       exportFile.setWritable(true);
       exportFile.setExecutable(false);
 

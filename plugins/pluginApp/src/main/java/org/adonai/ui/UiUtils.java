@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class UiUtils {
     scene.getStylesheets().add(UiUtils.class.getResource("/adonai.css").toExternalForm());
   }
 
-  public static void close (final Stage stage) {
+  public static void close (final Window stage) {
     stage.fireEvent( new WindowEvent( stage, WindowEvent.WINDOW_CLOSE_REQUEST));
   }
 
