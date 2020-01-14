@@ -13,7 +13,6 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.presentation.ControlView;
 import org.adonai.ui.Consts;
-import org.adonai.ui.UiUtils;
 import org.adonai.ui.screens.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ public class LiveAction {
 
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
-    exporter.export(configuration.getSongBooks().get(0).getSongs(), null, exportConfiguration);
+    exporter.export(songs, null, exportConfiguration);
 
 
     for (ExportToken next: exporter.getExportTokenContainer().getExportTokenList()) {
