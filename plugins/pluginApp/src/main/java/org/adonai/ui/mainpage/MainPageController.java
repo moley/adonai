@@ -466,17 +466,7 @@ public class MainPageController {
       }
     });
 
-    Button btnRenumber = new Button();
-    btnRenumber.setTooltip(new Tooltip("Reindex the id's of all songs (1,2,3,4...)"));
-    btnRenumber.setGraphic(Consts.createIcon("fa-sort-numeric-asc", iconSizeToolbar));
-    tbaActions.getItems().add(btnRenumber);
-    btnRenumber.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        SongBook songBook = getCurrentSongBook();
-        RenumberService renumberService = new RenumberService();
-        renumberService.renumber(songBook);
-      }
-    });
+
 
     //Button Configurations
     Button btnConfigurations = new Button();

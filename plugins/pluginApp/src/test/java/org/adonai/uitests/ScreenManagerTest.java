@@ -29,8 +29,8 @@ public class ScreenManagerTest extends AbstractAdonaiUiTest {
   @Test
   public void getExternalOrPrimary () {
     ScreenManager screenManager = new ScreenManager();
-    Assert.assertEquals (1600, screenManager.getExternalOrPrimaryScreen().getVisualBounds().getWidth(), 0);
-    Assert.assertEquals (1200, screenManager.getExternalOrPrimaryScreen().getVisualBounds().getHeight(), 0);
+    Assert.assertNotEquals (0, screenManager.getExternalOrPrimaryScreen().getVisualBounds().getWidth(), 0);
+    Assert.assertNotEquals (0, screenManager.getExternalOrPrimaryScreen().getVisualBounds().getHeight(), 0);
   }
 
   @Test
@@ -39,9 +39,9 @@ public class ScreenManagerTest extends AbstractAdonaiUiTest {
     Stage stage = Mockito.mock(Stage.class);
     ScreenManager screenManager = new ScreenManager();
     screenManager.layoutOnScreen(stage);
-    Mockito.verify(stage, Mockito.times(1)).setX(0);
-    Mockito.verify(stage, Mockito.times(1)).setY(0);
-    Mockito.verify(stage, Mockito.times(1)).setWidth(1600);
-    Mockito.verify(stage, Mockito.times(1)).setHeight(1200);
+    Mockito.verify(stage, Mockito.times(1)).setX(screenManager.getExternalOrPrimaryScreen().getVisualBounds().getMinX());
+    Mockito.verify(stage, Mockito.times(1)).setY(screenManager.getExternalOrPrimaryScreen().getVisualBounds().getMinY());
+    Mockito.verify(stage, Mockito.times(1)).setWidth(screenManager.getExternalOrPrimaryScreen().getVisualBounds().getWidth());
+    Mockito.verify(stage, Mockito.times(1)).setHeight(screenManager.getExternalOrPrimaryScreen().getVisualBounds().getHeight());
   }
 }
