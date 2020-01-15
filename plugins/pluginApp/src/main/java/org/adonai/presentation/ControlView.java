@@ -54,8 +54,11 @@ public class ControlView extends Parent {
     if (currentIndex + 1 < panes.size())
       rightPane.getChildren().add(panes.get(currentIndex + 1));
 
-    leftPane.getChildren().get(0).setVisible(true);
-    rightPane.getChildren().get(0).setVisible(true);
+    if (! leftPane.getChildren().isEmpty())
+      leftPane.getChildren().get(0).setVisible(true);
+
+    if (!rightPane.getChildren().isEmpty())
+      rightPane.getChildren().get(0).setVisible(true);
   }
 
   public void show()  {
