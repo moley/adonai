@@ -6,7 +6,7 @@ public class TestUtil {
 
   public static void initialize () {
     System.setProperty("testfx.robot", "glass");
-    System.setProperty("testfx.headless", "true");
+    //System.setProperty("testfx.headless", "true");
     System.setProperty("monocle.platform","Headless");
     System.setProperty("prism.order", "sw");
     System.setProperty("prism.text", "t2k");

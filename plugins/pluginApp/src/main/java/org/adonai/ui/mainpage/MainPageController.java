@@ -115,7 +115,7 @@ public class MainPageController {
 
   private Configuration configuration;
 
-  private int iconSizeToolbar = Consts.ICON_SIZE_VERY_SMALL;
+  private int iconSizeToolbar = Consts.ICON_SIZE_TOOLBAR;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
 

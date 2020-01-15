@@ -38,15 +38,22 @@ public class ControlView extends Parent {
   }
 
   private void disableAndRemove () {
+    if (! leftPane.getChildren().isEmpty())
     leftPane.getChildren().get(0).setVisible(false);
-    rightPane.getChildren().get(0).setVisible(false);
+
+    if (!rightPane.getChildren().isEmpty())
+      rightPane.getChildren().get(0).setVisible(false);
     leftPane.getChildren().clear();
     rightPane.getChildren().clear();
   }
 
   private void enableAndAdd () {
-    leftPane.getChildren().add(panes.get(currentIndex));
-    rightPane.getChildren().add(panes.get(currentIndex + 1));
+
+    if (currentIndex < panes.size())
+      leftPane.getChildren().add(panes.get(currentIndex));
+    if (currentIndex + 1 < panes.size())
+      rightPane.getChildren().add(panes.get(currentIndex + 1));
+
     leftPane.getChildren().get(0).setVisible(true);
     rightPane.getChildren().get(0).setVisible(true);
   }
@@ -60,7 +67,6 @@ public class ControlView extends Parent {
     Scene scene = getScene();
 
     scene.setOnKeyPressed(event -> {
-      LOGGER.info("Hello");
       if (event.getCode().equals(KeyCode.RIGHT)) {
 
         disableAndRemove();
