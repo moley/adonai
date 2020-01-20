@@ -62,10 +62,7 @@ public class ControlView extends Parent {
   }
 
   public void show()  {
-    leftPane.getChildren().add(panes.get(0));
-    rightPane.getChildren().add(panes.get(1));
-    panes.get(0).setVisible(true);
-    panes.get(1).setVisible(true);
+    enableAndAdd();
 
     Scene scene = getScene();
 
