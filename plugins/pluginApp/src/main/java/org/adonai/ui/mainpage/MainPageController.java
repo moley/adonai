@@ -433,6 +433,8 @@ public class MainPageController {
         LOGGER.info("Using export path " + exportPath.getAbsolutePath());
         File songbookExport = new File(exportPath, "songbook");
         if (songbookExport.exists()) {
+          if (songbookExport.listFiles() == null || songbookExport.listFiles().length == 0)
+            throw new IllegalStateException("Export path " + songbookExport.getAbsolutePath() + " is empty");
           for (File nextExportFile : songbookExport.listFiles()) {
             LOGGER.info("Check file " + nextExportFile.getAbsolutePath());
             if (nextExportFile.getName().endsWith(".pdf")) {

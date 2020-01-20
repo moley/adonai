@@ -21,6 +21,8 @@ public class MailSender {
   private static final Logger LOGGER = LoggerFactory.getLogger(MailSender.class);
 
   public void sendExportMail(final List<String> mails, final Collection<String> links) {
+    if (links == null || links.isEmpty())
+      throw new IllegalStateException("Links must be not null and contain at least one entry");
 
     AdonaiProperties adonaiProperties = new AdonaiProperties();
     Properties prop = new Properties();
