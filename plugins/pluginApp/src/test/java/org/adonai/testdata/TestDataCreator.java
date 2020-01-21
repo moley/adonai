@@ -17,6 +17,7 @@ import org.adonai.model.User;
 import org.adonai.services.AddSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
+import org.adonai.uitests.TestUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,10 @@ public class TestDataCreator {
   protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
   private ConfigurationService configurationService = new ConfigurationService();
+
+  public static void main(String[] args) throws IOException {
+    new TestDataCreator().createTestData(TestUtil.getDefaultTestDataPath(), false);
+  }
 
   public Configuration getConfiguration(final File testDataPath) {
     configurationService.close();

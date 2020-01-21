@@ -1,5 +1,6 @@
-package org.adonai.ui.users;
+package org.adonai.ui.settings;
 
+import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,12 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import org.adonai.model.Configuration;
 import org.adonai.model.User;
 import org.adonai.ui.Consts;
 
 
-public class UsersController {
+public class SettingsUsersController extends AbstractSettingsController {
 
   @FXML
   ListView<User> lviUsers;
@@ -31,14 +31,12 @@ public class UsersController {
   @FXML
   Button btnRemoveUser;
 
-  private Configuration configuration;
-
   private void refresh () {
-    this.lviUsers.setItems(FXCollections.observableArrayList(configuration.getUsers()));
+    this.lviUsers.setItems(FXCollections.observableArrayList(getConfiguration().getUsers()));
   }
 
-  public void setConfiguration(Configuration configuration) {
-    this.configuration = configuration;
+  @FXML
+  public void initialize() throws IOException {
     refresh();
     lviUsers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
       @Override
@@ -54,7 +52,7 @@ public class UsersController {
       public void handle(ActionEvent event) {
         User newUser = new User();
         newUser.setUsername("new");
-        configuration.getUsers().add(newUser);
+        getConfiguration().getUsers().add(newUser);
         refresh();
         lviUsers.requestFocus();
         lviUsers.getSelectionModel().select(newUser);
@@ -67,7 +65,7 @@ public class UsersController {
       @Override
       public void handle(ActionEvent event) {
         int toSelect = Math.max(0, lviUsers.getSelectionModel().getSelectedIndex() - 1);
-        configuration.getUsers().remove(lviUsers.getSelectionModel().getSelectedItem());
+        getConfiguration().getUsers().remove(lviUsers.getSelectionModel().getSelectedItem());
         refresh();
         if (! lviUsers.getItems().isEmpty()) {
           lviUsers.requestFocus();

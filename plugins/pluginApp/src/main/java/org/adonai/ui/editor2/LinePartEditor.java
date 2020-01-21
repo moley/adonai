@@ -1,6 +1,5 @@
 package org.adonai.ui.editor2;
 
-import com.sun.javafx.application.PlatformImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,7 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Window;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
@@ -98,7 +96,12 @@ public class LinePartEditor extends PanelHolder {
     nodeUtils.requestFocusOnSceneAvailable(txtText, select, newCaretPosition);
 
     LOGGER.info("set current scroll position to " + getSongEditor().getCurrentScrollPosition());
-    getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
+    Platform.runLater(new Runnable() {
+      @Override public void run() {
+        getSongEditor().getScrollPane().setVvalue(getSongEditor().getCurrentScrollPosition());
+      }
+    });
+
   }
 
   private void adaptChordLabel() {

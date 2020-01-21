@@ -47,7 +47,6 @@ import org.adonai.actions.ExportAction;
 import org.adonai.actions.LiveAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.actions.SelectAction;
-import org.adonai.actions.UsersAdminAction;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
@@ -62,12 +61,12 @@ import org.adonai.online.MailSender;
 import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
-import org.adonai.services.RenumberService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor2.SongEditor;
+import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -319,21 +318,6 @@ public class MainPageController {
       }
     });
 
-    Button btnUserAdmin = new Button();
-    btnUserAdmin.setTooltip(new Tooltip("Administrate all users"));
-    btnUserAdmin.setUserData("mainpage.btnUserAdmin");
-    btnUserAdmin.setGraphic(Consts.createIcon("fa-user", iconSizeToolbar));
-    tbaActions.getItems().add(btnUserAdmin);
-    btnUserAdmin.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        Bounds controlBounds = UiUtils.getBounds(btnUserAdmin);
-        Double x = controlBounds.getMinX() + 10;
-        Double y = controlBounds.getMinY() - 20 - UsersAdminAction.HEIGHT;
-        UsersAdminAction usersAdminAction = new UsersAdminAction();
-        usersAdminAction.open(configuration, x, y);
-      }
-    });
-
     tbaActions.getItems().add(new Separator());
 
     Button btnPlayerBackward = new Button();
@@ -413,8 +397,12 @@ public class MainPageController {
     tbaActions.getItems().add(btnSave);
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-
-        configurationService.set(configuration);
+        try {
+          configurationService.set(configuration);
+          Notifications.create().title("Save").text("Model saved to " + configurationService.getConfigFile().getAbsolutePath()).show();
+        } catch (Exception e) {
+          Notifications.create().title("Save").text("Error occured while saving " + configurationService.getConfigFile().getAbsolutePath()).showError();
+        }
       }
     });
 
@@ -426,33 +414,41 @@ public class MainPageController {
     btnToCloud.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
-        Collection<String> ids = new ArrayList<>();
-        DropboxAdapter dropboxAdapter = new DropboxAdapter();
-        dropboxAdapter.upload(configurationService.getConfigFile(), "");
-        File exportPath = configuration.getExportPathAsFile();
-        LOGGER.info("Using export path " + exportPath.getAbsolutePath());
-        File songbookExport = new File(exportPath, "songbook");
-        if (songbookExport.exists()) {
-          if (songbookExport.listFiles() == null || songbookExport.listFiles().length == 0)
-            throw new IllegalStateException("Export path " + songbookExport.getAbsolutePath() + " is empty");
-          for (File nextExportFile : songbookExport.listFiles()) {
-            LOGGER.info("Check file " + nextExportFile.getAbsolutePath());
-            if (nextExportFile.getName().endsWith(".pdf")) {
-              ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/"));
+        try {
+          Collection<String> ids = new ArrayList<>();
+          DropboxAdapter dropboxAdapter = new DropboxAdapter();
+          dropboxAdapter.upload(configurationService.getConfigFile(), "");
+          File exportPath = configuration.getExportPathAsFile();
+          LOGGER.info("Using export path " + exportPath.getAbsolutePath());
+          File songbookExport = new File(exportPath, "songbook");
+          if (songbookExport.exists()) {
+            if (songbookExport.listFiles() == null || songbookExport.listFiles().length == 0)
+              throw new IllegalStateException("Export path " + songbookExport.getAbsolutePath() + " is empty");
+            for (File nextExportFile : songbookExport.listFiles()) {
+              LOGGER.info("Check file " + nextExportFile.getAbsolutePath());
+              if (nextExportFile.getName().endsWith(".pdf")) {
+                ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/"));
+              }
             }
           }
+
+          ArrayList<String> users = new ArrayList<>();
+          for (User next : configuration.getUsers()) {
+            if (next.getMail() != null && !next.getMail().trim().isEmpty())
+              users.add(next.getMail());
+          }
+
+          MailSender mailSender = new MailSender();
+          mailSender.sendExportMail(users, ids);
+
+          Notifications.create().title("Upload").text("Upload finished, mail sent to " + users + " with links " + ids).show();
+          LOGGER.info("Upload finished, mail sent to " + users + " with links " + ids);
+        } catch (Exception e) {
+          Notifications.create().title("Upload").text("Error uploading content").showError();
+          LOGGER.error(e.getLocalizedMessage(), e);
         }
 
-        ArrayList<String> users = new ArrayList<>();
-        for (User next: configuration.getUsers()) {
-          if (next.getMail() != null && ! next.getMail().trim().isEmpty())
-            users.add(next.getMail());
-        }
 
-        MailSender mailSender = new MailSender();
-        mailSender.sendExportMail(users, ids);
-
-        LOGGER.info("Upload finished, mail sent to " + users + " with links " + ids);
       }
     });
 
@@ -463,8 +459,14 @@ public class MainPageController {
     tbaActions.getItems().add(btnFromCloud);
     btnFromCloud.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        DropboxAdapter dropboxAdapter = new DropboxAdapter();
-        dropboxAdapter.download(configurationService.getConfigFile().getParentFile());
+        try {
+          DropboxAdapter dropboxAdapter = new DropboxAdapter();
+          dropboxAdapter.download(configurationService.getConfigFile().getParentFile());
+          LOGGER.info("Download finished");
+        } catch (Exception e) {
+          Notifications.create().title("Download").text("Error downloading content").showError();
+          LOGGER.error(e.getLocalizedMessage(), e);
+        }
       }
     });
 
@@ -699,7 +701,8 @@ public class MainPageController {
     spDetails.getChildren().add(panSongDetails);
 
     lblCurrentType.setText("song");
-    lblCurrentEntity.setText(currentSong.getId() + " - " + currentSong.getName().toUpperCase());
+    String name = currentSong.getName() != null ? currentSong.getName().toUpperCase() : "UNDEFINED";
+    lblCurrentEntity.setText(currentSong.getId() + " - " + name);
 
     LOGGER.info("panSongDetails: " + panSongDetails.getWidth() + "-" + panSongDetails.getHeight());
     LOGGER.info("lviSongs: " + lviSongs.getWidth() + "-" + lviSongs.getHeight());

@@ -1,13 +1,5 @@
-- Meldungen nach speichern / upload (Fehlerhandling)
-- Export ohne Chords -  Teil ohne Text wird nicht exportiert
--
-
-Wenn Additional Mp3 changes the cached file is not adapted
-
-- Edit chord when origin chord is visible does not work completely
-
-
-TODO
+- Parts with same Key are imported as reference although content is not equal
+- Tenant ability
 - Indent between chords without text
 - export with session sequence small / big
 - Export schematas
@@ -17,6 +9,6 @@ TODO
 - Import mp3s and configure at song
 
 - Configure different ExportConfigurations
-- Presentationt
+- Presentation
 
 

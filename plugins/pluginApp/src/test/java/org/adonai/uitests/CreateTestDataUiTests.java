@@ -23,6 +23,7 @@ public class CreateTestDataUiTests {
     session.getSongs().add(new Integer(1));
     configuration.getSessions().add(session);
 
+    configurationService.setConfigFile(new File ("src/test/resources/uitests/config.xml"));
     configurationService.set(configuration);
   }
 
