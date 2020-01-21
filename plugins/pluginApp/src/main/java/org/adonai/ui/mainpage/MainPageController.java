@@ -39,6 +39,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import org.adonai.AdonaiProperties;
 import org.adonai.actions.AddSessionAction;
 import org.adonai.actions.AddSongAction;
 import org.adonai.actions.ConfigurationAction;
@@ -110,6 +111,8 @@ public class MainPageController {
 
   private ConfigurationService configurationService = new ConfigurationService();
 
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
+
   private SessionService sessionService = new SessionService();
 
   private Configuration configuration;
@@ -145,7 +148,7 @@ public class MainPageController {
       }
     });
 
-    configuration = configurationService.get();
+    configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     selectSongbook();
 
     lviSongs.toFront();
@@ -398,10 +401,10 @@ public class MainPageController {
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         try {
-          configurationService.set(configuration);
-          Notifications.create().title("Save").text("Model saved to " + configurationService.getConfigFile().getAbsolutePath()).show();
+          configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
+          Notifications.create().title("Save").text("Model saved to " + getConfigFile().getAbsolutePath()).show();
         } catch (Exception e) {
-          Notifications.create().title("Save").text("Error occured while saving " + configurationService.getConfigFile().getAbsolutePath()).showError();
+          Notifications.create().title("Save").text("Error occured while saving " + getConfigFile().getAbsolutePath()).showError();
         }
       }
     });
@@ -417,7 +420,7 @@ public class MainPageController {
         try {
           Collection<String> ids = new ArrayList<>();
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          dropboxAdapter.upload(configurationService.getConfigFile(), "");
+          dropboxAdapter.upload(getConfigFile(), "");
           File exportPath = configuration.getExportPathAsFile();
           LOGGER.info("Using export path " + exportPath.getAbsolutePath());
           File songbookExport = new File(exportPath, "songbook");
@@ -461,7 +464,7 @@ public class MainPageController {
       @Override public void handle(ActionEvent event) {
         try {
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          dropboxAdapter.download(configurationService.getConfigFile().getParentFile());
+          dropboxAdapter.download(getConfigFile().getParentFile());
           LOGGER.info("Download finished");
         } catch (Exception e) {
           Notifications.create().title("Download").text("Error downloading content").showError();
@@ -517,7 +520,7 @@ public class MainPageController {
 
           Optional<ButtonType> result = alert.showAndWait();
           if (result.get() == ButtonType.OK) {
-            configurationService.set(configuration);
+            configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
           }
         }
 
@@ -625,6 +628,10 @@ public class MainPageController {
     LOGGER.info("getMp3FileOfCurrentSong returns null (not found) ");
 
     return null;
+  }
+
+  private File getConfigFile () {
+    return configurationService.getConfigFile(adonaiProperties.getCurrentTenant());
   }
 
   private void refreshButtonState() {

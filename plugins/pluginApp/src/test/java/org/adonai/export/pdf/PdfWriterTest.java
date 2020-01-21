@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import org.adonai.AdonaiProperties;
 import org.adonai.export.AbstractExportTest;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
@@ -29,6 +30,7 @@ public class PdfWriterTest extends AbstractExportTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PdfWriterTest.class);
 
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   private boolean openPreview = false;
 
@@ -154,9 +156,9 @@ public class PdfWriterTest extends AbstractExportTest {
     ConfigurationService configurationService = new ConfigurationService();
     configurationService.close();
     configurationService.setConfigFile(new File ("src/test/resources/export/pdf/" + exportTestdata + "/config.xml"));
-    if (! configurationService.getConfigFile().exists())
-      throw new IllegalStateException("Modelfile " + configurationService.getConfigFile().getAbsolutePath() + " does not exist");
-    Configuration configuration = configurationService.get();
+    if (! configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).exists())
+      throw new IllegalStateException("Modelfile " + configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).getAbsolutePath() + " does not exist");
+    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     return configuration.getSongBooks().get(0).getSongs().get(0);
   }
 

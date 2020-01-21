@@ -1,10 +1,19 @@
 package org.adonai.uitests;
 
-import org.adonai.model.*;
-
 import java.io.File;
+import org.adonai.AdonaiProperties;
+import org.adonai.model.Configuration;
+import org.adonai.model.ConfigurationService;
+import org.adonai.model.Session;
+import org.adonai.model.Song;
+import org.adonai.model.SongBook;
+import org.adonai.model.SongBuilder;
+import org.adonai.model.SongPartType;
 
 public class CreateTestDataUiTests {
+
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
+
 
   CreateTestDataUiTests () {
     System.setProperty("config", new File("src/test/resources/uitests").getAbsolutePath());
@@ -24,7 +33,7 @@ public class CreateTestDataUiTests {
     configuration.getSessions().add(session);
 
     configurationService.setConfigFile(new File ("src/test/resources/uitests/config.xml"));
-    configurationService.set(configuration);
+    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
   }
 
   public static void main (final String [] args) {

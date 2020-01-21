@@ -1,13 +1,13 @@
 package org.adonai.model;
 
+import java.io.File;
+import java.io.IOException;
+import org.adonai.AdonaiProperties;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by OleyMa on 12.09.16.
@@ -15,6 +15,8 @@ import java.io.IOException;
 public class ConfigurationServiceTest {
 
   private File tmpFile = new File("build/testmodel.xml");
+
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   @Before@After
   public void cleanup () {
@@ -26,7 +28,7 @@ public class ConfigurationServiceTest {
   public void hasNotChanged () {
     ConfigurationService configurationService = new ConfigurationService();
     configurationService.setConfigFile(tmpFile);
-    configurationService.set(createDefaultConfiguration());
+    configurationService.set(adonaiProperties.getCurrentTenant(), createDefaultConfiguration());
     Assert.assertFalse (configurationService.hasChanged());
 
   }
@@ -35,8 +37,8 @@ public class ConfigurationServiceTest {
   public void hasChanged () {
     ConfigurationService configurationService = new ConfigurationService();
     configurationService.setConfigFile(tmpFile);
-    configurationService.set(createDefaultConfiguration());
-    Configuration configuration = configurationService.get();
+    configurationService.set(adonaiProperties.getCurrentTenant(), createDefaultConfiguration());
+    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     configuration.getSongBooks().get(0).getSongs().get(0).setTitle("Different song");
     Assert.assertTrue (configurationService.hasChanged());
   }
@@ -45,10 +47,10 @@ public class ConfigurationServiceTest {
   public void hasChangedAndSaved () {
     ConfigurationService configurationService = new ConfigurationService();
     configurationService.setConfigFile(tmpFile);
-    configurationService.set(createDefaultConfiguration());
-    Configuration configuration = configurationService.get();
+    configurationService.set(adonaiProperties.getCurrentTenant(), createDefaultConfiguration());
+    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     configuration.getSongBooks().get(0).getSongs().get(0).setTitle("Different song");
-    configurationService.set(configuration);
+    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
     Assert.assertFalse (configurationService.hasChanged());
   }
 
@@ -75,7 +77,7 @@ public class ConfigurationServiceTest {
 
     ConfigurationService configurationService = new ConfigurationService();
     configurationService.setConfigFile(tmpFile);
-    Configuration configuration = configurationService.get();
+    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
 
     Song song1 = new Song();
     song1.setTitle("Song 1");
@@ -114,7 +116,7 @@ public class ConfigurationServiceTest {
     configuration.getSessions().add(session1);
     configuration.getSessions().add(session2);
 
-    configurationService.save();
+    configurationService.save(adonaiProperties.getCurrentTenant());
 
     String fromText = FileUtils.readFileToString(tmpFile, (String)null);
     Assert.assertNotNull("configuration content is null", fromText);

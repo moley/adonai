@@ -1,5 +1,9 @@
 package org.adonai.uitests.pages;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -8,6 +12,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
+import org.adonai.AdonaiProperties;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.model.Session;
@@ -22,16 +27,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 public class MainMaskPage extends AbstractPage {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainMaskPage.class);
 
   private Mask mask;
+
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
+
 
 
   public MainMaskPage (final ApplicationTest applicationTest) throws IOException {
@@ -221,13 +224,13 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public List<File> getExportedFiles () {
-    Configuration configuration = new ConfigurationService().get();
+    Configuration configuration = new ConfigurationService().get(adonaiProperties.getCurrentTenant());
     return Arrays.asList(configuration.getExportPathAsFile().listFiles());
   }
 
   public void exportFileExists (String name, final boolean exists) {
     LOGGER.info("Check if export file exists (" + name + "," + exists + ")");
-    Configuration configuration = new ConfigurationService().get();
+    Configuration configuration = new ConfigurationService().get(adonaiProperties.getCurrentTenant());
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
     Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles(), exists, expectedFile.exists());
   }

@@ -1,5 +1,6 @@
 package org.adonai.ui;
 
+import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,13 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import org.adonai.AdonaiProperties;
 import org.adonai.Extension;
 import org.adonai.ExtensionIndex;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
-
-import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +44,8 @@ public class ExtensionSelectorController {
 
   ExtensionType currentType = ExtensionType.SONG;
 
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionSelectorController.class);
 
 
@@ -62,7 +63,7 @@ public class ExtensionSelectorController {
 
   @FXML
   public void initialize() {
-    configuration = configurationService.get();
+    configuration = configurationService.get(adonaiProperties.getCurrentTenant());
 
     txtSearch.setOnKeyTyped(new EventHandler<KeyEvent>() {
 

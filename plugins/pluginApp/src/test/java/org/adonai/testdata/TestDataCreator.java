@@ -3,6 +3,7 @@ package org.adonai.testdata;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import org.adonai.AdonaiProperties;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
@@ -28,6 +29,8 @@ public class TestDataCreator {
 
   private ConfigurationService configurationService = new ConfigurationService();
 
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
+
   public static void main(String[] args) throws IOException {
     new TestDataCreator().createTestData(TestUtil.getDefaultTestDataPath(), false);
   }
@@ -35,7 +38,7 @@ public class TestDataCreator {
   public Configuration getConfiguration(final File testDataPath) {
     configurationService.close();
     System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
-    return configurationService.get();
+    return configurationService.get(adonaiProperties.getCurrentTenant());
   }
 
   public Configuration createTestData(final File testDataPath, final boolean preview) throws IOException {
@@ -130,13 +133,13 @@ public class TestDataCreator {
     new File(extensionPath, "SomeMp3.mp3").createNewFile();
     new File(extensionPath, "AnotherMp3.mp3").createNewFile();
 
-    configurationService.set(configuration);
+    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
 
     for (ExportConfiguration nextConfiguration1 : configuration.getExportConfigurations()) {
       nextConfiguration1.setOpenPreview(preview);
     }
 
-    configurationService.set(configuration);
+    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
     configurationService.close();
 
     return configuration;
