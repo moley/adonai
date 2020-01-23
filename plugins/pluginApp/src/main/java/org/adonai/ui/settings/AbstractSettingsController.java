@@ -3,6 +3,7 @@ package org.adonai.ui.settings;
 import org.adonai.AdonaiProperties;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
+import org.adonai.services.TenantService;
 
 public class AbstractSettingsController {
 
@@ -13,5 +14,7 @@ public class AbstractSettingsController {
   public Configuration getConfiguration() {
     return configurationService.get(adonaiProperties.getCurrentTenant());
   }
+
+
 
 }

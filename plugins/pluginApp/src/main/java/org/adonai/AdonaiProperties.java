@@ -51,4 +51,8 @@ public class AdonaiProperties {
   public String getCurrentTenant () {
     return properties.getProperty(PROPERTY_CURRENT_TENANT);
   }
+
+  public void setCurrentTenant (final String newTenant) {
+    properties.setProperty(PROPERTY_CURRENT_TENANT, newTenant);
+  }
 }

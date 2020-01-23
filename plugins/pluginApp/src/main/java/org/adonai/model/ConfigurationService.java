@@ -42,7 +42,7 @@ public class ConfigurationService {
 
   public File getConfigFile (String tenant){
     if (configFile == null) {
-      File tenantPath = new File (Consts.getAdonaiHome(), tenant);
+      File tenantPath = new File (Consts.getAdonaiHome(), "tenant_" + tenant);
       configFile = new File(tenantPath, "config.xml");
       LOGGER.info("set configFile (" + configFile.getAbsolutePath() + ")");
     }
@@ -50,10 +50,7 @@ public class ConfigurationService {
 
   }
 
-  public Configuration newInstance () {
-    currentConfiguration = new Configuration();
-    return currentConfiguration;
-  }
+
 
   public boolean hasChanged () {
     JAXBContext jc = null;
@@ -72,10 +69,8 @@ public class ConfigurationService {
   }
 
   public Configuration get(String tenant) {
-    if (currentConfiguration != null) {
-      LOGGER.info("get cached configuration " + System.identityHashCode(currentConfiguration));
-      return currentConfiguration;
-    }
+    if (tenant == null)
+      throw new IllegalArgumentException("Parameter 'tenant' must not be null");
 
     JAXBContext jc = null;
     try {
@@ -86,11 +81,12 @@ public class ConfigurationService {
       //unmarshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
       if (configFile.exists()) {
         currentConfiguration = (Configuration) unmarshaller.unmarshal(configFile);
+        currentConfiguration.setLog("Loaded from " + configFile.getAbsolutePath());
         LOGGER.info("Configuration " + System.identityHashCode(currentConfiguration) + " loaded from " + configFile.getAbsolutePath());
       }
       else {
         currentConfiguration = new Configuration();
-        LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration));
+        LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration) + " because " + configFile.getAbsolutePath() + " does not exist");
       }
 
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();

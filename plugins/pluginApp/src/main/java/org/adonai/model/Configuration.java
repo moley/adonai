@@ -17,6 +17,9 @@ import java.util.List;
 @XmlRootElement
 public class Configuration {
 
+
+  private String log;
+
   private List<User> users = new ArrayList<User>();
 
   private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
@@ -93,5 +96,14 @@ public class Configuration {
 
   public void setUsers(List<User> users) {
     this.users = users;
+  }
+
+  @XmlTransient
+  public String getLog() {
+    return log;
+  }
+
+  public void setLog(String log) {
+    this.log = log;
   }
 }
