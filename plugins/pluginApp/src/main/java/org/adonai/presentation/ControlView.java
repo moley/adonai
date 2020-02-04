@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,6 +13,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
@@ -93,6 +95,11 @@ public class ControlView extends Parent {
 
     });
 
+    Label lblDummy = new Label();
+    lblDummy.setText("Hello");
+
+
+
     HBox hbox = new HBox();
     hbox.setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
 
@@ -103,7 +110,13 @@ public class ControlView extends Parent {
     HBox.setHgrow(leftPane, Priority.ALWAYS);
     HBox.setHgrow(rightPane, Priority.ALWAYS);
 
-    scene.setRoot(hbox);
+    VBox vbox = new VBox();
+    vbox.getChildren().add(lblDummy);
+    vbox.getChildren().add(hbox);
+    VBox.setVgrow(hbox, Priority.ALWAYS);
+
+
+    scene.setRoot(vbox);
 
   }
 }

@@ -1,5 +1,7 @@
 package org.adonai.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.xml.bind.annotation.XmlIDREF;
@@ -30,6 +32,8 @@ public class Song extends AbstractSessionItem implements NamedElement{
   private SimpleStringProperty presetProperty = new SimpleStringProperty();
 
   private SimpleStringProperty titleProperty = new SimpleStringProperty();
+
+  private SimpleObjectProperty<Integer> speedProperty = new SimpleObjectProperty<Integer>();
 
   public int getIndex (final SongPart songPart) {
     return songParts.indexOf(songPart);
@@ -173,5 +177,19 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public void setPreset(String preset) {
     this.presetProperty.set(preset);
+  }
+
+  public Integer getSpeed() {
+    return speedProperty.get();
+  }
+
+  public void setSpeed (final Integer newSpeed) {
+    this.speedProperty.set(newSpeed);
+  }
+
+  public SimpleObjectProperty<Integer> speedProperty() {
+    if (speedProperty.get() == null)
+      speedProperty.set(0);
+    return speedProperty;
   }
 }

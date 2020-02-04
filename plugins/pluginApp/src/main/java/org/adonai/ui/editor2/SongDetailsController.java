@@ -11,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import org.adonai.Key;
 import org.adonai.model.Configuration;
@@ -37,6 +40,9 @@ public class SongDetailsController {
 
   @FXML
   private TextField txtTitle;
+
+  @FXML
+  private Spinner<Integer> spiSpeed;
 
   @FXML
   private Button btnRecalculateOriginKey;
@@ -70,6 +76,9 @@ public class SongDetailsController {
 
     txtPreset.textProperty().bindBidirectional(currentSong.presetProperty());
     txtTitle.textProperty().bindBidirectional(currentSong.titleProperty());
+    spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
+    spiSpeed.setEditable(true);
+    spiSpeed.getValueFactory().valueProperty().bindBidirectional(currentSong.speedProperty());
 
     //set lead voice
     if (currentSong.getLeadVoice() != null) {

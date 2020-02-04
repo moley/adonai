@@ -142,7 +142,7 @@ public class SongEditor extends PanelHolder {
         Mask<SongDetailsController> mask = maskLoader.load("editor2/songdetails");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(btnSongInfo);
         mask.setPosition(boundsBtnSongInfo.getCenterX() - 800, boundsBtnSongInfo.getMaxY() + 20);
-        mask.setSize(800, 400);
+        mask.setSize(800, 500);
         SongDetailsController songDetailsController = mask.getController();
         songDetailsController.setCurrentSong(song);
         songDetailsController.setConfiguration(configuration);
