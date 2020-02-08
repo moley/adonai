@@ -32,27 +32,25 @@ public class ConfigurationService {
   private String lastSavedConfigurationAsString;
 
 
-  public void save () {
-    set(get());
+  public void save (String tenant) {
+    set(tenant, get(tenant));
   }
 
   public void setConfigFile (final File configFile) {
     this.configFile = configFile;
   }
 
-  public File getConfigFile ( ){
+  public File getConfigFile (String tenant){
     if (configFile == null) {
-      configFile = new File(Consts.getAdonaiHome(), "config.xml");
+      File tenantPath = new File (Consts.getAdonaiHome(), "tenant_" + tenant);
+      configFile = new File(tenantPath, "config.xml");
       LOGGER.info("set configFile (" + configFile.getAbsolutePath() + ")");
     }
     return configFile;
 
   }
 
-  public Configuration newInstance () {
-    currentConfiguration = new Configuration();
-    return currentConfiguration;
-  }
+
 
   public boolean hasChanged () {
     JAXBContext jc = null;
@@ -70,26 +68,25 @@ public class ConfigurationService {
     }
   }
 
-  public Configuration get() {
-    if (currentConfiguration != null) {
-      LOGGER.info("get cached configuration " + System.identityHashCode(currentConfiguration));
-      return currentConfiguration;
-    }
+  public Configuration get(String tenant) {
+    if (tenant == null)
+      throw new IllegalArgumentException("Parameter 'tenant' must not be null");
 
     JAXBContext jc = null;
     try {
       jc = JAXBContext.newInstance(Configuration.class);
       Unmarshaller unmarshaller = jc.createUnmarshaller();
 
-      File configFile = getConfigFile();
+      File configFile = getConfigFile(tenant);
       //unmarshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
       if (configFile.exists()) {
         currentConfiguration = (Configuration) unmarshaller.unmarshal(configFile);
+        currentConfiguration.setLog("Loaded from " + configFile.getAbsolutePath());
         LOGGER.info("Configuration " + System.identityHashCode(currentConfiguration) + " loaded from " + configFile.getAbsolutePath());
       }
       else {
         currentConfiguration = new Configuration();
-        LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration));
+        LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration) + " because " + configFile.getAbsolutePath() + " does not exist");
       }
 
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
@@ -116,7 +113,7 @@ public class ConfigurationService {
 
   }
 
-  public void set(Configuration configuration) {
+  public void set(String tenant, Configuration configuration) {
     JAXBContext jc = null;
     try {
       jc = JAXBContext.newInstance(Configuration.class);
@@ -125,18 +122,20 @@ public class ConfigurationService {
 //      marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-      LOGGER.info("Save configuration " + System.identityHashCode(currentConfiguration) + " to " + getConfigFile().getAbsolutePath());
+      LOGGER.info("Save configuration " + System.identityHashCode(currentConfiguration) + " to " + configFile.getAbsolutePath());
 
-      if (! getConfigFile().getParentFile().exists())
-        getConfigFile().getParentFile().mkdirs();
+      File configFile = getConfigFile(tenant);
 
-      if (getConfigFile().exists()) {
-        File savedConfigFile = new File (getConfigFile().getParentFile(), getConfigFile().getName() + new Date().toString());
-        FileUtils.copyFile(getConfigFile(), savedConfigFile);
+      if (! configFile.getParentFile().exists())
+        configFile.getParentFile().mkdirs();
+
+      if (configFile.exists()) {
+        File savedConfigFile = new File (getConfigFile(tenant).getParentFile(), configFile.getName() + new Date().toString());
+        FileUtils.copyFile(configFile, savedConfigFile);
 
       }
 
-      marshaller.marshal(configuration, getConfigFile());
+      marshaller.marshal(configuration, configFile);
       StringWriter stringWriter = new StringWriter();
       marshaller.marshal(configuration, stringWriter);
       lastSavedConfigurationAsString = stringWriter.toString();

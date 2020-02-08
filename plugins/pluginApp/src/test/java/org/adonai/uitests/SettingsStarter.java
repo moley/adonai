@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.adonai.AdonaiProperties;
 import org.adonai.model.ConfigurationService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
@@ -20,6 +21,8 @@ import org.slf4j.LoggerFactory;
 public class SettingsStarter extends Application {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SettingsStarter.class);
+
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
 
   public static void main(String[] args) {
@@ -48,9 +51,9 @@ public class SettingsStarter extends Application {
     primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
       @Override
       public void handle(WindowEvent event) {
-        configurationService.save();
+        configurationService.save(adonaiProperties.getCurrentTenant());
         try {
-          LOGGER.info(FileUtils.readFileToString(configurationService.getConfigFile(), "UTF-8") );
+          LOGGER.info(FileUtils.readFileToString(configurationService.getConfigFile(adonaiProperties.getCurrentTenant()), "UTF-8") );
 
         } catch (IOException e) {
           throw new IllegalStateException(e);

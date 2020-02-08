@@ -32,6 +32,8 @@ public class Consts {
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
+  private static File adonaiHome = new File (getUserHome(), ".adonai");
+
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
 
   public final static File getUserHome () {
@@ -39,11 +41,22 @@ public class Consts {
   }
 
   public final static File getAdonaiHome () {
-    return new File (getUserHome(), ".adonai");
+    return adonaiHome;
   }
 
-  public final static File getAdditionalsPath () {
-    return new File (getAdonaiHome(), "additionals");
+  /**
+   * only for tests
+   * set the adonai home path
+   * @param adonaiHome  adonai home path
+   */
+  public final static void setAdonaiHome (final File adonaiHome) {
+    Consts.adonaiHome = adonaiHome;
+
+  }
+
+  public final static File getAdditionalsPath (String tenant) {
+    File tenantPath = new File (getAdonaiHome(), "tenant_" + tenant);
+    return new File (tenantPath, "additionals");
   }
 
 

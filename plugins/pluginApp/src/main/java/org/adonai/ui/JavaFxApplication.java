@@ -33,6 +33,7 @@ public class JavaFxApplication extends Application {
     Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     UiUtils.applyCss(scene);
     primaryStage.initStyle(StageStyle.UNDECORATED);
+    primaryStage.setAlwaysOnTop(true);
     ScreenManager screenManager = new ScreenManager();
     Screen primaryScreen = screenManager.getPrimary();
     primaryStage.setX(primaryScreen.getVisualBounds().getMinX());

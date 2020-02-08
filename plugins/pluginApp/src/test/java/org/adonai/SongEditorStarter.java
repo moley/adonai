@@ -25,6 +25,7 @@ public class SongEditorStarter extends Application {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SongEditorStarter.class);
 
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
 
 
@@ -43,7 +44,7 @@ public class SongEditorStarter extends Application {
       File tmpConfig = new File("build/config.xml");
 
       ConfigurationService configurationService = new ConfigurationService();
-      Configuration configuration = configurationService.get();
+      Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
       SongBook songBook = configuration.getSongBooks().get(0);
       Song song = songBook.getSongs().get(songnumber);
       SongEditor songEditor = new SongEditor(configuration, song);
@@ -63,9 +64,9 @@ public class SongEditorStarter extends Application {
       primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
         @Override public void handle(WindowEvent event) {
           configurationService.setConfigFile(tmpConfig);
-          configurationService.save();
+          configurationService.save(adonaiProperties.getCurrentTenant());
 
-          LOGGER.info("Save configuration in " + configurationService.getConfigFile().getAbsolutePath());
+          LOGGER.info("Save configuration in " + configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).getAbsolutePath());
 
         }
       });

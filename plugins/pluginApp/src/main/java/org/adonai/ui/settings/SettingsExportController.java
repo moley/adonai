@@ -1,5 +1,8 @@
 package org.adonai.ui.settings;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,18 +14,11 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import org.adonai.PlaylistExport;
+import org.adonai.AdonaiProperties;
 import org.adonai.StringUtils;
-import org.adonai.export.AbstractDocumentBuilder;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
-import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
 import org.adonai.ui.Consts;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +44,7 @@ public class SettingsExportController extends AbstractSettingsController {
   ResourceBundle resources;
 
 
-  private ConfigurationService configurationService = new ConfigurationService();
+  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   HashMap<TitledPane, ExportConfiguration> configurationPerPane = new HashMap<TitledPane, ExportConfiguration>();
 
@@ -61,7 +57,6 @@ public class SettingsExportController extends AbstractSettingsController {
     btnRemoveConfiguration.setDisable(true);
     btnCloneConfiguration.setDisable(true);
 
-    Configuration configuration = configurationService.get();
 
     accExportschemas.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
       @Override
@@ -87,15 +82,15 @@ public class SettingsExportController extends AbstractSettingsController {
         ExportConfiguration currentExportConfiguration = configurationPerPane.get(accExportschemas.getExpandedPane());
         LOGGER.info("Clone current configuration " + currentExportConfiguration.getName());
 
-        LOGGER.info("Size before: " + configuration.getExportConfigurations().size());
+        LOGGER.info("Size before: " + getConfiguration().getExportConfigurations().size());
         ExportConfigurationMerger merger = new ExportConfigurationMerger();
         ExportConfiguration merged = merger.getMergedExportConfiguration(currentExportConfiguration, currentExportConfiguration);
         merged.setName(currentExportConfiguration.getName() + "(2)");
         merged.setId(null);
         merged.getId(); //to initialize
-        configuration.getExportConfigurations().add(merged);
+        getConfiguration().getExportConfigurations().add(merged);
 
-        LOGGER.info("Size after: " + configuration.getExportConfigurations().size());
+        LOGGER.info("Size after: " + getConfiguration().getExportConfigurations().size());
         try {
           reloadConfigurations();
         } catch (IOException e) {
@@ -111,7 +106,7 @@ public class SettingsExportController extends AbstractSettingsController {
       public void handle(ActionEvent event) {
         ExportConfiguration currentExportConfiguration = configurationPerPane.get(accExportschemas.getExpandedPane());
         LOGGER.info("Remove current configuration " + currentExportConfiguration.getName());
-        configuration.getExportConfigurations().remove(currentExportConfiguration);
+        getConfiguration().getExportConfigurations().remove(currentExportConfiguration);
 
         try {
           reloadConfigurations();
@@ -130,7 +125,7 @@ public class SettingsExportController extends AbstractSettingsController {
     accExportschemas.getPanes().clear();
     configurationPerPane.clear();
 
-    for (ExportConfiguration exportConfiguration: configurationService.get().getExportConfigurations()) {
+    for (ExportConfiguration exportConfiguration: getConfiguration().getExportConfigurations()) {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/exportconfiguration.fxml"));
       loader.setResources(resources);
       Parent root = loader.load();

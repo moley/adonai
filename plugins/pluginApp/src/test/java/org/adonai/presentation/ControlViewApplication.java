@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.adonai.AdonaiProperties;
 import org.adonai.SizeInfo;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
@@ -13,7 +14,6 @@ import org.adonai.export.presentation.PresentationExporter;
 import org.adonai.model.Configuration;
 import org.adonai.model.ConfigurationService;
 import org.adonai.ui.Consts;
-import org.adonai.ui.UiUtils;
 import org.adonai.ui.screens.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +39,12 @@ public class ControlViewApplication extends Application {
     SizeInfo sizeInfo = new SizeInfo(Consts.getDefaultWidth(), Consts.getDefaultHeight());
     PresentationExporter exporter = new PresentationExporter(sizeInfo);
 
-    Configuration configuration = configurationService.get();
+    AdonaiProperties adonaiProperties = new AdonaiProperties();
+
+    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
-    LOGGER.info("Load from " + configurationService.getConfigFile().getAbsolutePath());
+    LOGGER.info("Load from " + configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).getAbsolutePath());
     exporter.export(configuration.getSongBooks().get(0).getSongs(), null, exportConfiguration);
 
 

@@ -1,13 +1,13 @@
 package org.adonai.additionals;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import org.adonai.AdonaiProperties;
 import org.adonai.model.Additional;
 import org.adonai.model.Song;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +17,15 @@ public class AdditionalsImporter {
 
 
 
-  private File additionalsPath = Consts.getAdditionalsPath();
+  private File additionalsPath;
+
+
 
 
   public File getAdditionalFile (final Song song, final Additional additional) {
 
-
-    File additionalsTypePath = new File (additionalsPath, additional.getAdditionalType().name().toLowerCase());
+    AdonaiProperties adonaiProperties = new AdonaiProperties();
+    File additionalsTypePath = new File (getAdditionalsPath(adonaiProperties.getCurrentTenant()), additional.getAdditionalType().name().toLowerCase());
     String suffix = additional.getLink().substring(additional.getLink().indexOf("."));
 
     return new File (additionalsTypePath, song.getId().toString() + suffix);
@@ -53,8 +55,11 @@ public class AdditionalsImporter {
 
   }
 
-  public File getAdditionalsPath() {
-    return additionalsPath;
+  public File getAdditionalsPath(String tenant) {
+    if (additionalsPath != null)
+      return additionalsPath;
+    else
+      return Consts.getAdditionalsPath(tenant);
   }
 
   public void setAdditionalsPath(File additionalsPath) {

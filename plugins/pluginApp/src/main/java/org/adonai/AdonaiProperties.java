@@ -18,6 +18,8 @@ public class AdonaiProperties {
 
   public AdonaiProperties () {
     propertiesFile = new File (System.getProperty("user.home") + "/.adonai/adonai.properties");
+
+    properties.setProperty(PROPERTY_CURRENT_TENANT, "default");
     if (propertiesFile.exists()) {
       try {
         properties.load(new FileReader(propertiesFile));
@@ -44,5 +46,13 @@ public class AdonaiProperties {
       throw new IllegalStateException(e);
     }
 
+  }
+
+  public String getCurrentTenant () {
+    return properties.getProperty(PROPERTY_CURRENT_TENANT);
+  }
+
+  public void setCurrentTenant (final String newTenant) {
+    properties.setProperty(PROPERTY_CURRENT_TENANT, newTenant);
   }
 }

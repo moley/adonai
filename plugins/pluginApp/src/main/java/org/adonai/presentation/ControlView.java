@@ -1,10 +1,15 @@
 package org.adonai.presentation;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,6 +17,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
@@ -93,7 +99,42 @@ public class ControlView extends Parent {
 
     });
 
+
+    Metronome metronome = new Metronome();
+
+    HBox hboxHeader = new HBox();
+    hboxHeader.setSpacing(10);
+
+    hboxHeader.getChildren().add(metronome.getControl());
+
+    Label lblTime = new Label("Anfang");
+    HBox.setMargin(lblTime, new Insets(5, 5, 5, 5));
+    hboxHeader.getChildren().add(lblTime);
+    Thread timeThread = new Thread(new Runnable() {
+      @Override public void run() {
+        while (true) {
+
+          Platform.runLater(new Runnable() {
+            @Override public void run() {
+              lblTime.setText(LocalTime.now().toString());
+            }
+          });
+          try {
+            Thread.sleep(600);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+
+        }
+
+      }
+    });
+    timeThread.start();
+
+
+
     HBox hbox = new HBox();
+
     hbox.setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
 
     hbox.setFillHeight(true);
@@ -103,7 +144,13 @@ public class ControlView extends Parent {
     HBox.setHgrow(leftPane, Priority.ALWAYS);
     HBox.setHgrow(rightPane, Priority.ALWAYS);
 
-    scene.setRoot(hbox);
+    VBox vbox = new VBox();
+    vbox.getChildren().add(hboxHeader);
+    vbox.getChildren().add(hbox);
+    VBox.setVgrow(hbox, Priority.ALWAYS);
+
+
+    scene.setRoot(vbox);
 
   }
 }
