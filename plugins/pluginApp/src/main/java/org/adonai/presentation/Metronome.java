@@ -1,34 +1,56 @@
 package org.adonai.presentation;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
-import org.controlsfx.control.Rating;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Metronome {
 
   private int waitInMillis = 0;
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(Metronome.class);
 
-  private Rating rating = new Rating();
+
+
+  private Button rating = new Button();
+
+  boolean showing = true;
 
 
 
   public Metronome () {
-    rating.setMax(4);
-    rating.setRating(1);
+
     Thread metronomeThread = new Thread(new Runnable() {
       @Override public void run() {
-        try {
-          Thread.sleep(waitInMillis);
-        } catch (InterruptedException e) {
+        while (true) {
 
+          if (waitInMillis == 0) {
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+              LOGGER.info("No bpm set");
+
+            }
+            return;
+          }
+          LOGGER.info("Next");
+          try {
+            Thread.sleep(waitInMillis);
+          } catch (InterruptedException e) {
+
+          }
+          showing = !showing;
+
+          String stying = showing ? "-fx-background-color: #000000;" : "-fx-background-coloe: #FFFFFF;";
+
+          rating.setStyle(stying);
         }
-        if (rating.getRating() == rating.getMax())
-          rating.setRating(1);
-        else
-          rating.setRating(rating.getRating() + 1);
 
       }
     });
+
+    metronomeThread.start();
   }
 
   public Control getControl () {

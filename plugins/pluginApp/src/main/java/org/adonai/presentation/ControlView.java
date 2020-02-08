@@ -1,7 +1,11 @@
 package org.adonai.presentation;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -95,12 +99,42 @@ public class ControlView extends Parent {
 
     });
 
-    Label lblDummy = new Label();
-    lblDummy.setText("Hello");
+
+    Metronome metronome = new Metronome();
+
+    HBox hboxHeader = new HBox();
+    hboxHeader.setSpacing(10);
+
+    hboxHeader.getChildren().add(metronome.getControl());
+
+    Label lblTime = new Label("Anfang");
+    HBox.setMargin(lblTime, new Insets(5, 5, 5, 5));
+    hboxHeader.getChildren().add(lblTime);
+    Thread timeThread = new Thread(new Runnable() {
+      @Override public void run() {
+        while (true) {
+
+          Platform.runLater(new Runnable() {
+            @Override public void run() {
+              lblTime.setText(LocalTime.now().toString());
+            }
+          });
+          try {
+            Thread.sleep(600);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+
+        }
+
+      }
+    });
+    timeThread.start();
 
 
 
     HBox hbox = new HBox();
+
     hbox.setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
 
     hbox.setFillHeight(true);
@@ -111,7 +145,7 @@ public class ControlView extends Parent {
     HBox.setHgrow(rightPane, Priority.ALWAYS);
 
     VBox vbox = new VBox();
-    vbox.getChildren().add(lblDummy);
+    vbox.getChildren().add(hboxHeader);
     vbox.getChildren().add(hbox);
     VBox.setVgrow(hbox, Priority.ALWAYS);
 

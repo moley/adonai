@@ -46,8 +46,7 @@ public class LiveAction {
 
     liveSessionStage.setTitle("ControlView");
     liveSessionStage.setScene(scene);
-    liveSessionStage.setMaximized(true);
-    liveSessionStage.setAlwaysOnTop(true);
+
     liveSessionStage.initStyle(StageStyle.UNDECORATED);
     liveSessionStage.show();
     root.show();
