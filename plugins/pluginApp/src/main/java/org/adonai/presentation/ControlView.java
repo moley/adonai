@@ -1,6 +1,5 @@
 package org.adonai.presentation;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +69,6 @@ public class ControlView extends Parent {
     enableAndAdd();
 
     Scene scene = getScene();
-
     scene.setOnKeyPressed(event -> {
       LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
       if (event.getCode().equals(KeyCode.RIGHT)) {
@@ -101,12 +98,12 @@ public class ControlView extends Parent {
     });
 
 
-    Metronome metronome = new Metronome();
+//    Metronome metronome = new Metronome();
 
     HBox hboxHeader = new HBox();
     hboxHeader.setSpacing(10);
 
-    hboxHeader.getChildren().add(metronome.getControl());
+  //  hboxHeader.getChildren().add(metronome.getControl());
 
     Label lblTime = new Label("Anfang");
     HBox.setMargin(lblTime, new Insets(5, 5, 5, 5));
