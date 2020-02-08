@@ -105,7 +105,7 @@ public class ControlView extends Parent {
 
   //  hboxHeader.getChildren().add(metronome.getControl());
 
-    Label lblTime = new Label("Anfang");
+    /**Label lblTime = new Label("Anfang");
     HBox.setMargin(lblTime, new Insets(5, 5, 5, 5));
     hboxHeader.getChildren().add(lblTime);
     Thread timeThread = new Thread(new Runnable() {
@@ -127,7 +127,7 @@ public class ControlView extends Parent {
 
       }
     });
-    timeThread.start();
+    timeThread.start();**/
 
 
 
