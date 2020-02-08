@@ -73,6 +73,7 @@ public class ControlView extends Parent {
     Scene scene = getScene();
 
     scene.setOnKeyPressed(event -> {
+      LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
       if (event.getCode().equals(KeyCode.RIGHT)) {
 
         disableAndRemove();
