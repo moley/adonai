@@ -30,7 +30,7 @@ public class MaskLoader<T> {
       mask.setStage(stage);
       mask.setScene(scene);
       mask.setController(controller);
-      stage.setAlwaysOnTop(true);
+      stage.toFront();
       stage.setResizable(false);
       stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent event) -> {
         if (KeyCode.ESCAPE == event.getCode()) {

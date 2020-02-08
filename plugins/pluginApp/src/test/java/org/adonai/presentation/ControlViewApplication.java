@@ -58,8 +58,6 @@ public class ControlViewApplication extends Application {
 
     primaryStage.setTitle("ControlView");
     primaryStage.setScene(scene);
-    primaryStage.setMaximized(true);
-    primaryStage.setAlwaysOnTop(true);
     primaryStage.initStyle(StageStyle.UNDECORATED);
     primaryStage.show();
     root.show();

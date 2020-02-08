@@ -46,6 +46,7 @@ public class LiveAction {
 
     liveSessionStage.setTitle("ControlView");
     liveSessionStage.setScene(scene);
+    liveSessionStage.toFront();
     liveSessionStage.initStyle(StageStyle.UNDECORATED);
     liveSessionStage.show();
     root.show();

@@ -48,7 +48,6 @@ public class MainMaskPage extends AbstractPage {
     mask = maskLoader.load("mainpage");
     mask.getStage().setX(10);
     mask.getStage().setY(10);
-    mask.getStage().setAlwaysOnTop(false);
     mask.getStage().show();
   }
 
