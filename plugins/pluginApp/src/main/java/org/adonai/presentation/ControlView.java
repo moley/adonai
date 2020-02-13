@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.adonai.DateUtil;
+import org.adonai.export.presentation.Page;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,18 +28,20 @@ public class ControlView extends Parent {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ControlView.class);
 
+  private DateUtil dateUtil = new DateUtil();
 
   private Pane leftPane = new Pane();
 
   private Pane rightPane = new Pane();
 
-  private List<Pane> panes = new ArrayList<>();
+  private List<Page> panes = new ArrayList<Page>();
 
   private int currentIndex = 0;
 
+  private Metronome metronome = new Metronome();
 
-  public ControlView(final List<Pane> panes) {
-    this.panes = panes;
+  public ControlView(final List<Page> pages) {
+    this.panes = pages;
     currentIndex = 0;
   }
 
@@ -54,9 +58,9 @@ public class ControlView extends Parent {
   private void enableAndAdd () {
 
     if (currentIndex < panes.size())
-      leftPane.getChildren().add(panes.get(currentIndex));
+      leftPane.getChildren().add(panes.get(currentIndex).getPane());
     if (currentIndex + 1 < panes.size())
-      rightPane.getChildren().add(panes.get(currentIndex + 1));
+      rightPane.getChildren().add(panes.get(currentIndex + 1).getPane());
 
     if (! leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(true);
@@ -71,7 +75,10 @@ public class ControlView extends Parent {
     Scene scene = getScene();
     scene.setOnKeyPressed(event -> {
       LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
-      if (event.getCode().equals(KeyCode.RIGHT)) {
+      if (event.getCode().equals(KeyCode.M)) {
+        metronome.setVisible(! metronome.isVisible());
+      }
+      else if (event.getCode().equals(KeyCode.RIGHT)) {
 
         disableAndRemove();
 
@@ -79,6 +86,9 @@ public class ControlView extends Parent {
           currentIndex ++;
 
         LOGGER.info("toLeft (" + currentIndex + ")");
+
+        if (panes.get(currentIndex).getSong() != null)
+          metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
 
         enableAndAdd();
 
@@ -89,23 +99,28 @@ public class ControlView extends Parent {
           currentIndex --;
 
         LOGGER.info("toRight (" + currentIndex + ")");
+
+        if (panes.get(currentIndex).getSong() != null)
+          metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+
         enableAndAdd();
 
       } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+        metronome.stop();
         UiUtils.close(scene.getWindow());
       }
 
     });
 
 
-//    Metronome metronome = new Metronome();
+
 
     HBox hboxHeader = new HBox();
-    hboxHeader.setSpacing(10);
+    hboxHeader.setSpacing(20);
 
-  //  hboxHeader.getChildren().add(metronome.getControl());
+    hboxHeader.getChildren().add(metronome.getControl());
 
-    /**Label lblTime = new Label("Anfang");
+    Label lblTime = new Label("Anfang");
     HBox.setMargin(lblTime, new Insets(5, 5, 5, 5));
     hboxHeader.getChildren().add(lblTime);
     Thread timeThread = new Thread(new Runnable() {
@@ -114,7 +129,7 @@ public class ControlView extends Parent {
 
           Platform.runLater(new Runnable() {
             @Override public void run() {
-              lblTime.setText(LocalTime.now().toString());
+              lblTime.setText(dateUtil.getTimeAsString(LocalTime.now()));
             }
           });
           try {
@@ -127,7 +142,7 @@ public class ControlView extends Parent {
 
       }
     });
-    timeThread.start();**/
+    timeThread.start();
 
 
 

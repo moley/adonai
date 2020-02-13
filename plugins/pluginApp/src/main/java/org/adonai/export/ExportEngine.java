@@ -1,16 +1,22 @@
 package org.adonai.export;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.adonai.*;
-import org.adonai.model.*;
+import org.adonai.AreaInfo;
+import org.adonai.Chord;
+import org.adonai.LocationInfo;
+import org.adonai.LocationInfoCalculator;
+import org.adonai.SizeInfo;
+import org.adonai.model.Line;
+import org.adonai.model.LinePart;
+import org.adonai.model.Song;
+import org.adonai.model.SongPart;
+import org.adonai.model.SongPartDescriptorStrategy;
 import org.adonai.services.SongInfoService;
-
-import java.io.File;
-import java.util.Collection;
-import org.adonai.ui.settings.SettingsController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,19 +48,19 @@ public class ExportEngine {
       for (Song nextSong : songs) {
         String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle();
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
-        documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
+        documentBuilder.newToken(new ExportToken(null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() + exportConfiguration.getInterLineDistance());
 
         if (documentBuilder.getPageSize() != null) {
           if (locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - exportConfiguration.getLowerBorder()) - (sizeInfoTitelAndId.getHeight() * 3)) {
-            documentBuilder.newToken(new ExportTokenNewPage());
+            documentBuilder.newToken(new ExportTokenNewPage(nextSong));
             locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
           }
         }
 
       }
 
-      documentBuilder.newToken(new ExportTokenNewPage());
+      documentBuilder.newToken(new ExportTokenNewPage(null));
       locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
 
 
@@ -72,19 +78,19 @@ public class ExportEngine {
       for (Song nextSong : sortedSongs) {
         String idAndTitle = String.format("%.80s  %2d", nextSong.getTitle(), nextSong.getId());
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
-        documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
+        documentBuilder.newToken(new ExportToken(null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TEXT ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() + exportConfiguration.getInterLineDistance());
 
         if (documentBuilder.getPageSize() != null) {
           if (locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - exportConfiguration.getLowerBorder()) - (sizeInfoTitelAndId.getHeight() * 3)) {
-            documentBuilder.newToken(new ExportTokenNewPage());
+            documentBuilder.newToken(new ExportTokenNewPage(nextSong));
             locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
           }
         }
 
       }
 
-      documentBuilder.newToken(new ExportTokenNewPage());
+      documentBuilder.newToken(new ExportTokenNewPage(null));
       locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
 
 
@@ -97,7 +103,7 @@ public class ExportEngine {
       Double maxStructureWidth = getLongestStructureText(documentBuilder, nextSong, exportConfiguration);
 
       if (documentBuilder.getExportTokenContainer().hasTokens() && exportConfiguration.getNewPageStrategy().equals(NewPageStrategy.PER_SONG)) {
-        documentBuilder.newToken(new ExportTokenNewPage());
+        documentBuilder.newToken(new ExportTokenNewPage(nextSong));
         locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
       }
 
@@ -107,7 +113,7 @@ public class ExportEngine {
         String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + realKey;
 
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
-        documentBuilder.newToken(new ExportToken(idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE ));
+        documentBuilder.newToken(new ExportToken(nextSong, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE ));
         locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
       }
 
@@ -118,7 +124,7 @@ public class ExportEngine {
         if (nextPart.getReferencedSongPart() != null && exportConfiguration.getReferenceStrategy().equals(ReferenceStrategy.SHOW_STRUCTURE)) {
           String structure = songInfoService.getStructure(nextSong, nextPart, exportConfiguration.getSongPartDescriptorType());
           SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
-          documentBuilder.newToken(new ExportToken(structure, new AreaInfo(locationInfo, sizeInfoStructure), ExportTokenType.STRUCTURE));
+          documentBuilder.newToken(new ExportToken(nextSong, structure, new AreaInfo(locationInfo, sizeInfoStructure), ExportTokenType.STRUCTURE));
           locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getInterPartDistance() + sizeInfoStructure.getHeight());
 
         } else {
@@ -127,7 +133,7 @@ public class ExportEngine {
             continue;
 
           if (documentBuilder.getExportTokenContainer().hasTokens() && exportConfiguration.getNewPageStrategy().equals(NewPageStrategy.PER_PART)) {
-            documentBuilder.newToken(new ExportTokenNewPage());
+            documentBuilder.newToken(new ExportTokenNewPage(nextSong));
             locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
           }
 
@@ -153,7 +159,7 @@ public class ExportEngine {
                 SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
                 locationInfoStructure = new LocationInfo(locationInfoStructure.getX(), locationInfoText.getY());
 
-                documentBuilder.newToken(new ExportToken(structure, new AreaInfo(locationInfoStructure, sizeInfoStructure), ExportTokenType.STRUCTURE));
+                documentBuilder.newToken(new ExportToken(nextSong, structure, new AreaInfo(locationInfoStructure, sizeInfoStructure), ExportTokenType.STRUCTURE));
               }
             }
 
@@ -174,12 +180,12 @@ public class ExportEngine {
                   String eventuallyTransformedChord = transposeChordOnDemand(nextLinePart, nextSong, exportConfiguration);
 
                   SizeInfo sizeinfoChord = documentBuilder.getSize(eventuallyTransformedChord, ExportTokenType.CHORD);
-                  documentBuilder.newToken(new ExportToken(eventuallyTransformedChord, new AreaInfo(locationInfoChord, sizeinfoChord), ExportTokenType.CHORD));
+                  documentBuilder.newToken(new ExportToken(nextSong, eventuallyTransformedChord, new AreaInfo(locationInfoChord, sizeinfoChord), ExportTokenType.CHORD));
 
                   widthOfChord = sizeinfoChord.getWidth() + exportConfiguration.getMinimalChordDistance();
                 }
 
-                documentBuilder.newToken(new ExportToken(nextLinePart.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
+                documentBuilder.newToken(new ExportToken(nextSong, nextLinePart.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
 
                 Double maximumLength = Double.max(widthOfChord, widthOfText);
                 if (nextLine.getText() == null || nextLine.getText().trim().isEmpty())
@@ -191,7 +197,7 @@ public class ExportEngine {
             } else { //to avoid empty gaps
               SizeInfo sizeInfoText = documentBuilder.getSize(nextLine.getText(), ExportTokenType.TEXT);
               heightOfText = sizeInfoText.getHeight();
-              documentBuilder.newToken(new ExportToken(nextLine.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
+              documentBuilder.newToken(new ExportToken(nextSong, nextLine.getText(), new AreaInfo(locationInfoText, sizeInfoText), ExportTokenType.TEXT));
             }
 
             Double interLineDistance = exportConfiguration.getInterLineDistance();
@@ -200,7 +206,7 @@ public class ExportEngine {
 
             if (documentBuilder.getPageSize() != null) {
               if (!nextLine.equals(nextPart.getLastLine()) && locationInfo.getY() > (documentBuilder.getPageSize().getHeight() - exportConfiguration.getLowerBorder())) {
-                documentBuilder.newToken(new ExportTokenNewPage());
+                documentBuilder.newToken(new ExportTokenNewPage(nextSong));
                 locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), exportConfiguration.getUpperBorder());
               }
             }

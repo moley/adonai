@@ -31,7 +31,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
   private SizeInfo sizeInfo;
   private HashMap<ExportTokenType, Font> savedFonts = new HashMap<ExportTokenType, Font>();
 
-  private List<Pane> panes = new ArrayList<>();
+  private List<Page> pages = new ArrayList<>();
 
 
 
@@ -74,30 +74,33 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
   }
 
-  private Pane createPane () {
-    Pane currentPane = new Pane();
-    currentPane.setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
-    currentPane.setVisible(false);
+  private Page createPane () {
+    Page currentPane = new Page();
+    currentPane.getPane().setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
+    currentPane.getPane().setVisible(false);
     return currentPane;
   }
 
   @Override public void write(File outputfile) {
 
-    Pane currentPane = createPane();
-    panes.add(currentPane);
+    Page currentPage = createPane();
+    pages.add(currentPage);
 
     for (ExportToken nextToken: getExportTokenContainer().getExportTokenList()) {
       if (nextToken.getExportTokenType().equals(ExportTokenType.NEW_PAGE)) {
-        currentPane = createPane();
-        panes.add(currentPane);
+        currentPage = createPane();
+        currentPage.setSong(nextToken.getSong());
+        pages.add(currentPage);
       }
       else {
         Text text = new Text();
         text.setFont(getBaseFont(nextToken.getExportTokenType()));
         text.setText(nextToken.getText());
         text.relocate(nextToken.getAreaInfo().getX(), nextToken.getAreaInfo().getY());
-        currentPane.getChildren().add(text);
+        currentPage.getPane().getChildren().add(text);
+        currentPage.setSong(nextToken.getSong());
       }
+
     }
 
     //noimpl
@@ -136,8 +139,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     this.sizeInfo = sizeInfo;
   }
 
-  public List<Pane> getPanes() {
-    return panes;
+  public List<Page> getPages() {
+    return pages;
   }
 
 

@@ -33,8 +33,8 @@ public class PresentationExporter implements Exporter {
     return presentationDocumentBuilder.getExportTokenContainer();
   }
 
-  public List<Pane> getPanes () {
-    return presentationDocumentBuilder.getPanes();
+  public List<Page> getPanes () {
+    return presentationDocumentBuilder.getPages();
   }
 
 }

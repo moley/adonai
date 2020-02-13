@@ -11,40 +11,48 @@ public class Metronome {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Metronome.class);
 
-
-
   private Button rating = new Button();
 
   boolean showing = true;
 
+  private Thread metronomeThread;
 
+  private boolean metronomeAvailable = true;
 
-  public Metronome () {
+  public Metronome() {
+    rating.setMinWidth(50);
+    rating.setFocusTraversable(false);
+    setVisible(false);
 
-    Thread metronomeThread = new Thread(new Runnable() {
+    metronomeThread = new Thread(new Runnable() {
       @Override public void run() {
-        while (true) {
+        LOGGER.info("Metronome started");
+        while (metronomeAvailable) {
+          LOGGER.info("Metronome running (" + waitInMillis + ")");
 
           if (waitInMillis == 0) {
+            rating.setVisible(false);
             try {
               Thread.sleep(1000);
             } catch (InterruptedException e) {
               LOGGER.info("No bpm set");
 
             }
-            return;
+          } else {
+            LOGGER.info("Next tick");
+            try {
+              Thread.sleep(waitInMillis);
+            } catch (InterruptedException e) {
+
+            }
+            if (rating.isVisible()) {
+              showing = !showing;
+
+              String stying = showing ? "-fx-background-color: #000000;" : "-fx-background-color: #FFFFFF;";
+
+              rating.setStyle(stying);
+            }
           }
-          LOGGER.info("Next");
-          try {
-            Thread.sleep(waitInMillis);
-          } catch (InterruptedException e) {
-
-          }
-          showing = !showing;
-
-          String stying = showing ? "-fx-background-color: #000000;" : "-fx-background-coloe: #FFFFFF;";
-
-          rating.setStyle(stying);
         }
 
       }
@@ -53,17 +61,31 @@ public class Metronome {
     metronomeThread.start();
   }
 
-  public Control getControl () {
+  public void setVisible(final boolean visible) {
+    rating.setVisible(visible);
+  }
+
+  public boolean isVisible () {
+    return rating.isVisible();
+  }
+
+  public Control getControl() {
     return rating;
   }
 
-  public void setBpm (final int bpm) {
-
-    //60 * 1000 ms
-    //60 bpm 60 pro minute, 1 pro Sekunde
-    //120 bpm 120 pro Minute, 2 pro Sekunde
-    waitInMillis = (60 * 1000) / bpm;
+  public void setBpm(final Integer bpm) {
+    LOGGER.info("set bpm " + bpm);
+    if (bpm == null)
+      waitInMillis = 0;
+    else
+      //60 * 1000 ms
+      //60 bpm 60 pro minute, 1 pro Sekunde
+      //120 bpm 120 pro Minute, 2 pro Sekunde
+      waitInMillis = (60 * 1000) / bpm;
   }
 
-
+  public void stop() {
+    LOGGER.info ("Stop metronome");
+    metronomeAvailable = false;
+  }
 }
