@@ -8,8 +8,8 @@
     <padding><Insets top="20" bottom="20" left="5" right="5"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
-        <ColumnConstraints percentWidth="75"/>
-        <ColumnConstraints percentWidth="5"/>
+        <ColumnConstraints percentWidth="70"/>
+        <ColumnConstraints percentWidth="10"/>
     </columnConstraints>
 
 

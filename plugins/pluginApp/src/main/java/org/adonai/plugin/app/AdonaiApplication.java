@@ -9,4 +9,10 @@ public class AdonaiApplication implements Application {
   @Override public void run(String[] args) {
     JavaFxApplication.main(args);
   }
+
+  public static void main(String[] args) {
+    AdonaiApplication adonaiApplication = new AdonaiApplication();
+    adonaiApplication.run(args);
+  }
+
 }

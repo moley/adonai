@@ -41,7 +41,11 @@ public class Consts {
   }
 
   public final static File getAdonaiHome () {
-    return adonaiHome;
+    File customHome = new File (".adonai");
+    if (customHome.exists())
+      return customHome;
+    else
+      return adonaiHome;
   }
 
   /**
@@ -83,7 +87,7 @@ public class Consts {
         LOGGER.debug("create image " + imageKey.getName());
       InputStream inputStream = Consts.class.getResourceAsStream("/icons/" + imageKey.getName() + ".png");
       if (inputStream == null)
-        throw new IllegalStateException("Could not load image " + imageKey.getName() + " with classloader " + Consts.class.getClassLoader());
+        throw new IllegalStateException("Could not load image '" + imageKey.getName() + "' with classloader " + Consts.class.getClassLoader());
 
       cachedImage = new Image(inputStream, imageKey.getIconSize(), imageKey.getIconSize(), true, true);
       imagesCache.put(imageKey, cachedImage);

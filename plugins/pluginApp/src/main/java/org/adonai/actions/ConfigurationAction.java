@@ -7,7 +7,7 @@ import org.adonai.ui.MaskLoader;
 
 public class ConfigurationAction {
 
-  public final static int CONFIGDIALOG_WIDTH = 1200;
+  public final static int CONFIGDIALOG_WIDTH = 1400;
   public final static int CONFIGDIALOG_HEIGHT = 950;
 
 

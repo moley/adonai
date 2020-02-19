@@ -5,10 +5,10 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.settings.SettingsExportController" alignment="CENTER" hgap="10" vgap="10" >
-    <padding><Insets top="20" bottom="20" left="5" right="5"/> </padding>
+    <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="10"/>
-        <ColumnConstraints percentWidth="90"/>
+        <ColumnConstraints percentWidth="80"/>
         <ColumnConstraints percentWidth="10"/>
     </columnConstraints>
 
@@ -21,8 +21,7 @@
 
     <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" spacing="5">
         <Button text="Clone" fx:id="btnCloneConfiguration" userData="settings_export.btnCloneConfiguration"></Button>
-        <Button text="Remove" fx:id="btnRemoveConfiguration" userData="settings_export.btnRemoveConfiguration"></Button>
-
+        <Button text="Remove"  fx:id="btnRemoveConfiguration" userData="settings_export.btnRemoveConfiguration"></Button>
     </VBox>
 
 

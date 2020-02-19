@@ -30,6 +30,10 @@ public class AdonaiProperties {
 
   }
 
+  public String getProperty (final String key, final String defaultValue) {
+    return properties.getProperty(key, defaultValue);
+  }
+
   public String getProperty (final String key) {
     return properties.getProperty(key);
   }

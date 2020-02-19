@@ -111,7 +111,7 @@ public class SettingsController {
           setGraphic(null);
         } else {
           if (settingsItem.getIcon() != null && ! settingsItem.getIcon().trim().isEmpty()) {
-            ImageView imageView = Consts.createImageView(settingsItem.getIcon(), Consts.ICON_SIZE_LARGE);
+            ImageView imageView = Consts.createImageView(settingsItem.getIcon(), Consts.ICON_SIZE_SMALL);
             setGraphic(imageView);
           }
           else
