@@ -92,6 +92,11 @@
     -fx-border-radius: 90%;
 }
 
+#btnTenant {
+      -fx-text-fill: rgb(158, 153, 141);
+
+}
+
 #statusbutton {
     -fx-background-color: transparent;
     -fx-text-fill: rgb(182, 189, 217);

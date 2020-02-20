@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -17,6 +18,14 @@
             fx:controller="org.adonai.ui.mainpage.MainPageController" style="-fx-background-color: #666666;">
     <center>
         <VBox>
+            <BorderPane prefHeight="50">
+                <center>
+                    <ToolBar BorderPane.alignment="CENTER_LEFT" fx:id="tbaActions"/>
+                </center>
+                <right>
+                    <MenuButton prefHeight="80" BorderPane.alignment="CENTER_RIGHT" fx:id="btnTenant" userData="mainpage.btnTenant"/>
+                </right>
+            </BorderPane>
 
             <StackPane fx:id="spDetails" userData="mainpage.spDetails">
                 <VBox fx:id="panSongDetails" userData="mainpage.panSongDetails">
@@ -44,8 +53,7 @@
                 <VBox.vgrow>ALWAYS</VBox.vgrow>
 
             </StackPane>
-            <ToolBar fx:id="tbaActions">
-            </ToolBar>
+
         </VBox>
     </center>
     <left>
@@ -54,11 +62,15 @@
                 <ToggleGroup fx:id="leftgroup"/>
             </fx:define>
             <ToolBar fx:id="tbLeft" rotate="-90.0">
-                <ToggleButton fx:id="togSongbooks" userData="mainpage.togSongbooks" text="Songbook" toggleGroup="${leftgroup}" selected="true"/>
-                <ToggleButton fx:id="togSessions" userData="mainpage.togSessions" text="Sessions" toggleGroup="${leftgroup}"/>
-                <ToggleButton fx:id="togSession" userData="mainpage.togSession" text="Session" toggleGroup="${leftgroup}"/>
+                <ToggleButton fx:id="togSongbooks" userData="mainpage.togSongbooks" text="Songbook"
+                              toggleGroup="${leftgroup}" selected="true"/>
+                <ToggleButton fx:id="togSessions" userData="mainpage.togSessions" text="Sessions"
+                              toggleGroup="${leftgroup}"/>
+                <ToggleButton fx:id="togSession" userData="mainpage.togSession" text="Session"
+                              toggleGroup="${leftgroup}"/>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Label fx:id="lblCurrentType" userData="mainpage.lblCurrentType" BorderPane.alignment="CENTER" text="songbook">
+                <Label fx:id="lblCurrentType" userData="mainpage.lblCurrentType" BorderPane.alignment="CENTER"
+                       text="songbook">
                     <HBox.margin>
                         <Insets>
                             <right>40</right>

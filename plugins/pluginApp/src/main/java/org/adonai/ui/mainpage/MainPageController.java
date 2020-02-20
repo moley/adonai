@@ -23,6 +23,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -108,6 +110,8 @@ public class MainPageController {
 
   @FXML private Label lblCurrentType;
 
+  @FXML private MenuButton btnTenant;
+
   private FilteredList<Song> filteredSongList;
 
   private ConfigurationService configurationService = new ConfigurationService();
@@ -146,6 +150,10 @@ public class MainPageController {
     panSongDetails.setBackground(Background.EMPTY);
 
     panSessionDetails.setBackground(Background.EMPTY);
+
+    reloadTenantData(adonaiProperties.getCurrentTenant());
+
+    refreshTenantButton();
 
     txtSessionName.textProperty().addListener(new ChangeListener<String>() {
       @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -501,18 +509,8 @@ public class MainPageController {
         ConfigurationAction configurationAction = new ConfigurationAction();
         configurationAction.openConfigurations(x, y, new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
-            adonaiProperties = new AdonaiProperties();
-            String newTenant = adonaiProperties.getCurrentTenant();
-            LOGGER.info("Old tenant after configuration screen: " + currentTenant);
-            LOGGER.info("New tenant after configuration screen: " + newTenant);
-            if (! newTenant.equals(currentTenant)) {
-              LOGGER.info("Tenant changed, reload data for tenant " + newTenant);
-              currentTenant = newTenant;
-              configurationService = new ConfigurationService();
-              configuration = configurationService.get(newTenant);
-              refreshListViews(null);
-              selectSongbook();
-            }
+            refreshTenantButton();
+
           }
         });
 
@@ -662,6 +660,42 @@ public class MainPageController {
   private void refreshButtonState() {
     boolean sessionsAvailable = configuration.getSessions().size() > 0;
     togSession.setVisible(sessionsAvailable);
+  }
+
+  private void reloadTenantData (String newTenant) {
+    adonaiProperties = new AdonaiProperties();
+    LOGGER.info("Old tenant after configuration screen: " + currentTenant);
+    LOGGER.info("New tenant after configuration screen: " + newTenant);
+    if (! newTenant.equals(currentTenant)) {
+      LOGGER.info("Tenant changed, reload data for tenant " + newTenant);
+      adonaiProperties.setCurrentTenant(newTenant);
+      adonaiProperties.save();
+      currentTenant = newTenant;
+      configurationService = new ConfigurationService();
+      configuration = configurationService.get(newTenant);
+      refreshTenantButton();
+      refreshListViews(null);
+      selectSongbook();
+    }
+  }
+
+  private void refreshTenantButton() {
+    btnTenant.setText(adonaiProperties.getCurrentTenant());
+    btnTenant.getItems().clear();
+    for (String next: tenantService.getTenants()) {
+      MenuItem menuItem1 = new MenuItem(next);
+      menuItem1.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent event) {
+          MenuItem menuItem = (MenuItem) event.getSource();
+          LOGGER.info("Selected " + menuItem.getText());
+          adonaiProperties.setCurrentTenant(menuItem.getText());
+          reloadTenantData(menuItem.getText());
+        }
+      });
+      btnTenant.getItems().add(menuItem1);
+    }
+
+
   }
 
   private void selectSessions() {

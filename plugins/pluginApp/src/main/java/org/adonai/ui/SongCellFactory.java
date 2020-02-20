@@ -1,5 +1,6 @@
 package org.adonai.ui;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -11,6 +12,7 @@ import javafx.util.Callback;
 import org.adonai.StringUtils;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Song;
+import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
 
         if (item != null) {
           HBox hbox = new HBox();
+          hbox.setAlignment(Pos.CENTER_LEFT);
           String labelText = item.getId() != null ? String.format("%3d - %s", item.getId(), item.getTitle()) : item.getTitle();
           Label label = new Label(labelText);
           label.setMinWidth(800);
@@ -55,6 +58,27 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
               hbox.getChildren().add(btnStatus);
 
           }
+
+          Label lblSpeed = new Label();
+          lblSpeed.setMinWidth(100);
+          lblSpeed.setText(item.getSpeed() != null ? item.getSpeed().toString(): "");
+          hbox.getChildren().add(lblSpeed);
+
+          Label lblKey = new Label();
+          lblKey.setMinWidth(50);
+          lblKey.setText(item.getCurrentKey() != null ? item.getCurrentKey().toString(): "");
+          hbox.getChildren().add(lblKey);
+
+          Label lblKeyOrigin = new Label();
+          lblKeyOrigin.setMinWidth(50);
+          lblKeyOrigin.setText(item.getOriginalKey() != null ? ("(" + item.getOriginalKey().toString() + ")"): "");
+          hbox.getChildren().add(lblKeyOrigin);
+
+          Label lblLeadVoice = new Label();
+          lblLeadVoice.setMinWidth(50);
+          lblLeadVoice.setText(item.getLeadVoice() != null ? item.getLeadVoice().getUsername(): "");
+          hbox.getChildren().add(lblLeadVoice);
+
           setGraphic(hbox);
         }
         else {

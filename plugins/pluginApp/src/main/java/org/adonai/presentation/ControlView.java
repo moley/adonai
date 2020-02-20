@@ -76,6 +76,7 @@ public class ControlView extends Parent {
     scene.setOnKeyPressed(event -> {
       LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
       if (event.getCode().equals(KeyCode.M)) {
+        metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
         metronome.setVisible(! metronome.isVisible());
       }
       else if (event.getCode().equals(KeyCode.RIGHT)) {
