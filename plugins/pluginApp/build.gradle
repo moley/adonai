@@ -60,10 +60,17 @@ mainClassName = 'org.adonai.ui.AdonaiApplication'
 
 xjcGenerate {
     source = fileTree('src/main/schema') { include 'zef2005.xsd' }
+    outputDirectory = file ('src/xjc')
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/xjc'
+        }
+    }
+}
 
-tasks.compileJava.dependsOn tasks.xjcGenerate
 
 task installLocal(type: Copy, dependsOn: distZip) {
     def zipFile = file("build/distributions/pluginApp-" + version + ".zip")

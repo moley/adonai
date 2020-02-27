@@ -16,37 +16,56 @@
 package org.adonai.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.adonai.api.Application;
-import org.apache.commons.lang3.StringUtils;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.ManifestPluginDescriptorFinder;
 import org.pf4j.PluginClassLoader;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
-import org.pf4j.update.DefaultUpdateRepository;
-import org.pf4j.update.PluginInfo;
-import org.pf4j.update.UpdateManager;
-import org.pf4j.update.UpdateRepository;
+import org.pf4j.RuntimeMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.pf4j.AbstractPluginManager.MODE_PROPERTY_NAME;
 
 /**
  * A boot class that starts the application
  *
  * @author Decebal Suiu
  */
-public class Boot {
-    private static final Logger logger = LoggerFactory.getLogger(Boot.class);
+public class AdonaiBootstrap {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdonaiBootstrap.class);
 
-    public static void main(String[] args) throws MalformedURLException {
-        // print logo
-        printLogo();
+    public static void main(String[] args) throws IOException {
+        LOGGER.info("Starting application in path " + new File("").getAbsolutePath());
+
+        File pluginsDir = new File ("plugins");
+
+        boolean inDevelopmentMode = new File ("build.gradle").exists();
+        if (inDevelopmentMode) {
+            System.setProperty(MODE_PROPERTY_NAME, RuntimeMode.DEVELOPMENT.toString());
+            System.setProperty("pf4j.pluginsDir", pluginsDir.getAbsolutePath());
+
+            List<Path> libs = Files.walk(pluginsDir.toPath()).filter(new Predicate<Path>() {
+                @Override public boolean test(Path path) {
+                    return path.toFile().getName().equals("libs");
+                }
+            }).collect(Collectors.toList());
+            if (libs.isEmpty())
+                throw new IllegalStateException("No libs pathes in development mode. Did you build the jars?");
+        }
 
         // create the plugin manager
         final PluginManager pluginManager = new DefaultPluginManager() {
@@ -59,29 +78,28 @@ public class Boot {
                 .add(new ManifestPluginDescriptorFinder());
           }
         };
-
-        logger.info("Development mode: " + pluginManager.isDevelopment());
+        LOGGER.info("Using development mode: " + pluginManager.isDevelopment());
 
         // load the plugins
         pluginManager.loadPlugins();
 
-        logger.info("Found " + pluginManager.getPlugins().size() + " plugins");
+        LOGGER.info("Found " + pluginManager.getPlugins().size() + " plugins");
         for (PluginWrapper pluginWrapper: pluginManager.getPlugins()) {
-            logger.info("Loaded " + pluginWrapper.getPluginId());
-            logger.info(pluginWrapper.getPluginPath().toString());
+            LOGGER.info("Loaded " + pluginWrapper.getPluginId());
+            LOGGER.info(pluginWrapper.getPluginPath().toString());
             URL[] urls = ((PluginClassLoader)pluginWrapper.getPluginClassLoader()).getURLs();
-            logger.info(Arrays.toString(urls));
+            LOGGER.info(Arrays.toString(urls));
 
             String pluginId = pluginWrapper.getDescriptor().getPluginId();
-            logger.info(String.format("Extensions added by plugin '%s':", pluginId));
+            LOGGER.info(String.format("Extensions added by plugin '%s':", pluginId));
             Set<String> extensionClassNames = pluginManager.getExtensionClassNames(pluginId);
              for (String extension : extensionClassNames) {
-                 logger.info("   " + extension);
+                 LOGGER.info("   " + extension);
              }
         }
 
-        logger.info("Plugindirectory: ");
-        logger.info("\t" + System.getProperty("pf4j.pluginsDir") + "\n");
+        LOGGER.info("Plugindirectory: ");
+        LOGGER.info("\t" + System.getProperty("pf4j.pluginsDir") + "\n");
 
 
         File plugins = new File ("plugins");
@@ -99,48 +117,48 @@ public class Boot {
         // check for updates
         if (updateManager.hasUpdates()) {
             List<PluginInfo> updates = updateManager.getUpdates();
-            logger.debug("Found {} updates", updates.size());
+            LOGGER.debug("Found {} updates", updates.size());
             for (PluginInfo plugin : updates) {
-                logger.debug("Found update for plugin '{}'", plugin.id);
+                LOGGER.debug("Found update for plugin '{}'", plugin.id);
                 PluginInfo.PluginRelease lastRelease = updateManager.getLastPluginRelease(plugin.id);
                 String lastVersion = lastRelease.version;
                 String installedVersion = pluginManager.getPlugin(plugin.id).getDescriptor().getVersion();
-                logger.debug("Update plugin '{}' from version {} to version {}", plugin.id, installedVersion, lastVersion);
+                LOGGER.debug("Update plugin '{}' from version {} to version {}", plugin.id, installedVersion, lastVersion);
                 boolean updated = updateManager.updatePlugin(plugin.id, lastVersion);
                 if (updated) {
-                    logger.debug("Updated plugin '{}'", plugin.id);
+                    LOGGER.debug("Updated plugin '{}'", plugin.id);
                 } else {
-                    logger.error("Cannot update plugin '{}'", plugin.id);
+                    LOGGER.error("Cannot update plugin '{}'", plugin.id);
                     systemUpToDate = false;
                 }
             }
         } else {
-            logger.debug("No updates found");
+            LOGGER.debug("No updates found");
         }
 
         // check for available (new) plugins
         if (updateManager.hasAvailablePlugins()) {
             List<PluginInfo> availablePlugins = updateManager.getAvailablePlugins();
-            logger.debug("Found {} available plugins", availablePlugins.size());
+            LOGGER.debug("Found {} available plugins", availablePlugins.size());
             for (PluginInfo plugin : availablePlugins) {
-                logger.debug("Found available plugin '{}'", plugin.id);
+                LOGGER.debug("Found available plugin '{}'", plugin.id);
                 PluginInfo.PluginRelease lastRelease = updateManager.getLastPluginRelease(plugin.id);
                 String lastVersion = lastRelease.version;
-                logger.debug("Install plugin '{}' with version {}", plugin.id, lastVersion);
+                LOGGER.debug("Install plugin '{}' with version {}", plugin.id, lastVersion);
                 boolean installed = updateManager.installPlugin(plugin.id, lastVersion);
                 if (installed) {
-                    logger.debug("Installed plugin '{}'", plugin.id);
+                    LOGGER.debug("Installed plugin '{}'", plugin.id);
                 } else {
-                    logger.error("Cannot install plugin '{}'", plugin.id);
+                    LOGGER.error("Cannot install plugin '{}'", plugin.id);
                     systemUpToDate = false;
                 }
             }
         } else {
-            logger.debug("No available plugins found");
+            LOGGER.debug("No available plugins found");
         }
 
         if (systemUpToDate) {
-            logger.debug("System up-to-date");
+            LOGGER.debug("System up-to-date");
         }
          **/
 
@@ -159,37 +177,8 @@ public class Boot {
         }
         applications.get(0).run(args);
 
-        // // print extensions from classpath (non plugin)
-        // logger.info(String.format("Extensions added by classpath:"));
-        // Set<String> extensionClassNames = pluginManager.getExtensionClassNames(null);
-        // for (String extension : extensionClassNames) {
-        //     logger.info("   " + extension);
-        // }
 
-        // print extensions for each started plugin
-        List<PluginWrapper> startedPlugins = pluginManager.getStartedPlugins();
-        for (PluginWrapper plugin : startedPlugins) {
-
-        }
-
-        // stop the plugins
-        pluginManager.stopPlugins();
-        /*
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                pluginManager.stopPlugins();
-            }
-
-        });
-        */
     }
 
-    private static void printLogo() {
-        logger.info(StringUtils.repeat("#", 40));
-        logger.info(StringUtils.center("ADONAI", 40));
-        logger.info(StringUtils.repeat("#", 40));
-    }
 
 }

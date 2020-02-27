@@ -85,4 +85,8 @@ githubRelease {
 
 tasks.githubRelease.dependsOn rootProject.getTasksByName('build', true)
 
+println "Using gradle version: " + gradle.gradleVersion
+println "Using java version  : " + System.getProperty("java.version")
+
+
 

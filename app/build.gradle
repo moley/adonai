@@ -9,9 +9,9 @@ javafx {
     version = "11.0.2" //12-ea+8"
 }
 
-mainClassName = 'org.adonai.app.Boot'
+mainClassName = 'org.adonai.app.AdonaiBootstrap'
 run {
-  //systemProperty 'pf4j.pluginsDir', '../build/plugins'
+  //systemProperty 'pf4j.pluginsDir', '../plugins'
 }
 
 dependencies {
@@ -35,24 +35,38 @@ dependencies {
 
 }
 
-task uberjar(type: Jar, dependsOn: ['compileJava']) {
-  zip64 true
-  from configurations.runtimeClasspath.asFileTree.files.collect {
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
-    zipTree(it)
-  }
-  from files(sourceSets.main.output.classesDirs)
-  from files(sourceSets.main.resources)
-  manifest {
-    attributes 'Main-Class': mainClassName
+def applicationName = 'adonai'
+
+distZip {
+  archiveBaseName = applicationName
+  archiveVersion = ''
+  startScripts.applicationName = applicationName
+  project(':plugins').subprojects {
+    plugin ->
+    println "Copy plugin " + plugin.name + " into " + this.project.name + "-" + this.project.version + "/bin/plugins/" + plugin.name
+    into(applicationName + "/bin/plugins") {
+      from plugin.file('build/libs')
+      include '*.jar'
+    }
+
+    into(applicationName +  "/bin") {
+      from '../.java-version'
+    }
   }
 
-  archiveBaseName = "${project.name}-plugin-demo"
-  archiveClassifier = "uberjar"
+  dependsOn(project.rootProject.getTasksByName("jar", true))
 }
 
-tasks.build.dependsOn tasks.uberjar
+task installLocal(type: Copy, dependsOn: distZip) {
+  def zipFile = file("build/distributions/" + applicationName + ".zip")
+  def outputDir = file(System.getProperty("user.home") + "/programs")
+  println "OutputDir = $outputDir.absolutePath"
+
+  from zipTree(zipFile)
+  into outputDir
+  group = 'distribution'
+  description = 'Installs the program into my output dir'
+}
+
 
 
