@@ -105,4 +105,8 @@ public class Configuration {
   public void setTenant(String tenant) {
     this.tenant = tenant;
   }
+
+  @Override public String toString() {
+    return "Configuration{" + "tenant='" + tenant + '\'' + ", users=" + users + ", exportConfigurations=" + exportConfigurations + ", sessions=" + sessions + ", songBooks=" + songBooks + ", extensionPaths=" + extensionPaths + ", exportPath=" + exportPath + '}';
+  }
 }

@@ -6,9 +6,12 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.model.Configuration;
+import org.adonai.model.Model;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.TenantModel;
+import org.adonai.services.ModelService;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.uitests.pages.AddPartPage;
 import org.adonai.uitests.pages.ImportSongWizardPage;
@@ -115,7 +118,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   public void editSongDetails () {
     SongEditorPage songEditorPage = mainMaskPage.stepToSong(0);
     SongDetailsPage songDetailsPage = songEditorPage.songDetailsPage();
-    Assert.assertEquals ("SONG1", songDetailsPage.getTitle());
+    Assert.assertEquals ("SONG1_TENANT1", songDetailsPage.getTitle());
 
     songDetailsPage.setTitle("Song1Changed");
 
@@ -204,13 +207,16 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     selectAdditionalPage.select("AnotherMp3");
     mainMaskPage.save ();
 
-    Configuration configuration = testDataCreator.createTestData(false);
+    ModelService modelService = new ModelService();
+    Model model = modelService.load();
+    TenantModel tenantModel = model.getCurrentTenantModel();
+    Configuration configuration = tenantModel.get();
 
     for (Song next: configuration.getSongBooks().get(0).getSongs()) {
-      LOGGER.info("Next: " + next.getAdditionals());
+      LOGGER.info("Next: " + configuration.getTenant() + "-" + next.getId() + " - " + next.getTitle() + next.getAdditionals());
     }
     firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
-    Assert.assertTrue ("Wrong additional added", firstSong.getAdditionals().get(0).getLink().endsWith("build/testdata/additionals/AnotherMp3.mp3"));
+    Assert.assertTrue ("Wrong additional added (" + firstSong.getAdditionals().get(0).getLink() + ")", firstSong.getAdditionals().get(0).getLink().endsWith(".adonai/additionals/AnotherMp3.mp3"));
   }
 
 

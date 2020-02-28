@@ -29,4 +29,12 @@ public class SongBook {
     return null;
   }
 
+  public String toString () {
+    String asString = "Songbook " + System.identityHashCode(this) + "\n";
+    for (Song next: songs) {
+      asString += " - " + next.getId() + "-" + next.getTitle() + "(" + System.identityHashCode(next) + ")\n";
+    }
+    return asString;
+  }
+
 }

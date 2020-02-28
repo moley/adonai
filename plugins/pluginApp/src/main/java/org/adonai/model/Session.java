@@ -36,7 +36,7 @@ public class Session implements NamedElement {
     this.name.setValue(name);
   }
 
-  public String toString () {
-    return getName();
+  @Override public String toString() {
+    return "Session{" + "songs=" + songs + ", name=" + name + '}';
   }
 }

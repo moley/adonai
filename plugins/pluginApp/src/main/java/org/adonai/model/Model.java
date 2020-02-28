@@ -50,4 +50,14 @@ public class Model {
     }
     return names;
   }
+
+  public String toString () {
+    String asString = "";
+    for (TenantModel next: getTenantModels()) {
+      asString += next.toString();
+    }
+
+    return asString;
+
+  }
 }

@@ -88,8 +88,8 @@
     -fx-text-fill: rgb(182, 189, 217);
     -fx-border-color: rgb(201, 199, 187);
     -fx-text-fill: black;
-    margin: 10px;
-    -fx-border-radius: 90%;
+    -fx-border-radius: 95%;
+    -fx-padding: 5;
 }
 
 #btnTenant {

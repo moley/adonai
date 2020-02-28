@@ -18,6 +18,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.adonai.model.Model;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -26,11 +27,9 @@ import org.slf4j.LoggerFactory;
 
 public class SettingsController {
 
-  @FXML
-  private ListView<SettingsItem> lviConfigurationList;
+  @FXML private ListView<SettingsItem> lviConfigurationList;
 
-  @FXML
-  private StackPane panConfigurationDetails;
+  @FXML private StackPane panConfigurationDetails;
 
   private HashMap<String, Parent> panes = new HashMap<String, Parent>();
 
@@ -38,58 +37,63 @@ public class SettingsController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
 
-
-
-
-
-
-
-  @FXML
-  public void initialize() throws IOException {
+  public void setModel(Model model) {
     LOGGER.info("initializing SettingsController");
-
-
 
     lviConfigurationList.setItems(configurations);
 
-
     Collection<String> settingsPanes = new ArrayList<String>();
 
-    List<String> files = IOUtils.readLines(getClass().getClassLoader().getResourceAsStream("screens/"), Charsets.toCharset("UTF-8"));
+    List<String> files = null;
+    try {
+      files = IOUtils
+          .readLines(getClass().getClassLoader().getResourceAsStream("screens/"), Charsets.toCharset("UTF-8"));
+    } catch (IOException e) {
+      throw new IllegalStateException("Error gettings screens", e);
+    }
     LOGGER.info("Found " + files.size() + " settings screens");
-    for (String next: files) {
+    for (String next : files) {
       if (next.startsWith("settings_")) {
         LOGGER.info("adding settings page " + next);
         settingsPanes.add("/screens/" + next);
       }
     }
 
-    for (String next: settingsPanes) {
+    for (String next : settingsPanes) {
 
       FXMLLoader loader = new FXMLLoader(getClass().getResource(next));
       loader.setResources(ResourceBundle.getBundle("languages.adonai"));
-      Parent root = loader.load();
-      ResourceBundle resources = loader.getResources();
 
+      Parent root = null;
+      try {
+        root = loader.load();
 
-      String id = next.substring(next.lastIndexOf("/") + 1).replace(".fxml", "");
-      String name = resources.getString(id);
-      String icon = resources.getString(id + "_icon");
+        AbstractSettingsController abstractSettingsController = loader.getController();
+        abstractSettingsController.setModel(model);
 
-      panes.put(id, root);
-      panConfigurationDetails.getChildren().add(root);
-      configurations.add(new SettingsItem(id, name, icon));
+        ResourceBundle resources = loader.getResources();
+
+        String id = next.substring(next.lastIndexOf("/") + 1).replace(".fxml", "");
+        String name = resources.getString(id);
+        String icon = resources.getString(id + "_icon");
+
+        panes.put(id, root);
+        panConfigurationDetails.getChildren().add(root);
+        configurations.add(new SettingsItem(id, name, icon));
+      } catch (IOException e) {
+        throw new IllegalStateException("Error loading mask " + next, e);
+      }
     }
 
-    for (Node node: panConfigurationDetails.getChildren()) {
+    for (Node node : panConfigurationDetails.getChildren()) {
       node.setStyle("-fx-background-color: white");
     }
 
     panConfigurationDetails.getChildren().get(0).toFront();
 
     lviConfigurationList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SettingsItem>() {
-      @Override
-      public void changed(ObservableValue<? extends SettingsItem> observable, SettingsItem oldValue, SettingsItem newValue) {
+      @Override public void changed(ObservableValue<? extends SettingsItem> observable, SettingsItem oldValue,
+          SettingsItem newValue) {
 
         if (LOGGER.isDebugEnabled())
           LOGGER.debug("Changed from " + oldValue + " to " + newValue);
@@ -98,7 +102,6 @@ public class SettingsController {
           Parent parent = panes.get(newValue.getId());
           parent.toFront();
         }
-
 
       }
     });
@@ -110,11 +113,10 @@ public class SettingsController {
           setText(null);
           setGraphic(null);
         } else {
-          if (settingsItem.getIcon() != null && ! settingsItem.getIcon().trim().isEmpty()) {
+          if (settingsItem.getIcon() != null && !settingsItem.getIcon().trim().isEmpty()) {
             ImageView imageView = Consts.createImageView(settingsItem.getIcon(), Consts.ICON_SIZE_SMALL);
             setGraphic(imageView);
-          }
-          else
+          } else
             setGraphic(null);
           setText(settingsItem.getName());
         }
@@ -124,12 +126,7 @@ public class SettingsController {
 
     lviConfigurationList.getSelectionModel().selectFirst();
 
-
-
-
-
-
-
-
   }
+
+
 }

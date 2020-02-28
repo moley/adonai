@@ -57,7 +57,7 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
     Assert.assertEquals ("", mainMaskPage.getCurrentContentText());
 
     doubleClickOn(mainMaskPage.getLviSessions(), MouseButton.PRIMARY);
-    Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("SESSION1_TENANT1", mainMaskPage.getCurrentContentText());
     Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
     Assert.assertTrue ("SessionList is not visible", mainMaskPage.getLviSession().isVisible());
   }
@@ -67,9 +67,9 @@ public class MainMaskSessionsTest extends AbstractAdonaiUiTest {
   @Test
   public void exportSongsInSessions () {
     mainMaskPage.stepToSessions();
-    Assert.assertEquals ("Session1", mainMaskPage.getSelectedSession());
-    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", false);
+    Assert.assertEquals ("Session1_tenant1", mainMaskPage.getSelectedSession());
+    mainMaskPage.exportFileExists("Session1_tenant1/Session1_tenant1_Chords.pdf", false);
     mainMaskPage.export();
-    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", true);
+    mainMaskPage.exportFileExists("Session1_tenant1/Session1_tenant1_Chords.pdf", true);
   }
 }

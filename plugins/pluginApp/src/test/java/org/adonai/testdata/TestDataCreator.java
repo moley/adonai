@@ -30,9 +30,13 @@ public class TestDataCreator {
   protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
   public static void main(String[] args) throws IOException {
-    new TestDataCreator().createTestData(false);
+    try {
+      new TestDataCreator().createTestData(false);
+    } catch (Exception e) {
+      LOGGER.error(e.getLocalizedMessage(), e);
+      System.exit(1);
+    }
   }
-
 
   public Configuration createTestData(final boolean preview) throws IOException {
     LOGGER.info("Create testdata");
@@ -43,106 +47,117 @@ public class TestDataCreator {
     AddSongService addSongService = new AddSongService();
     SessionService sessionService = new SessionService();
 
+    LOGGER.info("Clean testdir " + testDataPath.getAbsolutePath());
     FileUtils.deleteDirectory(testDataPath);
 
-    SongBook songBook = new SongBook();
 
     Model model = new Model();
 
-    ModelService modelService = new ModelService();
-    modelService.addTenant(model, ModelService.DEFAULT_TENANT);
-    TenantModel tenantModel = model.getTenantModel(ModelService.DEFAULT_TENANT);
-    tenantModel.load();
-    Configuration configuration = tenantModel.get();
-    configuration.getSongBooks().add(songBook);
+    AdonaiProperties adonaiProperties = new AdonaiProperties();
+    adonaiProperties.setCurrentTenant("tenant1");
+    adonaiProperties.save();
 
-    User user1 = new User();
-    user1.setMail("user1@gmail.com");
-    user1.setUsername("user1");
+    for (String nextTenant : Arrays.asList("tenant1", "tenant2")) {
 
-    User user2 = new User();
-    user2.setMail("user2@gmail.com");
-    user2.setUsername("user2");
+      SongBook songBook = new SongBook();
 
-    Song song1 = createSong("Song1", false, null);
-    song1.setCurrentKey("C");
-    song1.setOriginalKey("G");
+      ModelService modelService = new ModelService();
+      modelService.addTenant(model, nextTenant);
+      TenantModel tenantModel = model.getTenantModel(nextTenant);
+      tenantModel.load();
+      Configuration configuration = tenantModel.get();
+      configuration.getSongBooks().add(songBook);
 
-    SongPart songPart = new SongPart();
-    songPart.setSongPartType(SongPartType.VERS);
+      User user1 = new User();
+      user1.setMail("user1@gmail.com");
+      user1.setUsername("user1");
 
-    Line line = new Line();
-    LinePart linePart1 = new LinePart();
-    linePart1.setText("This is a ");
-    linePart1.setChord("C");
-    LinePart linePart2 = new LinePart();
+      User user2 = new User();
+      user2.setMail("user2@gmail.com");
+      user2.setUsername("user2");
 
-    linePart2.setText("very nice song");
-    linePart2.setChord("F");
-    line.getLineParts().addAll(Arrays.asList(linePart1, linePart2));
-    songPart.getLines().add(line);
+      Song song1 = createSong("Song1_" + nextTenant, false, null);
+      song1.setCurrentKey("C");
+      song1.setOriginalKey("G");
 
-    SongPart songPart2 = new SongPart();
-    songPart2.setSongPartType(SongPartType.REFRAIN);
+      SongPart songPart = new SongPart();
+      songPart.setSongPartType(SongPartType.VERS);
 
-    Line line2 = new Line();
-    LinePart linePart21 = new LinePart();
-    linePart21.setText("This is a ");
-    linePart21.setChord("C");
-    LinePart linePart22 = new LinePart();
-    linePart22.setText("very nice song");
-    linePart22.setChord("F");
-    line2.getLineParts().addAll(Arrays.asList(linePart21, linePart22));
-    songPart2.getLines().add(line2);
+      Line line = new Line();
+      LinePart linePart1 = new LinePart();
+      linePart1.setText("This is a ");
+      linePart1.setChord("C");
+      LinePart linePart2 = new LinePart();
 
-    song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
-    song1.setPreset("preset");
-    song1.setLeadVoice(user1);
-    Song song2 = createSong("Song2", true, 180);
-    Song song3 = createSong("Song3", true, 90);
-    Song song4 = createSong("Song4", true, 120);
-    addSongService.addSong(song1, songBook);
-    addSongService.addSong(song2, songBook);
-    addSongService.addSong(song3, songBook);
-    addSongService.addSong(song4, songBook);
+      linePart2.setText("very nice song");
+      linePart2.setChord("F");
+      line.getLineParts().addAll(Arrays.asList(linePart1, linePart2));
+      songPart.getLines().add(line);
 
-    Session session1 = new Session();
-    session1.setName("Session1");
-    sessionService.addSong(session1, song1);
-    sessionService.addSong(session1, song2);
-    configuration.getSessions().add(session1);
+      SongPart songPart2 = new SongPart();
+      songPart2.setSongPartType(SongPartType.REFRAIN);
 
-    Session session2 = new Session();
-    session2.setName("Session2");
-    sessionService.addSong(session2, song1);
-    sessionService.addSong(session2, song2);
-    sessionService.addSong(session2, song3);
-    sessionService.addSong(session2, song4);
-    configuration.getSessions().add(session2);
+      Line line2 = new Line();
+      LinePart linePart21 = new LinePart();
+      linePart21.setText("This is a ");
+      linePart21.setChord("C");
+      LinePart linePart22 = new LinePart();
+      linePart22.setText("very nice song");
+      linePart22.setChord("F");
+      line2.getLineParts().addAll(Arrays.asList(linePart21, linePart22));
+      songPart2.getLines().add(line2);
 
-    configuration.getUsers().addAll(Arrays.asList(user1, user2));
+      song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
+      song1.setPreset("preset");
+      song1.setLeadVoice(user1);
+      Song song2 = createSong("Song2_" + nextTenant, true, 180);
+      Song song3 = createSong("Song3_" + nextTenant, true, 90);
+      Song song4 = createSong("Song4_" + nextTenant, true, 120);
+      addSongService.addSong(song1, songBook);
+      addSongService.addSong(song2, songBook);
+      addSongService.addSong(song3, songBook);
+      addSongService.addSong(song4, songBook);
 
-    File exportDir = new File(testDataPath, "export");
-    File extensionPath = new File(testDataPath, "additionals");
-    exportDir.mkdirs();
-    extensionPath.mkdirs();
+      Session session1 = new Session();
+      session1.setName("Session1_" + nextTenant);
+      sessionService.addSong(session1, song1);
+      sessionService.addSong(session1, song2);
+      configuration.getSessions().add(session1);
 
-    configuration.setExportPath(exportDir.getAbsolutePath());
-    configuration.getExportPathAsFile().mkdirs();
-    configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
+      Session session2 = new Session();
+      session2.setName("Session2_" + nextTenant);
+      sessionService.addSong(session2, song1);
+      sessionService.addSong(session2, song2);
+      sessionService.addSong(session2, song3);
+      sessionService.addSong(session2, song4);
+      configuration.getSessions().add(session2);
 
-    new File(extensionPath, "SomeMp3.mp3").createNewFile();
-    new File(extensionPath, "AnotherMp3.mp3").createNewFile();
+      configuration.getUsers().addAll(Arrays.asList(user1, user2));
 
-    model.save();
+      File exportDir = new File(testDataPath, "export");
+      File extensionPath = new File(testDataPath, "additionals");
+      exportDir.mkdirs();
+      extensionPath.mkdirs();
 
-    for (ExportConfiguration nextConfiguration1 : configuration.getExportConfigurations()) {
-      nextConfiguration1.setOpenPreview(preview);
+      configuration.setExportPath(exportDir.getAbsolutePath());
+      configuration.getExportPathAsFile().mkdirs();
+      configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
+
+      new File(extensionPath, "SomeMp3.mp3").createNewFile();
+      new File(extensionPath, "AnotherMp3.mp3").createNewFile();
+
+      model.save();
+
+      for (ExportConfiguration nextConfiguration1 : configuration.getExportConfigurations()) {
+        nextConfiguration1.setOpenPreview(preview);
+      }
+
+      model.save();
     }
 
-    model.save();
+    LOGGER.info("Model: " + model.toString());
 
-    return configuration;
+    return model.getCurrentTenantModel().get();
 
   }
 

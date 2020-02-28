@@ -1,6 +1,5 @@
 package org.adonai.ui.settings;
 
-import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import org.adonai.model.Model;
 import org.adonai.model.User;
 import org.adonai.ui.Consts;
 
@@ -35,8 +35,8 @@ public class SettingsUsersController extends AbstractSettingsController {
     this.lviUsers.setItems(FXCollections.observableArrayList(getConfiguration().getUsers()));
   }
 
-  @FXML
-  public void initialize() throws IOException {
+  public void setModel (final Model model) {
+    super.setModel(model);
     refresh();
     lviUsers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
       @Override

@@ -61,7 +61,7 @@ public class MainMaskSongbookTest extends AbstractAdonaiUiTest {
     mainMaskPage.stepToSongbook();
     Assert.assertEquals ("", mainMaskPage.getCurrentContentText());
     doubleClickOn(mainMaskPage.getLviSongs(), MouseButton.PRIMARY);
-    Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("1 - SONG1_TENANT1", mainMaskPage.getCurrentContentText());
     Assert.assertEquals ("song", mainMaskPage.getCurrentTypeText());
     Assert.assertTrue ("SongEditorPane is not visible", mainMaskPage.getSongEditorPane().isVisible());
   }

@@ -41,7 +41,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     mainMaskPage.add();
 
     SelectSongPage selectSongPage = new SelectSongPage(this);
-    selectSongPage.search("Song4");
+    selectSongPage.search("Song4_tenant1");
 
     int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
     LOGGER.info("Number of songs after add");
@@ -61,21 +61,21 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
   @Test
   public void clickOnListStepsToSongDetails () throws InterruptedException {
     mainMaskPage.stepToSession(0);
-    Assert.assertEquals ("SESSION1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("SESSION1_TENANT1", mainMaskPage.getCurrentContentText());
     Assert.assertEquals ("session", mainMaskPage.getCurrentTypeText());
     LOGGER.info("Click first song in session 1");
     mainMaskPage.getLviSession().getSelectionModel().select(0);
     doubleClickOn(mainMaskPage.getLviSession());
-    Assert.assertEquals ("1 - SONG1", mainMaskPage.getCurrentContentText());
+    Assert.assertEquals ("1 - SONG1_TENANT1", mainMaskPage.getCurrentContentText());
     Assert.assertTrue ("song", mainMaskPage.getSongEditorPane().isVisible());
   }
 
   @Test
   public void exportSongsInCurrentSession () throws InterruptedException {
     mainMaskPage.stepToSession(0);
-    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", false);
+    mainMaskPage.exportFileExists("Session1_tenant1/Session1_tenant1_Chords.pdf", false);
     mainMaskPage.export();
-    mainMaskPage.exportFileExists("Session1/Session1_Chords.pdf", true);
+    mainMaskPage.exportFileExists("Session1_tenant1/Session1_tenant1_Chords.pdf", true);
   }
 
 

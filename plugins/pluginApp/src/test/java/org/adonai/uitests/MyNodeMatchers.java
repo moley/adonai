@@ -36,6 +36,7 @@ public class MyNodeMatchers {
   }
 
   public static Matcher<Node> withUserData (final String userData) {
+    LOGGER.info("Find with userData " + userData);
     return new BaseMatcher<Node>() {
       @Override
       public boolean matches(Object item) {

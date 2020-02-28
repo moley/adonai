@@ -234,6 +234,7 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public void save() {
+    LOGGER.info("Save");
     applicationTest.clickOn(getBtnSave());
   }
 

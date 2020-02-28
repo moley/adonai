@@ -19,10 +19,10 @@ public class SelectAdditionalPage extends AbstractPage {
   }
 
   public void select (final String name) {
-    LOGGER.info("select " + name);
+    LOGGER.info("select additional " + name);
     applicationTest.type(KeyCode.A);
     pressAndRelease(KeyCode.DOWN);
-    LOGGER.info("Available: " + getLviExtensions().getItems());
+    LOGGER.info("Available additionals: " + getLviExtensions().getItems());
     applicationTest.clickOn(getLviExtensions());
     applicationTest.clickOn(getBtnSelect());
   }

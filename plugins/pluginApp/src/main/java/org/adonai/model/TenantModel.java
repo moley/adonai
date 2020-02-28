@@ -40,7 +40,7 @@ public class TenantModel {
   public File getConfigFile () {
     if (configFile == null) {
       File adonaiHome = Consts.getAdonaiHome();
-      File tenantPath = new File(adonaiHome, tenant);
+      File tenantPath = new File(adonaiHome, "tenant_" + tenant);
       return new File(tenantPath, "config.xml");
     }
     else
@@ -80,10 +80,13 @@ public class TenantModel {
   }
 
   public void save () {
+    LOGGER.info("Save " + tenant + " in " + getConfigFile().getAbsolutePath());
     set(get());
   }
 
   public void load () {
+    LOGGER.info("Load " + tenant + " from " + getConfigFile().getAbsolutePath());
+
     JAXBContext jc = null;
     File configFile = getConfigFile();
 
@@ -115,6 +118,8 @@ public class TenantModel {
       StringWriter stringWriter = new StringWriter();
       marshaller.marshal(currentConfiguration, stringWriter);
       lastSavedConfigurationAsString = stringWriter.toString();
+
+      currentConfiguration.setTenant(tenant);
 
     } catch (JAXBException e) {
       throw new IllegalStateException("JAXBException reading " + configFile.getAbsolutePath(), e);
@@ -164,5 +169,13 @@ public class TenantModel {
 
   public void setConfigFile(File configFile) {
     this.configFile = configFile;
+  }
+
+  public String toString () {
+    String asString = "";
+    asString += "  File: " + getConfigFile().getAbsolutePath() + "\n";
+    asString += "  Configuration: " + currentConfiguration.toString() + "\n";
+    return asString;
+
   }
 }

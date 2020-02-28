@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.adonai.AdonaiProperties;
+import org.adonai.model.Model;
 import org.adonai.services.ModelService;
 import org.adonai.ui.Consts;
 
@@ -41,8 +42,8 @@ public class SettingsTenantsController extends AbstractSettingsController {
   }
 
 
-  @FXML
-  public void initialize() throws IOException {
+  public void setModel (final Model model)  {
+    super.setModel(model);
     refresh();
     lviTenants.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
       @Override

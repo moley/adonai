@@ -20,6 +20,6 @@ public class TestUtil {
   }
 
   public static File getDefaultTestDataPath () {
-    return new File("build/testdata");
+    return new File(".adonai");
   }
 }

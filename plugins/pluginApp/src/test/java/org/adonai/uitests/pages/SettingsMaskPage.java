@@ -12,8 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
+import org.adonai.services.ModelService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
+import org.adonai.ui.settings.AbstractSettingsController;
+import org.adonai.ui.settings.SettingsController;
 import org.adonai.uitests.MyNodeMatchers;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.service.query.NodeQuery;
@@ -29,7 +32,12 @@ public class SettingsMaskPage {
     this.applicationTest = applicationTest;
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/settings.fxml"));
     loader.setResources(ResourceBundle.getBundle("languages.adonai"));
+
+
     Parent root = loader.load();
+    SettingsController settingsController = loader.getController();
+    ModelService modelService = new ModelService();
+    settingsController.setModel(modelService.load());
     scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     UiUtils.applyCss(scene);
 

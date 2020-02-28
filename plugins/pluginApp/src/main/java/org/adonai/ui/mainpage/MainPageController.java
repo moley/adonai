@@ -338,8 +338,9 @@ public class MainPageController {
     tbaActions.getItems().add(new Separator());
 
     Button btnPlayerBackward = new Button();
+    btnPlayerBackward.setUserData("mainpage.btnPlayerBackward");
     btnPlayerBackward.setTooltip(new Tooltip("Step to the beginning of the current song"));
-    btnPlayerBackward.setGraphic(Consts.createIcon("fa-backward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerBackward.setGraphic(Consts.createIcon("fa-backward", iconSizeToolbar));
     btnPlayerBackward.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -349,8 +350,9 @@ public class MainPageController {
     tbaActions.getItems().add(btnPlayerBackward);
 
     Button btnPlayerStepBackward = new Button();
+    btnPlayerStepBackward.setUserData("mainpage.btnPlayerStepBackward");
     btnPlayerStepBackward.setTooltip(new Tooltip("Step some seconds backward in the current song"));
-    btnPlayerStepBackward.setGraphic(Consts.createIcon("fa-step-backward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerStepBackward.setGraphic(Consts.createIcon("fa-step-backward", iconSizeToolbar));
     btnPlayerStepBackward.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -360,8 +362,9 @@ public class MainPageController {
     tbaActions.getItems().add(btnPlayerStepBackward);
 
     Button btnPlayerPause = new Button();
+    btnPlayerPause.setUserData("mainpage.btnPlayerPause");
     btnPlayerPause.setTooltip(new Tooltip("Pause playing the current song"));
-    btnPlayerPause.setGraphic(Consts.createIcon("fa-pause", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerPause.setGraphic(Consts.createIcon("fa-pause", iconSizeToolbar));
     btnPlayerPause.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -371,8 +374,9 @@ public class MainPageController {
     tbaActions.getItems().add(btnPlayerPause);
 
     Button btnPlayerPlay = new Button();
+    btnPlayerPlay.setUserData("mainpage.btnPlayerPlay");
     btnPlayerPlay.setTooltip(new Tooltip("Play the current song"));
-    btnPlayerPlay.setGraphic(Consts.createIcon("fa-play", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerPlay.setGraphic(Consts.createIcon("fa-play", iconSizeToolbar));
     btnPlayerPlay.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -382,8 +386,9 @@ public class MainPageController {
     tbaActions.getItems().add(btnPlayerPlay);
 
     Button btnPlayerStepForeward = new Button();
+    btnPlayerStepForeward.setUserData("mainpage.btnPlayerStepForeward");
     btnPlayerStepForeward.setTooltip(new Tooltip("Step some seconds foreward in the current song"));
-    btnPlayerStepForeward.setGraphic(Consts.createIcon("fa-step-forward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerStepForeward.setGraphic(Consts.createIcon("fa-step-forward", iconSizeToolbar));
     btnPlayerStepForeward.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -393,8 +398,9 @@ public class MainPageController {
     tbaActions.getItems().add(btnPlayerStepForeward);
 
     Button btnPlayerForeward = new Button();
+    btnPlayerForeward.setUserData("mainpage.btnPlayerForeward");
     btnPlayerForeward.setTooltip(new Tooltip("Step to the end of the current song"));
-    btnPlayerForeward.setGraphic(Consts.createIcon("fa-forward", Consts.ICON_SIZE_VERY_SMALL));
+    btnPlayerForeward.setGraphic(Consts.createIcon("fa-forward", iconSizeToolbar));
     btnPlayerForeward.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         mp3Player.setFile(getMp3FileOfCurrentSong());
@@ -511,7 +517,7 @@ public class MainPageController {
         Double y = controlBounds.getMinY() - 20 - ConfigurationAction.CONFIGDIALOG_HEIGHT;
 
         ConfigurationAction configurationAction = new ConfigurationAction();
-        configurationAction.openConfigurations(x, y, new EventHandler<WindowEvent>() {
+        configurationAction.openConfigurations(x, y, model, new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
             refreshTenantButton();
 
