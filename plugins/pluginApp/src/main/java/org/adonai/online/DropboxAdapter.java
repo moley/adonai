@@ -74,6 +74,9 @@ public class DropboxAdapter implements OnlineAdapter {
 
   @Override
   public File download(final File toPath) {
+    if (true)
+      throw new IllegalStateException("NYI");
+
     LOGGER.info("Download configFile to " + toPath.getAbsolutePath());
 
 

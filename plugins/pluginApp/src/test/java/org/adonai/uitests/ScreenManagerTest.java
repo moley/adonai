@@ -17,7 +17,7 @@ public class ScreenManagerTest extends AbstractAdonaiUiTest {
 
   @Override public void start(Stage stage) throws Exception {
     TestDataCreator testDataCreator = new TestDataCreator();
-    testDataCreator.createTestData(TestUtil.getDefaultTestDataPath(), false);
+    testDataCreator.createTestData(false);
     super.start(stage);
   }
 

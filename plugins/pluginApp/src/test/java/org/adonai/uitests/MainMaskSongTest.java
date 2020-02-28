@@ -35,8 +35,6 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
   private TestDataCreator testDataCreator = new TestDataCreator();
 
-  private File testDataPath = TestUtil.getDefaultTestDataPath();
-
 
   @BeforeClass
   public static void beforeClass () {
@@ -46,7 +44,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   @Override
   public void start(Stage stage) throws Exception {
     LOGGER.info("start called with stage " + System.identityHashCode(stage));
-    configuration = testDataCreator.createTestData(testDataPath, false);
+    configuration = testDataCreator.createTestData(false);
     super.start(stage);
     mainMaskPage = new MainMaskPage( this);
     mainMaskPage.openStage();
@@ -196,7 +194,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
   }
 
   @Test
-  public void assignMp3 () throws InterruptedException {
+  public void assignMp3 () throws InterruptedException, IOException {
     Song firstSong = configuration.getSongBooks().get(0).getSongs().get(0);
     Assert.assertEquals ("Number of additionals invalid before", 0, firstSong.getAdditionals().size());
 
@@ -206,7 +204,7 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     selectAdditionalPage.select("AnotherMp3");
     mainMaskPage.save ();
 
-    Configuration configuration = testDataCreator.getConfiguration(testDataPath);
+    Configuration configuration = testDataCreator.createTestData(false);
 
     for (Song next: configuration.getSongBooks().get(0).getSongs()) {
       LOGGER.info("Next: " + next.getAdditionals());

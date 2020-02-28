@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.adonai.AdonaiProperties;
-import org.adonai.services.TenantService;
+import org.adonai.services.ModelService;
 import org.adonai.ui.Consts;
 
 public class SettingsTenantsController extends AbstractSettingsController {
@@ -33,10 +33,10 @@ public class SettingsTenantsController extends AbstractSettingsController {
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
-  private TenantService tenantService = new TenantService();
+  private ModelService modelService = new ModelService();
 
   private void refresh () {
-    this.lviTenants.setItems(FXCollections.observableArrayList(tenantService.getTenants()));
+    this.lviTenants.setItems(FXCollections.observableArrayList(modelService.getTenants()));
     this.lviTenants.getSelectionModel().select(adonaiProperties.getCurrentTenant());
   }
 
@@ -58,7 +58,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
       @Override
       public void handle(ActionEvent event) {
         String name = txtNew.getText();
-        tenantService.add(name);
+        modelService.addTenant(getModel(), name);
         txtNew.setText("");
         refresh();
         lviTenants.requestFocus();
@@ -71,7 +71,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
       public void handle(ActionEvent event) {
 
         String selected = lviTenants.getSelectionModel().getSelectedItem();
-        tenantService.remove(selected);
+        modelService.removeTenant(getModel(), selected);
         refresh();
         lviTenants.getSelectionModel().selectFirst();
       }

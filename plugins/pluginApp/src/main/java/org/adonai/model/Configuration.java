@@ -18,7 +18,7 @@ import java.util.List;
 public class Configuration {
 
 
-  private String log;
+  private String tenant;
 
   private List<User> users = new ArrayList<User>();
 
@@ -98,12 +98,11 @@ public class Configuration {
     this.users = users;
   }
 
-  @XmlTransient
-  public String getLog() {
-    return log;
+  public String getTenant() {
+    return tenant;
   }
 
-  public void setLog(String log) {
-    this.log = log;
+  public void setTenant(String tenant) {
+    this.tenant = tenant;
   }
 }

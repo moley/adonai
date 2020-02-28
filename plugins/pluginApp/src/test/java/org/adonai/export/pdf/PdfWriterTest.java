@@ -14,11 +14,12 @@ import org.adonai.export.ExportTokenContainer;
 import org.adonai.export.ExportTokenNewPage;
 import org.adonai.export.ReferenceStrategy;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
 import org.adonai.model.Song;
 import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.adonai.model.SongPartType;
+import org.adonai.model.TenantModel;
+import org.adonai.services.ModelService;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -37,8 +38,7 @@ public class PdfWriterTest extends AbstractExportTest {
 
   @AfterClass
   public static void afterClass () {
-    ConfigurationService configurationService = new ConfigurationService();
-    configurationService.close();
+    ModelService modelService = new ModelService();
 
   }
 
@@ -153,12 +153,8 @@ public class PdfWriterTest extends AbstractExportTest {
   }
 
   private Song getTestdata (String exportTestdata) {
-    ConfigurationService configurationService = new ConfigurationService();
-    configurationService.close();
-    configurationService.setConfigFile(new File ("src/test/resources/export/pdf/" + exportTestdata + "/config.xml"));
-    if (! configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).exists())
-      throw new IllegalStateException("Modelfile " + configurationService.getConfigFile(adonaiProperties.getCurrentTenant()).getAbsolutePath() + " does not exist");
-    Configuration configuration = configurationService.get(adonaiProperties.getCurrentTenant());
+    TenantModel tenantModel = new TenantModel(new File ("src/test/resources/export/pdf/" + exportTestdata + "/config.xml"));
+    Configuration configuration = tenantModel.get();
     return configuration.getSongBooks().get(0).getSongs().get(0);
   }
 

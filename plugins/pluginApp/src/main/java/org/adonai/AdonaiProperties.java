@@ -7,8 +7,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import org.adonai.ui.Consts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AdonaiProperties {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(AdonaiProperties.class);
+
 
   private Properties properties = new Properties();
 
@@ -17,7 +23,9 @@ public class AdonaiProperties {
   public final static String PROPERTY_CURRENT_TENANT = "adonai.tenant";
 
   public AdonaiProperties () {
-    propertiesFile = new File (System.getProperty("user.home") + "/.adonai/adonai.properties");
+    File adonaiHome = Consts.getAdonaiHome();
+    propertiesFile = new File (adonaiHome, "adonai.properties");
+    LOGGER.info("Load adonai properties from " + propertiesFile.getAbsolutePath());
 
     properties.setProperty(PROPERTY_CURRENT_TENANT, "default");
     if (propertiesFile.exists()) {

@@ -14,7 +14,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import org.adonai.AdonaiProperties;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
+import org.adonai.services.ModelService;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.ui.Consts;
@@ -33,7 +33,6 @@ public class MainMaskPage extends AbstractPage {
 
   private Mask mask;
 
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
 
 
@@ -181,7 +180,7 @@ public class MainMaskPage extends AbstractPage {
 
   }
 
-  public ConfigurationsPage configurations () {
+  public ConfigurationsPage configurations () throws InterruptedException {
     applicationTest.clickOn(getBtnConfigurations());
     return new ConfigurationsPage (applicationTest);
   }
@@ -223,13 +222,13 @@ public class MainMaskPage extends AbstractPage {
   }
 
   public List<File> getExportedFiles () {
-    Configuration configuration = new ConfigurationService().get(adonaiProperties.getCurrentTenant());
+    Configuration configuration = getCurrentConfiguration();
     return Arrays.asList(configuration.getExportPathAsFile().listFiles());
   }
 
   public void exportFileExists (String name, final boolean exists) {
     LOGGER.info("Check if export file exists (" + name + "," + exists + ")");
-    Configuration configuration = new ConfigurationService().get(adonaiProperties.getCurrentTenant());
+    Configuration configuration = getCurrentConfiguration();
     File expectedFile = new File (configuration.getExportPathAsFile(), name);
     Assert.assertEquals ("Exportfile " + expectedFile.getAbsolutePath() + " existence wrong\n- existing files: " + getExportedFiles(), exists, expectedFile.exists());
   }

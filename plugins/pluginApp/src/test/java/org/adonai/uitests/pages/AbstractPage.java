@@ -2,6 +2,9 @@ package org.adonai.uitests.pages;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import org.adonai.model.Configuration;
+import org.adonai.model.Model;
+import org.adonai.services.ModelService;
 import org.adonai.uitests.MyNodeMatchers;
 import org.hamcrest.Matcher;
 import org.testfx.framework.junit.ApplicationTest;
@@ -29,6 +32,12 @@ public class AbstractPage<T> {
 
   public ApplicationTest getApplicationTest () {
     return applicationTest;
+  }
+
+  public Configuration getCurrentConfiguration () {
+    ModelService modelService = new ModelService();
+    Model model = modelService.load();
+    return model.getCurrentTenantModel().get();
   }
 
 

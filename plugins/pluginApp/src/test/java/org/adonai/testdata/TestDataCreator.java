@@ -6,16 +6,18 @@ import java.util.Arrays;
 import org.adonai.AdonaiProperties;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
+import org.adonai.model.Model;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.TenantModel;
 import org.adonai.model.User;
 import org.adonai.services.AddSongService;
+import org.adonai.services.ModelService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
 import org.adonai.uitests.TestUtil;
@@ -27,22 +29,16 @@ public class TestDataCreator {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(TestDataCreator.class);
 
-  private ConfigurationService configurationService = new ConfigurationService();
-
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
-
   public static void main(String[] args) throws IOException {
-    new TestDataCreator().createTestData(TestUtil.getDefaultTestDataPath(), false);
+    new TestDataCreator().createTestData(false);
   }
 
-  public Configuration getConfiguration(final File testDataPath) {
-    configurationService.close();
-    System.setProperty(Consts.ADONAI_HOME_PROP, testDataPath.getAbsoluteFile().getAbsolutePath());
-    return configurationService.get(adonaiProperties.getCurrentTenant());
-  }
 
-  public Configuration createTestData(final File testDataPath, final boolean preview) throws IOException {
+  public Configuration createTestData(final boolean preview) throws IOException {
     LOGGER.info("Create testdata");
+
+    Consts.setAdonaiHome(TestUtil.getDefaultTestDataPath());
+    File testDataPath = Consts.getAdonaiHome();
 
     AddSongService addSongService = new AddSongService();
     SessionService sessionService = new SessionService();
@@ -51,8 +47,13 @@ public class TestDataCreator {
 
     SongBook songBook = new SongBook();
 
-    configurationService.close();
-    Configuration configuration = getConfiguration(testDataPath);
+    Model model = new Model();
+
+    ModelService modelService = new ModelService();
+    modelService.addTenant(model, ModelService.DEFAULT_TENANT);
+    TenantModel tenantModel = model.getTenantModel(ModelService.DEFAULT_TENANT);
+    tenantModel.load();
+    Configuration configuration = tenantModel.get();
     configuration.getSongBooks().add(songBook);
 
     User user1 = new User();
@@ -133,14 +134,13 @@ public class TestDataCreator {
     new File(extensionPath, "SomeMp3.mp3").createNewFile();
     new File(extensionPath, "AnotherMp3.mp3").createNewFile();
 
-    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
+    model.save();
 
     for (ExportConfiguration nextConfiguration1 : configuration.getExportConfigurations()) {
       nextConfiguration1.setOpenPreview(preview);
     }
 
-    configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
-    configurationService.close();
+    model.save();
 
     return configuration;
 

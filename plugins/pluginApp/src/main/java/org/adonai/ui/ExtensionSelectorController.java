@@ -15,7 +15,8 @@ import org.adonai.AdonaiProperties;
 import org.adonai.Extension;
 import org.adonai.ExtensionIndex;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
+import org.adonai.model.Model;
+import org.adonai.services.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,15 +37,11 @@ public class ExtensionSelectorController {
   @FXML
   TextField txtSearch;
 
-  ConfigurationService configurationService = new ConfigurationService();
-
-  Configuration configuration;
+  Model model;
 
   ExtensionIndex extensionIndex;
 
   ExtensionType currentType = ExtensionType.SONG;
-
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ExtensionSelectorController.class);
 
@@ -63,8 +60,6 @@ public class ExtensionSelectorController {
 
   @FXML
   public void initialize() {
-    configuration = configurationService.get(adonaiProperties.getCurrentTenant());
-
     txtSearch.setOnKeyTyped(new EventHandler<KeyEvent>() {
 
       @Override
@@ -120,7 +115,7 @@ public class ExtensionSelectorController {
     return lviExtensions.getSelectionModel().getSelectedItem() != null ? lviExtensions.getSelectionModel().getSelectedItem().getFile(): null;
   }
 
-  public void init(ExtensionType type) {
+  public void init(ExtensionType type, final Configuration configuration) {
     currentType = type;
     extensionIndex  = new ExtensionIndex(configuration.getExtensionPaths());
 

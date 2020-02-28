@@ -54,18 +54,19 @@ import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
-import org.adonai.model.ConfigurationService;
+import org.adonai.model.Model;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.TenantModel;
 import org.adonai.model.User;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.online.MailSender;
 import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
+import org.adonai.services.ModelService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
-import org.adonai.services.TenantService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
@@ -114,15 +115,11 @@ public class MainPageController {
 
   private FilteredList<Song> filteredSongList;
 
-  private ConfigurationService configurationService = new ConfigurationService();
+  private Model model;
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   private SessionService sessionService = new SessionService();
-
-  private TenantService tenantService = new TenantService();
-
-  private Configuration configuration;
 
   private int iconSizeToolbar = Consts.ICON_SIZE_TOOLBAR;
 
@@ -136,9 +133,14 @@ public class MainPageController {
 
   private Mp3Player mp3Player = new Mp3Player();
 
-  private String currentTenant = null;
 
   public void initialize() {
+
+    ModelService modelService = new ModelService();
+    model = modelService.load();
+
+    Configuration configuration = getCurrentConfiguration();
+
     lviSongs.setUserData("mainpage.lviSongs");
     lviSongs.setCellFactory(new SongCellFactory());
 
@@ -161,11 +163,6 @@ public class MainPageController {
       }
     });
 
-    currentTenant = adonaiProperties.getCurrentTenant();
-    if (! tenantService.getTenants().contains(currentTenant))
-      throw new IllegalArgumentException("Tenant " + currentTenant + " not found (available: " + tenantService.getTenants() + ")");
-
-    configuration = configurationService.get(adonaiProperties.getCurrentTenant());
     selectSongbook();
 
     lviSongs.toFront();
@@ -190,7 +187,7 @@ public class MainPageController {
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(x, y, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(x, y, configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
 
               Song song = addSongHandler.getNewSong();
@@ -209,7 +206,7 @@ public class MainPageController {
         } else //In Songbook add new song
           if (currentContent.equals(MainPageContent.SONGBOOK)) {
             AddSongAction addSongHandler = new AddSongAction();
-            addSongHandler.add(x, y, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            addSongHandler.add(x, y, configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
               @Override public void handle(WindowEvent event) {
 
                 Song song = addSongHandler.getNewSong();
@@ -293,7 +290,7 @@ public class MainPageController {
           Bounds controlBounds = UiUtils.getBounds(btnMp3);
           Double x = controlBounds.getMinX() + 10;
           Double y = controlBounds.getMinY() - 20 - 600;
-          connectSongWithMp3Action.connect(x, y, getSelectedSong());
+          connectSongWithMp3Action.connect(x, y, configuration, getSelectedSong());
         }
       }
     });
@@ -418,10 +415,11 @@ public class MainPageController {
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         try {
-          configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
-          Notifications.create().title("Save").text("Model saved to " + getConfigFile().getAbsolutePath()).show();
+
+          model.save();
+          Notifications.create().title("Save").text("Model saved").show();
         } catch (Exception e) {
-          Notifications.create().title("Save").text("Error occured while saving " + getConfigFile().getAbsolutePath()).showError();
+          Notifications.create().title("Save").text("Error occured while saving model").showError();
         }
       }
     });
@@ -437,7 +435,11 @@ public class MainPageController {
         try {
           Collection<String> ids = new ArrayList<>();
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          dropboxAdapter.upload(getConfigFile(), "");
+          for (TenantModel tenantModel: model.getTenantModels()) {
+            dropboxAdapter.upload(tenantModel.getConfigFile(), tenantModel.getTenant() + ".config.xml");
+
+          }
+
           File exportPath = configuration.getExportPathAsFile();
           LOGGER.info("Using export path " + exportPath.getAbsolutePath());
           File songbookExport = new File(exportPath, "songbook");
@@ -481,7 +483,9 @@ public class MainPageController {
       @Override public void handle(ActionEvent event) {
         try {
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          dropboxAdapter.download(getConfigFile().getParentFile());
+          for (TenantModel next: model.getTenantModels()) {
+            dropboxAdapter.download(next.getConfigFile().getParentFile());
+          }
           LOGGER.info("Download finished");
         } catch (Exception e) {
           Notifications.create().title("Download").text("Error downloading content").showError();
@@ -501,7 +505,7 @@ public class MainPageController {
     tbaActions.getItems().add(btnConfigurations);
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        LOGGER.info("Tenant before configuration screen " + currentTenant);
+        LOGGER.info("Tenant before configuration screen " + adonaiProperties.getCurrentTenant());
         Bounds controlBounds = UiUtils.getBounds(btnConfigurations);
         Double x = controlBounds.getMinX() - (ConfigurationAction.CONFIGDIALOG_WIDTH / 2);
         Double y = controlBounds.getMinY() - 20 - ConfigurationAction.CONFIGDIALOG_HEIGHT;
@@ -528,7 +532,7 @@ public class MainPageController {
     btnExit.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
-        if (configurationService.hasChanged()) {
+        if (model.hasChanged()) {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
           alert.setTitle("Exit adonai");
           alert.setHeaderText("You have unsaved changes!");
@@ -543,7 +547,7 @@ public class MainPageController {
 
           Optional<ButtonType> result = alert.showAndWait();
           if (result.get() == ButtonType.OK) {
-            configurationService.set(adonaiProperties.getCurrentTenant(), configuration);
+            model.save();
           }
         }
 
@@ -653,26 +657,23 @@ public class MainPageController {
     return null;
   }
 
-  private File getConfigFile () {
-    return configurationService.getConfigFile(adonaiProperties.getCurrentTenant());
-  }
-
   private void refreshButtonState() {
+    Configuration configuration = getCurrentConfiguration();
     boolean sessionsAvailable = configuration.getSessions().size() > 0;
     togSession.setVisible(sessionsAvailable);
   }
 
   private void reloadTenantData (String newTenant) {
+    Configuration configuration = getCurrentConfiguration();
     adonaiProperties = new AdonaiProperties();
+    String currentTenant = adonaiProperties.getCurrentTenant();
     LOGGER.info("Old tenant after configuration screen: " + currentTenant);
     LOGGER.info("New tenant after configuration screen: " + newTenant);
     if (! newTenant.equals(currentTenant)) {
       LOGGER.info("Tenant changed, reload data for tenant " + newTenant);
       adonaiProperties.setCurrentTenant(newTenant);
       adonaiProperties.save();
-      currentTenant = newTenant;
-      configurationService = new ConfigurationService();
-      configuration = configurationService.get(newTenant);
+      configuration = model.getCurrentTenantModel().get();
       refreshTenantButton();
       refreshListViews(null);
       selectSongbook();
@@ -682,7 +683,7 @@ public class MainPageController {
   private void refreshTenantButton() {
     btnTenant.setText(adonaiProperties.getCurrentTenant());
     btnTenant.getItems().clear();
-    for (String next: tenantService.getTenants()) {
+    for (String next: model.getTenantModelNames()) {
       MenuItem menuItem1 = new MenuItem(next);
       menuItem1.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent event) {
@@ -751,6 +752,7 @@ public class MainPageController {
   }
 
   private void selectSong(Song song) {
+    Configuration configuration = getCurrentConfiguration();
     LOGGER.info("selectSong (" + song + ")");
     currentSong = song;
     currentContent = MainPageContent.SONG;
@@ -776,12 +778,16 @@ public class MainPageController {
   }
 
   private SongBook getCurrentSongBook() {
-    LOGGER.info("getCurrentSongBook from " + configuration.getLog());
+    Configuration configuration = getCurrentConfiguration();
     if (configuration.getSongBooks().isEmpty()) {
       SongBook newSongbook = new SongBook();
       configuration.getSongBooks().add(newSongbook);
     }
     return configuration.getSongBooks().get(0);
+  }
+
+  private Configuration getCurrentConfiguration () {
+    return model.getCurrentTenantModel().get();
   }
 
   private Session getCurrentSession() {
@@ -837,8 +843,8 @@ public class MainPageController {
   }
 
   private void refreshListViews(Song selectSong) {
+    Configuration configuration = getCurrentConfiguration();
     LOGGER.info("refreshListViews (" + selectSong + ")");
-    currentTenant = adonaiProperties.getCurrentTenant();
     filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()),
         s -> true);
     lviSongs.setItems(filteredSongList);

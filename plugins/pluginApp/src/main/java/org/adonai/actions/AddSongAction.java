@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.ui.Consts;
@@ -17,7 +18,7 @@ public class AddSongAction {
 
   private SongImportController songImportController;
 
-  public void add(final Double x, final Double y,
+  public void add(final Double x, final Double y, Configuration configuration,
                   SongBook songBook, EventHandler<WindowEvent> closeRequest) {
 
     songImportController = new SongImportController();
@@ -30,7 +31,7 @@ public class AddSongAction {
     stage.setX(x);
     stage.setY(y);
 
-    ImportWizard importWizard = new ImportWizard(stage, songImportController);
+    ImportWizard importWizard = new ImportWizard(stage, songImportController, configuration);
     Scene scene = new Scene(importWizard, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
     UiUtils.applyCss(scene);
 

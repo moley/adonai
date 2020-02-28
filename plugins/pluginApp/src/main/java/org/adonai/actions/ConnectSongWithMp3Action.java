@@ -7,6 +7,8 @@ import javafx.stage.WindowEvent;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
+import org.adonai.model.Configuration;
+import org.adonai.model.Model;
 import org.adonai.model.Song;
 import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
@@ -19,7 +21,7 @@ public class ConnectSongWithMp3Action {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ConnectSongWithMp3Action.class);
 
-  public void connect (final Double x, final Double y, Song selectedSong) {
+  public void connect (final Double x, final Double y, Configuration configuration, Song selectedSong) {
 
     if (selectedSong == null) {
       LOGGER.warn("Selected song is <null>");
@@ -29,7 +31,7 @@ public class ConnectSongWithMp3Action {
     MaskLoader<ExtensionSelectorController> maskLoader = new MaskLoader<>();
     Mask<ExtensionSelectorController> mask = maskLoader.load("extensionselector");
     ExtensionSelectorController extensionSelectorController = mask.getController();
-    extensionSelectorController.init(ExtensionType.SONG);
+    extensionSelectorController.init(ExtensionType.SONG, configuration);
     Stage stage = mask.getStage();
     mask.setSize(800, 600);
     mask.setPosition(x, y);

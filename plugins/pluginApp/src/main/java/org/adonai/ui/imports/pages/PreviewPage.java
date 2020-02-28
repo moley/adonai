@@ -6,8 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import org.adonai.AdonaiProperties;
-import org.adonai.model.ConfigurationService;
+import org.adonai.model.Configuration;
 import org.adonai.ui.editor2.SongEditor;
 import org.adonai.ui.imports.SongImportController;
 import org.slf4j.Logger;
@@ -17,10 +16,13 @@ public class PreviewPage extends WizardPage {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PreviewPage.class);
 
+  private Configuration configuration;
+
 
   public final static String TITLE = "Preview";
-  public PreviewPage(SongImportController controller) {
+  public PreviewPage(SongImportController controller, Configuration configuration) {
     super(TITLE, controller);
+    this.configuration = configuration;
   }
 
   Parent getContent() {
@@ -35,10 +37,8 @@ public class PreviewPage extends WizardPage {
           LOGGER.debug("Visibility change: " + oldValue + "->" + newValue);
         if (oldValue == null && newValue != null) {
           LOGGER.info("Preview for " + controller.getSongToImport().toString() );
-          AdonaiProperties adonaiProperties = new AdonaiProperties();
-          ConfigurationService configurationService = new ConfigurationService();
 
-          SongEditor songEditor = new SongEditor(configurationService.get(adonaiProperties.getCurrentTenant()), controller.getSongToImport());
+          SongEditor songEditor = new SongEditor(configuration, controller.getSongToImport());
           rootpanel.getChildren().clear();
           rootpanel.getChildren().add(songEditor.getPanel());
         }

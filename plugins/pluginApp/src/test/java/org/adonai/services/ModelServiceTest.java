@@ -4,16 +4,17 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import org.adonai.model.Model;
 import org.adonai.ui.Consts;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TenantServiceTest {
+public class ModelServiceTest {
 
   private File savedHome;
-  private TenantService tenantService = new TenantService();
+  private ModelService ModelService = new ModelService();
 
   @Before public void before() {
     savedHome = Consts.getAdonaiHome();
@@ -40,7 +41,7 @@ public class TenantServiceTest {
     File config = new File(adonaiHome, "config.xml");
     config.createNewFile();
 
-    Collection<String> tenants = tenantService.getTenants();
+    Collection<String> tenants = ModelService.getTenants();
     Assert.assertEquals("Create default tenant on the fly number of tenantsInvalid  in " + adonaiHome.getAbsolutePath(),
         1, tenants.size());
     Assert.assertEquals("Number of tenant paths invalid in " + adonaiHome.getAbsolutePath(),
@@ -52,19 +53,23 @@ public class TenantServiceTest {
 
   @Test public void add() {
 
-    tenantService.add("tenant1");
-    tenantService.add("tenant2");
-    Assert.assertTrue("Created tenant not found", tenantService.getTenants().contains("tenant1"));
-    Assert.assertTrue("Created tenant not found", tenantService.getTenants().contains("tenant2"));
+    Model model = new Model();
+
+    ModelService.addTenant(model, "tenant1");
+    ModelService.addTenant(model, "tenant2");
+    Assert.assertTrue("Created tenant not found", ModelService.getTenants().contains("tenant1"));
+    Assert.assertTrue("Created tenant not found", ModelService.getTenants().contains("tenant2"));
 
   }
 
   @Test public void remove() {
 
-    tenantService.add("tenant1");
-    tenantService.remove("tenant1");
-    Assert.assertEquals("Created and removed tenant found" + tenantService.getTenants(), 1, tenantService.getTenants().size());
-    Assert.assertTrue("Created tenant not found" + tenantService.getTenants(), tenantService.getTenants().contains("default"));
+    Model model = new Model();
+
+    ModelService.addTenant(model, "tenant1");
+    ModelService.removeTenant(model, "tenant1");
+    Assert.assertEquals("Created and removed tenant found" + ModelService.getTenants(), 1, ModelService.getTenants().size());
+    Assert.assertTrue("Created tenant not found" + ModelService.getTenants(), ModelService.getTenants().contains("default"));
 
   }
 }
