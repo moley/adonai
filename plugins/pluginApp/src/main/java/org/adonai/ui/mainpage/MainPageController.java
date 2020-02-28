@@ -62,6 +62,7 @@ import org.adonai.model.TenantModel;
 import org.adonai.model.User;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.online.MailSender;
+import org.adonai.online.ZipManager;
 import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
 import org.adonai.services.ModelService;
@@ -441,10 +442,10 @@ public class MainPageController {
         try {
           Collection<String> ids = new ArrayList<>();
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          for (TenantModel tenantModel: model.getTenantModels()) {
-            dropboxAdapter.upload(tenantModel.getConfigFile(), tenantModel.getTenant() + ".config.xml");
 
-          }
+          ZipManager zipManager = new ZipManager();
+          File zippedBackupFile = zipManager.zip();
+          dropboxAdapter.upload(zippedBackupFile, "");
 
           File exportPath = configuration.getExportPathAsFile();
           LOGGER.info("Using export path " + exportPath.getAbsolutePath());
@@ -489,9 +490,10 @@ public class MainPageController {
       @Override public void handle(ActionEvent event) {
         try {
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          for (TenantModel next: model.getTenantModels()) {
-            dropboxAdapter.download(next.getConfigFile().getParentFile());
-          }
+          File homPath = Consts.getAdonaiHome();
+          File downloadFile = dropboxAdapter.download(new File (homPath.getParentFile(), ".adonai_backup"));
+
+          Notifications.create().title("Download").text("Downloaded backup to " + downloadFile.getAbsolutePath() + ". Unzip manually to ~/.adonai to overwrite").show();
           LOGGER.info("Download finished");
         } catch (Exception e) {
           Notifications.create().title("Download").text("Error downloading content").showError();

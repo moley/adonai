@@ -33,14 +33,16 @@ public class DropboxAdapter implements OnlineAdapter {
 
   @Override
   public String upload(File uploadFile, final String path) {
-    LOGGER.info("Upload " + uploadFile.getAbsolutePath() + " to '" + path + "'");
+
+    String remotePath = "/" + path + uploadFile.getName();
+    LOGGER.info("Upload " + uploadFile.getAbsolutePath() + " to '" + remotePath + "'");
     DbxClientV2 clientV2 = getClientV2();
     try {
       FullAccount fullAccount = clientV2.users().getCurrentAccount();
       LOGGER.info ("Email: " + fullAccount.getEmail());
 
       try (InputStream in = new FileInputStream(uploadFile)) {
-        FileMetadata metadata = clientV2.files().uploadBuilder("/" + path + uploadFile.getName()).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
+        FileMetadata metadata = clientV2.files().uploadBuilder(remotePath).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
         LOGGER.info ("Metadata ID " + metadata.getId() + "-" + metadata.getPathDisplay());
 
         List<SharedLinkMetadata> links = clientV2.sharing().listSharedLinks().getLinks();
@@ -74,19 +76,17 @@ public class DropboxAdapter implements OnlineAdapter {
 
   @Override
   public File download(final File toPath) {
-    if (true)
-      throw new IllegalStateException("NYI");
 
     LOGGER.info("Download configFile to " + toPath.getAbsolutePath());
 
 
-    File downloadFile = new File (toPath, "config.xml");
+    File downloadFile = new File (toPath, "adonai.zip");
     downloadFile.getParentFile().mkdirs();
 
     try {
       FileOutputStream fos = new FileOutputStream(downloadFile);
       DbxClientV2 clientV2 = getClientV2();
-      clientV2.files().downloadBuilder("/config.xml").download(fos);
+      clientV2.files().downloadBuilder("/adonai.zip").download(fos);
     } catch (IOException | DbxException e) {
       throw new IllegalStateException(e);
     }

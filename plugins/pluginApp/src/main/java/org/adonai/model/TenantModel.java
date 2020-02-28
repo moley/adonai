@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.LinkedList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -12,6 +13,7 @@ import org.adonai.export.DefaultExportConfigurationCreator;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +75,20 @@ public class TenantModel {
       StringWriter stringWriter = new StringWriter();
       marshaller.marshal(currentConfiguration, stringWriter);
       String currentString = stringWriter.toString();
-      return ! currentString.equals(lastSavedConfigurationAsString);
+      boolean changed =  ! currentString.equals(lastSavedConfigurationAsString);
+      if (changed) {
+
+        DiffMatchPatch dmp = new DiffMatchPatch();
+        LinkedList<DiffMatchPatch.Diff> diff = dmp.diffMain(lastSavedConfigurationAsString, currentString, false);
+        LOGGER.info("Model " + tenant + " has changed:");
+        for (DiffMatchPatch.Diff nextDiff: diff) {
+          if (! nextDiff.operation.equals(DiffMatchPatch.Operation.EQUAL))
+            LOGGER.info("-" + nextDiff.operation.name() + "-" + nextDiff.text);
+
+        }
+
+      }
+      return changed;
     } catch (JAXBException e) {
       throw new IllegalStateException(e);
     }
@@ -106,12 +121,14 @@ public class TenantModel {
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
       defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
 
+      //Automatic migrations
       SongRepairer songRepairer = new SongRepairer();
       for (SongBook nextSongbook: currentConfiguration.getSongBooks()) {
         for (Song nextSong: nextSongbook.getSongs()) {
           songRepairer.repairSong(nextSong);
         }
       }
+      currentConfiguration.setTenant(tenant);
 
       Marshaller marshaller = jc.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -119,7 +136,7 @@ public class TenantModel {
       marshaller.marshal(currentConfiguration, stringWriter);
       lastSavedConfigurationAsString = stringWriter.toString();
 
-      currentConfiguration.setTenant(tenant);
+
 
     } catch (JAXBException e) {
       throw new IllegalStateException("JAXBException reading " + configFile.getAbsolutePath(), e);

@@ -20,7 +20,7 @@ import org.apache.commons.io.FileUtils;
 public class ZipManager {
 
   public File getZipFile () {
-    return new File (Consts.getAdonaiHome().getParent(), ".adonai.zip");
+    return new File (Consts.getAdonaiHome().getParent(), "adonai.zip");
   }
 
   public String getRelativeFileName (final File homePath, final File file) {
@@ -28,7 +28,7 @@ public class ZipManager {
     return local;
   }
 
-  public void zip () {
+  public File zip () {
     Collection<File> files = new ArrayList<File>();
 
     File adonaiHomePath = Consts.getAdonaiHome();
@@ -38,6 +38,8 @@ public class ZipManager {
     for (TenantModel tenantModel : model.getTenantModels()) {
       files.add(tenantModel.getConfigFile());
     }
+
+    File zipfile = getZipFile();
 
     try {
       ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(Files.newOutputStream(getZipFile().toPath())));
@@ -52,6 +54,8 @@ public class ZipManager {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+
+    return zipfile;
 
   }
 
