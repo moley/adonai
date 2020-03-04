@@ -69,6 +69,7 @@ import org.adonai.services.ModelService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.Consts;
+import org.adonai.ui.SessionCellFactory;
 import org.adonai.ui.SongCellFactory;
 import org.adonai.ui.UiUtils;
 import org.adonai.ui.editor2.SongEditor;
@@ -148,6 +149,7 @@ public class MainPageController {
     lviSession.setCellFactory(new SongCellFactory());
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
 
+    lviSessions.setCellFactory(new SessionCellFactory());
     lviSessions.setPlaceholder(new Label("No sessions available, press + to add ones"));
 
     panSongDetails.setBackground(Background.EMPTY);

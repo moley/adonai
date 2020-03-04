@@ -60,9 +60,6 @@ subprojects {
 // plugin location
 ext.pluginsDir = rootProject.buildDir.path + '/plugins'
 
-task build(dependsOn: [':app:uberjar'])
-
-
 def allPlugins = fileTree('plugins').matching {
   include "**/build/libs/plugin*.zip"
   include "**/build/libs/*.jar"
