@@ -4,16 +4,21 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AdonaiPropertiesTest {
 
-  private File tmpPath = Files.createTempDir();
-
   private static String savedUserHome = System.getProperty("user.home");
+
+  @BeforeClass
+  public static void before () {
+    Consts.setAdonaiHome(Files.createTempDir());
+  }
 
   @AfterClass
   public static void after () {
@@ -22,8 +27,7 @@ public class AdonaiPropertiesTest {
 
   @Test
   public void read () throws IOException {
-    System.setProperty("user.home", tmpPath.getAbsolutePath());
-    File propFile = new File (tmpPath, ".adonai/adonai.properties");
+    File propFile = new File (Consts.getAdonaiHome(), "adonai.properties");
     FileUtils.writeLines(propFile, Arrays.asList("hello=world"));
     AdonaiProperties adonaiProperties = new AdonaiProperties();
     Assert.assertEquals ("world", adonaiProperties.getProperty("hello"));

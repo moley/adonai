@@ -73,6 +73,13 @@ sourceSets {
     }
 }
 
+task copyRealData (type: Copy) {
+    from (System.getProperty("user.home") + "/.adonai")
+    include 'tenant*/**'
+    into file('.adonai')
+}
+tasks.compileJava.dependsOn(copyRealData)
+
 
 task installLocal(type: Copy, dependsOn: distZip) {
     def zipFile = file("build/distributions/pluginApp-" + version + ".zip")

@@ -4,27 +4,33 @@ import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 
 public class SongNavigationService {
 
   public LinePart stepToNextPart (final SongCursor songCursor) {
 
-    SongPart currentSongPart = songCursor.getCurrentSongPart();
+    SongStructItem currentStructItem = songCursor.getCurrentSongStructItem();
     Song currentSong = songCursor.getCurrentSong();
-    if (currentSongPart.equals(currentSong.getLastSongPart()))
+    if (currentStructItem.equals(currentSong.getLastStructItem()))
       return songCursor.getCurrentLinePart();
-    else
-      return currentSong.getNextSongPart(currentSongPart).getFirstLine().getFirstLinePart();
+    else {
+      SongStructItem nextStructItem = currentSong.getNextStructItem(currentStructItem);
+      SongPart nextSongPart = currentSong.findSongPart(nextStructItem);
+      return nextSongPart.getFirstLine().getFirstLinePart();
+    }
   }
 
   public LinePart stepToPreviousPart (final SongCursor songCursor) {
-    LinePart currentLinePart = songCursor.getCurrentLinePart();
-    SongPart currentSongPart = songCursor.getCurrentSongPart();
+    SongStructItem currentStructItem = songCursor.getCurrentSongStructItem();
     Song currentSong = songCursor.getCurrentSong();
-    if (currentSongPart.equals(currentSong.getFirstSongPart()))
-      return currentLinePart;
-    else
-      return currentSong.getPreviousSongPart(currentSongPart).getFirstLine().getFirstLinePart();
+    if (currentStructItem.equals(currentSong.getFirstStructItem()))
+      return songCursor.getCurrentLinePart();
+    else {
+      SongStructItem nextStructItem = currentSong.getPreviousStructItem(currentStructItem);
+      SongPart nextSongPart = currentSong.findSongPart(nextStructItem);
+      return nextSongPart.getFirstLine().getFirstLinePart();
+    }
 
   }
 
@@ -39,6 +45,7 @@ public class SongNavigationService {
     LinePart linePart = songCursor.getCurrentLinePart();
     Line line = songCursor.getCurrentLine();
     Song song = songCursor.getCurrentSong();
+    SongStructItem songStructItem = songCursor.getCurrentSongStructItem();
     SongPart songPart = songCursor.getCurrentSongPart();
 
     if (! linePart.equals(line.getFirstLinePart())) { // if not last linepart in line
@@ -48,8 +55,10 @@ public class SongNavigationService {
       if (!line.equals(songPart.getFirstLine())) {
         return songPart.getPreviousLine(line).getLastLinePart();
       }
-      else if (!songPart.equals(song.getFirstSongPart())){
-        return song.getPreviousSongPart(songPart).getLastLine().getLastLinePart();
+      else if (!songStructItem.equals(song.getFirstStructItem())){
+        SongStructItem previousStructItem = song.getPreviousStructItem(songStructItem);
+        SongPart previousSongPart = song.findSongPart(previousStructItem);
+        return previousSongPart.getLastLine().getLastLinePart();
       }
     }
     return linePart;
@@ -67,6 +76,7 @@ public class SongNavigationService {
     LinePart linePart = songCursor.getCurrentLinePart();
     Line line = songCursor.getCurrentLine();
     Song song = songCursor.getCurrentSong();
+    SongStructItem songStructItem = songCursor.getCurrentSongStructItem();
     SongPart songPart = songCursor.getCurrentSongPart();
 
     if (! linePart.equals(line.getLastLinePart())) { // if not last linepart in line
@@ -76,8 +86,10 @@ public class SongNavigationService {
       if (!line.equals(songPart.getLastLine())) {
         return songPart.getNextLine(line).getFirstLinePart();
       }
-      else if (!songPart.equals(song.getLastSongPart())){
-        return song.getNextSongPart(songPart).getFirstLine().getFirstLinePart();
+      else if (!songStructItem.equals(song.getLastStructItem())){
+        SongStructItem nextStructItem = song.getNextStructItem(songStructItem);
+        SongPart nextSongPart = song.findSongPart(nextStructItem);
+        return nextSongPart.getFirstLine().getFirstLinePart();
       }
     }
     return linePart;

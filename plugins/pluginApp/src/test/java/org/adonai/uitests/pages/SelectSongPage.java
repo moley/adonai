@@ -19,10 +19,13 @@ public class SelectSongPage extends AbstractPage {
   }
 
   public void search (final String query) {
+    LOGGER.info("Text focused: " + getTxtSearch().isFocused());
     LOGGER.info("Search " + query);
+    applicationTest.clickOn(getTxtSearch());
     applicationTest.write(query);
     pressAndRelease( KeyCode.DOWN);
     LOGGER.info("Selected item: " + getLviSelectedSongs().getSelectionModel().getSelectedItem());
+    applicationTest.clickOn(getLviSelectedSongs());
     applicationTest.doubleClickOn(getLviSelectedSongs(), MouseButton.PRIMARY);
 
     LOGGER.info("Searched " + query);

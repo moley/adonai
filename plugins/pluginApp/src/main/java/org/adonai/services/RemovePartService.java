@@ -1,7 +1,11 @@
 package org.adonai.services;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 
 public class RemovePartService {
 
@@ -10,28 +14,42 @@ public class RemovePartService {
    * @param songCursor    current position
    * @return linepart to focus afterwards
    */
-  public SongPart removePart (final SongCursor songCursor) {
+  public SongStructItem removePart (final SongCursor songCursor) {
 
     // if single line, then clear the part, else delete the part
     Song song = songCursor.getCurrentSong();
+    SongStructItem removeStructItem = songCursor.getCurrentSongStructItem();
     SongPart removeSongPart = songCursor.getCurrentSongPart();
-    SongPart focusLinePart;
+    SongStructItem focusStructItem;
 
-    if (song.getSongParts().size() == 1) {
+    if (song.getStructItems().size() == 1) {
       removeSongPart.clear();
-      focusLinePart = removeSongPart;
+      focusStructItem = removeStructItem;
     }
     else {
-      SongPart previousSongPart = song.getPreviousSongPart(removeSongPart);
+      SongStructItem previousSongPart = song.getPreviousStructItem(removeStructItem);
       if (previousSongPart != null) {
-        focusLinePart = previousSongPart;
+        focusStructItem = previousSongPart;
       }
       else
-        focusLinePart = song.getNextSongPart(removeSongPart);
+        focusStructItem = song.getNextStructItem(removeStructItem);
 
-      song.getSongParts().remove(removeSongPart);
+      song.getStructItems().remove(removeStructItem);
     }
 
-    return focusLinePart;
+    //Remove not used parts
+    HashSet<String> used = new HashSet<String>();
+    for (SongStructItem next: song.getStructItems()) {
+      used.add(next.getPartId());
+    }
+
+    List<SongPart> unusedParts = new ArrayList<SongPart>();
+    for (SongPart nextPart: song.getSongParts()) {
+      if (! used.contains(nextPart.getId()))
+        unusedParts.add(nextPart);
+    }
+    song.getSongParts().removeAll(unusedParts);
+
+    return focusStructItem;
   }
 }

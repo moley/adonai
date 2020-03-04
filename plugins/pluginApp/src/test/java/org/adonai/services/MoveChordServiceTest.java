@@ -16,7 +16,7 @@ public class MoveChordServiceTest {
     MoveChordService moveChordService = new MoveChordService();
     moveChordService.toLeft(cursor);
 
-    Line line = songWithOnePart.getFirstSongPart().getFirstLine();
+    Line line = songWithOnePart.getFirstPart().getFirstLine();
     LinePart linePart1 = line.getLineParts().get(0);
     LinePart linePart2 = line.getLineParts().get(1);
     Assert.assertEquals ("That i", linePart1.getText());
@@ -31,7 +31,7 @@ public class MoveChordServiceTest {
     MoveChordService moveChordService = new MoveChordService();
     moveChordService.toRight(cursor);
 
-    Line line = songWithOnePart.getFirstSongPart().getFirstLine();
+    Line line = songWithOnePart.getFirstPart().getFirstLine();
     LinePart linePart1 = line.getLineParts().get(0);
     LinePart linePart2 = line.getLineParts().get(1);
     Assert.assertEquals ("That iso", linePart1.getText());

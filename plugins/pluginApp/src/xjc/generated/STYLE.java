@@ -45,8 +45,8 @@ public class STYLE {
 
     @XmlElementRefs({
         @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "SUP", type = SUP.class, required = false),
-        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "SUP", type = SUP.class, required = false)
     })
     @XmlMixed
     protected List<Object> content;
@@ -77,12 +77,12 @@ public class STYLE {
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link String }
      * {@link SUP }
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * 

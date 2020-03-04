@@ -34,7 +34,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void numbersForReferencesPart () throws IOException {
     SongBuilder songBuilder = new SongBuilder();
     songBuilder.withPart(SongPartType.VERS).withPartId("1").withLine().withLinePart("This is ", "C").withLinePart("a test", "G");
-    songBuilder.withPartReference("1", SongPartType.VERS).withQuantity(2).withLine().withLinePart("Second", "F");
+    songBuilder.withPartReference("1").withQuantity(2).withLine().withLinePart("Second", "F");
     Song song = songBuilder.get();
     List<Song> songs = Arrays.asList(song);
     ExportConfiguration exportConfiguration = createExportConfiguration();

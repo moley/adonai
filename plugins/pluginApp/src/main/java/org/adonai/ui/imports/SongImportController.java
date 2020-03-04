@@ -27,7 +27,7 @@ public class SongImportController {
 
   public void setSongToImport(Song songToImport) {
     if (songToImport != null)
-      LOGGER.info("set song to import: " + songToImport.getTitle() + "-" + songToImport.getSongParts().size());
+      LOGGER.info("set song to import: " + songToImport.getTitle() + "-" + songToImport.getStructItems().size());
     else
       LOGGER.info("set song null");
 

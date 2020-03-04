@@ -26,7 +26,11 @@ public class ModelService {
     for (String next: getTenants()) {
       TenantModel tenantModel = new TenantModel(next);
 
-      tenantModel.load();
+      try {
+        tenantModel.load();
+      } catch (Exception e) {
+        throw new RuntimeException("Error loading Tenant model " + tenantModel.getTenant(), e);
+      }
       model.getTenantModels().add(tenantModel);
     }
 
@@ -45,20 +49,6 @@ public class ModelService {
       tenants.add(DEFAULT_TENANT);
       File defaultTenantPath = new File(adonaiHome, DEFAULT_TENANT);
       defaultTenantPath.mkdirs();
-      for (File next : adonaiHome.listFiles()) {
-        if (!next.getName().startsWith("tenant_")) {
-          try {
-            if (next.isDirectory())
-              FileUtils.moveDirectory(next, new File (defaultTenantPath, next.getName()));
-            else
-              FileUtils.moveFile(next, new File(defaultTenantPath, next.getName()));
-
-          } catch (IOException e) {
-            throw new IllegalStateException(e);
-          }
-        }
-      }
-
     }
 
     return tenants;

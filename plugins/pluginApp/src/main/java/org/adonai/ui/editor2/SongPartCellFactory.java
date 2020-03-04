@@ -4,10 +4,10 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 import org.adonai.model.Song;
-import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 import org.adonai.services.SongInfoService;
 
-public class SongPartCellFactory implements Callback<ListView<SongPart>, ListCell<SongPart>> {
+public class SongPartCellFactory implements Callback<ListView<SongStructItem>, ListCell<SongStructItem>> {
 
   private Song song;
 
@@ -17,11 +17,11 @@ public class SongPartCellFactory implements Callback<ListView<SongPart>, ListCel
     this.song = song;
   }
   @Override
-  public ListCell<SongPart> call(ListView<SongPart> param) {
-    ListCell<SongPart> cell = new ListCell<SongPart>() {
+  public ListCell<SongStructItem> call(ListView<SongStructItem> param) {
+    ListCell<SongStructItem> cell = new ListCell<SongStructItem>() {
 
       @Override
-      protected void updateItem(SongPart item, boolean empty) {
+      protected void updateItem(SongStructItem item, boolean empty) {
         super.updateItem(item, empty);
 
         if (item != null) {

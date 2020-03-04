@@ -1,6 +1,12 @@
 package org.adonai.services;
 
-import org.adonai.model.*;
+import org.adonai.model.Line;
+import org.adonai.model.LinePart;
+import org.adonai.model.Song;
+import org.adonai.model.SongBook;
+import org.adonai.model.SongPart;
+import org.adonai.model.SongPartType;
+import org.adonai.model.SongStructItem;
 
 public class AddSongService {
 
@@ -13,6 +19,9 @@ public class AddSongService {
       Line newLine = new Line();
       newLine.getLineParts().add(new LinePart());
       songPart.getLines().add(newLine);
+      SongStructItem firstSongStructItem = new SongStructItem();
+      firstSongStructItem.setPartId(songPart.getId());
+      newSong.getStructItems().add(firstSongStructItem);
       newSong.getSongParts().add(songPart);
     }
     return newSong;

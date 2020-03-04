@@ -20,18 +20,16 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
-import jfxtras.util.NodeUtil;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 import org.adonai.services.SongCursor;
-import org.adonai.services.SongInfoService;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
-import org.adonai.ui.NodeUtils;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -276,9 +274,9 @@ public class SongEditor extends PanelHolder {
     songRepairer.repairSong(song);
 
 
-    for (int i = 0; i < song.getSongParts().size(); i++) {
-      SongPart next = song.getSongParts().get(i);
-      PartEditor currentPartEditor = new PartEditor(this, next, next.getReferencedSongPart() == null, i);
+    for (int i = 0; i < song.getStructItems().size(); i++) {
+      SongStructItem next = song.getStructItems().get(i);
+      PartEditor currentPartEditor = new PartEditor(this, next, i);
       partEditors.add(currentPartEditor);
       content.getChildren().add(currentPartEditor.getPanel());
     }

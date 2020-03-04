@@ -7,25 +7,25 @@ import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.adonai.model.SongStructItem;
 
 public class SongInfoService {
 
-  public String getPreview (final Song song, final SongPart songPart) {
+  public String getPreview (final Song song, final SongStructItem songStructItem) {
 
     String preview = "";
 
-    SongPart realPart = songPart;
-    if (songPart.getReferencedSongPart() != null) {
-      realPart = song.findSongPartByUUID(songPart.getReferencedSongPart());
+    SongPart songPart = song.findSongPart(songStructItem);
+    if (! songStructItem.isFirstOccurence()) {
       preview = "Copy of ";
     }
 
-    preview += (realPart != null ? realPart.getSongPartTypeLabel(): "INVALID PART");
+    preview += (songPart != null ? songPart.getSongPartTypeLabel(): "INVALID PART");
 
-    if (realPart == null)
+    if (songPart == null)
       return preview;
 
-    Line firstLine = realPart.getFirstLine();
+    Line firstLine = songPart.getFirstLine();
 
     if (firstLine == null)
       return preview;
@@ -35,37 +35,39 @@ public class SongInfoService {
     return preview;
   }
 
-  public String getStructure (final Song song, final SongPart songPart, final SongPartDescriptorStrategy songPartDescriptorStrategy) {
+  public String getStructure (final Song song, final SongStructItem songStructItem, final SongPartDescriptorStrategy songPartDescriptorStrategy) {
 
 
-    String quantityString = songPart.getQuantity() != null ? songPart.getQuantity().trim(): "";
+    String quantityString = songStructItem.getQuantity() != null ? songStructItem.getQuantity().trim(): "";
     if (! quantityString.endsWith("x") && ! quantityString.isEmpty())
       quantityString = quantityString + "x";
 
-    SongPart shownPart = songPart;
-    if (songPart.getReferencedSongPart() != null)
-      shownPart = song.findSongPartByUUID(songPart.getReferencedSongPart());
+    if (songStructItem.getShorttext() == null)
+      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + "has no shorttext");
 
-    if (shownPart.getSongPartType() == null)
-      return "";
+    if (songStructItem.getText() == null)
+      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + "has no text");
+
+
 
     if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.SHORT))
-      return (shownPart.getSongPartType().name().substring(0, 1) + " " + quantityString).trim();
+      return (songStructItem.getShorttext()+ " " + quantityString).trim();
     else if (songPartDescriptorStrategy.equals(SongPartDescriptorStrategy.LONG))
-      return (shownPart.getSongPartType().name() + " " + quantityString).trim();
+      return (songStructItem.getText() + " " + quantityString).trim();
     else
       return "";
 
   }
 
-  public Collection<SongPart> getRealSongPartsWithoutCurrent (final Song song, final SongPart songPart) {
-    Collection<SongPart> filtered = new ArrayList<>();
-    for (SongPart nextSongPart: song.getSongParts()) {
-      if (nextSongPart.getReferencedSongPart() == null)
-        filtered.add(nextSongPart);
+  public Collection<SongStructItem> getRealSongPartsWithoutCurrent (final Song song, final SongStructItem songStructItem) {
+    Collection<SongStructItem> filtered = new ArrayList<SongStructItem>();
+    for (SongStructItem nextSongPart: song.getStructItems()) {
+      if (nextSongPart.isFirstOccurence() && ! nextSongPart.getPartId().equals(songStructItem.getPartId()))
+
+      filtered.add(nextSongPart);
     }
 
-    filtered.remove(songPart);
+    filtered.remove(songStructItem);
 
     return filtered;
 

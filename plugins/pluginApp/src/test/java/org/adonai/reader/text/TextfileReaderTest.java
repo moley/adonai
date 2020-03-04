@@ -10,8 +10,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextfileReaderTest {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(TextfileReaderTest.class.getName());
+
 
   TextfileReader textfileReader = new TextfileReader();
 
@@ -50,9 +55,10 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich tauche ein.txt"), "UTF-8");
 
     Song song = textfileReader.read(content, new TextfileReaderParam());
-    SongPart intro = song.getSongParts().get(0);
+    SongPart intro = song.getFirstPart();
+    SongStructItem songStructItem = song.getFirstStructItem();
     Assert.assertFalse ("2x must not be shown in line content", intro.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2", intro.getQuantity());
+    Assert.assertEquals ("2", songStructItem.getQuantity());
   }
 
   @Test
@@ -70,20 +76,21 @@ public class TextfileReaderTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/Ich weiss wer ich bin.txt"), "UTF-8");
 
     Song song = textfileReader.read(content, new TextfileReaderParam());
-    //[Intro]
-    //[Verse 1]
-    //[Chorus 1]
-    //[Verse 2]
+    //[Intro]     *
+    //[Verse 1]   *
+    //[Chorus 1]  *
+    //[Verse 2]   *
+    //[Chorus 2]  *
+    //[Bridge 1]  *
+    //[Bridge 2]  *
+    //[Chorus 3]  *
+    //[Interlude]  *
+    //[Bridge 1]
+    //[Bridge 1]
+    //[Bridge 1]
+    //[Bridge 3]   *
     //[Chorus 2]
-    //[Bridge 1]
-    //[Bridge 2]
-    //[Chorus 3]
-    //[Interlude]
-    //[Bridge 1]
-    //[Bridge 1]
-    //[Bridge 1]
-    //[Bridge 3]
-    //[Chorus 2]
+    Assert.assertEquals (10, song.getSongParts().size()); //all with * are new parts
     SongPart introPart = song.getSongParts().get(0);
     SongPart vers1Part = song.getSongParts().get(1);
     SongPart chorus1Part = song.getSongParts().get(2);
@@ -93,11 +100,14 @@ public class TextfileReaderTest {
     SongPart bridge2Part = song.getSongParts().get(6);
     SongPart chorus3Part = song.getSongParts().get(7);
     SongPart interludePart = song.getSongParts().get(8);
-    SongPart bridge1Ref1 = song.getSongParts().get(9);
-    SongPart bridge1Ref2 = song.getSongParts().get(10);
-    SongPart bridge1Ref3 = song.getSongParts().get(11);
-    SongPart bridge3Part = song.getSongParts().get(12);
-    SongPart chorus2Ref = song.getSongParts().get(13);
+    SongPart bridge3Part = song.getSongParts().get(9);
+
+    Assert.assertEquals (14, song.getStructItems().size()); //all with * are new parts
+    SongStructItem chorus2PartStruct = song.getStructItems().get(4);
+    SongStructItem chorus2RefStruct = song.getStructItems().get(13);
+
+    Assert.assertEquals (chorus2Part, song.findSongPart(chorus2PartStruct));
+    Assert.assertEquals (chorus2Part, song.findSongPart(chorus2RefStruct));
 
     Assert.assertEquals (SongPartType.INTRO, introPart.getSongPartType());
     Assert.assertEquals (SongPartType.VERS, vers1Part.getSongPartType());
@@ -109,12 +119,6 @@ public class TextfileReaderTest {
     Assert.assertEquals (SongPartType.REFRAIN, chorus3Part.getSongPartType());
     Assert.assertEquals (SongPartType.ZWISCHENSPIEL, interludePart.getSongPartType());
     Assert.assertEquals (SongPartType.BRIDGE, bridge3Part.getSongPartType());
-    Assert.assertEquals(bridge1Part.getId(), bridge1Ref1.getReferencedSongPart());
-    Assert.assertEquals(bridge1Part.getId(), bridge1Ref2.getReferencedSongPart());
-    Assert.assertEquals(bridge1Part.getId(), bridge1Ref3.getReferencedSongPart());
-    Assert.assertEquals(chorus2Part.getId(), chorus2Ref.getReferencedSongPart());
-
-
   }
 
   @Test
@@ -135,25 +139,29 @@ public class TextfileReaderTest {
   @Test
   public void quantityInChordline () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F (2x)", "   Alles   ist cool");
-    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
+    Song song = textfileReader.read(allLines, new TextfileReaderParam());
+    SongPart firstPart = song.getFirstPart();
+    SongStructItem firstStructItem = song.getFirstStructItem();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2", firstPart.getQuantity());
+    Assert.assertEquals ("2", firstStructItem.getQuantity());
 
   }
 
   @Test
   public void quantityInTextline () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool  (2x)");
-    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
+    Song song = textfileReader.read(allLines, new TextfileReaderParam());
+    SongStructItem firstStructItem = song.getFirstStructItem();
+    SongPart firstPart = song.getFirstPart();
     Assert.assertFalse ("2x must not be shown in line content", firstPart.getFirstLine().toString().contains("2x"));
-    Assert.assertEquals ("2", firstPart.getQuantity());
+    Assert.assertEquals ("2", firstStructItem.getQuantity());
 
   }
 
   @Test
   public void doNotStripInMiddle () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles   ist cool");
-    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
     Assert.assertEquals ("  ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
@@ -164,7 +172,7 @@ public class TextfileReaderTest {
   @Test
   public void stripBeginning () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Am       F", "   Alles ist cool");
-    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstSongPart();
+    SongPart firstPart = textfileReader.read(allLines, new TextfileReaderParam()).getFirstPart();
     Assert.assertEquals ("Alles ", firstPart.getFirstLine().getLineParts().get(0).getText());
     Assert.assertEquals ("Am", firstPart.getFirstLine().getLineParts().get(0).getChord());
     Assert.assertEquals ("ist cool", firstPart.getFirstLine().getLineParts().get(1).getText());
@@ -183,16 +191,21 @@ public class TextfileReaderTest {
   @Test
   public void duplicateParts () {
     List<String> allLines = Arrays.asList("[Verse 1]", "Vers1Zeile1", "", "[Chorus]", "Chorus", "[Verse 1]", "Vers1Zeile1");
+    LOGGER.info(allLines.toString().replace(",", "\n"));
     Song song = textfileReader.read(allLines, new TextfileReaderParam());
+    Assert.assertEquals (2, song.getSongParts().size());
     SongPart firstPart = song.getSongParts().get(0);
     SongPart secondPart = song.getSongParts().get(1);
-    SongPart thirdPart = song.getSongParts().get(2);
-    Assert.assertEquals("Third part does not reference first one", firstPart.getId(), thirdPart.getReferencedSongPart());
-    Assert.assertNull("Third part is reference but contains type", thirdPart.getSongPartType());
-    Assert.assertEquals ("Referenced part must not contain lines", 0, thirdPart.getLines().size());
-    Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
-    Assert.assertNull ("Second part must not reference any part", secondPart.getReferencedSongPart());
+    Assert.assertEquals (3, song.getStructItems().size());
+    SongStructItem firstStructItem = song.getStructItems().get(0);
+    SongStructItem secondStructItem = song.getStructItems().get(1);
+    SongStructItem thirdStructItem = song.getStructItems().get(2);
     Assert.assertEquals ("First part has wrong type", SongPartType.REFRAIN, secondPart.getSongPartType());
+    Assert.assertEquals ("PartID invalid", firstPart.getId(), firstStructItem.getPartId());
+    Assert.assertEquals ("PartID invalid", secondPart.getId(), secondStructItem.getPartId());
+    Assert.assertEquals ("PartID invalid", firstPart.getId(), thirdStructItem.getPartId());
+    LOGGER.info("StructItems: " + song.getStructItems());
+    LOGGER.info("Parts: " + song.getSongParts());
   }
 
 
@@ -206,8 +219,8 @@ public class TextfileReaderTest {
   @Test
   public void twoChordLines () {
     Song imported = textfileReader.read(createLine("A G/H C","C H Am"), new TextfileReaderParam());
-    Line firstLine = imported.getFirstSongPart().getLines().get(0);
-    Line secondLine = imported.getFirstSongPart().getLines().get(1);
+    Line firstLine = imported.getFirstPart().getLines().get(0);
+    Line secondLine = imported.getFirstPart().getLines().get(1);
 
     Assert.assertEquals ("A", firstLine.getFirstLinePart().getChord());
     Assert.assertEquals ("C", secondLine.getFirstLinePart().getChord());
@@ -218,11 +231,11 @@ public class TextfileReaderTest {
   @Test
   public void twoTextLines () {
     Song imported = textfileReader.read(createLine("First line","second line"), new TextfileReaderParam());
-    Assert.assertEquals ("First line", imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getText());
-    Assert.assertNull(imported.getFirstSongPart().getLines().get(0).getFirstLinePart().getChord());
-    Assert.assertEquals ("second line", imported.getFirstSongPart().getLines().get(1).getFirstLinePart().getText());
-    Assert.assertNull(imported.getFirstSongPart().getLines().get(0).getLineParts().get(0).getChord());
-    Assert.assertEquals (2, imported.getFirstSongPart().getLines().size());
+    Assert.assertEquals ("First line", imported.getFirstPart().getLines().get(0).getFirstLinePart().getText());
+    Assert.assertNull(imported.getFirstPart().getLines().get(0).getFirstLinePart().getChord());
+    Assert.assertEquals ("second line", imported.getFirstPart().getLines().get(1).getFirstLinePart().getText());
+    Assert.assertNull(imported.getFirstPart().getLines().get(0).getLineParts().get(0).getChord());
+    Assert.assertEquals (2, imported.getFirstPart().getLines().size());
 
   }
 
@@ -234,7 +247,7 @@ public class TextfileReaderTest {
   @Test
   public void withoutText () {
     Song imported = textfileReader.read(createLine("A G/H C",null), new TextfileReaderParam());
-    Line line = imported.getFirstSongPart().getFirstLine();
+    Line line = imported.getFirstPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     Assert.assertEquals ("A", linePart1.getChord());
     LinePart linePart2 =  line.getLineParts().get(1);
@@ -250,7 +263,7 @@ public class TextfileReaderTest {
   @Test
   public void withoutChords () {
     Song imported = textfileReader.read(createLine("Dies ist ein Test",null), new TextfileReaderParam());
-    Line line = imported.getFirstSongPart().getFirstLine();
+    Line line = imported.getFirstPart().getFirstLine();
     LinePart linePart = line.getLineParts().get(0);
     Assert.assertEquals ("Dies ist ein Test", linePart.getText());
     Assert.assertEquals (1, line.getLineParts().size());
@@ -265,7 +278,7 @@ public class TextfileReaderTest {
 
     //F                          G  a  G/H
     //Und an Christus, Seinen Sohn
-    Line line = imported.getFirstSongPart().getFirstLine();
+    Line line = imported.getFirstPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
     LinePart linePart3 =  line.getLineParts().get(2);
@@ -291,7 +304,7 @@ public class TextfileReaderTest {
 
     //F
     //Und an Christus, Seinen Sohn
-    Line line = imported.getFirstSongPart().getFirstLine();
+    Line line = imported.getFirstPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
 
@@ -308,7 +321,7 @@ public class TextfileReaderTest {
                                                                 "Und an Christus, Seinen Sohn"), new TextfileReaderParam());
 
     //Und an Christus, Seinen Sohn
-    Line line = imported.getFirstSongPart().getFirstLine();
+    Line line = imported.getFirstPart().getFirstLine();
     LinePart linePart1 =  line.getLineParts().get(0);
     LinePart linePart2 =  line.getLineParts().get(1);
     LinePart linePart3 =  line.getLineParts().get(2);

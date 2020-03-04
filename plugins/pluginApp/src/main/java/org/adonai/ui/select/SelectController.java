@@ -52,14 +52,14 @@ public class SelectController<T> {
     txtSearchQuery.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
-        LOGGER.info("handle key event in txtSearchQuery " + event.getCode());
+        LOGGER.info("handle key event in txtSearchQuery " + event.getCode() + "-" + event.getText());
 
         if (event.getCode().equals(KeyCode.ESCAPE)) {
           LOGGER.info("Return to default");
           filteredData.setPredicate(s-> true);
         }
         else if (event.getCode().equals(KeyCode.DOWN)) {
-          LOGGER.info("Step to searchlist");
+          LOGGER.info("Step to searchlist with text " + txtSearchQuery.getText());
           lviSelectItems.requestFocus();
           lviSelectItems.getSelectionModel().selectFirst();
         }
@@ -82,8 +82,13 @@ public class SelectController<T> {
     lviSelectItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
+
+        LOGGER.info("mouseClicked recieved on lviSelectItems");
+
         if (event.getClickCount() == 2) {
+
           selectedItem = getLviSelectItems().getSelectionModel().getSelectedItem();
+          LOGGER.info("Double clicked on item " + selectedItem.toString());
           close();
         }
       }

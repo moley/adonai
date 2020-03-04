@@ -125,7 +125,11 @@ public class TenantModel {
       SongRepairer songRepairer = new SongRepairer();
       for (SongBook nextSongbook: currentConfiguration.getSongBooks()) {
         for (Song nextSong: nextSongbook.getSongs()) {
-          songRepairer.repairSong(nextSong);
+          try {
+            songRepairer.repairSong(nextSong);
+          } catch (Exception e) {
+            throw new RuntimeException("Error repairing song " + nextSong.getTitle() + " of tenant " + tenant, e);
+          }
         }
       }
       currentConfiguration.setTenant(tenant);

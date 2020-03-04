@@ -24,6 +24,7 @@ public class AddSongServiceTest {
     Song song = addSongService.createSong("My way", true);
     Assert.assertEquals("MY WAY", song.getTitle());
     Assert.assertEquals(1, song.getSongParts().size());
+    Assert.assertEquals(1, song.getStructItems().size());
 
   }
 
@@ -31,6 +32,6 @@ public class AddSongServiceTest {
     Song song = addSongService.createSong("My way", false);
     Assert.assertEquals("MY WAY", song.getTitle());
     Assert.assertEquals(0, song.getSongParts().size());
-
+    Assert.assertEquals(0, song.getStructItems().size());
   }
 }

@@ -13,7 +13,7 @@ public class AddChordServiceTest {
   public void add () {
 
     Song song = SongTestData.getSongWithOnePart();
-    Line linePart = song.getSongParts().get(0).getLines().get(0);
+    Line linePart = song.getFirstPart().getFirstLine();
     Assert.assertEquals (2, linePart.getLineParts().size());
 
     AddChordService addChordService = new AddChordService();

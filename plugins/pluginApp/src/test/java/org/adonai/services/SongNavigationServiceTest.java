@@ -1,10 +1,10 @@
 package org.adonai.services;
 
+import org.adonai.SongTestData;
+import org.adonai.model.LinePart;
+import org.adonai.model.Song;
 import org.junit.Assert;
 import org.junit.Test;
-import org.adonai.model.LinePart;
-import org.adonai.SongTestData;
-import org.adonai.model.Song;
 
 public class SongNavigationServiceTest {
 
@@ -16,7 +16,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstPart().getFirstLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -26,7 +26,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLine(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstPart().getFirstLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -36,7 +36,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLine(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getLastLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstPart().getLastLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -46,7 +46,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLine(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getLastLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstPart().getLastLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -60,7 +60,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 1, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousPart(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getFirstPart().getFirstLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -80,7 +80,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextPart(cursor);
-    Assert.assertEquals ("Focus invalid", songWithOnePart.getLastSongPart().getFirstLine().getFirstLinePart(), focusedLinePart);
+    Assert.assertEquals ("Focus invalid", songWithOnePart.getLastPart().getFirstLine().getFirstLinePart(), focusedLinePart);
 
   }
 
@@ -100,7 +100,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 1, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
-    Assert.assertEquals ("Focus invalid", focusedLinePart, songWithOnePart.getFirstSongPart().getFirstLine().getFirstLinePart());
+    Assert.assertEquals ("Focus invalid", focusedLinePart, songWithOnePart.getFirstPart().getFirstLine().getFirstLinePart());
 
   }
 
@@ -110,12 +110,15 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
-    Assert.assertEquals ("Focus invalid", focusedLinePart, songWithOnePart.getFirstSongPart().getFirstLine().getLastLinePart());
+    Assert.assertEquals ("Focus invalid", focusedLinePart, songWithOnePart.getFirstPart().getFirstLine().getLastLinePart());
   }
 
   @Test
   public void stepToPreviousVeryFirstPartInLine () {
     Song songWithOnePart = SongTestData.getSongWithTwoPartsTwoLines();
+
+    System.out.println (songWithOnePart.getSongParts());
+    System.out.println (songWithOnePart.getStructItems());
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToPreviousLinePart(cursor);
@@ -129,7 +132,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLinePart(cursor);
-    Assert.assertEquals ("Focused line invalid", focusedLinePart, songWithOnePart.getFirstSongPart().getFirstLine().getLastLinePart());
+    Assert.assertEquals ("Focused line invalid", focusedLinePart, songWithOnePart.getFirstPart().getFirstLine().getLastLinePart());
 
   }
 
@@ -139,7 +142,7 @@ public class SongNavigationServiceTest {
 
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.stepToNextLinePart(cursor);
-    Assert.assertEquals ("Focused line invalid", focusedLinePart, songWithOnePart.getLastSongPart().getFirstLine().getFirstLinePart());
+    Assert.assertEquals ("Focused line invalid", focusedLinePart, songWithOnePart.getLastPart().getFirstLine().getFirstLinePart());
 
   }
 

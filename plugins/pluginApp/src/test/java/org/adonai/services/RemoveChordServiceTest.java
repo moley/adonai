@@ -16,7 +16,7 @@ public class RemoveChordServiceTest {
     RemoveChordService removeChordService = new RemoveChordService();
     removeChordService.removeChord(songCursor);
 
-    Line firstLine = song.getFirstSongPart().getFirstLine();
+    Line firstLine = song.getFirstPart().getFirstLine();
     Assert.assertEquals (2, firstLine.getLineParts().size());
     LinePart firstLinePart = firstLine.getFirstLinePart();
     LinePart secondLinePart = firstLine.getLastLinePart();
@@ -36,7 +36,7 @@ public class RemoveChordServiceTest {
     RemoveChordService removeChordService = new RemoveChordService();
     removeChordService.removeChord(songCursor);
 
-    Line firstLine = song.getFirstSongPart().getFirstLine();
+    Line firstLine = song.getFirstPart().getFirstLine();
     Assert.assertEquals (1, firstLine.getLineParts().size());
     Assert.assertEquals ("Text invalid", "That isone testline", firstLine.getFirstLinePart().getText());
     Assert.assertEquals ("Chord invalid", "D", firstLine.getFirstLinePart().getChord());

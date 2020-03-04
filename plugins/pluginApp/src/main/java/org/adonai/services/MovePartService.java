@@ -2,32 +2,32 @@ package org.adonai.services;
 
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
-import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 
 public class MovePartService {
 
   public LinePart movePartUp (final SongCursor songCursor) {
     Song song = songCursor.getCurrentSong();
-    SongPart songPart = songCursor.getCurrentSongPart();
+    SongStructItem songStructItem = songCursor.getCurrentSongStructItem();
 
-    if (! songPart.equals(song.getFirstSongPart())) {
-      SongPart previousSongPart = song.getPreviousSongPart(songPart);
-      int indexPreviousSongPart = song.getIndex(previousSongPart);
-      song.getSongParts().remove(songPart);
-      song.getSongParts().add(indexPreviousSongPart, songPart);
+    if (! songStructItem.equals(song.getFirstStructItem())) {
+      SongStructItem previousStructItem = song.getPreviousStructItem(songStructItem);
+      int indexPreviousSongPart = song.getIndex(previousStructItem);
+      song.getStructItems().remove(songStructItem);
+      song.getStructItems().add(indexPreviousSongPart, songStructItem);
     }
     return songCursor.getCurrentLinePart();
   }
 
   public LinePart movePartDown (final SongCursor songCursor) {
     Song song = songCursor.getCurrentSong();
-    SongPart songPart = songCursor.getCurrentSongPart();
+    SongStructItem songStructItem = songCursor.getCurrentSongStructItem();
 
-    if (! songPart.equals(song.getLastSongPart())) {
-      SongPart nextSongPart = song.getNextSongPart(songPart);
+    if (! songStructItem.equals(song.getLastStructItem())) {
+      SongStructItem nextSongPart = song.getNextStructItem(songStructItem);
       int indexNextSongPart = song.getIndex(nextSongPart);
-      song.getSongParts().remove(songPart);
-      song.getSongParts().add(indexNextSongPart, songPart);
+      song.getStructItems().remove(songStructItem);
+      song.getStructItems().add(indexNextSongPart, songStructItem);
 
     }
     return songCursor.getCurrentLinePart();

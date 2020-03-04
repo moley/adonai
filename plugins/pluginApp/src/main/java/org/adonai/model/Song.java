@@ -1,25 +1,24 @@
 package org.adonai.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-
 import javax.xml.bind.annotation.XmlIDREF;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by OleyMa on 01.09.16.
  */
 public class Song extends AbstractSessionItem implements NamedElement{
 
-  private List<SongPart> songParts = new ArrayList<SongPart>();
+  private List<SongPart> parts = new ArrayList<SongPart>();
 
   private Integer id;
 
   private List<Additional> additionals = new ArrayList<Additional>();
 
+  private List<SongStructItem> structItems = new ArrayList<SongStructItem>();
 
   private Status status;
 
@@ -36,11 +35,15 @@ public class Song extends AbstractSessionItem implements NamedElement{
   private SimpleObjectProperty<Integer> speedProperty = new SimpleObjectProperty<Integer>();
 
   public int getIndex (final SongPart songPart) {
-    return songParts.indexOf(songPart);
+    return parts.indexOf(songPart);
+  }
+
+  public int getIndex (final SongStructItem songStructItem) {
+    return structItems.indexOf(songStructItem);
   }
 
   public SongPart findSongPartByUUID (final String uuid) {
-    for (SongPart next: songParts) {
+    for (SongPart next: parts) {
       if (next.getId().equals(uuid))
         return next;
     }
@@ -48,31 +51,49 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return null;
   }
 
-  public SongPart getPreviousSongPart (SongPart songPart) {
+  public SongPart getPreviousPart (SongPart songPart) {
     int index = getIndex(songPart);
     return index > 0 ? getSongParts().get(index - 1): null;
   }
 
-  public SongPart getNextSongPart (SongPart songPart) {
+  public SongPart getNextPart (SongPart songPart) {
     int index = getIndex(songPart);
     return (index < getSongParts().size() - 1)? getSongParts().get(index + 1): null;
   }
 
-  public SongPart getFirstSongPart () {
-    return songParts.get(0);
+  public SongPart getFirstPart () {
+    return parts.get(0);
   }
 
-  public SongPart getLastSongPart () {
-    return songParts.get(songParts.size() - 1);
+  public SongPart getLastPart () {
+    return parts.get(parts.size() - 1);
+  }
+
+  public SongStructItem getPreviousStructItem (SongStructItem songStructItem) {
+    int index = getIndex(songStructItem);
+    return index > 0 ? getStructItems().get(index - 1): null;
+  }
+
+  public SongStructItem getNextStructItem (SongStructItem songStructItem) {
+    int index = getIndex(songStructItem);
+    return (index < getSongParts().size() - 1)? getStructItems().get(index + 1): null;
+  }
+
+  public SongStructItem getFirstStructItem () {
+    return structItems.get(0);
+  }
+
+  public SongStructItem getLastStructItem () {
+    return structItems.get(structItems.size() - 1);
   }
 
 
   public List<SongPart> getSongParts() {
-    return songParts;
+    return parts;
   }
 
   public void setSongParts(List<SongPart> songParts) {
-    this.songParts = songParts;
+    this.parts = songParts;
   }
 
   public String getTitle() {
@@ -191,5 +212,34 @@ public class Song extends AbstractSessionItem implements NamedElement{
     if (speedProperty.get() == null)
       speedProperty.set(0);
     return speedProperty;
+  }
+
+  public List<SongStructItem> getStructItems() {
+    return structItems;
+  }
+
+  public void setStructItems(List<SongStructItem> structItems) {
+    this.structItems = structItems;
+  }
+
+  public SongPart findSongPart (final SongStructItem songStructItem) {
+    Collection<String> found = new ArrayList<>();
+    for (SongPart next: parts) {
+      if (next.getId().equals(songStructItem.getPartId()))
+        return next;
+      else
+        found.add(next.getId() + "\n");
+    }
+    throw new IllegalStateException("Part with id " + songStructItem.getPartId() + " not found in song " + getId() + "\n(Found ids: " + found + ")");
+  }
+
+  public List<SongStructItem> getStructItems (final SongPart songPart) {
+    List<SongStructItem> contains = new ArrayList<SongStructItem>();
+    for (SongStructItem next: getStructItems()) {
+      if (next.getPartId().equals(songPart.getId()))
+        contains.add(next);
+    }
+
+    return contains;
   }
 }

@@ -10,15 +10,16 @@ import org.adonai.model.Model;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.SongStructItem;
 import org.adonai.model.TenantModel;
 import org.adonai.services.ModelService;
 import org.adonai.testdata.TestDataCreator;
 import org.adonai.uitests.pages.AddPartPage;
 import org.adonai.uitests.pages.ImportSongWizardPage;
-import org.adonai.uitests.pages.SongDetailsPage;
-import org.adonai.uitests.pages.SongEditorPage;
 import org.adonai.uitests.pages.MainMaskPage;
 import org.adonai.uitests.pages.SelectAdditionalPage;
+import org.adonai.uitests.pages.SongDetailsPage;
+import org.adonai.uitests.pages.SongEditorPage;
 import org.adonai.uitests.pages.SongPartDetailsPage;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -110,8 +111,8 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     mainMaskPage.getApplicationTest().type(KeyCode.ESCAPE);
     mainMaskPage.stepToSongbook();
     Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
-    SongPart selectedSongPart = selectedSong.getSongParts().get(0);
-    Assert.assertEquals ("10", selectedSongPart.getQuantity());
+    SongStructItem selectedStructPart = selectedSong.getFirstStructItem();
+    Assert.assertEquals ("10", selectedStructPart.getQuantity());
   }
 
   @Test
@@ -137,7 +138,9 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     addPartPage.search("New Intro");
     mainMaskPage.stepToSongbook();
     Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
-    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, selectedSong.getSongParts().get(1).getSongPartType());
+    SongStructItem songStructItem = selectedSong.getStructItems().get(1);
+    SongPart songPart = selectedSong.findSongPart(songStructItem);
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, songPart.getSongPartType());
   }
 
   @Test
@@ -160,7 +163,10 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     addPartPage.search("New Intro");
     mainMaskPage.stepToSongbook();
     Song selectedSong = mainMaskPage.getLviSongs().getSelectionModel().getSelectedItem();
-    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, selectedSong.getSongParts().get(0).getSongPartType());
+    SongStructItem songStructItem = selectedSong.getFirstStructItem();
+    SongPart songPart = selectedSong.findSongPart(songStructItem);
+
+    Assert.assertEquals ("Wrong part in song " + selectedSong.getTitle(), SongPartType.INTRO, songPart.getSongPartType());
   }
 
   @Test

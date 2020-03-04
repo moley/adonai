@@ -6,12 +6,10 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
-import org.adonai.AdonaiProperties;
 import org.adonai.export.AbstractExportTest;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenContainer;
-import org.adonai.export.ExportTokenNewPage;
 import org.adonai.export.ReferenceStrategy;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
@@ -30,8 +28,6 @@ import org.slf4j.LoggerFactory;
 public class PdfWriterTest extends AbstractExportTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PdfWriterTest.class);
-
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   private boolean openPreview = false;
 
@@ -152,6 +148,7 @@ public class PdfWriterTest extends AbstractExportTest {
     pdfExporter.export(songs, tmpExportFile, exportConfiguration);
   }
 
+  @Deprecated
   private Song getTestdata (String exportTestdata) {
     TenantModel tenantModel = new TenantModel(new File ("src/test/resources/export/pdf/" + exportTestdata + "/config.xml"));
     Configuration configuration = tenantModel.get();
@@ -161,27 +158,18 @@ public class PdfWriterTest extends AbstractExportTest {
 
 
   @Test
-  public void emptySecondSide () throws IOException {
-    Song layoutTestSong = getTestdata("emptySecondSide");
-
-    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "emptySecondSide").toFile();
-
-    PdfExporter pdfExporter = new PdfExporter();
-    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
-    exportConfiguration.setWithChords(true);
-    exportConfiguration.setOpenPreview(openPreview);
-    pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
-    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    ExportToken prelastexportToken = exportTokenContainer.getExportTokenList().get(exportTokenContainer.getExportTokenList().size() - 2);
-    Assert.assertNotEquals("No newPage export token expected", ExportTokenNewPage.class, prelastexportToken.getClass());
-    ExportToken lastexportToken = exportTokenContainer.getExportTokenList().get(exportTokenContainer.getExportTokenList().size() - 1);
-    Assert.assertEquals ("Zwischenzeit", lastexportToken.getText());
-  }
-
-  @Test
   public void exportLayout () throws IOException {
 
-    Song layoutTestSong = getTestdata("layouttest");
+    SongBuilder builder = new SongBuilder();
+
+    builder = builder.withPart(SongPartType.VERS);
+    builder = builder.withLine().withLinePart("ich will dir", "A");
+    builder = builder.withLine().withLinePart("Mein ganzes Herz", "D");
+
+    Song layoutTestSong = builder.get();
+
+    LOGGER.info("Song StructItems" + layoutTestSong.getStructItems());
+    LOGGER.info("Song Parts" + layoutTestSong.getSongParts());
 
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "exportLayout").toFile();
 
@@ -202,7 +190,14 @@ public class PdfWriterTest extends AbstractExportTest {
   public void firstChordEmpty () throws IOException {
     File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "emptychord").toFile();
 
-    Song layoutTestSong = getTestdata("emptychord");
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withTitle("TITLE").withId("1");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withLinePart("First line", null).withLinePart("Second part", "D");
+    builder = builder.withLine().withLinePart("Second line", null);
+    builder = builder.withLine().withLinePart("Third line", null);
+    builder = builder.withLine().withLinePart("Let every", "D");
+
+    Song layoutTestSong = builder.get();
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
     exportConfiguration.setWithChords(true);
@@ -215,21 +210,4 @@ public class PdfWriterTest extends AbstractExportTest {
       exportTokenThirdLine.getAreaInfo().getY() > 119);
   }
 
-  @Test
-  public void songMultiSides () throws IOException {
-    File tmpExportFile = Files.createTempFile(getClass().getSimpleName(), "multisides").toFile();
-
-    Song layoutTestSong = getTestdata("multisides");
-    PdfExporter pdfExporter = new PdfExporter();
-    ExportConfiguration exportConfiguration = pdfExporter.getPdfDocumentBuilder().getDefaultConfiguration();
-    exportConfiguration.setWithChords(true);
-    exportConfiguration.setWithContentPage(false);
-    exportConfiguration.setOpenPreview(openPreview);
-    pdfExporter.export(Arrays.asList(layoutTestSong), tmpExportFile, exportConfiguration);
-    ExportTokenContainer exportTokenContainer = pdfExporter.getPdfDocumentBuilder().getExportTokenContainer();
-    ExportToken exportTokenSecondSide = exportTokenContainer.findTokenByText("Doch dein Reich ist schon da und du bist treu");
-    Assert.assertTrue ("Y-Position of second side token invalid (" + exportTokenSecondSide + ")",
-      exportTokenSecondSide.getAreaInfo().getY() < 50);
-
-  }
 }

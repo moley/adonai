@@ -1,5 +1,18 @@
+- When the first reference is before the real part change order
+- Name parts with numbers (REFRAIN 1, ...)
+- Error when removing session from sessions
+- move parts in list up and down by drag and drop (Songs in session, parts in songs)
+- Remove whole line
+
+- Sessions List - toString()
+- importing Song via clipboard Validation Title
+
+
+- Icons for part types
+- Instrument matrix per part/line
+- Pics for users
+
 - Parts with same Key are imported as reference although content is not equal
-- Tenant ability
 - Indent between chords without text
 - export with session sequence small / big
 - Export schematas

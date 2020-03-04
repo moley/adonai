@@ -15,7 +15,11 @@ public class SongPart {
   private String id;
 
   private String referencedSongPart;
+
+  @Deprecated //removed to SongStructItem
   private SimpleStringProperty quantity = new SimpleStringProperty();
+
+  @Deprecated //removed to SongStructItem
   private SimpleStringProperty remarks = new SimpleStringProperty();
 
   public SongPartType getSongPartType() {
@@ -100,22 +104,8 @@ public class SongPart {
     return line;
   }
 
-  public String toString () {
-    StringBuilder builder = new StringBuilder();
-    String songPartAsText = (songPartType != null ? songPartType.toString().toUpperCase() : "UNKNOW");
-    builder.append ("Type       : " + songPartAsText + "\n");
-    builder.append ("Id         : " + getId() + "\n");
-    builder.append ("Quantity   : " + getQuantity() + "\n");
-    builder.append ("Remarks    : " + getRemarks() + "\n");
-    builder.append ("RefTo      : " + getReferencedSongPart() + "\n");
-    int i = 0;
-    for (Line nextLine: lines) {
-      builder = builder.append(i + ":" + nextLine.toString() + "\n");
-      i++;
-    }
-
-    return builder.toString();
-
+  @Override public String toString() {
+    return "SongPart{" + "id='" + id + '\'' + ", quantity=" + quantity + ", remarks=" + remarks + ", songPartType=" + songPartType + ", lines=" + lines + "}\n";
   }
 
   public boolean hasText () {
@@ -138,6 +128,7 @@ public class SongPart {
     this.id = id;
   }
 
+  @Deprecated //not needed anymore
   public String getReferencedSongPart() {
     return referencedSongPart;
   }
@@ -146,26 +137,40 @@ public class SongPart {
     this.referencedSongPart = referencedSongPart;
   }
 
+
+  @XmlTransient
+  public String getEqualKey () {
+    String equalKey = getSongPartType() + getLines().toString();
+    return equalKey.replaceAll("\\s", "");
+
+  }
+
+  @Deprecated //moved to SongStructItem
   public String getRemarks() {
     return remarks.getValue();
   }
 
+  @Deprecated //moved to SongStructItem
   public void setRemarks(String remarks) {
     this.remarks.set(remarks);
   }
 
+  @Deprecated //moved to SongStructItem
   public String getQuantity() {
     return quantity.getValue();
   }
 
+  @Deprecated //moved to SongStructItem
   public void setQuantity(String quantity) {
     this.quantity.set(quantity);
   }
 
+  @Deprecated //moved to SongStructItem
   public SimpleStringProperty quantityProperty () {
     return quantity;
   }
 
+  @Deprecated //moved to SongStructItem
   public SimpleStringProperty remarksProperty () {
     return remarks;
   }

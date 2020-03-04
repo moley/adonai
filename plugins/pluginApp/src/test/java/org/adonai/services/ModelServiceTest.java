@@ -26,31 +26,6 @@ public class ModelServiceTest {
     Consts.setAdonaiHome(savedHome);
   }
 
-  @Test public void createTenantsOnTheFly() throws IOException {
-
-    File adonaiHome = Consts.getAdonaiHome();
-    File additionals = new File(adonaiHome, "additionals");
-    additionals.mkdirs();
-    File audioFile = new File(additionals, "audio/1.mp3");
-    audioFile.getParentFile().mkdirs();
-    audioFile.createNewFile();
-    File export = new File(adonaiHome, "export");
-    export.mkdirs();
-    File caches = new File(adonaiHome, "caches");
-    caches.mkdirs();
-    File config = new File(adonaiHome, "config.xml");
-    config.createNewFile();
-
-    Collection<String> tenants = ModelService.getTenants();
-    Assert.assertEquals("Create default tenant on the fly number of tenantsInvalid  in " + adonaiHome.getAbsolutePath(),
-        1, tenants.size());
-    Assert.assertEquals("Number of tenant paths invalid in " + adonaiHome.getAbsolutePath(),
-        adonaiHome.listFiles().length, 1);
-    Assert.assertEquals("Number of tenant paths invalid in " + adonaiHome.getAbsolutePath(),
-        new File(adonaiHome, "tenant_default").listFiles().length, 4);
-
-  }
-
   @Test public void add() {
 
     Model model = new Model();

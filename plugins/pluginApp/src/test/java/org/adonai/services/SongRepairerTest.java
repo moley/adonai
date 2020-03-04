@@ -1,5 +1,6 @@
 package org.adonai.services;
 
+import java.util.HashMap;
 import java.util.List;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
@@ -14,12 +15,52 @@ public class SongRepairerTest {
 
 
   @Test
-  public void removeEmptyLine () {
-    Song song = SongBuilder.instance().withPart(SongPartType.VERS).withLine().withLine().withLinePart("Hallo", "D").get();
-    Assert.assertEquals (2, song.getFirstSongPart().getLines().size());
+  public void getAggregatedNumberOfParts () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+    //2x VERS, 1x REFRAIN
+
+    SongRepairer songRepairer = new SongRepairer();
+    HashMap<SongPartType, Integer> aggregatedNumberOfTypes = songRepairer.getAggregatedNumberOfTypes(song);
+    Assert.assertEquals (Integer.valueOf("2"), aggregatedNumberOfTypes.get(SongPartType.VERS));
+    Assert.assertEquals (Integer.valueOf("1"), aggregatedNumberOfTypes.get(SongPartType.REFRAIN));
+
+  }
+  @Test
+  public void orderOptions () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+
+    System.out.println ("Song: " + song.getStructItems());
+    System.out.println ("Song: " + song.getSongParts());
+
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
-    Assert.assertEquals (1, song.getFirstSongPart().getLines().size());
+
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(0).getText());
+    Assert.assertTrue (song.getStructItems().get(0).isFirstOccurence());
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(1).getText());
+    Assert.assertFalse (song.getStructItems().get(1).isFirstOccurence());
+    Assert.assertEquals ("REFRAIN", song.getStructItems().get(2).getText());
+    Assert.assertEquals ("VERS 2", song.getStructItems().get(3).getText());
+  }
+
+
+  @Test
+  public void removeEmptyLine () {
+    Song song = SongBuilder.instance().disableRepairer().withPart(SongPartType.VERS).withLine().withLine().withLinePart("Hallo", "D").get();
+    Assert.assertEquals (2, song.getFirstPart().getLines().size());
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+    Assert.assertEquals (1, song.getFirstPart().getLines().size());
   }
 
   @Test
@@ -28,7 +69,7 @@ public class SongRepairerTest {
     song.setOriginalKey("D");
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
-    LinePart linePart = song.getSongParts().get(0).getLines().get(0).getLineParts().get(0);
+    LinePart linePart = song.getFirstPart().getLines().get(0).getLineParts().get(0);
     Assert.assertNull ("Chord must be not changed when currentKey is null", linePart.getOriginalChord());
 
   }
@@ -39,7 +80,7 @@ public class SongRepairerTest {
     song.setCurrentKey("D");
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
-    LinePart linePart = song.getSongParts().get(0).getLines().get(0).getLineParts().get(0);
+    LinePart linePart = song.getFirstPart().getLines().get(0).getLineParts().get(0);
     Assert.assertNull ("Chord must be not changed when originalKey is null", linePart.getOriginalChord());
 
   }
@@ -51,7 +92,7 @@ public class SongRepairerTest {
     song.setOriginalKey("C");
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
-    LinePart linePart = song.getSongParts().get(0).getLines().get(0).getLineParts().get(0);
+    LinePart linePart = song.getFirstPart().getLines().get(0).getLineParts().get(0);
     Assert.assertEquals ("Invalid origin chord", "C", linePart.getOriginalChord());
 
   }
@@ -63,7 +104,7 @@ public class SongRepairerTest {
     song.setOriginalKey("C");
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(song);
-    LinePart linePart = song.getSongParts().get(0).getLines().get(0).getLineParts().get(0);
+    LinePart linePart = song.getFirstPart().getLines().get(0).getLineParts().get(0);
     Assert.assertEquals ("Invalid origin chord", "D", linePart.getChord());
 
   }

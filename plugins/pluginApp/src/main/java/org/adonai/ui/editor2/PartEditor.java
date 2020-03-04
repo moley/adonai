@@ -10,17 +10,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.model.Line;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.SongStructItem;
 import org.adonai.services.AddPartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
@@ -42,7 +40,7 @@ public class PartEditor extends PanelHolder {
 
   private SongEditor songEditor;
 
-  private SongPart part;
+  private SongStructItem structItem;
 
   private VBox bbaSongPartActions = new VBox();
 
@@ -52,8 +50,6 @@ public class PartEditor extends PanelHolder {
 
   private SongPartColorMap songPartColorMap = new SongPartColorMap();
 
-  private boolean editable;
-
   private int partIndex;
 
   Label label;
@@ -62,25 +58,23 @@ public class PartEditor extends PanelHolder {
 
   private SongCursor getSongCursor() {
     Song song = songEditor.getSong();
-    return new SongCursor(song, song.getIndex(part), 0, 0, 0);
+    return new SongCursor(song, song.getIndex(structItem), 0, 0, 0);
   }
 
   private void reloadTitle() {
-    boolean isRef = part.getReferencedSongPart() != null;
-    String type = getShownPart().getSongPartTypeLabel();
-    if (part.getQuantity() != null && !part.getQuantity().trim()
+    String type = structItem.getText();
+    if (structItem.getQuantity() != null && !structItem.getQuantity().trim()
         .isEmpty()) { //quantity is always used from the part itself
-      type += " (" + part.getQuantity().trim() + "x)";
+      type += " (" + structItem.getQuantity().trim() + "x)";
     }
-
-    if (isRef)
-      label.setGraphic(Consts.createIcon("fa-external-link", Consts.ICON_SIZE_VERY_SMALL));
 
     label.setText(type);
     label.setUserData(getPointer() + "lblHeader");
 
-    String color = songPartColorMap.getColorForPart(getShownPart());
-    String colorSelected = songPartColorMap.getColorSelectedForPart(getShownPart());
+    SongPart songPart = getCurrentSongPart();
+
+    String color = songPartColorMap.getColorForPart(songPart);
+    String colorSelected = songPartColorMap.getColorSelectedForPart(songPart);
     titledPane.setStyle("-fx-color: " + color + "; -fx-focus-color: " + colorSelected);
     titledPane.setUserData(getPointer() + "paTitledPane");
   }
@@ -89,10 +83,12 @@ public class PartEditor extends PanelHolder {
     return "songeditor.part_" + partIndex + ".";
   }
 
-  public PartEditor(final SongEditor songEditor, final SongPart part, final boolean editable, final int partIndex) {
-    LOGGER.info("Create new parteditor for part " + part.getId() + ": " + System.identityHashCode(this));
-    this.editable = editable;
-    this.part = part;
+  public PartEditor(final SongEditor songEditor, final SongStructItem structItem, final int partIndex) {
+    this.structItem = structItem;
+    Song song = songEditor.getSong();
+
+    LOGGER.info("Create new parteditor for part " + structItem.getPartId() + ": " + System.identityHashCode(this));
+
     this.songEditor = songEditor;
     this.partIndex = partIndex;
 
@@ -127,7 +123,7 @@ public class PartEditor extends PanelHolder {
         mask.setSize(800, 400);
         SongPartDetailsController songPartDetailsController = mask.getController();
         songPartDetailsController.setCurrentSong(songEditor.getSong());
-        songPartDetailsController.setCurrentSongPart(part);
+        songPartDetailsController.setCurrentSongStructItem(structItem);
         songPartDetailsController.init();
 
         UiUtils.hideOnEsc(mask.getStage());
@@ -172,7 +168,8 @@ public class PartEditor extends PanelHolder {
               LOGGER.info("... with selected type " + addPartController.getSelectedType());
               SongCursor songCursor = getSongCursor();
               AddPartService addPartService = new AddPartService();
-              SongPart newSongPart = addPartService.addPartBefore(songCursor);
+              SongStructItem newSongStruct = addPartService.addPartBefore(songCursor);
+              SongPart newSongPart = song.findSongPart(newSongStruct);
               String selectedItem = addPartController.getSelectedType();
               SongPart copiedPart = addPartController.getSongPart(selectedItem);
               SongPartType songPartType = addPartController.getNewType(selectedItem);
@@ -249,8 +246,8 @@ public class PartEditor extends PanelHolder {
 
               SongCursor songCursor = getSongCursor();
               AddPartService addPartService = new AddPartService();
-              SongPart newSongPart = addPartService
-                  .addPartAfter(songCursor); //TODO move to service together with addPartBefore
+              SongStructItem newStructItem = addPartService.addPartAfter(songCursor); //TODO move to service together with addPartBefore
+              SongPart newSongPart = song.findSongPart(newStructItem);
               String selectedItem = addPartController.getSelectedType();
               SongPart copiedPart = addPartController.getSongPart(selectedItem);
               SongPartType songPartType = addPartController.getNewType(selectedItem);
@@ -288,25 +285,28 @@ public class PartEditor extends PanelHolder {
 
   }
 
-  private SongPart getShownPart() {
-    SongPart shownPart = part;
-    if (part.getReferencedSongPart() != null)
-      shownPart = songEditor.getSong().findSongPartByUUID(part.getReferencedSongPart());
-    return shownPart;
+  public SongPart getCurrentSongPart () {
+    return songEditor.getSong().findSongPart(structItem);
+  }
+
+  public SongStructItem getCurrentSongStructItem () {
+    return structItem;
   }
 
   public void reload() {
     contentPane.getChildren().clear();
 
-    for (int i = 0; i < getShownPart().getLines().size(); i++) {
-      Line nextLine = getShownPart().getLines().get(i);
-      LineEditor lineEditor = new LineEditor(this, nextLine, part.getReferencedSongPart() == null, partIndex, i);
+    SongPart songPart = getCurrentSongPart();
+
+    for (int i = 0; i < getCurrentSongPart().getLines().size(); i++) {
+      Line nextLine = songPart.getLines().get(i);
+      LineEditor lineEditor = new LineEditor(this, nextLine, songPart.getReferencedSongPart() == null, partIndex, i);
       lineEditors.add(lineEditor);
       contentPane.getChildren().add(lineEditor.getPanel());
     }
 
-    String textCssId = part.getReferencedSongPart() != null ? "texteditor_disabled" : "texteditor";
-    String chordCssId = part.getReferencedSongPart() != null ? "chordlabel_disabled" : "chordlabel";
+    String textCssId = "texteditor";
+    String chordCssId = "chordlabel";
 
     for (LineEditor nextLineEditor : lineEditors) {
       for (LinePartEditor nextLinePartEditor : nextLineEditor.getLinePartEditors()) {
@@ -329,10 +329,6 @@ public class PartEditor extends PanelHolder {
 
   public SongEditor getSongEditor() {
     return songEditor;
-  }
-
-  public SongPart getPart() {
-    return part;
   }
 
 }

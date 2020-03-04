@@ -4,6 +4,7 @@ import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,11 @@ public class SongCursor {
 
   private Song currentSong;
 
+
+  private SongStructItem currentSongStructItem;
+
   private SongPart currentSongPart;
+
 
   private Line currentLine;
 
@@ -29,7 +34,8 @@ public class SongCursor {
   public SongCursor (final Song song, final int part, final int line, final int linepart, int positionInLinePart) {
     LOGGER.info("Create song cursor for song " + song.getTitle () + "(" + part + "-" + line + "-" + linepart + "-" + positionInLinePart + ")");
     currentSong = song;
-    currentSongPart = ! song.getSongParts().isEmpty() ? song.getSongParts().get(part):null;
+    currentSongStructItem = ! song.getStructItems().isEmpty() ? song.getStructItems().get(part):null;
+    currentSongPart = currentSong.findSongPart(currentSongStructItem);
     currentLine = (currentSongPart != null && !currentSongPart.getLines().isEmpty()) ? currentSongPart.getLines().get(line): null;
     currentLinePart = (currentLine != null && !currentLine.getLineParts().isEmpty()) ? currentLine.getLineParts().get(linepart): null;
     this.positionInLinePart = positionInLinePart;
@@ -42,14 +48,6 @@ public class SongCursor {
 
   public void setCurrentSong(Song currentSong) {
     this.currentSong = currentSong;
-  }
-
-  public SongPart getCurrentSongPart() {
-    return currentSongPart;
-  }
-
-  public void setCurrentSongPart(SongPart currentSongPart) {
-    this.currentSongPart = currentSongPart;
   }
 
   public Line getCurrentLine() {
@@ -78,10 +76,24 @@ public class SongCursor {
 
   public String toString () {
     return "song " + currentSong + "\n" +
-           "part " + currentSongPart + "\n" +
+           "structitem " + currentSongStructItem + "\n" +
+           "songpart " + currentSongPart + "\n" +
            "line " + currentLine + "\n" +
            "linepart" + currentLinePart + "\n"+
            "pos in linepart " + positionInLinePart;
 
+  }
+
+
+  public void setCurrentSongStructItem(SongStructItem currentSongStructItem) {
+    this.currentSongStructItem = currentSongStructItem;
+  }
+
+  public SongStructItem getCurrentSongStructItem() {
+    return currentSongStructItem;
+  }
+
+  public SongPart getCurrentSongPart() {
+    return currentSongPart;
   }
 }

@@ -41,11 +41,13 @@ public class Consts {
   }
 
   public final static File getAdonaiHome () {
-    File customHome = new File (".adonai");
-    if (customHome.exists())
-      return customHome;
-    else
-      return adonaiHome;
+    if (Consts.adonaiHome == null) {
+      File customHome = new File(".adonai");
+      if (customHome.exists())
+        adonaiHome = customHome;
+    }
+
+    return adonaiHome;
   }
 
   /**

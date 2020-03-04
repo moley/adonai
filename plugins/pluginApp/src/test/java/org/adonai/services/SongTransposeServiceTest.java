@@ -1,15 +1,12 @@
 package org.adonai.services;
 
-import java.util.List;
-import org.adonai.model.Line;
-import org.adonai.model.LinePart;
-import org.adonai.model.SongPart;
-import org.junit.Assert;
-import org.junit.Test;
 import org.adonai.Key;
+import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPartType;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class SongTransposeServiceTest {
 
@@ -28,7 +25,7 @@ public class SongTransposeServiceTest {
   @Test
   public void transposeUp () {
     Song song = createSongInC();
-    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    LinePart linePart = song.getFirstPart().getFirstLine().getFirstLinePart();
     Assert.assertEquals ("C", linePart.getChord());
     songTransposeService.transpose(song, Key.C, Key.G);
     Assert.assertEquals ("G", linePart.getChord());
@@ -37,7 +34,7 @@ public class SongTransposeServiceTest {
   @Test
   public void transposeDown () {
     Song song = createSongInC();
-    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    LinePart linePart = song.getFirstPart().getFirstLine().getFirstLinePart();
     Assert.assertEquals ("C", linePart.getChord());
     songTransposeService.transpose(song, Key.C, Key.Bb);
     Assert.assertEquals ("Bb", linePart.getChord());
@@ -48,7 +45,7 @@ public class SongTransposeServiceTest {
   public void transposeUpBorder () {
     SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "H");
     Song song = songbuilder.get();
-    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    LinePart linePart = song.getFirstPart().getFirstLine().getFirstLinePart();
     Assert.assertEquals ("H", linePart.getChord());
     songTransposeService.transpose(song, Key.H, Key.Bb);
     Assert.assertEquals ("Bb", linePart.getChord());
@@ -58,7 +55,7 @@ public class SongTransposeServiceTest {
   public void transposeDownBorder () {
     SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "Bb");
     Song song = songbuilder.get();
-    LinePart linePart = song.getFirstSongPart().getFirstLine().getFirstLinePart();
+    LinePart linePart = song.getFirstPart().getFirstLine().getFirstLinePart();
     Assert.assertEquals ("Bb", linePart.getChord());
     songTransposeService.transpose(song, Key.Bb, Key.H);
     Assert.assertEquals ("H", linePart.getChord());
@@ -71,7 +68,7 @@ public class SongTransposeServiceTest {
     song.setOriginalKey("C");
     song.setCurrentKey("G");
     songTransposeService.recalculateOrigin(song);
-    Assert.assertEquals ("D", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getOriginalChord());
+    Assert.assertEquals ("D", song.getFirstPart().getFirstLine().getFirstLinePart().getOriginalChord());
 
   }
 
@@ -81,7 +78,7 @@ public class SongTransposeServiceTest {
     song.setOriginalKey("Db");
     song.setCurrentKey("G");
     songTransposeService.recalculateOrigin(song);
-    Assert.assertEquals ("Db", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getOriginalChord());
+    Assert.assertEquals ("Db", song.getFirstPart().getFirstLine().getFirstLinePart().getOriginalChord());
   }
 
   @Test   //C->G     //F->Bb
@@ -90,7 +87,7 @@ public class SongTransposeServiceTest {
     song.setOriginalKey("C");
     song.setCurrentKey("G");
     songTransposeService.recalculateCurrent(song);
-    Assert.assertEquals ("C", song.getSongParts().get(0).getFirstLine().getFirstLinePart().getChord());
+    Assert.assertEquals ("C", song.getFirstPart().getFirstLine().getFirstLinePart().getChord());
   }
 
 

@@ -16,6 +16,7 @@ import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartDescriptorStrategy;
+import org.adonai.model.SongStructItem;
 import org.adonai.services.SongInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,10 +120,12 @@ public class ExportEngine {
 
       locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getTitleSongDistance());
 
-      for (SongPart nextPart : nextSong.getSongParts()) {
+      for (SongStructItem nextStructItem : nextSong.getStructItems()) {
 
-        if (nextPart.getReferencedSongPart() != null && exportConfiguration.getReferenceStrategy().equals(ReferenceStrategy.SHOW_STRUCTURE)) {
-          String structure = songInfoService.getStructure(nextSong, nextPart, exportConfiguration.getSongPartDescriptorType());
+        SongPart nextPart = nextSong.findSongPart(nextStructItem);
+
+        if (! nextStructItem.isFirstOccurence() && exportConfiguration.getReferenceStrategy().equals(ReferenceStrategy.SHOW_STRUCTURE)) {
+          String structure = songInfoService.getStructure(nextSong, nextStructItem, exportConfiguration.getSongPartDescriptorType());
           SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
           documentBuilder.newToken(new ExportToken(nextSong, structure, new AreaInfo(locationInfo, sizeInfoStructure), ExportTokenType.STRUCTURE));
           locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getInterPartDistance() + sizeInfoStructure.getHeight());
@@ -155,7 +158,7 @@ public class ExportEngine {
             if (nextLine.equals(nextPart.getFirstLine())) {
               if (exportConfiguration.getSongPartDescriptorType() != null && !exportConfiguration.getSongPartDescriptorType().equals(SongPartDescriptorStrategy.NONE)) {
 
-                String structure = songInfoService.getStructure(nextSong, nextPart, exportConfiguration.getSongPartDescriptorType());
+                String structure = songInfoService.getStructure(nextSong, nextStructItem, exportConfiguration.getSongPartDescriptorType());
                 SizeInfo sizeInfoStructure = documentBuilder.getSize(structure, ExportTokenType.STRUCTURE);
                 locationInfoStructure = new LocationInfo(locationInfoStructure.getX(), locationInfoText.getY());
 
@@ -282,7 +285,7 @@ public class ExportEngine {
 
     SongInfoService songInfoService = new SongInfoService();
 
-    for (SongPart next: song.getSongParts()) {
+    for (SongStructItem next: song.getStructItems()) {
       String structureText = songInfoService.getStructure(song, next, mergedConfiguration.getSongPartDescriptorType());
       Double currentWeight = documentBuilder.getSize(structureText, ExportTokenType.STRUCTURE).getWidth();
       if (currentWeight > maxStructureWidth)

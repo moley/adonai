@@ -1,6 +1,8 @@
 package org.adonai.model;
 
 import java.io.File;
+import java.util.UUID;
+import org.adonai.services.SongRepairer;
 
 public class SongBuilder {
 
@@ -8,12 +10,21 @@ public class SongBuilder {
 
   private SongPart currentSongPart;
 
+  private SongStructItem currentSongStructItem;
+
   private Line currentLine;
 
   private LinePart currentLinePart;
 
+  private boolean withRepairer = true;
+
   public static SongBuilder instance() {
     return new SongBuilder();
+  }
+
+  public SongBuilder disableRepairer () {
+    this.withRepairer = false;
+    return this;
   }
 
   public SongBuilder withMp3 (final File file) {
@@ -38,28 +49,25 @@ public class SongBuilder {
   public SongBuilder withPart (final SongPartType songPartType) {
     currentSongPart = new SongPart();
     currentSongPart.setSongPartType(songPartType);
+    currentSongPart.setId(UUID.randomUUID().toString());
+
+    currentSongStructItem = new SongStructItem();
+    currentSongStructItem.setPartId(currentSongPart.getId());
     song.getSongParts().add(currentSongPart);
+    song.getStructItems().add(currentSongStructItem);
     return this;
   }
 
   public SongBuilder withPartId (final String id) {
     currentSongPart.setId(id);
+    currentSongStructItem.setPartId(id);
     return this;
   }
 
   public SongBuilder withPartReference (final String referencedId) {
-    currentSongPart = new SongPart();
-    currentSongPart.setReferencedSongPart(referencedId);
-    song.getSongParts().add(currentSongPart);
-    return this;
-
-  }
-
-  public SongBuilder withPartReference (final String referencedId, final SongPartType partType) {
-    currentSongPart = new SongPart();
-    currentSongPart.setReferencedSongPart(referencedId);
-    currentSongPart.setSongPartType(partType);
-    song.getSongParts().add(currentSongPart);
+    currentSongStructItem = new SongStructItem();
+    currentSongStructItem.setPartId(referencedId);
+    song.getStructItems().add(currentSongStructItem);
     return this;
 
   }
@@ -95,11 +103,20 @@ public class SongBuilder {
   }
 
   public Song get () {
+    if (withRepairer) {
+      SongRepairer songRepairer = new SongRepairer();
+      songRepairer.repairSong(song);
+    }
     return song;
   }
 
   public SongBuilder withQuantity(int i) {
-    currentSongPart.setQuantity(String.valueOf(i));
+    currentSongStructItem.setQuantity(String.valueOf(i));
+    return this;
+  }
+
+  public SongBuilder withRemarks (String remarks) {
+    currentSongStructItem.setRemarks(remarks);
     return this;
   }
 }

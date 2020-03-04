@@ -37,9 +37,9 @@ public class MergeLineServiceTest {
     Song songWithTwoParts = SongTestData.getSongWithTwoPartsTwoLines();
     SongCursor cursor = new SongCursor(songWithTwoParts, 0, 1, 0, 0);
     LinePart focusedLinePart = songService.mergeLine(cursor);
-    Assert.assertEquals ("Wrong focused part", focusedLinePart, songWithTwoParts.getFirstSongPart().getFirstLine().getLastLinePart());
+    Assert.assertEquals ("Wrong focused part", focusedLinePart, songWithTwoParts.getFirstPart().getFirstLine().getLastLinePart());
     Assert.assertEquals (2, songWithTwoParts.getSongParts().size());
-    Assert.assertEquals (1, songWithTwoParts.getFirstSongPart().getLines().size());
+    Assert.assertEquals (1, songWithTwoParts.getFirstPart().getLines().size());
   }
 
   @Test

@@ -23,9 +23,9 @@ public class CreatePlaylistServiceTest {
     File mp3File1 = new File (tmpPath, "song1.mp3");
     File tmpFile = new File (tmpPath, "myPlaylist.m3u");
 
-    Song song1 = SongBuilder.instance().withId("1").withTitle("song1").withMp3(mp3File1).get();
-    Song song2 = SongBuilder.instance().withId("2").withTitle("song2").withMp3(mp3File1).get();
-    Song song3 = SongBuilder.instance().withId("2").withTitle("song3").get();
+    Song song1 = SongBuilder.instance().disableRepairer().withId("1").withTitle("song1").withMp3(mp3File1).get();
+    Song song2 = SongBuilder.instance().disableRepairer().withId("2").withTitle("song2").withMp3(mp3File1).get();
+    Song song3 = SongBuilder.instance().disableRepairer().withId("2").withTitle("song3").get();
 
     List<Song> songs = Arrays.asList(song1, song2, song3);
     tmpFile.getParentFile().mkdirs();

@@ -1,11 +1,11 @@
 package org.adonai.services;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.adonai.SongTestData;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class SplitLineServiceTest {
 
@@ -47,10 +47,10 @@ public class SplitLineServiceTest {
   @Test
   public void splitLineEnd () {
     Song songWithOnePart = SongTestData.getSongWithOnePart();
-    int lastIndex = songWithOnePart.getSongParts().get(0).getLines().get(0).getFirstLinePart().getText().length();
+    int lastIndex = songWithOnePart.getFirstPart().getLines().get(0).getFirstLinePart().getText().length();
     SongCursor cursor = new SongCursor(songWithOnePart, 0, 0, 0, lastIndex);
     LinePart focusedLinePart = splitLineService.splitLine(cursor);
-    Assert.assertEquals (2, songWithOnePart.getSongParts().get(0).getLines().size());
+    Assert.assertEquals (2, songWithOnePart.getFirstPart().getLines().size());
     Assert.assertTrue ("Wrong type", cursor.getCurrentSongPart().getLines().get(1).getFirstLinePart().getText().trim().isEmpty());
     Assert.assertEquals ("Wrong part focused", cursor.getCurrentSongPart().getLines().get(1).getFirstLinePart(), focusedLinePart);
     Assert.assertEquals (1, focusedLinePart.getText().length());

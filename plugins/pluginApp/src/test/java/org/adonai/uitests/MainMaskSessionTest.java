@@ -8,10 +8,15 @@ import org.adonai.uitests.pages.SelectSongPage;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainMaskSessionTest extends AbstractAdonaiUiTest {
 
   private MainMaskPage mainMaskPage;
+
+  protected static final Logger LOGGER = LoggerFactory.getLogger(MainMaskSessionTest.class);
+
 
 
 
@@ -44,7 +49,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     selectSongPage.search("Song4_tenant1");
 
     int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
-    LOGGER.info("Number of songs after add");
+    LOGGER.info("Number of songs after add" + numberOfSongsAfter);
     Assert.assertEquals ("Number of songs not increased", numberOfSongs + 1, numberOfSongsAfter);
   }
 
