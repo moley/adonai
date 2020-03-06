@@ -32,7 +32,7 @@ public class Consts {
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
-  private static File adonaiHome = new File (getUserHome(), ".adonai");
+  private static File adonaiHome;
 
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
 

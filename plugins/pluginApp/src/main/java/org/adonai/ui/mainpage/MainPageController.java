@@ -135,6 +135,8 @@ public class MainPageController {
 
   private Mp3Player mp3Player = new Mp3Player();
 
+  private SongCellFactory songCellFactory = new SongCellFactory();
+
 
   public void initialize() {
 
@@ -146,7 +148,7 @@ public class MainPageController {
     lviSongs.setUserData("mainpage.lviSongs");
     lviSongs.setCellFactory(new SongCellFactory());
 
-    lviSession.setCellFactory(new SongCellFactory());
+    lviSession.setCellFactory(songCellFactory);
     lviSession.setPlaceholder(new Label("No songs in session available, press + to add ones"));
 
     lviSessions.setCellFactory(new SessionCellFactory());
@@ -862,6 +864,7 @@ public class MainPageController {
         sessionService.getSongs(currentSession, getCurrentSongBook()) :
         new ArrayList<>();
     lviSession.setItems(FXCollections.observableArrayList(sessionSongs));
+    songCellFactory.setSession(currentSession);
     lviSessions.setItems(FXCollections.observableArrayList(configuration.getSessions()));
 
     if (selectSong != null) {

@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
+import org.adonai.model.SongStructItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +33,8 @@ public class ListOrganizer extends Application {
 
     song = SongTestData.getSongWithTwoPartsTwoLines();
 
-    ListView<SongPart> birdList = new ListView<SongPart>();
-    birdList.setItems(FXCollections.observableArrayList(song.getSongParts()));
+    ListView<SongStructItem> birdList = new ListView<SongStructItem>();
+    birdList.setItems(FXCollections.observableArrayList(song.getStructItems()));
     birdList.setCellFactory(param -> new SongPartCell());
     birdList.setPrefWidth(180);
 
@@ -48,7 +49,7 @@ public class ListOrganizer extends Application {
     launch(ListOrganizer.class);
   }
 
-  private class SongPartCell extends ListCell<SongPart> {
+  private class SongPartCell extends ListCell<SongStructItem> {
 
     public SongPartCell() {
       ListCell thisCell = this;
@@ -98,7 +99,7 @@ public class ListOrganizer extends Application {
         boolean success = false;
 
         if (db.hasString()) {
-          ObservableList<SongPart> items = getListView().getItems();
+          ObservableList<SongStructItem> items = getListView().getItems();
           int draggedIdx = -1;
           for (int i = 0; i < items.size(); i++) {
             if (new Integer(items.get(i).hashCode()).toString().equals(db.getString()))
@@ -110,16 +111,16 @@ public class ListOrganizer extends Application {
 
           LOGGER.info("Vorher: " + song);
 
-          SongPart temp = song.getSongParts().get(draggedIdx);
-          song.getSongParts().set(draggedIdx, song.getSongParts().get(thisIdx));
-          song.getSongParts().set(thisIdx, temp);
+          SongStructItem temp = song.getStructItems().get(draggedIdx);
+          song.getStructItems().set(draggedIdx, song.getStructItems().get(thisIdx));
+          song.getStructItems().set(thisIdx, temp);
 
           items.set(draggedIdx, getItem());
           items.set(thisIdx, temp);
 
-          LOGGER.info("Nachher: " + song);
+          LOGGER.info("Nachher: " + song.getStructItems());
 
-          getListView().setItems(FXCollections.observableArrayList(song.getSongParts()));
+          getListView().setItems(FXCollections.observableArrayList(song.getStructItems()));
 
           success = true;
 
@@ -133,14 +134,14 @@ public class ListOrganizer extends Application {
     }
 
     @Override
-    protected void updateItem(SongPart item, boolean empty) {
+    protected void updateItem(SongStructItem item, boolean empty) {
 
       super.updateItem(item, empty);
       if (empty || item == null) {
         setGraphic(null);
         setText(null);
       } else {
-        setText(item.getSongPartTypeLabel());
+        setText(item.getPartId());
       }
 
     }
