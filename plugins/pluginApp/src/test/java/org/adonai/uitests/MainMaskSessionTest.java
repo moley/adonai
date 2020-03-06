@@ -49,7 +49,7 @@ public class MainMaskSessionTest extends AbstractAdonaiUiTest {
     selectSongPage.search("Song4_tenant1");
 
     int numberOfSongsAfter = mainMaskPage.getSongsInSession().size();
-    LOGGER.info("Number of songs after add" + numberOfSongsAfter);
+    LOGGER.info("Number of songs after add " + numberOfSongsAfter);
     Assert.assertEquals ("Number of songs not increased", numberOfSongs + 1, numberOfSongsAfter);
   }
 

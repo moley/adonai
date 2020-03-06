@@ -40,10 +40,10 @@ dependencies {
     runtime 'ch.qos.logback:logback-classic:1.0.13'
     runtime 'ch.qos.logback:logback-core:1.0.13'
 
-    compile 'org.openjfx:javafx-controls:14-ea+2'
-    compile 'org.openjfx:javafx-graphics:14-ea+2'
-    compile 'org.openjfx:javafx-swing:14-ea+2'
-    compile 'org.openjfx:javafx-media:14-ea+2'
+    compile 'org.openjfx:javafx-controls:14-ea+9'
+    compile 'org.openjfx:javafx-graphics:14-ea+9'
+    compile 'org.openjfx:javafx-swing:14-ea+9'
+    compile 'org.openjfx:javafx-media:14-ea+9'
 
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
