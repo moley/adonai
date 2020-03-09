@@ -134,6 +134,7 @@ public class MainMaskPage extends AbstractPage {
     stepToSongbook();
     getLviSongs().getSelectionModel().select(index);
     applicationTest.doubleClickOn(getLviSongs());
+    LOGGER.info("Window " + String.valueOf(System.identityHashCode(applicationTest.targetWindow())));
     return new SongEditorPage(applicationTest);
   }
 

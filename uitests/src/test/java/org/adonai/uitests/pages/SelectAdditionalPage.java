@@ -7,6 +7,8 @@ import javafx.scene.input.KeyCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.osgi.service.TestFx;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class SelectAdditionalPage extends AbstractPage {
 
@@ -23,8 +25,12 @@ public class SelectAdditionalPage extends AbstractPage {
     applicationTest.type(KeyCode.A);
     pressAndRelease(KeyCode.DOWN);
     LOGGER.info("Available additionals: " + getLviExtensions().getItems());
+    LOGGER.info("Visible: " + getLviExtensions().isVisible());
     applicationTest.clickOn(getLviExtensions());
+    LOGGER.info("LviExtensions focused: " + getLviExtensions().isFocused());
     applicationTest.clickOn(getBtnSelect());
+
+    //waitUntilWindowsVisible(1);
   }
 
   private Button getBtnSelect () {

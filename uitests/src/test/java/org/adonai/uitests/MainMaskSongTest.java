@@ -208,10 +208,22 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
     Assert.assertEquals ("Number of additionals invalid before", 0, firstSong.getAdditionals().size());
 
     mainMaskPage.stepToSong(0);
+
+
     mainMaskPage.selectMp3();
+
+
+
     SelectAdditionalPage selectAdditionalPage = new SelectAdditionalPage(this);
     selectAdditionalPage.select("AnotherMp3");
+    Thread.sleep(1000);
     mainMaskPage.save ();
+
+
+
+    Thread.sleep(1000);
+
+
 
     ModelService modelService = new ModelService();
     Model model = modelService.load();

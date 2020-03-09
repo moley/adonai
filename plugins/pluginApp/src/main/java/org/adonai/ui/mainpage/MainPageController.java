@@ -58,7 +58,6 @@ import org.adonai.model.Model;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
-import org.adonai.model.TenantModel;
 import org.adonai.model.User;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.online.MailSender;
@@ -140,6 +139,8 @@ public class MainPageController {
 
   public void initialize() {
 
+
+
     ModelService modelService = new ModelService();
     model = modelService.load();
 
@@ -161,6 +162,9 @@ public class MainPageController {
     reloadTenantData(adonaiProperties.getCurrentTenant());
 
     refreshTenantButton();
+
+    resetToolTip();
+
 
     txtSessionName.textProperty().addListener(new ChangeListener<String>() {
       @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -426,6 +430,7 @@ public class MainPageController {
     btnSave.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         try {
+          LOGGER.info("btnSave action recieved");
 
           model.save();
           Notifications.create().title("Save").text("Model saved").show();
@@ -709,6 +714,14 @@ public class MainPageController {
     }
 
 
+  }
+
+  private void resetToolTip () {
+    Label lblToolTipCurrentType = new Label();
+    lblToolTipCurrentType.setText("Model: " + Consts.getAdonaiHome().getAbsolutePath());
+    Tooltip tooltip = new Tooltip();
+    tooltip.setGraphic(lblToolTipCurrentType);
+    lblCurrentType.setTooltip(tooltip);
   }
 
   private void selectSessions() {

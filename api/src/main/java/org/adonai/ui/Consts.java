@@ -36,10 +36,6 @@ public class Consts {
 
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
 
-  public final static File getUserHome () {
-    return new File (System.getProperty(ADONAI_HOME_PROP) != null ? System.getProperty(ADONAI_HOME_PROP) : System.getProperty("user.home"));
-  }
-
   public final static File getAdonaiHome () {
     if (Consts.adonaiHome == null) {
       File customHome = new File(".adonai");
@@ -47,7 +43,7 @@ public class Consts {
         adonaiHome = customHome;
     }
 
-    return adonaiHome;
+    return new File (System.getProperty("user.home"), ".adonai");
   }
 
   /**

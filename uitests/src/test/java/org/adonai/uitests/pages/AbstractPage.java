@@ -1,13 +1,19 @@
 package org.adonai.uitests.pages;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.adonai.services.ModelService;
 import org.adonai.uitests.MyNodeMatchers;
 import org.hamcrest.Matcher;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 public class AbstractPage<T> {
 
@@ -38,6 +44,21 @@ public class AbstractPage<T> {
     ModelService modelService = new ModelService();
     Model model = modelService.load();
     return model.getCurrentTenantModel().get();
+  }
+
+  public void waitUntilWindowsVisible (final int numberOfVisible)  {
+    try {
+      WaitForAsyncUtils.waitFor(10, TimeUnit.SECONDS, new Callable<Boolean>() {
+        @Override
+        public Boolean call() throws Exception {
+          long numberOfvisiblewindows = Stage.getWindows().stream().filter(Window::isShowing).count();
+          System.out.println ("Wait until windows visible (" + numberOfvisiblewindows + "<->" + numberOfVisible);
+          return numberOfVisible == numberOfvisiblewindows;
+        }
+      });
+    } catch (TimeoutException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
 

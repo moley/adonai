@@ -88,8 +88,10 @@ public class ExtensionSelectorController {
     btnSelect.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
+        LOGGER.info("btnselect on Action");
         event.consume();
         close();
+        LOGGER.info("btnselect on Action -> closed");
       }
     });
 

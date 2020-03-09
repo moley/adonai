@@ -11,11 +11,9 @@ javafx {
 }
 
 dependencies {
-    // compileOnly important!!! We do not want to put the api into the zip file since the main program has it already!
-    compileOnly project(':api')
-    compile 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
-    compile 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
-    compile 'org.controlsfx:controlsfx:11.0.0' //GUI Elements / PopOver
+    // TODO compileOnly important!!! We do not want to put the api into the zip file since the main program has it already!
+    compile project(':api')
+
     compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
     compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
     compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
@@ -40,14 +38,9 @@ dependencies {
     runtime 'ch.qos.logback:logback-classic:1.0.13'
     runtime 'ch.qos.logback:logback-core:1.0.13'
 
-    compile 'org.openjfx:javafx-controls:14-ea+9'
-    compile 'org.openjfx:javafx-graphics:14-ea+9'
-    compile 'org.openjfx:javafx-swing:14-ea+9'
-    compile 'org.openjfx:javafx-media:14-ea+9'
 
-    testCompile "org.testfx:testfx-core:4.0.16-alpha"
-    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
-    testCompile "org.testfx:openjfx-monocle:jdk-12.0.1+2"
+    testCompile project(':testutils')
+
 
     compileOnly(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}") {
         exclude group: "org.slf4j"
@@ -83,7 +76,15 @@ tasks.compileJava.dependsOn(copyRealData)
 
 task installLocal(type: Copy, dependsOn: distZip) {
     def zipFile = file("build/distributions/pluginApp-" + version + ".zip")
-    def outputDir = file(System.getProperty("user.home") + "/programs")
+    def outputDir = file("build/local/programs")
+
+    doLast {
+        copy {
+            from project.rootProject.file('.java-version')
+            into new File (outputDir, "pluginApp-" + version + "/bin")
+        }
+    }
+    //def outputDir = file(System.getProperty("user.home") + "/programs")
     println "OutputDir = $outputDir.absolutePath"
 
     from zipTree(zipFile)
@@ -91,3 +92,5 @@ task installLocal(type: Copy, dependsOn: distZip) {
     group = 'distribution'
     description = 'Installs the program into my output dir'
 }
+
+

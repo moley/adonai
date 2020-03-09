@@ -1,7 +1,6 @@
 include 'api'
-
 include 'plugins'
-
 include 'plugins:pluginApp'
-
 include 'app'
+include 'uitests'
+include 'testutils'

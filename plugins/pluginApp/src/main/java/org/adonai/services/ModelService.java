@@ -40,6 +40,9 @@ public class ModelService {
   public Collection<String> getTenants() {
     Collection<String> tenants = new ArrayList<String>();
     File adonaiHome = Consts.getAdonaiHome();
+    if (! adonaiHome.exists())
+      adonaiHome.mkdirs();
+
     for (File next : adonaiHome.listFiles()) {
       if (next.isDirectory() && next.getName().startsWith("tenant_"))
         tenants.add(next.getName().substring(7));
