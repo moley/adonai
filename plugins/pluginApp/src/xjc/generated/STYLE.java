@@ -44,9 +44,9 @@ import javax.xml.bind.annotation.XmlType;
 public class STYLE {
 
     @XmlElementRefs({
+        @XmlElementRef(name = "SUP", type = SUP.class, required = false),
         @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "SUP", type = SUP.class, required = false)
+        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false)
     })
     @XmlMixed
     protected List<Object> content;
@@ -78,13 +78,13 @@ public class STYLE {
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link SUP }
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link String }
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * 
      * 
      */

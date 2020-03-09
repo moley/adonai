@@ -24,11 +24,8 @@ public class Consts {
 
   public final static int DEFAULT_LISTVIEW_WIDTH = 450;
 
-
-
   private static int defaultWidth = 1400;
   private static int defaultHeight = 800;
-
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
@@ -36,61 +33,62 @@ public class Consts {
 
   private static HashMap<ImageKey, Image> imagesCache = new HashMap<ImageKey, Image>();
 
-  public final static File getAdonaiHome () {
-    if (Consts.adonaiHome == null) {
-      File customHome = new File(".adonai");
-      if (customHome.exists())
-        adonaiHome = customHome;
-    }
+  public final static File getAdonaiHome() {
+    if (Consts.adonaiHome != null)
+      return adonaiHome;
 
-    return new File (System.getProperty("user.home"), ".adonai");
+    File customHome = new File(".adonai");
+    if (customHome.exists())
+      return customHome;
+    else
+      return new File(System.getProperty("user.home"), ".adonai");
   }
 
   /**
    * only for tests
    * set the adonai home path
-   * @param adonaiHome  adonai home path
+   *
+   * @param adonaiHome adonai home path
    */
-  public final static void setAdonaiHome (final File adonaiHome) {
+  public final static void setAdonaiHome(final File adonaiHome) {
     Consts.adonaiHome = adonaiHome;
 
   }
 
-  public final static File getAdditionalsPath (String tenant) {
-    File tenantPath = new File (getAdonaiHome(), "tenant_" + tenant);
-    return new File (tenantPath, "additionals");
+  public final static File getAdditionalsPath(String tenant) {
+    File tenantPath = new File(getAdonaiHome(), "tenant_" + tenant);
+    return new File(tenantPath, "additionals");
   }
 
-
-  public final static ImageView createImageView (final String name, int iconSize) {
+  public final static ImageView createImageView(final String name, int iconSize) {
     ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
     return imageView;
   }
 
-  public final static FontIcon createIcon (String name, int iconSize) {
-    FontIcon fontIcon =  new FontIcon(name);
+  public final static FontIcon createIcon(String name, int iconSize) {
+    FontIcon fontIcon = new FontIcon(name);
     fontIcon.setIconSize(iconSize);
     return fontIcon;
   }
 
-  public final static Image createImage (String name, int iconSize) {
+  public final static Image createImage(String name, int iconSize) {
     ImageView imageView = getOrLoadImage(new ImageKey(name, iconSize));
     return imageView.getImage();
   }
 
-  public final static ImageView getOrLoadImage (final ImageKey imageKey) {
+  public final static ImageView getOrLoadImage(final ImageKey imageKey) {
     Image cachedImage = imagesCache.get(imageKey);
     if (cachedImage == null) {
       if (LOGGER.isDebugEnabled())
         LOGGER.debug("create image " + imageKey.getName());
       InputStream inputStream = Consts.class.getResourceAsStream("/icons/" + imageKey.getName() + ".png");
       if (inputStream == null)
-        throw new IllegalStateException("Could not load image '" + imageKey.getName() + "' with classloader " + Consts.class.getClassLoader());
+        throw new IllegalStateException(
+            "Could not load image '" + imageKey.getName() + "' with classloader " + Consts.class.getClassLoader());
 
       cachedImage = new Image(inputStream, imageKey.getIconSize(), imageKey.getIconSize(), true, true);
       imagesCache.put(imageKey, cachedImage);
-    }
-    else {
+    } else {
       if (LOGGER.isDebugEnabled())
         LOGGER.debug("load image " + imageKey.getName() + " from cache");
     }
@@ -114,7 +112,5 @@ public class Consts {
   public static void setDefaultHeight(int defaultHeight) {
     Consts.defaultHeight = defaultHeight;
   }
-
-
 
 }

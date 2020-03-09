@@ -45,12 +45,12 @@ import javax.xml.bind.annotation.XmlType;
 public class CHAPTER {
 
     @XmlElementRefs({
+        @XmlElementRef(name = "PROLOG", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "CAPTION", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "XREF", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "VERS", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "REMARK", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "MEDIA", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "PROLOG", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "XREF", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "CAPTION", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "MEDIA", type = JAXBElement.class, required = false)
     })
     protected List<JAXBElement<?>> prologOrCAPTIONOrVERS;
     @XmlAttribute(name = "cnumber", required = true)
@@ -78,20 +78,20 @@ public class CHAPTER {
      * {@link JAXBElement }{@code <}{@link REMARK }{@code >}
      * {@link JAXBElement }{@code <}{@link PROLOG }{@code >}
      * {@link JAXBElement }{@code <}{@link CAPTION }{@code >}
-     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link JAXBElement }{@code <}{@link TMedia }{@code >}
-     * {@link JAXBElement }{@code <}{@link TMedia }{@code >}
-     * {@link JAXBElement }{@code <}{@link REMARK }{@code >}
-     * {@link JAXBElement }{@code <}{@link PROLOG }{@code >}
-     * {@link JAXBElement }{@code <}{@link PROLOG }{@code >}
      * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link JAXBElement }{@code <}{@link VERS }{@code >}
-     * {@link JAXBElement }{@code <}{@link CAPTION }{@code >}
-     * {@link JAXBElement }{@code <}{@link CAPTION }{@code >}
-     * {@link JAXBElement }{@code <}{@link TMedia }{@code >}
      * {@link JAXBElement }{@code <}{@link VERS }{@code >}
+     * {@link JAXBElement }{@code <}{@link PROLOG }{@code >}
+     * {@link JAXBElement }{@code <}{@link TMedia }{@code >}
+     * {@link JAXBElement }{@code <}{@link CAPTION }{@code >}
+     * {@link JAXBElement }{@code <}{@link CAPTION }{@code >}
      * {@link JAXBElement }{@code <}{@link REMARK }{@code >}
+     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
+     * {@link JAXBElement }{@code <}{@link TMedia }{@code >}
+     * {@link JAXBElement }{@code <}{@link REMARK }{@code >}
+     * {@link JAXBElement }{@code <}{@link PROLOG }{@code >}
      * 
      * 
      */
