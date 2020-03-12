@@ -51,19 +51,20 @@ public class SongRepairer {
 
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
 
-    if (song.getStructItems() == null)
-      song.setStructItems(new ArrayList<SongStructItem>());
+
 
 
     //migrate on the fly to new structure elements and collect data for the structure repair loop afterwards
-    if (song.getStructItems().isEmpty()){
+    if (song.getStructItems() == null || song.getStructItems().isEmpty()){
+      List<SongStructItem> migratedStructItems = new ArrayList<SongStructItem>();
       for (SongPart next : song.getSongParts()) {
         SongStructItem newSongStructItem = new SongStructItem();
         newSongStructItem.setPartId(next.getReferencedSongPart() != null ? next.getReferencedSongPart() : next.getId());
         newSongStructItem.setRemarks(next.getRemarks());
         newSongStructItem.setQuantity(next.getQuantity());
-        song.getStructItems().add(newSongStructItem);
+        migratedStructItems.add(newSongStructItem);
       }
+      song.setStructItems(migratedStructItems);
     }
 
     //remove all the references in songparts, because we do not need them anymore

@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -82,7 +83,7 @@ public class MainPageController {
 
   @FXML private BorderPane border;
 
-  @FXML private ToolBar tbLeft;
+  @FXML private ToolBar tbTop;
 
   @FXML private StackPane spDetails;
 
@@ -144,7 +145,6 @@ public class MainPageController {
     ModelService modelService = new ModelService();
     model = modelService.load();
 
-    Configuration configuration = getCurrentConfiguration();
 
     lviSongs.setUserData("mainpage.lviSongs");
     lviSongs.setCellFactory(new SongCellFactory());
@@ -176,13 +176,14 @@ public class MainPageController {
 
     lviSongs.toFront();
 
-    tbLeft.minWidthProperty().bind(Bindings.max(border.heightProperty(), tbLeft.prefWidthProperty()));
+    tbTop.minWidthProperty().bind(Bindings.max(border.widthProperty(), tbTop.prefWidthProperty()));
 
     //Button Plus
     Button btnAdd = new Button();
     btnAdd.setUserData("mainpage.btnAdd");
     btnAdd.setTooltip(new Tooltip("Add new item"));
     btnAdd.setGraphic(Consts.createIcon("fa-plus", iconSizeToolbar));
+    tbaActions.setOrientation(Orientation.VERTICAL);
     tbaActions.getItems().add(btnAdd);
     btnAdd.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -196,7 +197,7 @@ public class MainPageController {
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(x, y, configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
 
               Song song = addSongHandler.getNewSong();
@@ -215,7 +216,7 @@ public class MainPageController {
         } else //In Songbook add new song
           if (currentContent.equals(MainPageContent.SONGBOOK)) {
             AddSongAction addSongHandler = new AddSongAction();
-            addSongHandler.add(x, y, configuration, getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            addSongHandler.add(x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
               @Override public void handle(WindowEvent event) {
 
                 Song song = addSongHandler.getNewSong();
@@ -251,7 +252,7 @@ public class MainPageController {
 
           } else if (currentContent.equals(MainPageContent.SESSIONS)) {
             AddSessionAction addSessionAction = new AddSessionAction();
-            Session session = addSessionAction.add(configuration);
+            Session session = addSessionAction.add(getCurrentConfiguration());
             refreshListViews(null);
             selectSession(session);
           }
@@ -269,7 +270,7 @@ public class MainPageController {
         LOGGER.info("Button minus was pressed");
         if (currentContent.equals(MainPageContent.SESSIONS)) {
           LOGGER.info("Remove session " + getCurrentSession().getName());
-          configuration.getSessions().remove(getCurrentSession());
+          getCurrentConfiguration().getSessions().remove(getCurrentSession());
           refreshListViews(null);
         } else if (currentContent.equals(MainPageContent.SESSION)) {
           int selectedIndex = lviSession.getSelectionModel().getSelectedIndex();
@@ -299,7 +300,7 @@ public class MainPageController {
           Bounds controlBounds = UiUtils.getBounds(btnMp3);
           Double x = controlBounds.getMinX() + 10;
           Double y = controlBounds.getMinY() - 20 - 600;
-          connectSongWithMp3Action.connect(x, y, configuration, getSelectedSong());
+          connectSongWithMp3Action.connect(x, y, getCurrentConfiguration(), getSelectedSong());
         }
       }
     });
@@ -319,7 +320,7 @@ public class MainPageController {
         Collection<Song> currentSongs = getCurrentSongs();
         if (!currentSongs.isEmpty()) {
           ExportAction exportAction = new ExportAction();
-          exportAction.export(configuration, getCurrentSongs(), getExportName());
+          exportAction.export(getCurrentConfiguration(), getCurrentSongs(), getExportName());
         } else
           LOGGER.warn("No songs selected to be exported");
       }
@@ -338,7 +339,7 @@ public class MainPageController {
         Collection<Song> currentSongs = getCurrentSongs();
         if (!currentSongs.isEmpty()) {
           LiveAction liveAction = new LiveAction();
-          liveAction.startLiveSession(configuration, getCurrentSongs(), getExportName());
+          liveAction.startLiveSession(getCurrentConfiguration(), getCurrentSongs(), getExportName());
         } else
           LOGGER.warn("No songs selected to be exported");
       }
@@ -456,7 +457,7 @@ public class MainPageController {
           File zippedBackupFile = zipManager.zip();
           dropboxAdapter.upload(zippedBackupFile, "");
 
-          File exportPath = configuration.getExportPathAsFile();
+          File exportPath = getCurrentConfiguration().getExportPathAsFile();
           LOGGER.info("Using export path " + exportPath.getAbsolutePath());
           File songbookExport = new File(exportPath, "songbook");
           if (songbookExport.exists()) {
@@ -471,7 +472,7 @@ public class MainPageController {
           }
 
           ArrayList<String> users = new ArrayList<>();
-          for (User next : configuration.getUsers()) {
+          for (User next : getCurrentConfiguration().getUsers()) {
             if (next.getMail() != null && !next.getMail().trim().isEmpty())
               users.add(next.getMail());
           }
@@ -522,7 +523,7 @@ public class MainPageController {
     tbaActions.getItems().add(btnConfigurations);
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        LOGGER.info("Tenant before configuration screen " + adonaiProperties.getCurrentTenant());
+        LOGGER.info("Tenant before getCurrentConfiguration() screen " + adonaiProperties.getCurrentTenant());
         Bounds controlBounds = UiUtils.getBounds(btnConfigurations);
         Double x = controlBounds.getMinX() - (ConfigurationAction.CONFIGDIALOG_WIDTH / 2);
         Double y = controlBounds.getMinY() - 20 - ConfigurationAction.CONFIGDIALOG_HEIGHT;
@@ -602,8 +603,8 @@ public class MainPageController {
       @Override public void handle(ActionEvent event) {
 
         Session sessionToSelect = currentSession;
-        if (sessionToSelect == null && !configuration.getSessions().isEmpty())
-          sessionToSelect = configuration.getSessions().get(0);
+        if (sessionToSelect == null && !getCurrentConfiguration().getSessions().isEmpty())
+          sessionToSelect = getCurrentConfiguration().getSessions().get(0);
 
         selectSession(sessionToSelect);
         event.consume();
@@ -675,22 +676,19 @@ public class MainPageController {
   }
 
   private void refreshButtonState() {
-    Configuration configuration = getCurrentConfiguration();
-    boolean sessionsAvailable = configuration.getSessions().size() > 0;
+    boolean sessionsAvailable = getCurrentConfiguration().getSessions().size() > 0;
     togSession.setVisible(sessionsAvailable);
   }
 
   private void reloadTenantData (String newTenant) {
-    Configuration configuration = getCurrentConfiguration();
     adonaiProperties = new AdonaiProperties();
     String currentTenant = adonaiProperties.getCurrentTenant();
-    LOGGER.info("Old tenant after configuration screen: " + currentTenant);
-    LOGGER.info("New tenant after configuration screen: " + newTenant);
+    LOGGER.info("Old tenant after getCurrentConfiguration() screen: " + currentTenant);
+    LOGGER.info("New tenant after getCurrentConfiguration() screen: " + newTenant);
     if (! newTenant.equals(currentTenant)) {
       LOGGER.info("Tenant changed, reload data for tenant " + newTenant);
       adonaiProperties.setCurrentTenant(newTenant);
       adonaiProperties.save();
-      configuration = model.getCurrentTenantModel().get();
       refreshTenantButton();
       refreshListViews(null);
       selectSongbook();
@@ -777,11 +775,10 @@ public class MainPageController {
   }
 
   private void selectSong(Song song) {
-    Configuration configuration = getCurrentConfiguration();
     LOGGER.info("selectSong (" + song + ")");
     currentSong = song;
     currentContent = MainPageContent.SONG;
-    SongEditor songEditor = new SongEditor(configuration, song);
+    SongEditor songEditor = new SongEditor(getCurrentConfiguration(), song);
     Parent songEditorPanel = songEditor.getPanel();
     songEditorPanel.setVisible(true);
 
@@ -803,12 +800,11 @@ public class MainPageController {
   }
 
   private SongBook getCurrentSongBook() {
-    Configuration configuration = getCurrentConfiguration();
-    if (configuration.getSongBooks().isEmpty()) {
+    if (getCurrentConfiguration().getSongBooks().isEmpty()) {
       SongBook newSongbook = new SongBook();
-      configuration.getSongBooks().add(newSongbook);
+      getCurrentConfiguration().getSongBooks().add(newSongbook);
     }
-    return configuration.getSongBooks().get(0);
+    return getCurrentConfiguration().getSongBooks().get(0);
   }
 
   private Configuration getCurrentConfiguration () {
@@ -868,7 +864,6 @@ public class MainPageController {
   }
 
   private void refreshListViews(Song selectSong) {
-    Configuration configuration = getCurrentConfiguration();
     LOGGER.info("refreshListViews (" + selectSong + ")");
     filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()),
         s -> true);
@@ -878,7 +873,7 @@ public class MainPageController {
         new ArrayList<>();
     lviSession.setItems(FXCollections.observableArrayList(sessionSongs));
     songCellFactory.setSession(currentSession);
-    lviSessions.setItems(FXCollections.observableArrayList(configuration.getSessions()));
+    lviSessions.setItems(FXCollections.observableArrayList(getCurrentConfiguration().getSessions()));
 
     if (selectSong != null) {
       LOGGER.info("Select song " + selectSong);
