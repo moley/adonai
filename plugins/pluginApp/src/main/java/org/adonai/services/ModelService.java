@@ -1,9 +1,9 @@
 package org.adonai.services;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
 import org.adonai.ui.Consts;
@@ -20,11 +20,18 @@ public class ModelService {
 
   public static final String DEFAULT_TENANT = "default";
 
+  private final ApplicationEnvironment applicationEnvironment;
+
+  public ModelService (final ApplicationEnvironment applicationEnvironment) {
+    this.applicationEnvironment = applicationEnvironment;
+
+  }
+
   public Model load () {
     Model model = new Model();
 
     for (String next: getTenants()) {
-      TenantModel tenantModel = new TenantModel(next);
+      TenantModel tenantModel = new TenantModel(applicationEnvironment, next);
 
       try {
         tenantModel.load();
@@ -68,7 +75,7 @@ public class ModelService {
 
     tenantPath.mkdirs();
 
-    TenantModel tenantModel = new TenantModel(tenant);
+    TenantModel tenantModel = new TenantModel(applicationEnvironment, tenant);
     model.getTenantModels().add(tenantModel);
   }
 

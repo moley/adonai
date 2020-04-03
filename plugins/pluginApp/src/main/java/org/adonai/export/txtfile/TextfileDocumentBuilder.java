@@ -10,9 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Extension(ordinal=1)
 public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TextfileDocumentBuilder.class);

@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Line;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
@@ -56,6 +57,8 @@ public class PartEditor extends PanelHolder {
 
   TitledPane titledPane = new TitledPane();
 
+  private ApplicationEnvironment applicationEnvironment;
+
   private SongCursor getSongCursor() {
     Song song = songEditor.getSong();
     return new SongCursor(song, song.getIndex(structItem), 0, 0, 0);
@@ -83,9 +86,9 @@ public class PartEditor extends PanelHolder {
     return "songeditor.part_" + partIndex + ".";
   }
 
-  public PartEditor(final SongEditor songEditor, final SongStructItem structItem, final int partIndex) {
+  public PartEditor(final ApplicationEnvironment applicationEnvironment, final SongEditor songEditor, final SongStructItem structItem, final int partIndex) {
     this.structItem = structItem;
-    Song song = songEditor.getSong();
+    this.applicationEnvironment = applicationEnvironment;
 
     LOGGER.info("Create new parteditor for part " + structItem.getPartId() + ": " + System.identityHashCode(this));
 
@@ -117,7 +120,7 @@ public class PartEditor extends PanelHolder {
         bbaSongPartActions.setVisible(false);
 
         MaskLoader<SongPartDetailsController> maskLoader = new MaskLoader();
-        Mask<SongPartDetailsController> mask = maskLoader.load("editor2/songpartdetails");
+        Mask<SongPartDetailsController> mask = maskLoader.load(applicationEnvironment, "editor2/songpartdetails");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
         mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(800, 400);
@@ -153,7 +156,7 @@ public class PartEditor extends PanelHolder {
       @Override public void handle(ActionEvent event) {
 
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
-        Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
+        Mask<AddPartController> mask = maskLoader.load(applicationEnvironment, "editor2/addpart");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
         mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
@@ -168,16 +171,12 @@ public class PartEditor extends PanelHolder {
               LOGGER.info("... with selected type " + addPartController.getSelectedType());
               SongCursor songCursor = getSongCursor();
               AddPartService addPartService = new AddPartService();
-              SongStructItem newSongStruct = addPartService.addPartBefore(songCursor);
-              SongPart newSongPart = song.findSongPart(newSongStruct);
+
               String selectedItem = addPartController.getSelectedType();
               SongPart copiedPart = addPartController.getSongPart(selectedItem);
               SongPartType songPartType = addPartController.getNewType(selectedItem);
-              if (copiedPart != null) {
-                newSongPart.setSongPartType(copiedPart.getSongPartType());
-                newSongPart.setReferencedSongPart(copiedPart.getId());
-              } else
-                newSongPart.setSongPartType(songPartType);
+
+              SongStructItem newSongStruct = addPartService.addPartBefore(songCursor, copiedPart, songPartType);
 
               getSongEditor().reload();
             }
@@ -229,7 +228,7 @@ public class PartEditor extends PanelHolder {
     btnAddAfter.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         MaskLoader<AddPartController> maskLoader = new MaskLoader();
-        Mask<AddPartController> mask = maskLoader.load("editor2/addpart");
+        Mask<AddPartController> mask = maskLoader.load(applicationEnvironment, "editor2/addpart");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(getSongEditor().getPanel());
         mask.setPosition(boundsBtnSongInfo.getMinX() + 20, boundsBtnSongInfo.getMinX() + 30);
         mask.setSize(500, 700);
@@ -246,17 +245,12 @@ public class PartEditor extends PanelHolder {
 
               SongCursor songCursor = getSongCursor();
               AddPartService addPartService = new AddPartService();
-              SongStructItem newStructItem = addPartService.addPartAfter(songCursor); //TODO move to service together with addPartBefore
-              SongPart newSongPart = song.findSongPart(newStructItem);
+
               String selectedItem = addPartController.getSelectedType();
               SongPart copiedPart = addPartController.getSongPart(selectedItem);
               SongPartType songPartType = addPartController.getNewType(selectedItem);
-              if (copiedPart != null) {
-                newSongPart.setSongPartType(copiedPart.getSongPartType());
-                newSongPart.setReferencedSongPart(copiedPart.getId());
-              } else
-                newSongPart.setSongPartType(songPartType);
 
+              SongStructItem newStructItem = addPartService.addPartAfter(songCursor, copiedPart, songPartType);
               getSongEditor().reload();
             }
           }

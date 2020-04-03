@@ -4,8 +4,9 @@ import org.adonai.AdonaiProperties;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
+import org.adonai.ui.AbstractController;
 
-public class AbstractSettingsController {
+public class AbstractSettingsController extends AbstractController {
 
   private Model model;
 

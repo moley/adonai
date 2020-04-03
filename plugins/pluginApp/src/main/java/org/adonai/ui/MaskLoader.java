@@ -8,23 +8,26 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.adonai.ApplicationEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MaskLoader<T> {
+public class MaskLoader<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
-  public Mask<T> load (final String name) {
+  public Mask<T> load (ApplicationEnvironment applicationEnvironment, final String name) {
     LOGGER.info("load mask " + name);
     Mask<T> mask = new Mask<T>();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/" + name + ".fxml"));
+    loader.setClassLoader(getClass().getClassLoader());
     try {
       Parent root = loader.load();
       T controller = loader.getController();
+      controller.setApplicationEnvironment(applicationEnvironment);
 
       Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight(), true);
-      scene.getStylesheets().add("/adonai.css");
+      UiUtils.applyCss(scene);
       Stage stage = new Stage();
       stage.setScene(scene);
       mask.setStage(stage);

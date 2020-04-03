@@ -1,6 +1,5 @@
 package org.adonai.ui.settings;
 
-import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,11 +33,19 @@ public class SettingsTenantsController extends AbstractSettingsController {
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
-  private ModelService modelService = new ModelService();
+  private ModelService modelService;
+
 
   private void refresh () {
-    this.lviTenants.setItems(FXCollections.observableArrayList(modelService.getTenants()));
+    this.lviTenants.setItems(FXCollections.observableArrayList(getModelService().getTenants()));
     this.lviTenants.getSelectionModel().select(adonaiProperties.getCurrentTenant());
+  }
+
+  public ModelService getModelService () {
+    if (modelService == null)
+      modelService = new ModelService(getApplicationEnvironment());
+
+    return modelService;
   }
 
 
@@ -59,7 +66,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
       @Override
       public void handle(ActionEvent event) {
         String name = txtNew.getText();
-        modelService.addTenant(getModel(), name);
+        getModelService().addTenant(getModel(), name);
         txtNew.setText("");
         refresh();
         lviTenants.requestFocus();
@@ -72,7 +79,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
       public void handle(ActionEvent event) {
 
         String selected = lviTenants.getSelectionModel().getSelectedItem();
-        modelService.removeTenant(getModel(), selected);
+        getModelService().removeTenant(getModel(), selected);
         refresh();
         lviTenants.getSelectionModel().selectFirst();
       }

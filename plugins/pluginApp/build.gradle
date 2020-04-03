@@ -11,19 +11,16 @@ javafx {
 }
 
 dependencies {
-    // TODO compileOnly important!!! We do not want to put the api into the zip file since the main program has it already!
     compile project(':api')
 
     compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
     compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
     compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
     compile 'com.lowagie:itext:2.1.3'  //pdf export
-    compile 'commons-io:commons-io:2.5'
     compile 'com.googlecode.soundlibs:jlayer:1.0.1.4'
     compile 'com.mpatric:mp3agic:0.8.4'
     compile 'org.jfxtras:jfxtras-menu:8.0-r5'
     compile 'org.jsoup:jsoup:1.10.3' //html import
-    compile 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
     compile 'javax.xml.bind:jaxb-api:2.3.0'
     compile 'javax.activation:activation:1.1'
     compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
@@ -31,22 +28,7 @@ dependencies {
 
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.2'
 
-    compile 'org.slf4j:slf4j-api:1.7.29'
-
     runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.3-b02'
-
-    runtime 'ch.qos.logback:logback-classic:1.0.13'
-    runtime 'ch.qos.logback:logback-core:1.0.13'
-
-
-    testCompile project(':testutils')
-
-
-    compileOnly(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}") {
-        exclude group: "org.slf4j"
-    }
-
-    annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
 
 }
 

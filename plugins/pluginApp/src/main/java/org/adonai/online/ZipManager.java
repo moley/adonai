@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
 import org.adonai.services.ModelService;
@@ -18,6 +19,12 @@ import org.adonai.ui.Consts;
 import org.apache.commons.io.FileUtils;
 
 public class ZipManager {
+
+  private ApplicationEnvironment applicationEnvironment;
+
+  public ZipManager (final ApplicationEnvironment applicationEnvironment) {
+    this.applicationEnvironment = applicationEnvironment;
+  }
 
   public File getZipFile () {
     return new File (Consts.getAdonaiHome().getParent(), "adonai.zip");
@@ -33,7 +40,7 @@ public class ZipManager {
 
     File adonaiHomePath = Consts.getAdonaiHome();
 
-    ModelService modelService = new ModelService();
+    ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();
     for (TenantModel tenantModel : model.getTenantModels()) {
       files.add(tenantModel.getConfigFile());

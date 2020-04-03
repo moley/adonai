@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.ui.Mask;
 import org.adonai.ui.MaskLoader;
 import org.adonai.ui.select.SelectController;
@@ -26,12 +27,18 @@ public class SelectAction<T> {
 
   private Mask<SelectController> selectMask;
 
+  private final ApplicationEnvironment applicationEnvironment;
+
+  public SelectAction (final ApplicationEnvironment applicationEnvironment) {
+    this.applicationEnvironment = applicationEnvironment;
+  }
+
   public void open (final List<T> objects, final Double x, final Double y, Callback<ListView<T>, ListCell<T>> cellFactory,
                     final EventHandler<WindowEvent> onHiding) {
     List<T> objectsToAdd = new ArrayList<T>();
     objectsToAdd.addAll(objects);
     MaskLoader<SelectController> maskLoader = new MaskLoader<SelectController>();
-    selectMask = maskLoader.load("select");
+    selectMask = maskLoader.load(applicationEnvironment, "select");
     selectMask.setSize(SEARCHDIALOG_WIDTH, SEARCHDIALOG_HEIGHT);
     selectMask.getStage().initModality(Modality.APPLICATION_MODAL);
 

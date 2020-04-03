@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.export.DefaultExportConfigurationCreator;
 import org.adonai.services.SongRepairer;
 import org.adonai.ui.Consts;
@@ -29,14 +30,18 @@ public class TenantModel {
 
   private File configFile;
 
-  public TenantModel(final File fromFile) {
+  private final ApplicationEnvironment applicationEnvironment;
+
+  public TenantModel(final ApplicationEnvironment applicationEnvironment, final File fromFile) {
+    this.applicationEnvironment = applicationEnvironment;
     setConfigFile(fromFile);
     load();
     this.tenant = "default";
   }
 
-  public TenantModel (final String tenant) {
+  public TenantModel (final ApplicationEnvironment applicationEnvironment, final String tenant) {
     this.tenant = tenant;
+    this.applicationEnvironment = applicationEnvironment;
   }
 
   public File getConfigFile () {
@@ -119,7 +124,7 @@ public class TenantModel {
       }
 
       DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
-      defaultExportConfigurationCreator.createDefaultExportConfigurations(currentConfiguration);
+      defaultExportConfigurationCreator.createDefaultExportConfigurations(applicationEnvironment, currentConfiguration);
 
       //Automatic migrations
       SongRepairer songRepairer = new SongRepairer();

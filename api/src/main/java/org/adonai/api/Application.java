@@ -1,5 +1,6 @@
 package org.adonai.api;
 
+import org.adonai.ApplicationEnvironment;
 import org.pf4j.ExtensionPoint;
 
 /**
@@ -7,5 +8,5 @@ import org.pf4j.ExtensionPoint;
  */
 public interface Application extends ExtensionPoint {
 
-  void run (final String[] args);
+  void run (final ApplicationEnvironment pluginManager, final String[] args);
 }

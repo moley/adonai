@@ -17,16 +17,15 @@ package org.adonai.app;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.api.Application;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
@@ -175,7 +174,8 @@ public class AdonaiBootstrap {
         if (applications.size() != 1) {
             throw new IllegalStateException("Not found exactly one application extension point, but " + applications);
         }
-        applications.get(0).run(args);
+        ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(pluginManager);
+        applications.get(0).run(applicationEnvironment, args);
 
 
     }

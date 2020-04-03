@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.ui.imports.SongImportController;
 import org.adonai.ui.imports.Wizard;
 
@@ -21,7 +22,10 @@ public abstract class WizardPage extends VBox {
 
   protected SongImportController controller;
 
-  WizardPage(String title, final SongImportController controller) {
+  protected ApplicationEnvironment applicationEnvironment;
+
+  WizardPage(ApplicationEnvironment applicationEnvironment, String title, final SongImportController controller) {
+    this.applicationEnvironment = applicationEnvironment;
     finishButton.setUserData("importsongwizard.btnFinish");
     priorButton.setUserData("importsongwizard.btnPrevious");
     nextButton.setUserData("importsongwizard.btnNext");

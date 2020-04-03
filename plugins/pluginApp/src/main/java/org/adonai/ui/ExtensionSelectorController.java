@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by OleyMa on 15.09.16.
  */
-public class ExtensionSelectorController {
+public class ExtensionSelectorController extends AbstractController{
 
   @FXML
   ListView<Extension> lviExtensions;

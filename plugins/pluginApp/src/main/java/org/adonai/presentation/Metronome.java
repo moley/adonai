@@ -75,7 +75,7 @@ public class Metronome {
 
   public void setBpm(final Integer bpm) {
     LOGGER.info("set bpm " + bpm);
-    if (bpm == null)
+    if (bpm == null || bpm.intValue() == 0)
       waitInMillis = 0;
     else
       //60 * 1000 ms

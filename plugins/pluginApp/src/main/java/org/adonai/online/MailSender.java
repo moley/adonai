@@ -20,7 +20,7 @@ public class MailSender {
 
   public void sendExportMail(final List<String> mails, final Collection<String> links) {
     if (links == null || links.isEmpty())
-      throw new IllegalStateException("Links must be not null and contain at least one entry");
+      throw new IllegalStateException("Links must not be null and contain at least one entry");
 
     String missingMessage = "";
 
@@ -94,7 +94,7 @@ public class MailSender {
 
       LOGGER.info("Done ");
     } catch (MessagingException e) {
-      e.printStackTrace();
+      LOGGER.error(e.getLocalizedMessage(), e);
     }
 
   }

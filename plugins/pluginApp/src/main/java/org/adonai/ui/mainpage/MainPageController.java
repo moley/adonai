@@ -68,6 +68,7 @@ import org.adonai.services.AddSongService;
 import org.adonai.services.ModelService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
+import org.adonai.ui.AbstractController;
 import org.adonai.ui.Consts;
 import org.adonai.ui.SessionCellFactory;
 import org.adonai.ui.SongCellFactory;
@@ -77,7 +78,7 @@ import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainPageController {
+public class MainPageController extends AbstractController {
 
   @FXML private ToolBar tbaActions;
 
@@ -142,7 +143,7 @@ public class MainPageController {
 
 
 
-    ModelService modelService = new ModelService();
+    ModelService modelService = new ModelService(getApplicationEnvironment());
     model = modelService.load();
 
 
@@ -197,7 +198,7 @@ public class MainPageController {
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(getApplicationEnvironment(), x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
 
               Song song = addSongHandler.getNewSong();
@@ -207,8 +208,7 @@ public class MainPageController {
                 AddSongService addSongService = new AddSongService();   //Add new song to songbook
                 addSongService.addSong(song, songBook);
                 currentSong = song;
-                refreshListViews(
-                    song);                                 //Refresh list data and select the new song in editor
+                refreshListViews(song);                        //Refresh list data and select the new song in editor
                 selectSong(song);
               }
             }
@@ -216,7 +216,7 @@ public class MainPageController {
         } else //In Songbook add new song
           if (currentContent.equals(MainPageContent.SONGBOOK)) {
             AddSongAction addSongHandler = new AddSongAction();
-            addSongHandler.add(x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            addSongHandler.add(getApplicationEnvironment(), x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
               @Override public void handle(WindowEvent event) {
 
                 Song song = addSongHandler.getNewSong();
@@ -232,7 +232,7 @@ public class MainPageController {
               }
             });
           } else if (currentContent.equals(MainPageContent.SESSION)) { // in session add new song and add to session
-            SelectAction<Song> selectSong = new SelectAction<Song>();
+            SelectAction<Song> selectSong = new SelectAction<Song>(getApplicationEnvironment());
             List<Song> allSongs = getCurrentSongBook().getSongs();
 
             Double xSession = controlBounds.getMinX() + 10;
@@ -296,7 +296,7 @@ public class MainPageController {
       @Override public void handle(ActionEvent event) {
 
         if (!currentContent.equals(MainPageContent.SESSIONS)) {
-          ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
+          ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action(getApplicationEnvironment());
           Bounds controlBounds = UiUtils.getBounds(btnMp3);
           Double x = controlBounds.getMinX() + 10;
           Double y = controlBounds.getMinY() - 20 - 600;
@@ -453,7 +453,7 @@ public class MainPageController {
           Collection<String> ids = new ArrayList<>();
           DropboxAdapter dropboxAdapter = new DropboxAdapter();
 
-          ZipManager zipManager = new ZipManager();
+          ZipManager zipManager = new ZipManager(getApplicationEnvironment());
           File zippedBackupFile = zipManager.zip();
           dropboxAdapter.upload(zippedBackupFile, "");
 
@@ -477,11 +477,19 @@ public class MainPageController {
               users.add(next.getMail());
           }
 
-          MailSender mailSender = new MailSender();
-          mailSender.sendExportMail(users, ids);
+          if (ids.isEmpty()) {
+            Notifications.create().title("Upload").text("Upload finished, no mails sent because no export data available").show();
+            LOGGER.info("Upload finished, no mail sent because no export data available");
+          }
+          else {
 
-          Notifications.create().title("Upload").text("Upload finished, mail sent to " + users + " with links " + ids).show();
-          LOGGER.info("Upload finished, mail sent to " + users + " with links " + ids);
+            MailSender mailSender = new MailSender();
+            mailSender.sendExportMail(users, ids);
+
+            Notifications.create().title("Upload").text("Upload finished, mail sent to " + users + " with links " + ids)
+                .show();
+            LOGGER.info("Upload finished, mail sent to " + users + " with links " + ids);
+          }
         } catch (Exception e) {
           Notifications.create().title("Upload").text("Error uploading content").showError();
           LOGGER.error(e.getLocalizedMessage(), e);
@@ -524,12 +532,9 @@ public class MainPageController {
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         LOGGER.info("Tenant before getCurrentConfiguration() screen " + adonaiProperties.getCurrentTenant());
-        Bounds controlBounds = UiUtils.getBounds(btnConfigurations);
-        Double x = controlBounds.getMinX() - (ConfigurationAction.CONFIGDIALOG_WIDTH / 2);
-        Double y = controlBounds.getMinY() - 20 - ConfigurationAction.CONFIGDIALOG_HEIGHT;
 
-        ConfigurationAction configurationAction = new ConfigurationAction();
-        configurationAction.openConfigurations(x, y, model, new EventHandler<WindowEvent>() {
+        ConfigurationAction configurationAction = new ConfigurationAction(getApplicationEnvironment());
+        configurationAction.openConfigurations(model, new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
             refreshTenantButton();
 
@@ -580,7 +585,7 @@ public class MainPageController {
 
         if (event.getCode().equals(KeyCode.SPACE) || event.getText().equalsIgnoreCase("")) {
           LOGGER.info("Space typed, go to search action");
-          SearchAction searchAction = new SearchAction();
+          SearchAction searchAction = new SearchAction(getApplicationEnvironment());
           Point2D point2D = lviSongs.localToScreen(lviSongs.getLayoutX() + 10, lviSongs.getHeight() - 55);
           searchAction.open(filteredSongList, "", point2D.getX(), point2D.getY());
         }
@@ -778,7 +783,7 @@ public class MainPageController {
     LOGGER.info("selectSong (" + song + ")");
     currentSong = song;
     currentContent = MainPageContent.SONG;
-    SongEditor songEditor = new SongEditor(getCurrentConfiguration(), song);
+    SongEditor songEditor = new SongEditor(getApplicationEnvironment(), getCurrentConfiguration(), song);
     Parent songEditorPanel = songEditor.getPanel();
     songEditorPanel.setVisible(true);
 

@@ -20,6 +20,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -71,14 +72,17 @@ public class SongEditor extends PanelHolder {
 
   private Configuration configuration;
 
+  private ApplicationEnvironment applicationEnvironment;
+
   ScrollPane scrollPane = new ScrollPane();
 
 
   private BooleanProperty showOriginChords = new SimpleBooleanProperty(false);
 
-  public SongEditor(Configuration configuration, Song song) {
+  public SongEditor(ApplicationEnvironment applicationEnvironment, Configuration configuration, Song song) {
     this.configuration = configuration;
     this.song = song;
+    this.applicationEnvironment = applicationEnvironment;
 
     setIndex("songeditor");
     tbaActions.setStyle("-fx-background-color: transparent;");
@@ -137,7 +141,7 @@ public class SongEditor extends PanelHolder {
       @Override public void handle(MouseEvent event) {
 
         MaskLoader<SongDetailsController> maskLoader = new MaskLoader();
-        Mask<SongDetailsController> mask = maskLoader.load("editor2/songdetails");
+        Mask<SongDetailsController> mask = maskLoader.load(applicationEnvironment, "editor2/songdetails");
         Bounds boundsBtnSongInfo = UiUtils.getBounds(btnSongInfo);
         mask.setPosition(boundsBtnSongInfo.getCenterX() - 800, boundsBtnSongInfo.getMaxY() + 20);
         mask.setSize(800, 500);
@@ -276,7 +280,7 @@ public class SongEditor extends PanelHolder {
 
     for (int i = 0; i < song.getStructItems().size(); i++) {
       SongStructItem next = song.getStructItems().get(i);
-      PartEditor currentPartEditor = new PartEditor(this, next, i);
+      PartEditor currentPartEditor = new PartEditor(applicationEnvironment, this, next, i);
       partEditors.add(currentPartEditor);
       content.getChildren().add(currentPartEditor.getPanel());
     }

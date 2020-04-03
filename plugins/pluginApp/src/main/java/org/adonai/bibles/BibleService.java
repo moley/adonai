@@ -3,13 +3,12 @@ package org.adonai.bibles;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +18,13 @@ public class BibleService {
 
   public Collection<Bible> getAllBibles() {
 
-    Collection<Bible> bibles = new ArrayList<Bible>();
-    Reflections reflections = new Reflections("bibles", new ResourcesScanner());
-    Set<String> fileNames = reflections.getResources(Pattern.compile(".*\\.xml"));
-    LOGGER.info("Found bibles: " + fileNames);
-    for (String next : fileNames) {
-      InputStream inputStream = getClass().getResourceAsStream("/" + next);
+    Set<String> bibleUrls = new HashSet<>();
+    bibleUrls.add("/bibles/SF_2009-01-20_GER_LUTH1912_(LUTHER 1912).xml");
+    bibleUrls.add("/bibles/SF_2009-01-22_GER_ELB1905STR_(ELBERFELDER 1905).xml");
+    LOGGER.info("Found bibles: " + bibleUrls);
+    List<Bible> bibles = new ArrayList<Bible>();
+    for (String next : bibleUrls) {
+      InputStream inputStream = getClass().getResourceAsStream(next);
 
       JAXBContext jc = null;
       try {

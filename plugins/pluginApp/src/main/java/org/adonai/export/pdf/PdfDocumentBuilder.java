@@ -14,7 +14,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import org.pf4j.Extension;
 
+@Extension(ordinal=1)
 public class PdfDocumentBuilder extends AbstractDocumentBuilder {
 
   private Rectangle pagesizeA4;

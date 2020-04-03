@@ -15,12 +15,13 @@ import javafx.scene.input.MouseEvent;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.ui.AbstractController;
 import org.adonai.ui.Mask;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddPartController {
+public class AddPartController extends AbstractController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AddPartController.class);
 

@@ -20,9 +20,11 @@ import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenType;
 import org.adonai.export.NewPageStrategy;
 import org.adonai.model.SongPartDescriptorStrategy;
+import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Extension(ordinal=1)
 public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PresentationDocumentBuilder.class);

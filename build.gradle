@@ -26,6 +26,9 @@ subprojects {
   dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:3.2.4'
+    annotationProcessor(group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}")
+
+    testCompile project(':testutils')
   }
 
   compileJava.options.encoding = 'UTF-8'

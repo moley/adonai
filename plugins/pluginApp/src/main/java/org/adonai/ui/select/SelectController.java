@@ -11,11 +11,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.adonai.ui.AbstractController;
 import org.adonai.ui.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SelectController<T> {
+public class SelectController<T> extends AbstractController {
 
   protected static final Logger LOGGER = LoggerFactory.getLogger(SelectController.class);
 

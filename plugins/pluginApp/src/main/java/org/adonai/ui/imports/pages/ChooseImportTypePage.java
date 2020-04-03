@@ -6,6 +6,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.ui.imports.SongImportController;
 
 public class ChooseImportTypePage extends WizardPage {
@@ -15,8 +16,8 @@ public class ChooseImportTypePage extends WizardPage {
 
   public final static String TITLE = "Change Import Type";
 
-  public ChooseImportTypePage(final SongImportController controller) {
-    super(TITLE, controller);
+  public ChooseImportTypePage(final ApplicationEnvironment applicationEnvironment, final SongImportController controller) {
+    super(applicationEnvironment, TITLE, controller);
     fromTextFile.setToggleGroup(options);
     newSong.setToggleGroup(options);
     options.selectToggle(fromTextFile);

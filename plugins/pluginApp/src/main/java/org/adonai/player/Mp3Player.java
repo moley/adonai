@@ -56,8 +56,10 @@ public class Mp3Player {
     mediaPlayer.play();
 
 
-    if (mediaPlayer.getError() != null)
+    if (mediaPlayer.getError() != null) {
+      LOGGER.error(mediaPlayer.getError().getLocalizedMessage(), mediaPlayer.getError());
       throw new IllegalStateException("Error playing song " + currentMp3File.getAbsolutePath(), mediaPlayer.getError());
+    }
 
 
 

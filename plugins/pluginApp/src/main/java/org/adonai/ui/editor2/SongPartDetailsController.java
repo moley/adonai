@@ -15,8 +15,9 @@ import org.adonai.model.SongPartType;
 import org.adonai.model.SongStructItem;
 import org.adonai.services.SongInfoService;
 import org.adonai.services.SongRepairer;
+import org.adonai.ui.AbstractController;
 
-public class SongPartDetailsController {
+public class SongPartDetailsController extends AbstractController {
 
 
   @FXML

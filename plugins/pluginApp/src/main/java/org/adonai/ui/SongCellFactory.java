@@ -21,6 +21,7 @@ import org.adonai.StringUtils;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
+import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,14 +54,11 @@ public class SongCellFactory implements Callback<ListView<Song>, ListCell<Song>>
             String additionalName = nextType.name().toLowerCase();
             String additionalDisplay = StringUtils.getFirstUpper(additionalName);
             boolean additionalExists = item.findAdditional(nextType) != null;
-            String iconName = (additionalExists ? additionalName : additionalName + "_disabled");
-            if (LOGGER.isDebugEnabled())
-              LOGGER.debug("Icon " + iconName + " for additional " + additionalName + " on song " + item
-                  .getId() + "(" + additionalExists + ")");
-
-            ImageView image = Consts.createImageView(iconName, Consts.ICON_SIZE_VERY_SMALL);
-            Button btnStatus = new Button("", image);
+            String icon = nextType.getIconName();
+            FontIcon fontIcon = Consts.createIcon(icon, Consts.ICON_SIZE_VERY_SMALL);
+            Button btnStatus = new Button("", fontIcon);
             btnStatus.setId("statusbutton");
+            btnStatus.setStyle(additionalExists ? "-fx-background-color: rgb(128, 186, 144);": "    -fx-background-color: transparent;");
             Tooltip tooltip = new Tooltip();
             tooltip.setText(additionalDisplay);
             btnStatus.setTooltip(tooltip);

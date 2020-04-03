@@ -20,10 +20,11 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.User;
 import org.adonai.services.SongTransposeService;
+import org.adonai.ui.AbstractController;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
 
-public class SongDetailsController {
+public class SongDetailsController extends AbstractController {
 
   @FXML
   private ComboBox<Key> cboCurrentKey;

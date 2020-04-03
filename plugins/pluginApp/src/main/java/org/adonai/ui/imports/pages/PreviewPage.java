@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
 import org.adonai.ui.editor2.SongEditor;
 import org.adonai.ui.imports.SongImportController;
@@ -20,8 +21,8 @@ public class PreviewPage extends WizardPage {
 
 
   public final static String TITLE = "Preview";
-  public PreviewPage(SongImportController controller, Configuration configuration) {
-    super(TITLE, controller);
+  public PreviewPage(ApplicationEnvironment applicationEnvironment, SongImportController controller, Configuration configuration) {
+    super(applicationEnvironment, TITLE, controller);
     this.configuration = configuration;
   }
 
@@ -38,7 +39,7 @@ public class PreviewPage extends WizardPage {
         if (oldValue == null && newValue != null) {
           LOGGER.info("Preview for " + controller.getSongToImport().toString() );
 
-          SongEditor songEditor = new SongEditor(configuration, controller.getSongToImport());
+          SongEditor songEditor = new SongEditor(applicationEnvironment, configuration, controller.getSongToImport());
           rootpanel.getChildren().clear();
           rootpanel.getChildren().add(songEditor.getPanel());
         }

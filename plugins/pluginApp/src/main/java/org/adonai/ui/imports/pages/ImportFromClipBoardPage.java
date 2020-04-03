@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.reader.text.TextfileReaderParam;
 import org.adonai.ui.imports.SongImportController;
 import org.adonai.reader.text.TextfileReader;
@@ -13,8 +14,8 @@ import java.util.Arrays;
 public class ImportFromClipBoardPage extends WizardPage {
   public final static String TITLE = "Import from clipboard";
 
-  public ImportFromClipBoardPage(final SongImportController controller) {
-    super(TITLE, controller);
+  public ImportFromClipBoardPage(final ApplicationEnvironment applicationEnvironment, final SongImportController controller) {
+    super(applicationEnvironment, TITLE, controller);
   }
 
   private TextArea txaImport;

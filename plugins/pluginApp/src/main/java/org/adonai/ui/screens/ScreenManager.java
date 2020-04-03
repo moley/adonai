@@ -52,6 +52,14 @@ public class ScreenManager {
     stage.setHeight(externalOrPrimary.getVisualBounds().getHeight());
   }
 
+  public void layoutOnScreen (final Stage stage, int border) {
+    Screen externalOrPrimary = getExternalOrPrimaryScreen();
+    stage.setX(externalOrPrimary.getVisualBounds().getMinX() + border);
+    stage.setY(externalOrPrimary.getVisualBounds().getMinY() + border);
+    stage.setWidth(externalOrPrimary.getVisualBounds().getWidth() - (border * 2));
+    stage.setHeight(externalOrPrimary.getVisualBounds().getHeight() - (border * 2));
+  }
+
 
 
 

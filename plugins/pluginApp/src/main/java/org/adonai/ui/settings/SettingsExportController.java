@@ -105,6 +105,7 @@ public class SettingsExportController extends AbstractSettingsController {
     for (ExportConfiguration exportConfiguration : getConfiguration().getExportConfigurations()) {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/exportconfiguration.fxml"));
       loader.setResources(resources);
+      loader.setClassLoader(getClass().getClassLoader());
       Parent root = null;
       try {
         root = loader.load();
@@ -123,7 +124,7 @@ public class SettingsExportController extends AbstractSettingsController {
         accExportschemas.getPanes().add(titledPane);
         configurationPerPane.put(titledPane, exportConfiguration);
       } catch (IOException e) {
-        throw new IllegalStateException("Error loading exportconfiguration " + exportConfiguration.getId());
+        throw new IllegalStateException("Error loading exportconfiguration " + exportConfiguration.getId(), e);
       }
     }
   }

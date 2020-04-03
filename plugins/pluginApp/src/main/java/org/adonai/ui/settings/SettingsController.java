@@ -18,14 +18,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.adonai.api.Configuration;
 import org.adonai.model.Model;
+import org.adonai.ui.AbstractController;
 import org.adonai.ui.Consts;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SettingsController {
+public class SettingsController extends AbstractController {
 
   @FXML private ListView<SettingsItem> lviConfigurationList;
 
@@ -44,25 +44,17 @@ public class SettingsController {
 
     Collection<String> settingsPanes = new ArrayList<String>();
 
-    List<String> files = null;
-    try {
-      files = IOUtils
-          .readLines(getClass().getClassLoader().getResourceAsStream("screens/"), Charsets.toCharset("UTF-8"));
-    } catch (IOException e) {
-      throw new IllegalStateException("Error gettings screens", e);
-    }
-    LOGGER.info("Found " + files.size() + " settings screens");
-    for (String next : files) {
-      if (next.startsWith("settings_")) {
-        LOGGER.info("adding settings page " + next);
-        settingsPanes.add("/screens/" + next);
-      }
+    List<Configuration> extensions = getApplicationEnvironment().getExtensions(Configuration.class);
+    for (Configuration next : extensions) {
+      LOGGER.info("Add configuration mask " + next.getMaskFilename());
+      settingsPanes.add("/screens/" + next.getMaskFilename());
     }
 
     for (String next : settingsPanes) {
 
       FXMLLoader loader = new FXMLLoader(getClass().getResource(next));
       loader.setResources(ResourceBundle.getBundle("languages.adonai"));
+      loader.setClassLoader(getClass().getClassLoader());
 
       Parent root = null;
       try {

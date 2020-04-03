@@ -6,7 +6,7 @@ import org.adonai.ui.mainpage.MainPageController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Mask<T> {
+public class Mask<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Mask.class);
 
