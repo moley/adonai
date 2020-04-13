@@ -3,7 +3,7 @@ package org.adonai.uitests;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
 import org.adonai.testdata.TestDataCreator;
-import org.adonai.ui.screens.ScreenManager;
+import org.adonai.ui.ScreenManager;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

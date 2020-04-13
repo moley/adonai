@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.adonai.AbstractAdonaiUiTest;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.adonai.model.Song;
@@ -223,9 +224,9 @@ public class MainMaskSongTest extends AbstractAdonaiUiTest {
 
     Thread.sleep(1000);
 
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
 
-
-    ModelService modelService = new ModelService();
+    ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();
     TenantModel tenantModel = model.getCurrentTenantModel();
     Configuration configuration = tenantModel.get();

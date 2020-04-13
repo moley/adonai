@@ -9,9 +9,10 @@ javafx {
 }
 
 dependencies {
-    testCompile project(":api")
+    testCompile project(":shared")
     testCompile project(":testutils")
-    testCompile project(":plugins:pluginApp")
+    testCompile project(":plugins:pluginCore")
+    testCompile project(":plugins:pluginPublish")
     testCompile "org.testfx:testfx-core:4.0.16-alpha"
     testCompile "org.testfx:testfx-junit:4.0.15-alpha"
     testCompile "org.testfx:openjfx-monocle:jdk-12.0.1+2"

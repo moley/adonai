@@ -15,10 +15,11 @@ run {
 }
 
 dependencies {
-  compile project(':api')
+  compile project(':shared')
   compile group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"
   compile 'org.pf4j:pf4j-update:2.2.0'
   compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+
   compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
   runtime 'org.openjfx:javafx-controls:14-ea+2'
@@ -28,8 +29,9 @@ dependencies {
   runtime 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
   runtime 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
   runtime 'org.controlsfx:controlsfx:11.0.0'
-  runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.3-b02'
   runtime 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
+
+  runtime 'ch.qos.logback:logback-classic:1.2.3'
 
 
 }

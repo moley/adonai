@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.adonai.services.ModelService;
@@ -41,7 +42,8 @@ public class AbstractPage<T> {
   }
 
   public Configuration getCurrentConfiguration () {
-    ModelService modelService = new ModelService();
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();
     return model.getCurrentTenantModel().get();
   }

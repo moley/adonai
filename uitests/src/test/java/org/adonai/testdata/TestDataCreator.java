@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import org.adonai.AdonaiProperties;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.model.Configuration;
 import org.adonai.model.Line;
@@ -61,7 +62,8 @@ public class TestDataCreator {
 
       SongBook songBook = new SongBook();
 
-      ModelService modelService = new ModelService();
+      ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+      ModelService modelService = new ModelService(applicationEnvironment);
       modelService.addTenant(model, nextTenant);
       TenantModel tenantModel = model.getTenantModel(nextTenant);
       tenantModel.load();

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
-import org.adonai.ui.screens.ScreenManager;
+import org.adonai.ui.ScreenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,10 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.services.ModelService;
 import org.adonai.ui.Consts;
 import org.adonai.ui.UiUtils;
-import org.adonai.ui.settings.AbstractSettingsController;
 import org.adonai.ui.settings.SettingsController;
 import org.adonai.uitests.MyNodeMatchers;
 import org.testfx.framework.junit.ApplicationTest;
@@ -36,7 +36,8 @@ public class SettingsMaskPage {
 
     Parent root = loader.load();
     SettingsController settingsController = loader.getController();
-    ModelService modelService = new ModelService();
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ModelService modelService = new ModelService(applicationEnvironment);
     settingsController.setModel(modelService.load());
     scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight());
     UiUtils.applyCss(scene);

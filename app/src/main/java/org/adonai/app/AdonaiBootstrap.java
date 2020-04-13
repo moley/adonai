@@ -17,27 +17,20 @@ package org.adonai.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.api.Application;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.ManifestPluginDescriptorFinder;
 import org.pf4j.PluginClassLoader;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
-import org.pf4j.RuntimeMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.pf4j.AbstractPluginManager.MODE_PROPERTY_NAME;
 
 /**
  * A boot class that starts the application
@@ -47,24 +40,9 @@ import static org.pf4j.AbstractPluginManager.MODE_PROPERTY_NAME;
 public class AdonaiBootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdonaiBootstrap.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)
+        throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         LOGGER.info("Starting application in path " + new File("").getAbsolutePath());
-
-        File pluginsDir = new File ("plugins");
-
-        boolean inDevelopmentMode = new File ("build.gradle").exists();
-        if (inDevelopmentMode) {
-            System.setProperty(MODE_PROPERTY_NAME, RuntimeMode.DEVELOPMENT.toString());
-            System.setProperty("pf4j.pluginsDir", pluginsDir.getAbsolutePath());
-
-            List<Path> libs = Files.walk(pluginsDir.toPath()).filter(new Predicate<Path>() {
-                @Override public boolean test(Path path) {
-                    return path.toFile().getName().equals("libs");
-                }
-            }).collect(Collectors.toList());
-            if (libs.isEmpty())
-                throw new IllegalStateException("No libs pathes in development mode. Did you build the jars?");
-        }
 
         // create the plugin manager
         final PluginManager pluginManager = new DefaultPluginManager() {
@@ -169,15 +147,10 @@ public class AdonaiBootstrap {
         pluginManager.startPlugins();
 
 
-        // retrieves the extensions for Greeting extension point
-        List<Application> applications = pluginManager.getExtensions(Application.class);
-        if (applications.size() != 1) {
-            throw new IllegalStateException("Not found exactly one application extension point, but " + applications);
-        }
-        ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(pluginManager);
-        applications.get(0).run(applicationEnvironment, args);
-
-
+        //start application
+        Object corePlugin = pluginManager.getPlugin("adonai-core-plugin").getPlugin();
+        Method method = corePlugin.getClass().getMethod("execute");
+        method.invoke(corePlugin);
     }
 
 
