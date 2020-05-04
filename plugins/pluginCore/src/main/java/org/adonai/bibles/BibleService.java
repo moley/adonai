@@ -19,8 +19,8 @@ public class BibleService {
   public Collection<Bible> getAllBibles() {
 
     Set<String> bibleUrls = new HashSet<>();
-    bibleUrls.add("/bibles/SF_2009-01-20_GER_LUTH1912_(LUTHER 1912).xml");
-    bibleUrls.add("/bibles/SF_2009-01-22_GER_ELB1905STR_(ELBERFELDER 1905).xml");
+    bibleUrls.add("/bibles/LUTHER 1912.xml");
+    bibleUrls.add("/bibles/ELBERFELDER 1905.xml");
     LOGGER.info("Found bibles: " + bibleUrls);
     List<Bible> bibles = new ArrayList<Bible>();
     for (String next : bibleUrls) {

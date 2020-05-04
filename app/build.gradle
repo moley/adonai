@@ -37,37 +37,19 @@ dependencies {
 }
 
 def applicationName = 'adonai'
-
 distZip {
   archiveBaseName = applicationName
   archiveVersion = ''
   startScripts.applicationName = applicationName
-  project(':plugins').subprojects {
-    plugin ->
-    println "Copy plugin " + plugin.name + " into " + this.project.name + "-" + this.project.version + "/bin/plugins/" + plugin.name
-    into(applicationName + "/bin/plugins") {
-      from plugin.file('build/libs')
-      include '*.jar'
-    }
 
-    into(applicationName +  "/bin") {
-      from '../.java-version'
-    }
+  into (applicationName + "/bin") {
+    from rootProject.file ('build')
+    include 'plugins/*'
   }
 
-  dependsOn(project.rootProject.getTasksByName("jar", true))
+  dependsOn project.rootProject.getTasksByName('assemblePlugin', true)
 }
 
-task installLocal(type: Copy, dependsOn: distZip) {
-  def zipFile = file("build/distributions/" + applicationName + ".zip")
-  def outputDir = file(System.getProperty("user.home") + "/programs")
-  println "OutputDir = $outputDir.absolutePath"
-
-  from zipTree(zipFile)
-  into outputDir
-  group = 'distribution'
-  description = 'Installs the program into my output dir'
-}
 
 
 

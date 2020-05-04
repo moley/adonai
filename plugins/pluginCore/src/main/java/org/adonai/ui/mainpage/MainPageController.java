@@ -44,6 +44,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSessionAction;
 import org.adonai.actions.AddSongAction;
 import org.adonai.actions.ConfigurationAction;
@@ -53,6 +54,7 @@ import org.adonai.actions.LiveAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.actions.SelectAction;
 import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.api.MainAction;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
@@ -60,13 +62,8 @@ import org.adonai.model.Model;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
-import org.adonai.model.User;
-import org.adonai.online.DropboxAdapter;
-import org.adonai.online.MailSender;
-import org.adonai.online.ZipManager;
 import org.adonai.player.Mp3Player;
 import org.adonai.services.AddSongService;
-import org.adonai.services.ModelService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
 import org.adonai.ui.AbstractController;
@@ -119,19 +116,12 @@ public class MainPageController extends AbstractController {
 
   private FilteredList<Song> filteredSongList;
 
-  private Model model;
-
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
-
-  private SessionService sessionService = new SessionService();
 
   private int iconSizeToolbar = Consts.ICON_SIZE_TOOLBAR;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MainPageController.class);
 
-  private Session currentSession = null;
 
-  private Song currentSong = null;
 
   @FXML private TextField txtSessionName;
 
@@ -143,8 +133,7 @@ public class MainPageController extends AbstractController {
   public void setApplicationEnvironment (final ApplicationEnvironment applicationEnvironment){
     super.setApplicationEnvironment(applicationEnvironment);
 
-    ModelService modelService = new ModelService(getApplicationEnvironment());
-    model = modelService.load();
+
 
 
     lviSongs.setUserData("mainpage.lviSongs");
@@ -160,7 +149,7 @@ public class MainPageController extends AbstractController {
 
     panSessionDetails.setBackground(Background.EMPTY);
 
-    reloadTenantData(adonaiProperties.getCurrentTenant());
+    reloadTenantData(applicationEnvironment.getCurrentTenant());
 
     refreshTenantButton();
 
@@ -191,6 +180,10 @@ public class MainPageController extends AbstractController {
 
         event.consume();
 
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
+        SongBook currentSongBook = applicationEnvironment.getCurrentSongBook();
+
+
         Bounds controlBounds = UiUtils.getBounds(btnAdd);
         Double x = controlBounds.getMinX() + 10;
         Double y = controlBounds.getMinY() - 20 - Consts.getDefaultHeight();
@@ -198,16 +191,15 @@ public class MainPageController extends AbstractController {
         //In Song details reimport content of current song
         if (currentContent.equals(MainPageContent.SONG)) {
           AddSongAction addSongHandler = new AddSongAction();
-          addSongHandler.add(getApplicationEnvironment(), x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
+          addSongHandler.add(getApplicationEnvironment(), x, y, currentConfiguration, currentSongBook, new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
 
               Song song = addSongHandler.getNewSong();
               LOGGER.info("New song " + song + " created");
               if (song != null) {
-                SongBook songBook = getCurrentSongBook();
                 AddSongService addSongService = new AddSongService();   //Add new song to songbook
-                addSongService.addSong(song, songBook);
-                currentSong = song;
+                addSongService.addSong(song, currentSongBook);
+                getApplicationEnvironment().setCurrentSong(song);
                 refreshListViews(song);                        //Refresh list data and select the new song in editor
                 selectSong(song);
               }
@@ -216,13 +208,13 @@ public class MainPageController extends AbstractController {
         } else //In Songbook add new song
           if (currentContent.equals(MainPageContent.SONGBOOK)) {
             AddSongAction addSongHandler = new AddSongAction();
-            addSongHandler.add(getApplicationEnvironment(), x, y, getCurrentConfiguration(), getCurrentSongBook(), new EventHandler<WindowEvent>() {
+            addSongHandler.add(getApplicationEnvironment(), x, y, currentConfiguration, currentSongBook, new EventHandler<WindowEvent>() {
               @Override public void handle(WindowEvent event) {
 
                 Song song = addSongHandler.getNewSong();
                 LOGGER.info("New song " + song + " created");
                 if (song != null) {
-                  SongBook songBook = getCurrentSongBook();
+                  SongBook songBook = currentSongBook;
                   AddSongService addSongService = new AddSongService();   //Add new song to songbook
                   addSongService.addSong(song, songBook);
                   refreshListViews(
@@ -233,7 +225,7 @@ public class MainPageController extends AbstractController {
             });
           } else if (currentContent.equals(MainPageContent.SESSION)) { // in session add new song and add to session
             SelectAction<Song> selectSong = new SelectAction<Song>(getApplicationEnvironment());
-            List<Song> allSongs = getCurrentSongBook().getSongs();
+            List<Song> allSongs = currentSongBook.getSongs();
 
             Double xSession = controlBounds.getMinX() + 10;
             Double ySession = controlBounds.getMinY() - 20 - SelectAction.SEARCHDIALOG_HEIGHT;
@@ -244,7 +236,8 @@ public class MainPageController extends AbstractController {
                 LOGGER.info("handle window closed in selectsong on " + selectedSong);
                 if (selectedSong != null) {
                   LOGGER.info("Add song " + selectedSong.getId() + " to session " + getCurrentSession().getName());
-                  sessionService.addSong(getCurrentSession(), selectedSong);
+                  ServiceRegistry serviceRegistry = applicationEnvironment.getServices();
+                  serviceRegistry.getSessionService().addSong(getCurrentSession(), selectedSong);
                   refreshListViews(selectedSong);
                 }
               }
@@ -252,7 +245,7 @@ public class MainPageController extends AbstractController {
 
           } else if (currentContent.equals(MainPageContent.SESSIONS)) {
             AddSessionAction addSessionAction = new AddSessionAction();
-            Session session = addSessionAction.add(getCurrentConfiguration());
+            Session session = addSessionAction.add(currentConfiguration);
             refreshListViews(null);
             selectSession(session);
           }
@@ -268,9 +261,13 @@ public class MainPageController extends AbstractController {
     btnRemove.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         LOGGER.info("Button minus was pressed");
+
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
+        SongBook currentSongBook = applicationEnvironment.getCurrentSongBook();
+
         if (currentContent.equals(MainPageContent.SESSIONS)) {
           LOGGER.info("Remove session " + getCurrentSession().getName());
-          getCurrentConfiguration().getSessions().remove(getCurrentSession());
+          currentConfiguration.getSessions().remove(getCurrentSession());
           refreshListViews(null);
         } else if (currentContent.equals(MainPageContent.SESSION)) {
           int selectedIndex = lviSession.getSelectionModel().getSelectedIndex();
@@ -281,7 +278,7 @@ public class MainPageController extends AbstractController {
           refreshListViews(null);
         } else if (currentContent.equals(MainPageContent.SONGBOOK)) {
           RemoveSongService removeSongService = new RemoveSongService();
-          removeSongService.removeSong(lviSongs.getSelectionModel().getSelectedItem(), getCurrentSongBook());
+          removeSongService.removeSong(lviSongs.getSelectionModel().getSelectedItem(), currentSongBook);
           refreshListViews(null);
         }
       }
@@ -295,12 +292,14 @@ public class MainPageController extends AbstractController {
     btnMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
+
         if (!currentContent.equals(MainPageContent.SESSIONS)) {
           ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action(getApplicationEnvironment());
           Bounds controlBounds = UiUtils.getBounds(btnMp3);
           Double x = controlBounds.getMinX() + 10;
           Double y = controlBounds.getMinY() - 20 - 600;
-          connectSongWithMp3Action.connect(x, y, getCurrentConfiguration(), getSelectedSong());
+          connectSongWithMp3Action.connect(x, y, currentConfiguration, getSelectedSong());
         }
       }
     });
@@ -316,11 +315,12 @@ public class MainPageController extends AbstractController {
     btnExport.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         LOGGER.info("handle export action");
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
 
         Collection<Song> currentSongs = getCurrentSongs();
         if (!currentSongs.isEmpty()) {
           ExportAction exportAction = new ExportAction();
-          exportAction.export(getCurrentConfiguration(), getCurrentSongs(), getExportName());
+          exportAction.export(currentConfiguration, getCurrentSongs(), getExportName());
         } else
           LOGGER.warn("No songs selected to be exported");
       }
@@ -336,10 +336,11 @@ public class MainPageController extends AbstractController {
       @Override public void handle(ActionEvent event) {
         LOGGER.info("handle export action");
 
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
         Collection<Song> currentSongs = getCurrentSongs();
         if (!currentSongs.isEmpty()) {
           LiveAction liveAction = new LiveAction();
-          liveAction.startLiveSession(getCurrentConfiguration(), getCurrentSongs(), getExportName());
+          liveAction.startLiveSession(currentConfiguration, getCurrentSongs(), getExportName());
         } else
           LOGGER.warn("No songs selected to be exported");
       }
@@ -433,7 +434,8 @@ public class MainPageController extends AbstractController {
         try {
           LOGGER.info("btnSave action recieved");
 
-          model.save();
+          applicationEnvironment.getModel().save();
+
           Notifications.create().title("Save").text("Model saved").show();
         } catch (Exception e) {
           Notifications.create().title("Save").text("Error occured while saving model").showError();
@@ -441,85 +443,10 @@ public class MainPageController extends AbstractController {
       }
     });
 
-    //Button Backup
-    Button btnToCloud = new Button();
-    btnToCloud.setTooltip(new Tooltip("Upload data to dropbox"));
-    btnToCloud.setGraphic(Consts.createIcon("fa-cloud-upload", iconSizeToolbar));
-    tbaActions.getItems().add(btnToCloud);
-    btnToCloud.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-
-        try {
-          Collection<String> ids = new ArrayList<>();
-          DropboxAdapter dropboxAdapter = new DropboxAdapter();
-
-          ZipManager zipManager = new ZipManager(getApplicationEnvironment());
-          File zippedBackupFile = zipManager.zip();
-          dropboxAdapter.upload(zippedBackupFile, "");
-
-          File exportPath = getCurrentConfiguration().getExportPathAsFile();
-          LOGGER.info("Using export path " + exportPath.getAbsolutePath());
-          File songbookExport = new File(exportPath, "songbook");
-          if (songbookExport.exists()) {
-            if (songbookExport.listFiles() == null || songbookExport.listFiles().length == 0)
-              throw new IllegalStateException("Export path " + songbookExport.getAbsolutePath() + " is empty");
-            for (File nextExportFile : songbookExport.listFiles()) {
-              LOGGER.info("Check file " + nextExportFile.getAbsolutePath());
-              if (nextExportFile.getName().endsWith(".pdf")) {
-                ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/"));
-              }
-            }
-          }
-
-          ArrayList<String> users = new ArrayList<>();
-          for (User next : getCurrentConfiguration().getUsers()) {
-            if (next.getMail() != null && !next.getMail().trim().isEmpty())
-              users.add(next.getMail());
-          }
-
-          if (ids.isEmpty()) {
-            Notifications.create().title("Upload").text("Upload finished, no mails sent because no export data available").show();
-            LOGGER.info("Upload finished, no mail sent because no export data available");
-          }
-          else {
-
-            MailSender mailSender = new MailSender();
-            mailSender.sendExportMail(users, ids);
-
-            Notifications.create().title("Upload").text("Upload finished, mail sent to " + users + " with links " + ids)
-                .show();
-            LOGGER.info("Upload finished, mail sent to " + users + " with links " + ids);
-          }
-        } catch (Exception e) {
-          Notifications.create().title("Upload").text("Error uploading content").showError();
-          LOGGER.error(e.getLocalizedMessage(), e);
-        }
-
-
-      }
-    });
-
-    //Button Recover
-    Button btnFromCloud = new Button();
-    btnFromCloud.setTooltip(new Tooltip("Download data from dropbox"));
-    btnFromCloud.setGraphic(Consts.createIcon("fa-cloud-download", iconSizeToolbar));
-    tbaActions.getItems().add(btnFromCloud);
-    btnFromCloud.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        try {
-          DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          File homPath = Consts.getAdonaiHome();
-          File downloadFile = dropboxAdapter.download(new File (homPath.getParentFile(), ".adonai_backup"));
-
-          Notifications.create().title("Download").text("Downloaded backup to " + downloadFile.getAbsolutePath() + ". Unzip manually to ~/.adonai to overwrite").show();
-          LOGGER.info("Download finished");
-        } catch (Exception e) {
-          Notifications.create().title("Download").text("Error downloading content").showError();
-          LOGGER.error(e.getLocalizedMessage(), e);
-        }
-      }
-    });
-
+    for (MainAction nextMainAction: applicationEnvironment.getPluginManager().getExtensions(MainAction.class)) {
+      LOGGER.info("Add main action " + nextMainAction.getClass().getName());
+      tbaActions.getItems().add(nextMainAction.createButton(applicationEnvironment));
+    }
 
 
     //Button Configurations
@@ -531,8 +458,9 @@ public class MainPageController extends AbstractController {
     tbaActions.getItems().add(btnConfigurations);
     btnConfigurations.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        LOGGER.info("Tenant before getCurrentConfiguration() screen " + adonaiProperties.getCurrentTenant());
+        LOGGER.info("Tenant before getCurrentConfiguration() screen " + applicationEnvironment.getAdonaiProperties().getCurrentTenant());
 
+        Model model = applicationEnvironment.getModel();
         ConfigurationAction configurationAction = new ConfigurationAction(getApplicationEnvironment());
         configurationAction.openConfigurations(model, new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
@@ -554,6 +482,7 @@ public class MainPageController extends AbstractController {
     tbaActions.getItems().add(btnExit);
     btnExit.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
+        Model model = applicationEnvironment.getModel();
 
         if (model.hasChanged()) {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -607,9 +536,12 @@ public class MainPageController extends AbstractController {
     togSession.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
+        Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
+
+        Session currentSession = applicationEnvironment.getCurrentSession();
         Session sessionToSelect = currentSession;
-        if (sessionToSelect == null && !getCurrentConfiguration().getSessions().isEmpty())
-          sessionToSelect = getCurrentConfiguration().getSessions().get(0);
+        if (sessionToSelect == null && !currentConfiguration.getSessions().isEmpty())
+          sessionToSelect = currentConfiguration.getSessions().get(0);
 
         selectSession(sessionToSelect);
         event.consume();
@@ -681,11 +613,13 @@ public class MainPageController extends AbstractController {
   }
 
   private void refreshButtonState() {
-    boolean sessionsAvailable = getCurrentConfiguration().getSessions().size() > 0;
+    Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
+    boolean sessionsAvailable = currentConfiguration.getSessions().size() > 0;
     togSession.setVisible(sessionsAvailable);
   }
 
   private void reloadTenantData (String newTenant) {
+    AdonaiProperties adonaiProperties = getApplicationEnvironment().getAdonaiProperties();
     adonaiProperties = new AdonaiProperties();
     String currentTenant = adonaiProperties.getCurrentTenant();
     LOGGER.info("Old tenant after getCurrentConfiguration() screen: " + currentTenant);
@@ -701,6 +635,8 @@ public class MainPageController extends AbstractController {
   }
 
   private void refreshTenantButton() {
+    AdonaiProperties adonaiProperties = getApplicationEnvironment().getAdonaiProperties();
+    Model model = getApplicationEnvironment().getModel();
     btnTenant.setText(adonaiProperties.getCurrentTenant());
     btnTenant.getItems().clear();
     for (String next: model.getTenantModelNames()) {
@@ -729,7 +665,8 @@ public class MainPageController extends AbstractController {
 
   private void selectSessions() {
     LOGGER.info("select sessions");
-    currentSong = null;
+    ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+    applicationEnvironment.setCurrentSong(null);
     currentContent = MainPageContent.SESSIONS;
     lblCurrentType.setText("sessions");
     lblCurrentEntity.setText("");
@@ -743,7 +680,8 @@ public class MainPageController extends AbstractController {
 
   private void selectSongbook() {
     LOGGER.info("selectSongbook on " + System.identityHashCode(this));
-    currentSong = null;
+    ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+    applicationEnvironment.setCurrentSong(null);
     currentContent = MainPageContent.SONGBOOK;
     lblCurrentType.setText("songbook");
     lblCurrentEntity.setText("");
@@ -763,8 +701,9 @@ public class MainPageController extends AbstractController {
       return;
 
     currentContent = MainPageContent.SESSION;
-    currentSong = null;
-    currentSession = session;
+    ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+    applicationEnvironment.setCurrentSong(null);
+    applicationEnvironment.setCurrentSession(session);
 
     txtSessionName.setText(session.getName());
 
@@ -772,7 +711,7 @@ public class MainPageController extends AbstractController {
     spDetails.getChildren().add(panSessionDetails);
     lviSession.requestFocus();
     lblCurrentType.setText("session");
-    lblCurrentEntity.setText(currentSession.getName().toUpperCase());
+    lblCurrentEntity.setText(applicationEnvironment.getCurrentSession().getName().toUpperCase());
     refreshListViews(null);
     lviSession.getSelectionModel().selectFirst();
     togSession.setSelected(true);
@@ -781,9 +720,12 @@ public class MainPageController extends AbstractController {
 
   private void selectSong(Song song) {
     LOGGER.info("selectSong (" + song + ")");
-    currentSong = song;
+    ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+    applicationEnvironment.setCurrentSong(song);
+    Configuration currentConfiguration = applicationEnvironment.getCurrentConfiguration();
+
     currentContent = MainPageContent.SONG;
-    SongEditor songEditor = new SongEditor(getApplicationEnvironment(), getCurrentConfiguration(), song);
+    SongEditor songEditor = new SongEditor(getApplicationEnvironment(), currentConfiguration, song);
     Parent songEditorPanel = songEditor.getPanel();
     songEditorPanel.setVisible(true);
 
@@ -796,48 +738,44 @@ public class MainPageController extends AbstractController {
     spDetails.getChildren().add(panSongDetails);
 
     lblCurrentType.setText("song");
-    String name = currentSong.getName() != null ? currentSong.getName().toUpperCase() : "UNDEFINED";
-    lblCurrentEntity.setText(currentSong.getId() + " - " + name);
+    String name = song.getName() != null ? song.getName().toUpperCase() : "UNDEFINED";
+    lblCurrentEntity.setText(song.getId() + " - " + name);
 
     LOGGER.info("panSongDetails: " + panSongDetails.getWidth() + "-" + panSongDetails.getHeight());
     LOGGER.info("lviSongs: " + lviSongs.getWidth() + "-" + lviSongs.getHeight());
 
   }
 
-  private SongBook getCurrentSongBook() {
-    if (getCurrentConfiguration().getSongBooks().isEmpty()) {
-      SongBook newSongbook = new SongBook();
-      getCurrentConfiguration().getSongBooks().add(newSongbook);
-    }
-    return getCurrentConfiguration().getSongBooks().get(0);
-  }
-
-  private Configuration getCurrentConfiguration () {
-    return model.getCurrentTenantModel().get();
-  }
-
   private Session getCurrentSession() {
     if (currentContent == MainPageContent.SESSIONS) {
       return lviSessions.getSelectionModel().getSelectedItem();
     } else if (currentContent == MainPageContent.SESSION) {
-      return currentSession;
+      return getApplicationEnvironment().getCurrentSession();
     } else
       throw new IllegalStateException("Invalid page content " + currentContent);
   }
 
   private Collection<Song> getCurrentSongs() {
+
+    SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
+    Session currentSession = getCurrentSession();
+    Song currentSong = getApplicationEnvironment().getCurrentSong();
+
+
     if (currentContent == MainPageContent.SONGBOOK) {
-      return getCurrentSongBook().getSongs();
+      return getApplicationEnvironment().getCurrentSongBook().getSongs();
     } else if (currentContent == MainPageContent.SESSION) {
-      return sessionService.getSongs(currentSession, getCurrentSongBook());
+      SessionService sessionService = getApplicationEnvironment().getServices().getSessionService();
+
+      return sessionService.getSongs(currentSession, currentSongBook);
     } else if (currentContent == MainPageContent.SONG) {
       if (currentSong == null)
         throw new IllegalStateException("No song selected in song view");
       return Arrays.asList(currentSong);
     } else if (currentContent == MainPageContent.SESSIONS) {
-      Session currentSession = getCurrentSession();
       if (currentSession != null) {
-        return sessionService.getSongs(currentSession, getCurrentSongBook());
+        SessionService sessionService = getApplicationEnvironment().getServices().getSessionService();
+        return sessionService.getSongs(currentSession, currentSongBook);
       } else
         return new ArrayList<>();
     } else
@@ -850,7 +788,7 @@ public class MainPageController extends AbstractController {
     } else if (currentContent == MainPageContent.SESSION) {
       return lviSession.getSelectionModel().getSelectedItem();
     } else if (currentContent == MainPageContent.SONG) {
-      return currentSong;
+      return getApplicationEnvironment().getCurrentSong();
     } else
       throw new IllegalStateException("Invalid page content " + currentContent);
   }
@@ -861,7 +799,7 @@ public class MainPageController extends AbstractController {
     } else if (currentContent == MainPageContent.SESSION) {
       return getCurrentSession().getName();
     } else if (currentContent == MainPageContent.SONG) {
-      return currentSong.getName();
+      return getApplicationEnvironment().getCurrentSong().getName();
     } else if (currentContent == MainPageContent.SESSIONS) {
       return getCurrentSession().getName();
     } else
@@ -870,15 +808,21 @@ public class MainPageController extends AbstractController {
 
   private void refreshListViews(Song selectSong) {
     LOGGER.info("refreshListViews (" + selectSong + ")");
-    filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(getCurrentSongBook().getSongs()),
+    SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
+    Session currentSession = getApplicationEnvironment().getCurrentSession();
+    Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
+
+    SessionService sessionService = getApplicationEnvironment().getServices().getSessionService();
+
+    filteredSongList = new FilteredList<Song>(FXCollections.observableArrayList(currentSongBook.getSongs()),
         s -> true);
     lviSongs.setItems(filteredSongList);
     List<Song> sessionSongs = currentSession != null ?
-        sessionService.getSongs(currentSession, getCurrentSongBook()) :
+        sessionService.getSongs(currentSession, currentSongBook) :
         new ArrayList<>();
     lviSession.setItems(FXCollections.observableArrayList(sessionSongs));
     songCellFactory.setSession(currentSession);
-    lviSessions.setItems(FXCollections.observableArrayList(getCurrentConfiguration().getSessions()));
+    lviSessions.setItems(FXCollections.observableArrayList(currentConfiguration.getSessions()));
 
     if (selectSong != null) {
       LOGGER.info("Select song " + selectSong);

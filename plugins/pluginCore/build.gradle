@@ -62,31 +62,14 @@ sourceSets {
     }
 }
 
-//task copyRealData (type: Copy) {
-//    from (System.getProperty("user.home") + "/.adonai")
-//    include 'tenant*/**'
-//    into file('.adonai')
-//}
-//tasks.compileJava.dependsOn(copyRealData)
-
-
-task installLocal(type: Copy, dependsOn: distZip) {
-    def zipFile = file("build/distributions/pluginApp-" + version + ".zip")
-    def outputDir = file("build/local/programs")
-
-    doLast {
-        copy {
-            from project.rootProject.file('.java-version')
-            into new File (outputDir, "pluginApp-" + version + "/bin")
-        }
-    }
-    //def outputDir = file(System.getProperty("user.home") + "/programs")
-    println "OutputDir = $outputDir.absolutePath"
-
-    from zipTree(zipFile)
-    into outputDir
-    group = 'distribution'
-    description = 'Installs the program into my output dir'
+task copyRealData (type: Copy) {
+    from (System.getProperty("user.home") + "/.adonai")
+    include 'tenant*/**'
+    into file('.adonai')
 }
+tasks.compileJava.dependsOn(copyRealData)
+
+
+
 
 

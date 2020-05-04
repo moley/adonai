@@ -48,9 +48,9 @@ public class CAPTION {
 
     @XmlElementRefs({
         @XmlElementRef(name = "BR", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "SUP", type = SUP.class, required = false),
-        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "XREF", type = JAXBElement.class, required = false)
     })
     @XmlMixed
@@ -80,20 +80,20 @@ public class CAPTION {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link BR }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link String }
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link BR }{@code >}
+     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link BR }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link SUP }
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link XREF }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link SUP }
      * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * 
      * 

@@ -8,7 +8,9 @@ subprojects {
       attributes 'Plugin-Class': "${pluginClass}",
           'Plugin-Id': "${pluginId}",
           'Plugin-Version': "${project.version}",
-          'Plugin-Provider': "${pluginProvider}"
+          'Plugin-Provider': "${pluginProvider}",
+          'Plugin-Dependencies': "${pluginDependencies}"
+
     }
   }
 
@@ -29,6 +31,7 @@ subprojects {
   }
 
   project.tasks.build.dependsOn project.tasks.assemblePlugin
+
 }
 
 task assemblePlugins(type: Copy) {

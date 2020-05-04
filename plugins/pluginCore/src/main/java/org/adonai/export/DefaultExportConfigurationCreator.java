@@ -13,6 +13,9 @@ public class DefaultExportConfigurationCreator {
 
     List<ExportBuilder> exportBuilderList = applicationEnvironment.getExtensions(ExportBuilder.class);
 
+    if (exportBuilderList.isEmpty())
+      throw new IllegalStateException("No export builders registered");
+
     for (ExportBuilder next: exportBuilderList) {
       AbstractDocumentBuilder abstractDocumentBuilder = (AbstractDocumentBuilder) next;
 

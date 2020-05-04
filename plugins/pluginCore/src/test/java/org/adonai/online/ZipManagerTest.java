@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.pf4j.DefaultPluginManager;
 
 public class ZipManagerTest {
 
@@ -21,7 +22,7 @@ public class ZipManagerTest {
   @Test
   public void writeRead () throws IOException {
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
 
     File tenant1ConfigOriginal = new File (Consts.getAdonaiHome(), "tenant_tenant1/config.xml");
     File tenant2ConfigOriginal = new File (Consts.getAdonaiHome(), "tenant_tenant2/config.xml");

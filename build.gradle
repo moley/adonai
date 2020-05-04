@@ -11,6 +11,9 @@ allprojects {
   version = '0.0.2'
 }
 
+//ext.installpath = file(System.getProperty("user.home") + "/programs"))
+ext.installpath = rootProject.file('build/installpath')
+println System.getenv("JAVA_HOME")
 
 apply plugin : "com.github.breadmoirai.github-release"
 
@@ -84,6 +87,35 @@ tasks.githubRelease.dependsOn rootProject.getTasksByName('build', true)
 
 println "Using gradle version: " + gradle.gradleVersion
 println "Using java version  : " + System.getProperty("java.version")
+
+
+task clean {
+  doLast {
+    project.file('build').deleteDir()
+  }
+}
+
+task installLocal() {
+
+  group = 'distribution'
+  description = 'Installs the program into my output dir'
+  File outputDir = rootProject.ext.installpath
+  File adonaiZip = project(':app').file("build/distributions/adonai.zip")
+
+  println "OutputDir = $outputDir.absolutePath"
+
+  doLast {
+    copy {
+      from zipTree(adonaiZip)
+      into outputDir
+    }
+  }
+
+}
+tasks.installLocal.dependsOn project(':app').tasks.distZip
+
+
+
 
 
 

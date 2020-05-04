@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.pf4j.DefaultPluginManager;
 
 public class ModelServiceTest {
 
@@ -18,7 +19,7 @@ public class ModelServiceTest {
   @Before public void before() {
     savedHome = Consts.getAdonaiHome();
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
     this.ModelService = new ModelService(applicationEnvironment);
     File adonaiHome = Files.createTempDir();
     Consts.setAdonaiHome(adonaiHome);

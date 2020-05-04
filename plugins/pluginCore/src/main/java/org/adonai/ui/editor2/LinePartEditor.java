@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
+import org.adonai.model.SongPart;
 import org.adonai.model.SongStructItem;
 import org.adonai.services.MergeLineService;
 import org.adonai.services.MoveChordService;
@@ -286,11 +287,11 @@ public class LinePartEditor extends PanelHolder {
     SongCursor cursor = new SongCursor();
     SongStructItem structItem = getEditor().getLineEditor().getPartEditor().getCurrentSongStructItem();
     Song currentSong = getEditor().getLineEditor().getPartEditor().getSongEditor().getSong();
-    cursor.setPositionInLinePart(getEditor().getTxtText().getCaretPosition());
-    cursor.setCurrentLine(lineEditor.getLine());
-    cursor.setCurrentSongStructItem(structItem);
     cursor.setCurrentSong(currentSong);
+    cursor.setCurrentLine(lineEditor.getLine());
     cursor.setCurrentLinePart(linePart);
+    cursor.setCurrentSongStructItem(structItem);
+    cursor.setPositionInLinePart(getEditor().getTxtText().getCaretPosition());
     return cursor;
   }
 

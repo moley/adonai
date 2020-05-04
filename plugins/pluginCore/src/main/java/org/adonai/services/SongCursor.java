@@ -87,6 +87,12 @@ public class SongCursor {
 
   public void setCurrentSongStructItem(SongStructItem currentSongStructItem) {
     this.currentSongStructItem = currentSongStructItem;
+    if (currentSong == null)
+
+      throw new IllegalStateException("current song must be set before to determine partz");
+    this.currentSongPart = currentSong.findSongPart(currentSongStructItem);
+    if (currentSongPart == null)
+      throw new IllegalStateException("song part for songstructitem " + currentSongStructItem.getPartId() + " could not be found");
   }
 
   public SongStructItem getCurrentSongStructItem() {

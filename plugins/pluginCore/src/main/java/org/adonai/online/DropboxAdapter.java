@@ -54,7 +54,7 @@ public class DropboxAdapter implements OnlineAdapter {
         return url;
 
       } catch (IOException e) {
-        throw new IllegalStateException(e);
+        throw new IllegalStateException("Error uploading " + uploadFile.getName() + " to " + path, e);
       }
 
     } catch (DbxException e) {
@@ -88,7 +88,7 @@ public class DropboxAdapter implements OnlineAdapter {
       DbxClientV2 clientV2 = getClientV2();
       clientV2.files().downloadBuilder("/adonai.zip").download(fos);
     } catch (IOException | DbxException e) {
-      throw new IllegalStateException(e);
+      throw new IllegalStateException("Error downloading adonai.zip", e);
     }
 
     return downloadFile;

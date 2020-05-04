@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Set;
-import org.adonai.ApplicationEnvironment;
 import org.pf4j.CompoundPluginDescriptorFinder;
 import org.pf4j.DefaultPluginManager;
 import org.pf4j.ManifestPluginDescriptorFinder;

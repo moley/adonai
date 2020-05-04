@@ -2,10 +2,12 @@ package org.adonai.plugin.publish;
 
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PublishPlugin extends Plugin {
 
-  //private static final Logger logger = LoggerFactory.getLogger(AppPlugin.class);
+  private static final Logger log = LoggerFactory.getLogger(PublishPlugin.class);
 
 
   public PublishPlugin(PluginWrapper wrapper) {
@@ -14,16 +16,16 @@ public class PublishPlugin extends Plugin {
 
   @Override
   public void start() {
-    //logger.info("AppPlugin.start()");
+    log.info("PublishPlugin.start()");
   }
 
   @Override
   public void stop() {
-    //logger.info("AppPlugin.stop()");
+    log.info("PublishPlugin.stop()");
   }
 
   @Override
   public void delete() {
-    //logger.info("AppPlugin.delete()");
+    log.info("PublishPlugin.delete()");
   }
 }

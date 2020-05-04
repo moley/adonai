@@ -4,6 +4,7 @@ import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
 import org.junit.Assert;
 import org.junit.Test;
+import org.pf4j.DefaultPluginManager;
 
 public class DefaultExportConfigurationCreatorTest {
 
@@ -12,7 +13,7 @@ public class DefaultExportConfigurationCreatorTest {
 
     Configuration configuration = new Configuration();
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
 
     DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
     defaultExportConfigurationCreator.createDefaultExportConfigurations(applicationEnvironment, configuration);

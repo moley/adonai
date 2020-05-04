@@ -18,7 +18,7 @@ public class AddPartService {
    */
   public SongStructItem addPartBefore (final SongCursor songCursor, SongPart copiedPart, SongPartType songPartType) {
     Song song = songCursor.getCurrentSong();
-    SongStructItem currentSongStructItem = songCursor.getCurrentSongStructItem();
+      SongStructItem currentSongStructItem = songCursor.getCurrentSongStructItem();
     int index = song.getIndex(currentSongStructItem);
     SongStructItem newStructItem = new SongStructItem();
 
