@@ -1,14 +1,12 @@
-package org.adonai.ui;
-
-import javafx.stage.Screen;
-import javafx.stage.Stage;
+package org.adonai.fx;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Deprecated
 public class ScreenManager {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ScreenManager.class);
@@ -36,16 +34,12 @@ public class ScreenManager {
 
   }
 
-  public Screen getExternalOrPrimaryScreen () {
-    return ! externalScreens.isEmpty() ? externalScreens.get(0) : primary;
-  }
-
   public Screen getPrimary () {
     return primary;
   }
 
   public void layoutOnScreen (final Stage stage) {
-    Screen externalOrPrimary = getExternalOrPrimaryScreen();
+    Screen externalOrPrimary = getPrimary();
     stage.setX(externalOrPrimary.getVisualBounds().getMinX());
     stage.setY(externalOrPrimary.getVisualBounds().getMinY());
     stage.setWidth(externalOrPrimary.getVisualBounds().getWidth());
@@ -53,7 +47,7 @@ public class ScreenManager {
   }
 
   public void layoutOnScreen (final Stage stage, int border) {
-    Screen externalOrPrimary = getExternalOrPrimaryScreen();
+    Screen externalOrPrimary = getPrimary();
     stage.setX(externalOrPrimary.getVisualBounds().getMinX() + border);
     stage.setY(externalOrPrimary.getVisualBounds().getMinY() + border);
     stage.setWidth(externalOrPrimary.getVisualBounds().getWidth() - (border * 2));

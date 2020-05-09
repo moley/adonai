@@ -2,6 +2,7 @@ package org.adonai.export;
 
 import org.adonai.AreaInfo;
 import org.adonai.model.Song;
+import org.adonai.model.SongStructItem;
 
 public class ExportToken {
 
@@ -13,12 +14,15 @@ public class ExportToken {
 
   private final Song song;
 
+  private final SongStructItem songStructItem;
 
-  public ExportToken(final Song song, final String text, final AreaInfo areaInfo, final ExportTokenType exportTokenType) {
+
+  public ExportToken(final Song song, final SongStructItem songStructItem, final String text, final AreaInfo areaInfo, final ExportTokenType exportTokenType) {
     this.song = song;
     this.text = text;
     this.areaInfo = areaInfo;
     this.exportTokenType = exportTokenType;
+    this.songStructItem = songStructItem;
   }
 
   public String getText() {
@@ -50,5 +54,9 @@ public class ExportToken {
 
   public Song getSong() {
     return song;
+  }
+
+  public SongStructItem getSongStructItem() {
+    return songStructItem;
   }
 }

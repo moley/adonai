@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,6 @@ import org.adonai.ApplicationEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Deprecated
 public class MaskLoader<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
@@ -20,17 +19,18 @@ public class MaskLoader<T extends AbstractController> {
   public Mask<T> load (ApplicationEnvironment applicationEnvironment, final String name) {
     LOGGER.info("load mask " + name);
     Mask<T> mask = new Mask<T>();
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/" + name + ".fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
     loader.setClassLoader(getClass().getClassLoader());
     try {
       Parent root = loader.load();
       T controller = loader.getController();
       controller.setApplicationEnvironment(applicationEnvironment);
 
-      Scene scene = new Scene(root, Consts.getDefaultWidth(), Consts.getDefaultHeight(), true);
+      Scene scene = new Scene(root);
       UiUtils.applyCss(scene);
       Stage stage = new Stage();
       stage.setScene(scene);
+      mask.setRoot(root);
       mask.setStage(stage);
       mask.setScene(scene);
       mask.setController(controller);
@@ -41,7 +41,7 @@ public class MaskLoader<T extends AbstractController> {
           UiUtils.close(stage);
         }
       });
-      stage.initStyle(StageStyle.UNDECORATED);
+      //stage.initStyle(StageStyle.UNDECORATED);
 
       return mask;
     } catch (IOException e) {

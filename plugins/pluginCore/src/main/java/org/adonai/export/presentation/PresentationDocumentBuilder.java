@@ -4,20 +4,31 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenType;
 import org.adonai.export.NewPageStrategy;
+import org.adonai.fx.UiUtils;
+import org.adonai.fx.editor.TextRenderer;
+import org.adonai.model.SongPart;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -33,6 +44,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
   private HashMap<ExportTokenType, Font> savedFonts = new HashMap<ExportTokenType, Font>();
 
   private List<Page> pages = new ArrayList<>();
+
+  private TextRenderer textRenderer =  new TextRenderer();
 
 
 
@@ -91,10 +104,50 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
       if (nextToken.getExportTokenType().equals(ExportTokenType.NEW_PAGE)) {
         currentPage = createPane();
         currentPage.setSong(nextToken.getSong());
+        currentPage.setSongStructItem(nextToken.getSongStructItem());
         pages.add(currentPage);
       }
       else {
         Text text = new Text();
+        text.setUserData(nextToken);
+        text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+          @Override public void handle(MouseEvent event) {
+            Text text = (Text) event.getSource();
+            LOGGER.info("On mouse clicked on " + text.getText() + "-" + event.getClickCount() + "-" + event.getButton());
+
+            ExportToken exportToken = (ExportToken) text.getUserData();
+
+            LOGGER.info("with type " + exportToken.getExportTokenType());
+            if (exportToken != null && exportToken.getSongStructItem() != null) {
+              if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE)) {
+
+              }
+              else {
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
+
+                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
+                stage.setX(sceneBounds.getMinX());
+                stage.setY(sceneBounds.getMinY());
+                TextArea txaText = new TextArea();
+                txaText.getStyleClass().setAll("editortext");
+
+                SongPart songPart = exportToken.getSong().findSongPart(exportToken.getSongStructItem());
+                txaText.setText(textRenderer.getRenderedText(songPart));
+
+                //TODO resize to text length
+                VBox vBox = new VBox();
+                vBox.getChildren().add(txaText);
+                Scene scene = new Scene(vBox);
+                UiUtils.applyCss(scene);
+                stage.setScene(scene);
+
+                UiUtils.hideOnEsc(stage);
+                stage.showAndWait();
+              }
+            }
+          }
+        });
         text.setFont(getBaseFont(nextToken.getExportTokenType()));
         text.setText(nextToken.getText());
         text.relocate(nextToken.getAreaInfo().getX(), nextToken.getAreaInfo().getY());

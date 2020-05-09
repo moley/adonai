@@ -24,7 +24,7 @@ public class ApplicationEnvironment {
 
   private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
-  private final ServiceRegistry serviceRegistry = new ServiceRegistry();
+  private final ServiceRegistry serviceRegistry = new ServiceRegistry(this);
 
   private Session currentSession = null;
 
@@ -73,6 +73,8 @@ public class ApplicationEnvironment {
   public String getCurrentTenant () {
     return adonaiProperties.getCurrentTenant();
   }
+
+
 
   public Configuration getCurrentConfiguration () {
     return model.getCurrentTenantModel().get();

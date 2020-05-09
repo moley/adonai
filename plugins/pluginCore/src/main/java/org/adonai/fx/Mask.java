@@ -1,15 +1,16 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Deprecated
 public class Mask<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Mask.class);
 
+  private Parent root;
 
   private Scene scene;
 
@@ -55,5 +56,13 @@ public class Mask<T extends AbstractController> {
 
   public void setController(T controller) {
     this.controller = controller;
+  }
+
+  public Parent getRoot() {
+    return root;
+  }
+
+  public void setRoot(Parent root) {
+    this.root = root;
   }
 }

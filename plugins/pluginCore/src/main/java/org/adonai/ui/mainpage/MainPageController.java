@@ -443,10 +443,10 @@ public class MainPageController extends AbstractController {
       }
     });
 
-    for (MainAction nextMainAction: applicationEnvironment.getPluginManager().getExtensions(MainAction.class)) {
+    /**for (MainAction nextMainAction: applicationEnvironment.getPluginManager().getExtensions(MainAction.class)) {
       LOGGER.info("Add main action " + nextMainAction.getClass().getName());
       tbaActions.getItems().add(nextMainAction.createButton(applicationEnvironment));
-    }
+    }**/
 
 
     //Button Configurations

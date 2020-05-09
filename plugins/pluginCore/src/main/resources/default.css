@@ -1,75 +1,9 @@
-.titled-pane > .title {
-  -fx-box-border, -fx-inner-border, -fx-body-color;
-  -fx-font: bold 22pt "Arial";
-  -fx-background-insets: 0, 1, 2;
-  -fx-background-radius: 0 0 0 0, 0 0 0 0, 0 0 0 0;
-  -fx-padding: 2 14 3 0;
-  -fx-label-padding: 5 5 5 5;
-  -fx-color: #BBBBBB;
-  -fx-background-color: #999999;
-  -fx-body-color: #777777;
+.editorpane {
+    -fx-background-color: rgb(200, 200, 200);
 }
 
-.titled-pane > .title > .arrow-button .arrow {
-  -fx-background-color: #000000;
+.editortext {
+    -fx-font-size: 18;
+    -fx-font-family: monospaced;
+    -fx-background-color: green
 }
-
-#editor {
-  -fx-background-color: #EEEEEE;
-  -fx-font: 30pt "Andale Mono" ;
-}
-
-.list-view {
-    -fx-font: 18pt "Arial" ;
-    -fx-text-fill: black;
-	-fx-background-radius: 20;
-    -fx-padding: 10;
-}
-
-.button {
-   -fx-background-radius: 20;
-   -fx-font: 18pt "Arial" ;
-}
-
-#navigationbutton {
-   -fx-background-radius: 0;
-   -fx-background-color: #000000;
-   -fx-font: 18pt "Arial" ;
-}
-
-.textfield {
-  -fx-background-radius: 20;
-  -fx-font: 18pt "Arial" ;
-}
-
-#presentationcontrol {
-  -fx-background-color: #000000;
-}
-
-#hover-list-view {
-    -fx-font: 18pt "Arial" ;
-    -fx-text-fill: black;
-	-fx-background-radius: 0;
-    -fx-padding: 10;
-    -fx-background-color: #FFFFEE;
-}
-
-#hover {
-    -fx-font: 18pt "Arial" ;
-    -fx-text-fill: black;
-	-fx-background-radius: 0;
-    -fx-padding: 10;
-    -fx-background-color: #FFFFEE;
-}
-
-#hover-textfield {
-  -fx-background-radius: 0;
-  -fx-font: 18pt "Arial" ;
-  -fx-background-color: #FFFFCC;
-}
-
-
-
-
-
-

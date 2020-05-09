@@ -1,8 +1,7 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
 import org.adonai.ApplicationEnvironment;
 
-@Deprecated
 public class AbstractController {
 
   private ApplicationEnvironment applicationEnvironment;

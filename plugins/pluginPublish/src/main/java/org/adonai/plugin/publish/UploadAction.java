@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.api.MainAction;
 import org.adonai.model.User;
 import org.adonai.online.DropboxAdapter;
 import org.adonai.online.MailSender;
 import org.adonai.online.ZipManager;
-import org.adonai.ui.Consts;
 import org.controlsfx.control.Notifications;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -25,11 +22,16 @@ public class UploadAction implements MainAction {
   private Logger log = LoggerFactory.getLogger(UploadAction.class);
 
 
-  @Override public Button createButton(ApplicationEnvironment applicationEnvironment) {
-    Button btnToCloud = new Button();
-    btnToCloud.setTooltip(new Tooltip("Upload data to dropbox"));
-    btnToCloud.setGraphic(Consts.createIcon("fa-cloud-upload", Consts.ICON_SIZE_TOOLBAR));
-    btnToCloud.setOnAction(new EventHandler<ActionEvent>() {
+  @Override public String getIconname() {
+    return "fa-cloud-upload";
+  }
+
+  @Override public String getDisplayName() {
+    return "Upload data to dropbox";
+  }
+
+  @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
+    return new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
         try {
@@ -80,7 +82,6 @@ public class UploadAction implements MainAction {
 
 
       }
-    });
-    return btnToCloud;
+    };
   }
 }
