@@ -19,7 +19,6 @@ public class FxApplication extends Application {
     MaskLoader maskLoader = new MaskLoader();
     Mask<MainController> mask = maskLoader.load(applicationEnvironment, "main");
     MainController mainController = mask.getController();
-    mainController.setApplicationEnvironment(applicationEnvironment);
 
     primaryStage.setScene(mask.getScene());
 
@@ -32,6 +31,9 @@ public class FxApplication extends Application {
     log.info("Primary stage Bounds: " + primaryStage.getWidth() + "-" + primaryStage.getHeight());
     primaryStage.toFront();
     primaryStage.show();
+
+    mainController.setApplicationEnvironment(applicationEnvironment);
+
 
   }
 

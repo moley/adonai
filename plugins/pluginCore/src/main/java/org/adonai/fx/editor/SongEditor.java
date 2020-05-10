@@ -39,8 +39,8 @@ public class SongEditor extends VBox {
     currentIndex = 0;
   }
 
-  private void disableAndRemove () {
-    if (! leftPane.getChildren().isEmpty())
+  private void disableAndRemove() {
+    if (!leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(false);
 
     if (!rightPane.getChildren().isEmpty())
@@ -49,61 +49,63 @@ public class SongEditor extends VBox {
     rightPane.getChildren().clear();
   }
 
-  private void enableAndAdd () {
+  private void enableAndAdd() {
 
     if (currentIndex < panes.size())
       leftPane.getChildren().add(panes.get(currentIndex).getPane());
     if (currentIndex + 1 < panes.size())
       rightPane.getChildren().add(panes.get(currentIndex + 1).getPane());
 
-    if (! leftPane.getChildren().isEmpty())
+    if (!leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(true);
 
     if (!rightPane.getChildren().isEmpty())
       rightPane.getChildren().get(0).setVisible(true);
   }
 
-  public void show()  {
+  public void show() {
     enableAndAdd();
 
     Scene scene = getScene();
-    if (scene != null) {
-      scene.setOnKeyReleased(event -> {
-        LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
-        if (event.getCode().equals(KeyCode.M)) {
+
+    if (scene == null)
+      throw new IllegalStateException("Scene not yet set");
+
+    scene.setOnKeyReleased(event -> {
+      LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
+      if (event.getCode().equals(KeyCode.M)) {
+        //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+        //metronome.setVisible(! metronome.isVisible());
+      } else if (event.getCode().equals(KeyCode.RIGHT)) {
+
+        disableAndRemove();
+
+        if (currentIndex < panes.size() - 1)
+          currentIndex++;
+
+        LOGGER.info("toLeft (" + currentIndex + ")");
+
+        if (panes.get(currentIndex).getSong() != null)
           //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
-          //metronome.setVisible(! metronome.isVisible());
-        } else if (event.getCode().equals(KeyCode.RIGHT)) {
 
-          disableAndRemove();
+          enableAndAdd();
 
-          if (currentIndex < panes.size() - 1)
-            currentIndex++;
+      } else if (event.getCode().equals(KeyCode.LEFT)) {
+        disableAndRemove();
 
-          LOGGER.info("toLeft (" + currentIndex + ")");
+        if (currentIndex > 0)
+          currentIndex--;
 
-          if (panes.get(currentIndex).getSong() != null)
-            //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+        LOGGER.info("toRight (" + currentIndex + ")");
 
-            enableAndAdd();
+        if (panes.get(currentIndex).getSong() != null)
+          //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
 
-        } else if (event.getCode().equals(KeyCode.LEFT)) {
-          disableAndRemove();
+          enableAndAdd();
 
-          if (currentIndex > 0)
-            currentIndex--;
+      }
 
-          LOGGER.info("toRight (" + currentIndex + ")");
-
-          if (panes.get(currentIndex).getSong() != null)
-            //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
-
-            enableAndAdd();
-
-        }
-
-      });
-    }
+    });
 
     HBox hbox = new HBox();
 
@@ -118,7 +120,6 @@ public class SongEditor extends VBox {
 
     getChildren().add(hbox);
     VBox.setVgrow(hbox, Priority.ALWAYS);
-
 
   }
 }

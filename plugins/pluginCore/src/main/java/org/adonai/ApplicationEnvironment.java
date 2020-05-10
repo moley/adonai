@@ -1,5 +1,6 @@
 package org.adonai;
 
+import java.util.Collection;
 import java.util.List;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
@@ -72,6 +73,10 @@ public class ApplicationEnvironment {
 
   public String getCurrentTenant () {
     return adonaiProperties.getCurrentTenant();
+  }
+
+  public Collection<String> getTenants () {
+    return getServices().getModelService().getTenants();
   }
 
 

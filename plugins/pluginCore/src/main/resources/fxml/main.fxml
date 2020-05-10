@@ -14,13 +14,6 @@
 
     <top>
         <HBox fx:id="panHeader" fillHeight="true">
-            <MenuButton fx:id="btnTenant" userData="mainpage.btnTenant">
-                <HBox.margin>
-                    <Insets>
-                        <right>40</right>
-                    </Insets>
-                </HBox.margin>
-            </MenuButton>
             <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity">
                 <HBox.margin>
                     <Insets>

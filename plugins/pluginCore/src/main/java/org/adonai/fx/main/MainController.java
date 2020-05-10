@@ -7,11 +7,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
+import org.adonai.api.MainAction;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
 import org.adonai.export.presentation.PresentationDocumentBuilder;
@@ -39,7 +41,6 @@ public class MainController extends AbstractController {
   public Label lblSongInfo;
   public HBox panHeader;
   public BorderPane border;
-  public MenuButton btnTenant;
   public ComboBox cboScope;
 
   private ScreenManager screenManager = new ScreenManager();
@@ -53,12 +54,6 @@ public class MainController extends AbstractController {
     btnPlayerPlay.setGraphic(Consts.createIcon("fa-play", Consts.ICON_SIZE_TOOLBAR));
     btnPlayerForward.setGraphic(Consts.createIcon("fa-step-forward", Consts.ICON_SIZE_TOOLBAR));
     btnPlayerEnd.setGraphic(Consts.createIcon("fa-forward", Consts.ICON_SIZE_TOOLBAR));
-
-
-
-
-
-
 
     /**border.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
@@ -85,31 +80,32 @@ public class MainController extends AbstractController {
     });**/
   }
 
-  private void refreshTenantButton() {
-    log.info("refreshTenantButton called");
-    AdonaiProperties adonaiProperties = getApplicationEnvironment().getAdonaiProperties();
-    Model model = getApplicationEnvironment().getModel();
-    btnTenant.setText(adonaiProperties.getCurrentTenant());
-    btnTenant.getItems().clear();
-    for (String next : model.getTenantModelNames()) {
-      MenuItem menuItem1 = new MenuItem(next);
-      menuItem1.setOnAction(new EventHandler<ActionEvent>() {
+
+  private void reloadActionMenu () {
+    log.info("reloadActionMenu called");
+    btnMainActions.getItems().clear();
+
+    for (String nextTenant: getApplicationEnvironment().getTenants()) {
+      MenuItem menuItem = new MenuItem();
+      menuItem.setUserData(nextTenant);
+      menuItem.setText("Use tenant " + nextTenant);
+      menuItem.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent event) {
-          MenuItem menuItem = (MenuItem) event.getSource();
-          log.info("Selected " + menuItem.getText());
-          adonaiProperties.setCurrentTenant(menuItem.getText());
-          reloadTenantData(menuItem.getText());
+          getApplicationEnvironment().getAdonaiProperties().setCurrentTenant(nextTenant);
+          reloadEditor();
         }
       });
-      btnTenant.getItems().add(menuItem1);
+      btnMainActions.getItems().add(menuItem);
     }
+
+    btnMainActions.getItems().add(new SeparatorMenuItem());
+
+
 
   }
 
-  private void reloadTenantData(String text) {
-    log.info("reloadTenantData " + text + " called");
-
-    refreshTenantButton();
+  private void reloadEditor() {
+    log.info("reloadEditor called");
 
     SizeInfo sizeInfo = new SizeInfo(border.getWidth(), border.getHeight() - 200);
     log.info("get size: " + sizeInfo);
@@ -120,7 +116,6 @@ public class MainController extends AbstractController {
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
     exporter.export(getApplicationEnvironment().getCurrentSongBook().getSongs(), null, exportConfiguration);
-
 
     for (ExportToken next: exporter.getExportTokenContainer().getExportTokenList()) {
       //log.info("Next: " + next.getText() + " - " + next.getAreaInfo() + " - " + next.getExportTokenType());
@@ -136,12 +131,17 @@ public class MainController extends AbstractController {
   @Override public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
     super.setApplicationEnvironment(applicationEnvironment);
 
-    refreshTenantButton();
 
     Model model = getApplicationEnvironment().getModel();
 
     getApplicationEnvironment()
         .setCurrentSong(model.getCurrentTenantModel().get().getSongBooks().get(0).getSongs().get(0));
+
+    reloadEditor();
+    reloadActionMenu();
+
+
+
 
   }
 }
