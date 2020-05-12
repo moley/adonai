@@ -1,12 +1,12 @@
 package org.adonai.fx;
 
-import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.adonai.ApplicationEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class MaskLoader<T extends AbstractController> {
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
   public Mask<T> load (ApplicationEnvironment applicationEnvironment, final String name) {
-    LOGGER.info("Loading mask " + name);
+    LOGGER.info("Loading mask '" + name + "'");
     Mask<T> mask = new Mask<T>();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
     loader.setClassLoader(getClass().getClassLoader());
@@ -26,7 +26,7 @@ public class MaskLoader<T extends AbstractController> {
 
       Scene scene = new Scene(root);
       UiUtils.applyCss(scene);
-      Stage stage = new Stage();
+      Stage stage = new Stage(StageStyle.UNDECORATED);
       stage.setScene(scene);
       mask.setRoot(root);
       mask.setStage(stage);
@@ -43,7 +43,6 @@ public class MaskLoader<T extends AbstractController> {
       controller.setApplicationEnvironment(applicationEnvironment);
 
 
-      //stage.initStyle(StageStyle.UNDECORATED);
 
       return mask;
     } catch (Exception e) {

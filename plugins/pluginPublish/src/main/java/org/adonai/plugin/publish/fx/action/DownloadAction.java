@@ -1,4 +1,4 @@
-package org.adonai.plugin.publish;
+package org.adonai.plugin.publish.fx.action;
 
 import java.io.File;
 import javafx.event.ActionEvent;
@@ -18,7 +18,7 @@ public class DownloadAction implements MainAction {
   private Logger log = LoggerFactory.getLogger(DownloadAction.class);
 
   @Override public String getIconname() {
-    return "fa-cloud-download";
+    return "fas-cloud-download-alt";
   }
 
   @Override public String getDisplayName() {

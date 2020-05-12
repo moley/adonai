@@ -1,4 +1,4 @@
-package org.adonai.plugin.publish;
+package org.adonai.plugin.publish.fx.action;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class UploadAction implements MainAction {
 
 
   @Override public String getIconname() {
-    return "fa-cloud-upload";
+    return "fas-cloud-upload-alt";
   }
 
   @Override public String getDisplayName() {

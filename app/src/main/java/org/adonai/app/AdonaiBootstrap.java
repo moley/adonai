@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 /**
  * A boot class that starts the application
  *
- * @author Decebal Suiu
  */
+@Deprecated
 public class AdonaiBootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdonaiBootstrap.class);
 

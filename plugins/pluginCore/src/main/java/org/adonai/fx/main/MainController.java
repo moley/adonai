@@ -1,5 +1,9 @@
 package org.adonai.fx.main;
 
+import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -10,20 +14,21 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.api.MainAction;
 import org.adonai.export.ExportConfiguration;
-import org.adonai.export.ExportToken;
 import org.adonai.export.presentation.PresentationDocumentBuilder;
 import org.adonai.export.presentation.PresentationExporter;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.ScreenManager;
 import org.adonai.fx.editor.SongEditor;
+import org.adonai.fx.renderer.ScopeItemCellRenderer;
+import org.adonai.fx.renderer.ScopeItemStringConverter;
 import org.adonai.model.Configuration;
-import org.adonai.model.Model;
+import org.adonai.model.Song;
+import org.adonai.player.Mp3Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,19 +46,68 @@ public class MainController extends AbstractController {
   public Label lblSongInfo;
   public HBox panHeader;
   public BorderPane border;
-  public ComboBox cboScope;
+  public ComboBox<ScopeItem> cboScope;
 
   private ScreenManager screenManager = new ScreenManager();
 
-  public void initialize() {
-    btnMainActions.setGraphic(Consts.createIcon("fa-bars", Consts.ICON_SIZE_TOOLBAR));
+  private Mp3Player mp3Player = new Mp3Player();
 
-    btnPlayerBeginning.setGraphic(Consts.createIcon("fa-backward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerBackward.setGraphic(Consts.createIcon("fa-step-backward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerPause.setGraphic(Consts.createIcon("fa-pause", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerPlay.setGraphic(Consts.createIcon("fa-play", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerForward.setGraphic(Consts.createIcon("fa-step-forward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerEnd.setGraphic(Consts.createIcon("fa-forward", Consts.ICON_SIZE_TOOLBAR));
+
+  private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
+
+  public void initialize() {
+    btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
+    cboScope.setCellFactory(cellFactory -> new ScopeItemCellRenderer());
+    cboScope.setConverter(new ScopeItemStringConverter());
+    cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
+      @Override public void changed(ObservableValue<? extends ScopeItem> observable, ScopeItem oldValue, ScopeItem newValue) {
+        getApplicationEnvironment().setCurrentScopeItem(newValue);
+        reloadEditor();
+      }
+    });
+
+    btnPlayerBeginning.setGraphic(Consts.createIcon("fas-fast-backward", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerBeginning.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.beginning();
+      }
+    });
+    btnPlayerBackward.setGraphic(Consts.createIcon("fas-step-backward", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerBackward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.backward();
+      }
+    });
+    btnPlayerPause.setGraphic(Consts.createIcon("fas-pause", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerPause.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.pause();
+      }
+    });
+    btnPlayerPlay.setGraphic(Consts.createIcon("fas-play", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerPlay.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.play();
+      }
+    });
+    btnPlayerForward.setGraphic(Consts.createIcon("fas-step-forward", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerForward.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.forward();
+      }
+    });
+    btnPlayerEnd.setGraphic(Consts.createIcon("fas-fast-forward", Consts.ICON_SIZE_TOOLBAR));
+    btnPlayerEnd.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+        mp3Player.end();
+      }
+    });
 
     /**border.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
@@ -81,6 +135,12 @@ public class MainController extends AbstractController {
   }
 
 
+  private void reloadScopeCombobox() {
+    cboScope.setItems(FXCollections.observableArrayList(scopeItemProvider.getScopeItems(getApplicationEnvironment().getCurrentConfiguration())));
+    if (cboScope.getSelectionModel().isEmpty())
+      cboScope.getSelectionModel().selectFirst();
+  }
+
   private void reloadActionMenu () {
     log.info("reloadActionMenu called");
     btnMainActions.getItems().clear();
@@ -91,7 +151,9 @@ public class MainController extends AbstractController {
       menuItem.setText("Use tenant " + nextTenant);
       menuItem.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent event) {
+          log.info("Selected menuitem " + event.getSource());
           getApplicationEnvironment().getAdonaiProperties().setCurrentTenant(nextTenant);
+          reloadScopeCombobox();
           reloadEditor();
         }
       });
@@ -100,43 +162,40 @@ public class MainController extends AbstractController {
 
     btnMainActions.getItems().add(new SeparatorMenuItem());
 
+    for (MainAction nextMainAction: getApplicationEnvironment().getExtensions(MainAction.class)) {
+      MenuItem menuItem = new MenuItem();
+      menuItem.setText(nextMainAction.getDisplayName());
+      menuItem.setGraphic(Consts.createIcon(nextMainAction.getIconname(), Consts.ICON_SIZE_TOOLBAR));
+      menuItem.setOnAction(nextMainAction.getEventHandler(getApplicationEnvironment()));
+      btnMainActions.getItems().add(menuItem);
+    }
 
 
   }
 
   private void reloadEditor() {
-    log.info("reloadEditor called");
+    log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(border.getWidth(), border.getHeight() - 200);
-    log.info("get size: " + sizeInfo);
-    log.info ("Screen: " + screenManager.getPrimary().getBounds());
     PresentationExporter exporter = new PresentationExporter(sizeInfo);
 
     Configuration configuration = getApplicationEnvironment().getCurrentConfiguration();
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
-    exporter.export(getApplicationEnvironment().getCurrentSongBook().getSongs(), null, exportConfiguration);
+    List<Song> songsOfCurrentScope = getApplicationEnvironment().getSongsOfCurrentScope();
+    log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
-    for (ExportToken next: exporter.getExportTokenContainer().getExportTokenList()) {
-      //log.info("Next: " + next.getText() + " - " + next.getAreaInfo() + " - " + next.getExportTokenType());
-    }
-
-    SongEditor root = new SongEditor(exporter.getPanes());
+    exporter.export(songsOfCurrentScope, null, exportConfiguration);
+    SongEditor root = new SongEditor(exporter.getPanes(), getApplicationEnvironment());
     border.setCenter(root);
     root.show();
-
   }
 
 
   @Override public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
     super.setApplicationEnvironment(applicationEnvironment);
 
-
-    Model model = getApplicationEnvironment().getModel();
-
-    getApplicationEnvironment()
-        .setCurrentSong(model.getCurrentTenantModel().get().getSongBooks().get(0).getSongs().get(0));
-
+    reloadScopeCombobox();
     reloadEditor();
     reloadActionMenu();
 

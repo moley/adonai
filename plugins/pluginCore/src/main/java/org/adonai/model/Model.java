@@ -3,8 +3,14 @@ package org.adonai.model;
 import java.util.ArrayList;
 import java.util.List;
 import org.adonai.AdonaiProperties;
+import org.adonai.fx.main.MainController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Model {
+
+  private static final Logger log = LoggerFactory.getLogger(Model.class);
+
 
   private List<TenantModel> tenantModels = new ArrayList<>();
 
@@ -15,8 +21,10 @@ public class Model {
 
   public TenantModel getTenantModel (final String tenant) {
     for (TenantModel next: tenantModels) {
-      if (next.getTenant().equals(tenant))
+      if (next.getTenant().equals(tenant)) {
+        log.info("get tanent model " + tenant);
         return next;
+      }
     }
 
     throw new IllegalStateException("TenantModel for tenant '" + tenant + "' not found (Found " + getTenantModelNames() + ")");

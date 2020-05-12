@@ -26,8 +26,8 @@ dependencies {
   runtime 'org.openjfx:javafx-graphics:14-ea+2'
   runtime 'org.openjfx:javafx-swing:14-ea+2'
   runtime 'org.openjfx:javafx-media:14-ea+2'
-  runtime 'org.kordamp.ikonli:ikonli-javafx:11.3.4'
-  runtime 'org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4'
+  runtime 'org.kordamp.ikonli:ikonli-javafx:11.5.0'
+  runtime 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.5.0'
   runtime 'org.controlsfx:controlsfx:11.0.0'
   runtime 'org.reflections:reflections:0.9.11' //to find all exporter classes e.g.
 

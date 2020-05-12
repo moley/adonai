@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.DateUtil;
 import org.adonai.export.presentation.Page;
 import org.slf4j.Logger;
@@ -34,7 +35,10 @@ public class SongEditor extends VBox {
 
   //private Metronome metronome = new Metronome();
 
-  public SongEditor(final List<Page> pages) {
+  private ApplicationEnvironment applicationEnvironment;
+
+  public SongEditor(final List<Page> pages, ApplicationEnvironment applicationEnvironment) {
+    this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;
     currentIndex = 0;
   }
@@ -55,6 +59,8 @@ public class SongEditor extends VBox {
       leftPane.getChildren().add(panes.get(currentIndex).getPane());
     if (currentIndex + 1 < panes.size())
       rightPane.getChildren().add(panes.get(currentIndex + 1).getPane());
+
+    applicationEnvironment.setCurrentSong(panes.get(currentIndex).getSong());
 
     if (!leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(true);
