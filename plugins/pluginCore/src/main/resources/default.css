@@ -8,3 +8,33 @@
     -fx-background-color: green
 }
 
+.id {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.title {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.leadVoice {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.chordButton {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.scopeChooser {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+

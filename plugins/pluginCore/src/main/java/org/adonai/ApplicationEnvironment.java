@@ -48,6 +48,8 @@ public class ApplicationEnvironment {
 
   private List<Song> songsOfCurrentScope = new ArrayList<>();
 
+  private boolean showOriginalKey = false;
+
   /**
    * constructor
    * @param pluginManager  the plugin manager
@@ -191,5 +193,13 @@ public class ApplicationEnvironment {
       this.setCurrentSong(songsOfCurrentScope.get(0));
     }
 
+  }
+
+  public boolean isShowOriginalKey() {
+    return showOriginalKey;
+  }
+
+  public void setShowOriginalKey(boolean showOriginalKey) {
+    this.showOriginalKey = showOriginalKey;
   }
 }

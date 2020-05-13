@@ -109,9 +109,13 @@ public class ExportEngine {
       }
 
       if (exportConfiguration.getWithTitle()) {
-        String realKey = nextSong.getCurrentKey() != null ? nextSong.getCurrentKey() : nextSong.getOriginalKey();
-        realKey = realKey != null ? "(" + realKey + ")": "";
-        String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + realKey;
+
+        String originalKey = nextSong.getOriginalKey() != null ? nextSong.getOriginalKey() : "";
+        String realKey = nextSong.getCurrentKey() != null ? nextSong.getCurrentKey() : "";
+        String completeKey =   "(" + originalKey + " -> " + realKey + ")";
+        String leadVoice = (nextSong.getLeadVoice() != null ? " / " + nextSong.getLeadVoice().getUsername() : "");
+
+        String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + completeKey + leadVoice;
 
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
         documentBuilder.newToken(new ExportToken(nextSong, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE ));
@@ -245,8 +249,12 @@ public class ExportEngine {
   }
 
   private String transposeChordOnDemand (LinePart linePart, Song song, ExportConfiguration mergedConfiguration) {
-    Chord chord = new Chord(linePart.getChord());
-    return chord.toString();
+    if (mergedConfiguration.isOriginalKey()) {
+      return linePart.getOriginalChord();
+    }
+    else {
+      return linePart.getChord();
+    }
   }
 
   /**

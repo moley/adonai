@@ -35,6 +35,10 @@ public class ExportConfiguration {
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty openPreviewInitialized = new SimpleBooleanProperty(false);
 
+  private SimpleBooleanProperty originalKey = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty originKeyInitialized = new SimpleBooleanProperty(false);
+
+
   private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
 
   private NewPageStrategy newPageStrategy = NewPageStrategy.PER_SONG;
@@ -63,6 +67,7 @@ public class ExportConfiguration {
 
 
 
+
   private SizeInfo pageSize;
 
 
@@ -72,6 +77,28 @@ public class ExportConfiguration {
 
   public void setNewPageStrategy(NewPageStrategy newPageStrategy) {
     this.newPageStrategy = newPageStrategy;
+  }
+
+  //original key
+  public Boolean isOriginalKey () {
+    return originalKey.get();
+  }
+
+  public boolean isOriginalKeyInitialized () {
+    return originKeyInitialized.get();
+  }
+
+  public SimpleBooleanProperty originalKeyProperty () {
+    return originalKey;
+  }
+
+  public SimpleBooleanProperty originalKeyInitializedProperty () {
+    return originKeyInitialized;
+  }
+
+  public void setOriginalKey (final Boolean originalKey) {
+    this.originKeyInitialized.set(Boolean.TRUE);
+    this.originalKey.set(originalKey);
   }
 
   //with index page

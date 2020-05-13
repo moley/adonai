@@ -47,6 +47,12 @@ public class MainController extends AbstractController {
   public HBox panHeader;
   public BorderPane border;
   public ComboBox<ScopeItem> cboScope;
+  public HBox panSongInfos;
+  public Label lblLeadVoice;
+  public Label lblTitle;
+  public Label lblId;
+  public Button btnTransposedKey;
+  public Button btnOriginalKey;
 
   private ScreenManager screenManager = new ScreenManager();
 
@@ -57,6 +63,24 @@ public class MainController extends AbstractController {
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
+
+    btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        getApplicationEnvironment().setShowOriginalKey(false);
+        btnTransposedKey.setStyle("-fx-background-color:yellow");
+        btnOriginalKey.setStyle("");
+        reloadEditor();
+      }
+    });
+    btnOriginalKey.setOnAction(new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        getApplicationEnvironment().setShowOriginalKey(true);
+        btnOriginalKey.setStyle("-fx-background-color:yellow");
+        btnTransposedKey.setStyle("");
+        reloadEditor();
+      }
+    });
+
     cboScope.setCellFactory(cellFactory -> new ScopeItemCellRenderer());
     cboScope.setConverter(new ScopeItemStringConverter());
     cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
@@ -185,8 +209,21 @@ public class MainController extends AbstractController {
     List<Song> songsOfCurrentScope = getApplicationEnvironment().getSongsOfCurrentScope();
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
+    exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
+    exportConfiguration.setWithTitle(false);
+
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
-    SongEditor root = new SongEditor(exporter.getPanes(), getApplicationEnvironment());
+    SongEditor root = new SongEditor(exporter.getPanes());
+    root.currentSongProperty().addListener(new ChangeListener<Song>() {
+      @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+        getApplicationEnvironment().setCurrentSong(newValue);
+        lblId.setText(String.valueOf(newValue.getId()));
+        lblTitle.setText(newValue.getTitle() != null ? newValue.getTitle(): "");
+        lblLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
+        btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
+        btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
+      }
+    });
     border.setCenter(root);
     root.show();
   }

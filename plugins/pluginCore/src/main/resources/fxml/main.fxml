@@ -10,34 +10,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <BorderPane fx:id="border" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.adonai.fx.main.MainController" style="-fx-background-color: #FFFFFF;">
+            fx:controller="org.adonai.fx.main.MainController" style="-fx-background-color: #BBBBBB;">
 
     <top>
         <HBox fx:id="panHeader" fillHeight="true">
-            <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity">
+            <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity" styleClass="scopeChooser">
                 <HBox.margin>
                     <Insets>
                         <right>40</right>
                     </Insets>
                 </HBox.margin>
             </ComboBox>
-            <HBox fx:id="panSongInfos" maxHeight="Infinity">
+            <HBox spacing="5" fx:id="panSongInfos" maxHeight="Infinity" alignment="CENTER" maxWidth="600" minWidth="600">
                 <HBox.margin>
                     <Insets>
                         <right>40</right>
                     </Insets>
                 </HBox.margin>
-
+                <Label fx:id="lblId" styleClass="id"></Label>
+                <Label fx:id="lblTitle" styleClass="title"></Label>
             </HBox>
 
-            <Label fx:id="lblSongInfo" userData="mainpage.lblCurrentType"
-                   HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity" text="03 - HELLO SONGTITLE"  >
-                <HBox.margin>
-                    <Insets>
-                        <right>40</right>
-                    </Insets>
-                </HBox.margin>
-            </Label>
             <ButtonBar>
                 <buttons>
                     <Button fx:id="btnPlayerBeginning"></Button>
@@ -53,6 +46,17 @@
                     </Insets>
                 </HBox.margin>
             </ButtonBar>
+            <HBox spacing="5" fx:id="panSongDetails" maxHeight="Infinity" alignment="CENTER">
+                <HBox.margin>
+                    <Insets>
+                        <right>40</right>
+                    </Insets>
+                </HBox.margin>
+                <Label fx:id="lblLeadVoice" styleClass="leadVoice"></Label>
+                <Button fx:id="btnOriginalKey" styleClass="chordButton"></Button>
+                <Button fx:id="btnTransposedKey" styleClass="chordButton"></Button>
+
+            </HBox>
             <Pane HBox.hgrow="ALWAYS"/>
             <MenuButton fx:id="btnMainActions" userData="mainpage.btnMainActions"/>
         </HBox>

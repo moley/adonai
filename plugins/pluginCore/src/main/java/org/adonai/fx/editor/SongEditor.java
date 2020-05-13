@@ -2,6 +2,8 @@ package org.adonai.fx.editor;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -13,9 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import org.adonai.ApplicationEnvironment;
 import org.adonai.DateUtil;
 import org.adonai.export.presentation.Page;
+import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,14 +35,17 @@ public class SongEditor extends VBox {
 
   private int currentIndex = 0;
 
+  private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
+
   //private Metronome metronome = new Metronome();
 
-  private ApplicationEnvironment applicationEnvironment;
-
-  public SongEditor(final List<Page> pages, ApplicationEnvironment applicationEnvironment) {
-    this.applicationEnvironment = applicationEnvironment;
+  public SongEditor(final List<Page> pages) {
     this.panes = pages;
     currentIndex = 0;
+  }
+
+  public ObjectProperty<Song> currentSongProperty () {
+    return currentSongProperty;
   }
 
   private void disableAndRemove() {
@@ -60,7 +65,7 @@ public class SongEditor extends VBox {
     if (currentIndex + 1 < panes.size())
       rightPane.getChildren().add(panes.get(currentIndex + 1).getPane());
 
-    applicationEnvironment.setCurrentSong(panes.get(currentIndex).getSong());
+    currentSongProperty.set(panes.get(currentIndex).getSong());
 
     if (!leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(true);
