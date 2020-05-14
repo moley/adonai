@@ -3,6 +3,8 @@ package org.adonai.export.presentation;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import org.adonai.SizeInfo;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportEngine;
@@ -14,8 +16,9 @@ public class PresentationExporter implements Exporter {
 
   private PresentationDocumentBuilder presentationDocumentBuilder;
 
-  public PresentationExporter (final SizeInfo sizeInfo) {
+  public PresentationExporter (final SizeInfo sizeInfo, EventHandler<ActionEvent> onSongContentChange) {
     presentationDocumentBuilder = new PresentationDocumentBuilder();
+    presentationDocumentBuilder.setOnSongContentChange(onSongContentChange);
     presentationDocumentBuilder.setSizeInfo(sizeInfo);
   }
 

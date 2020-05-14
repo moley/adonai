@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Button?>
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.adonai.fx.editcontent.EditContentController">
+
+    <TextArea fx:id="txaText" styleClass="editortext"></TextArea>
+    <ButtonBar>
+        <buttons>
+            <Button fx:id="btnSave"></Button>
+            <Button fx:id="btnCancel"></Button>
+        </buttons>
+    </ButtonBar>
+</VBox>

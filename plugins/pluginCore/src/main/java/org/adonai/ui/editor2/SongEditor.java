@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by OleyMa on 22.11.16.
  */
+@Deprecated
 public class SongEditor extends PanelHolder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SongEditor.class);

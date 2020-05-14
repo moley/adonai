@@ -4,16 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -26,9 +24,10 @@ import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenType;
 import org.adonai.export.NewPageStrategy;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
 import org.adonai.fx.UiUtils;
-import org.adonai.fx.editor.TextRenderer;
-import org.adonai.model.SongPart;
+import org.adonai.fx.editcontent.EditContentController;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -45,7 +44,10 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
   private List<Page> pages = new ArrayList<>();
 
-  private TextRenderer textRenderer =  new TextRenderer();
+
+  private EventHandler<ActionEvent> onSongContentChange;
+
+  private MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
 
 
 
@@ -117,32 +119,28 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
             ExportToken exportToken = (ExportToken) text.getUserData();
 
+
+
             LOGGER.info("with type " + exportToken.getExportTokenType());
             if (exportToken != null && exportToken.getSongStructItem() != null) {
               if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE)) {
 
               }
               else {
-                Stage stage = new Stage();
-                stage.initStyle(StageStyle.UNDECORATED);
+                Mask<EditContentController> editContentMask = maskLoader.load("editContent");
+                Stage stage = editContentMask.getStage();
+                EditContentController editContentController = editContentMask.getController();
+                editContentController.setOnSongContentChange(onSongContentChange);
+                editContentController.setStage(stage);
+                editContentController.setExportToken(exportToken);
 
+                //TODO make size of window as big as size of text (no scrolling necessary)
                 Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
                 stage.setX(sceneBounds.getMinX());
                 stage.setY(sceneBounds.getMinY());
-                TextArea txaText = new TextArea();
-                txaText.getStyleClass().setAll("editortext");
+                stage.setMinWidth(600);
+                stage.setMinHeight(400);
 
-                SongPart songPart = exportToken.getSong().findSongPart(exportToken.getSongStructItem());
-                txaText.setText(textRenderer.getRenderedText(songPart));
-
-                //TODO resize to text length
-                VBox vBox = new VBox();
-                vBox.getChildren().add(txaText);
-                Scene scene = new Scene(vBox);
-                UiUtils.applyCss(scene);
-                stage.setScene(scene);
-
-                UiUtils.hideOnEsc(stage);
                 stage.showAndWait();
               }
             }
@@ -197,5 +195,11 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     return pages;
   }
 
+  public EventHandler<ActionEvent> getOnSongContentChange() {
+    return onSongContentChange;
+  }
 
+  public void setOnSongContentChange(EventHandler<ActionEvent> onSongContentChange) {
+    this.onSongContentChange = onSongContentChange;
+  }
 }

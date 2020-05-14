@@ -201,7 +201,11 @@ public class MainController extends AbstractController {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(border.getWidth(), border.getHeight() - 200);
-    PresentationExporter exporter = new PresentationExporter(sizeInfo);
+    PresentationExporter exporter = new PresentationExporter(sizeInfo, new EventHandler<ActionEvent>() {
+      @Override public void handle(ActionEvent event) {
+        reloadEditor();
+      }
+    });
 
     Configuration configuration = getApplicationEnvironment().getCurrentConfiguration();
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);

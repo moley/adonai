@@ -77,7 +77,7 @@ public class TextfileReader {
         LOGGER.info("- added songstructitem for part " + songStructItem.getPartId());
         continue;
       } else if (currentSongPart == null) {
-        if (song.getTitle() == null) { //No title set, seems to be title
+        if (textfileReaderParam.isWithTitle() && song.getTitle() == null) { //No title set, seems to be title
           song.setTitle(next.toUpperCase());
           LOGGER.info ("- set title to " + song.getTitle());
           continue;

@@ -15,26 +15,30 @@ public class TextRenderer {
       String chordLine = "";
       String textLine = "";
       for (LinePart nextPart: line.getLineParts()) {
+
+        //if not the first one and chord line is not shorter than text line then we have to add
+        //a space because else the chords are merged together when creating model from it again
+        /**if (! chordLine.isEmpty() && ! textLine.isEmpty()) {
+          if (chordLine.length() == textLine.length()) {
+            chordLine += " ";
+            textLine += "";
+          }
+        }**/
         if (nextPart.getText() != null)
           textLine += nextPart.getText();
 
         if (nextPart.getChord() != null)
           chordLine += nextPart.getChord();
 
-        int additionalSpaceChor = (nextPart.getText() != null && nextPart.getChord() != null ? nextPart.getText().length() - nextPart.getChord().length(): nextPart.getText().length());
-        if (additionalSpaceChor > 0) {
-          chordLine += StringUtils.spaces(additionalSpaceChor);
-        }
-        else if (additionalSpaceChor < 0) {
-          chordLine += StringUtils.spaces( - additionalSpaceChor);
-        }
+        String chord = nextPart.getChord() != null ? nextPart.getChord(): "";
+        String text = nextPart.getText();
 
-        if (nextPart.getText().trim().isEmpty() && nextPart.getChord() != null) {
-          chordLine += " ";
-          textLine += " ";
-        }
+        int longest = Integer.max(chord.length(), text.length());
+        if (longest == chord.length())
+          longest = longest +1;
 
-
+        chordLine += StringUtils.spaces(longest - chord.length());
+        textLine += StringUtils.spaces(longest - text.length());
       }
       lines.add(chordLine);
       lines.add(textLine);

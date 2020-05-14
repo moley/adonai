@@ -15,7 +15,7 @@ public class MaskLoader<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
-  public Mask<T> load (ApplicationEnvironment applicationEnvironment, final String name) {
+  public Mask<T> load (final String name) {
     LOGGER.info("Loading mask '" + name + "'");
     Mask<T> mask = new Mask<T>();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
@@ -39,9 +39,6 @@ public class MaskLoader<T extends AbstractController> {
           UiUtils.close(stage);
         }
       });
-
-      controller.setApplicationEnvironment(applicationEnvironment);
-
 
 
       return mask;
