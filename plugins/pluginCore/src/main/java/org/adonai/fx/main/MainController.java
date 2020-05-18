@@ -6,14 +6,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.api.MainAction;
@@ -22,10 +25,14 @@ import org.adonai.export.presentation.PresentationDocumentBuilder;
 import org.adonai.export.presentation.PresentationExporter;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
 import org.adonai.fx.editor.SongEditor;
 import org.adonai.fx.renderer.ScopeItemCellRenderer;
 import org.adonai.fx.renderer.ScopeItemStringConverter;
+import org.adonai.fx.scope.ScopeController;
+import org.adonai.fx.songstructure.SongStructureController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
@@ -83,10 +90,38 @@ public class MainController extends AbstractController {
 
     cboScope.setCellFactory(cellFactory -> new ScopeItemCellRenderer());
     cboScope.setConverter(new ScopeItemStringConverter());
+
+    cboScope.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+          event.consume();
+
+          ScopeItem selectedScopeItem = cboScope.getSelectionModel().getSelectedItem();
+          log.info("Double ckick on scope loads scope mask");
+          MaskLoader<ScopeController> scopeMaskLoader = new MaskLoader<ScopeController>();
+          Mask<ScopeController> scopeMask = scopeMaskLoader.load("scope");
+          Stage stage = scopeMask.getStage();
+          ScopeController songStructureController = scopeMask.getController();
+          songStructureController.setApplicationEnvironment(getApplicationEnvironment());
+          songStructureController.setSongList(selectedScopeItem.resolveSongs(getApplicationEnvironment().getCurrentSongBook()));
+          songStructureController.setScopeItem(selectedScopeItem);
+
+          //TODO make size of window as big as size of text (no scrolling necessary)
+          Bounds sceneBounds = cboScope.localToScene(cboScope.getBoundsInLocal());
+          stage.setX(sceneBounds.getMaxX() + 30);
+          stage.setY(sceneBounds.getMaxY() + 30);
+          stage.setMinWidth(1200);
+          stage.setMinHeight(800);
+
+          stage.showAndWait();
+        }
+      }
+    });
     cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
       @Override public void changed(ObservableValue<? extends ScopeItem> observable, ScopeItem oldValue, ScopeItem newValue) {
         getApplicationEnvironment().setCurrentScopeItem(newValue);
         reloadEditor();
+
       }
     });
 
@@ -201,7 +236,7 @@ public class MainController extends AbstractController {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(border.getWidth(), border.getHeight() - 200);
-    PresentationExporter exporter = new PresentationExporter(sizeInfo, new EventHandler<ActionEvent>() {
+    PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         reloadEditor();
       }
@@ -214,7 +249,9 @@ public class MainController extends AbstractController {
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
     exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
-    exportConfiguration.setWithTitle(false);
+    exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithKeys(false);
+    exportConfiguration.setWithLead(false);
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
     SongEditor root = new SongEditor(exporter.getPanes());

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
@@ -18,6 +20,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
 import org.adonai.export.ExportConfiguration;
@@ -28,6 +32,8 @@ import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.UiUtils;
 import org.adonai.fx.editcontent.EditContentController;
+import org.adonai.fx.songdetails.SongDetailsController;
+import org.adonai.fx.songstructure.SongStructureController;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -47,10 +53,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
   private EventHandler<ActionEvent> onSongContentChange;
 
-  private MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
-
-
-
+  private ApplicationEnvironment applicationEnvironment;
 
   @Override public SizeInfo getSize(String text, ExportTokenType exportTokenType) {
     Text txtAsText = new Text(text);
@@ -122,11 +125,53 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
 
             LOGGER.info("with type " + exportToken.getExportTokenType());
-            if (exportToken != null && exportToken.getSongStructItem() != null) {
-              if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE)) {
+            if (exportToken != null) {
+              if (exportToken.getExportTokenType().equals(ExportTokenType.TITLE)) {
+                MaskLoader<SongDetailsController> songdetailsMaskLoader = new MaskLoader<SongDetailsController>();
+                Mask<SongDetailsController> songdetailsMask = songdetailsMaskLoader.load("songdetails");
+                Stage stage = songdetailsMask.getStage();
+                SongDetailsController songDetailsController = songdetailsMask.getController();
+                songDetailsController.setStage(stage);
+                songDetailsController.setConfiguration(applicationEnvironment.getCurrentConfiguration());
+                songDetailsController.setCurrentSong(applicationEnvironment.getCurrentSong());
+                songDetailsController.setOnSongContentChange(onSongContentChange);
+                songDetailsController.loadData();
+
+                //TODO make size of window as big as size of text (no scrolling necessary)
+                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
+                stage.setX(sceneBounds.getMinX());
+                stage.setY(sceneBounds.getMinY());
+                stage.setMinWidth(600);
+                stage.setMinHeight(400);
+
+                stage.showAndWait();
 
               }
-              else {
+              else if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE) && exportToken.getSongStructItem() != null) {
+                MaskLoader<SongStructureController> songstructureMaskLoader = new MaskLoader<SongStructureController>();
+                Mask<SongStructureController> songstructureMask = songstructureMaskLoader.load("songstructure");
+                Stage stage = songstructureMask.getStage();
+                SongStructureController songStructureController = songstructureMask.getController();
+                songStructureController.setSong(getApplicationEnvironment().getCurrentSong());
+                songStructureController.loadData();
+
+                //TODO make size of window as big as size of text (no scrolling necessary)
+                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
+                stage.setX(sceneBounds.getMinX());
+                stage.setY(sceneBounds.getMinY());
+                stage.setMinWidth(600);
+                stage.setMinHeight(400);
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                  @Override public void handle(WindowEvent event) {
+                    onSongContentChange.handle(new ActionEvent());
+                  }
+                });
+
+                stage.showAndWait();
+
+              }
+              else if (exportToken.getSongStructItem() != null) {
+                MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
                 Mask<EditContentController> editContentMask = maskLoader.load("editContent");
                 Stage stage = editContentMask.getStage();
                 EditContentController editContentController = editContentMask.getController();
@@ -201,5 +246,13 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
   public void setOnSongContentChange(EventHandler<ActionEvent> onSongContentChange) {
     this.onSongContentChange = onSongContentChange;
+  }
+
+  public ApplicationEnvironment getApplicationEnvironment() {
+    return applicationEnvironment;
+  }
+
+  public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
+    this.applicationEnvironment = applicationEnvironment;
   }
 }

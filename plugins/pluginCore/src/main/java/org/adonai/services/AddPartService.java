@@ -8,6 +8,8 @@ import org.adonai.model.SongStructItem;
 
 public class AddPartService {
 
+  private SongRepairer songRepairer = new SongRepairer();
+
 
   /**
    * add a complete song part to a song
@@ -36,6 +38,8 @@ public class AddPartService {
 
     newStructItem.setPartId(newSongpart.getId());
     song.getStructItems().add(index , newStructItem);
+
+    songRepairer.repairSong(songCursor.getCurrentSong());
 
     return newStructItem;
   }
@@ -68,22 +72,9 @@ public class AddPartService {
     newStructItem.setPartId(newSongpart.getId());
     song.getStructItems().add(index + 1, newStructItem);
 
+    songRepairer.repairSong(songCursor.getCurrentSong());
+
     return newStructItem;
   }
 
-  /**
-   * adds a complete song part to the end of the song
-   * @param song song
-   * @return  new structitem
-   */
-  public SongStructItem addPart (final Song song) {
-    SongStructItem newStructItem = new SongStructItem();
-    SongPart newSongpart = new SongPart();
-    newSongpart.setId(UUID.randomUUID().toString());
-    newSongpart.newLine();
-    newStructItem.setPartId(newSongpart.getId());
-    song.getStructItems().add(newStructItem);
-    song.getSongParts().add(newSongpart);
-    return newStructItem;
-  }
 }

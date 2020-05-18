@@ -25,7 +25,7 @@ public class LiveAction {
   public void startLiveSession (Configuration configuration, Collection<Song> songs, String name) {
 
     SizeInfo sizeInfo = new SizeInfo(Consts.getDefaultWidth(), Consts.getDefaultHeight());
-    PresentationExporter exporter = new PresentationExporter(sizeInfo, null);
+    PresentationExporter exporter = new PresentationExporter(null, sizeInfo, null);
 
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 

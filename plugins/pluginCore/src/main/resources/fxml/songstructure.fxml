@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.adonai.fx.songstructure.SongStructureController" hgap="5" vgap="5">
+    <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="90"/>
+        <ColumnConstraints percentWidth="10"/>
+    </columnConstraints>
+
+    <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="CENTER" spacing="5">
+
+        <Button fx:id="btnAddBefore"></Button>
+        <Button fx:id="btnMoveUp"></Button>
+        <Button fx:id="btnRemove"></Button>
+        <Button fx:id="btnMoveDown"></Button>
+        <Button fx:id="btnAddAfter"></Button>
+
+
+    </VBox>
+    <!--<ButtonBar GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+        <buttons>
+            <Button fx:id="btnSave" text="Save"></Button>
+            <Button fx:id="btnCancel"  text="Cancel"></Button>
+        </buttons>
+    </ButtonBar>-->
+</GridPane>

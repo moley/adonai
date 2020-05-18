@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import org.adonai.fx.Consts;
+import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
@@ -48,5 +49,14 @@ public class ScopeItem  {
 
   public void setIcon(Node icon) {
     this.icon = icon;
+  }
+
+  public List<Song> resolveSongs (final SongBook songBook) {
+    List<Song> resolved = new ArrayList<>();
+    for (Integer next: songs) {
+      resolved.add(songBook.findSong(next));
+    }
+
+    return resolved;
   }
 }

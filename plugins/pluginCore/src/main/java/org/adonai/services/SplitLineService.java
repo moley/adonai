@@ -19,6 +19,9 @@ public class SplitLineService {
    */
   public LinePart splitLine (final SongCursor songCursor) {
     SongPart currentSongPart = songCursor.getCurrentSongPart();
+    if (currentSongPart == null)
+      throw new IllegalStateException("Current song part must not be null");
+
     Line currentLine = songCursor.getCurrentLine();
     LinePart currentLinePart = songCursor.getCurrentLinePart();
     Integer posInCurrentLinePart = songCursor.getPositionInLinePart();

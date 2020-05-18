@@ -23,8 +23,17 @@ public class ExportConfiguration {
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withChordsInitialized = new SimpleBooleanProperty(false);
 
+  private SimpleBooleanProperty withId = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty withIdInitialized = new SimpleBooleanProperty(false);
+
   private SimpleBooleanProperty withTitle = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withTitleInitialized = new SimpleBooleanProperty(false);
+
+  private SimpleBooleanProperty withKeys = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty withKeysInitialized = new SimpleBooleanProperty(false);
+
+  private SimpleBooleanProperty withLead = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty withLeadInitialized = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withContentPage = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withContentPageInitialized = new SimpleBooleanProperty(false);
@@ -145,6 +154,28 @@ public class ExportConfiguration {
     this.withContentPage.set(withContentPage);
   }
 
+  //with id
+  public Boolean getWithId() {
+    return withId.getValue();
+  }
+
+  public boolean isWithIdInitialized () {
+    return withIdInitialized.get();
+  }
+
+  public SimpleBooleanProperty withIdInitializedProperty () {
+    return withIdInitialized;
+  }
+
+  public void setWithId(Boolean withId) {
+    this.withIdInitialized.set(Boolean.TRUE);
+    this.withId.setValue(withId);
+  }
+
+  public SimpleBooleanProperty withIdProperty () {
+    return withId;
+  }
+
   //with title
   public Boolean getWithTitle() {
     return withTitle.getValue();
@@ -165,6 +196,50 @@ public class ExportConfiguration {
 
   public SimpleBooleanProperty withTitleProperty () {
     return withTitle;
+  }
+
+  //with keys
+  public Boolean getWithKeys() {
+    return withKeys.getValue();
+  }
+
+  public boolean isWithKeysInitialized () {
+    return withKeysInitialized.get();
+  }
+
+  public SimpleBooleanProperty withKeysInitializedProperty () {
+    return withKeysInitialized;
+  }
+
+  public void setWithKeys(Boolean withId) {
+    this.withKeysInitialized.set(Boolean.TRUE);
+    this.withKeys.setValue(withId);
+  }
+
+  public SimpleBooleanProperty withKeysProperty () {
+    return withKeys;
+  }
+
+  //with lead
+  public Boolean getWithLead() {
+    return withLead.getValue();
+  }
+
+  public boolean isWithLeadInitialized () {
+    return withLeadInitialized.get();
+  }
+
+  public SimpleBooleanProperty withLeadInitializedProperty () {
+    return withLeadInitialized;
+  }
+
+  public void setWithLead(Boolean withId) {
+    this.withLeadInitialized.set(Boolean.TRUE);
+    this.withLead.setValue(withId);
+  }
+
+  public SimpleBooleanProperty withLeadProperty () {
+    return withLead;
   }
 
   //open preview

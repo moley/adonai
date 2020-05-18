@@ -18,6 +18,10 @@ public class Consts {
   private static final Logger LOGGER = LoggerFactory.getLogger(Consts.class);
 
   public final static int ICON_SIZE_TOOLBAR = 20;
+  public final static int ICON_SIZE_VERY_SMALL = 20;
+  public final static int ICON_SIZE_SMALL = 30;
+  public final static int ICON_SIZE_MEDIUM = 50;
+  public final static int ICON_SIZE_LARGE = 70;
 
   public final static String ADONAI_HOME_PROP = "adonai.home";
 
