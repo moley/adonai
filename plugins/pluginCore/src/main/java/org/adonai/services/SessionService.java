@@ -10,8 +10,18 @@ import java.util.List;
 
 public class SessionService {
 
+  public void addSongAfter (Session session, Song afterSong, Song newSong) {
+
+  }
+
   public void addSong (Session session, Song song) {
     session.getSongs().add(song.getId());
+  }
+  public void removeSong (Session session, Song song) {
+    Integer id = song.getId();
+    if (!session.getSongs().remove(id)) {
+      throw new IllegalStateException("ID " + id + " could not be removed from session " + session);
+    }
   }
 
   public Session newSession (Configuration configuration) {
@@ -19,6 +29,10 @@ public class SessionService {
     session.setName("New session");
     configuration.getSessions().add(session);
     return session;
+  }
+
+  public boolean removeSession (final Configuration configuration, final Session session) {
+    return configuration.getSessions().remove(session);
   }
 
   public List<Song> getSongs (final Session session, final SongBook songBook) {

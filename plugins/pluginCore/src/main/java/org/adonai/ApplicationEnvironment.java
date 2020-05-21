@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.fx.main.ScopeItem;
+import org.adonai.fx.main.ScopeItemProvider;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
@@ -49,6 +50,9 @@ public class ApplicationEnvironment {
   private List<Song> songsOfCurrentScope = new ArrayList<>();
 
   private boolean showOriginalKey = false;
+
+  private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
+
 
   /**
    * constructor
@@ -190,7 +194,7 @@ public class ApplicationEnvironment {
 
     //if id of last shown song is not available in the current scope, then start at the beginning
     if (currentSong == null || ! currentScopeItem.getSongs().contains(currentSong.getId())) {
-      this.setCurrentSong(songsOfCurrentScope.get(0));
+      this.setCurrentSong(songsOfCurrentScope.isEmpty() ? null: songsOfCurrentScope.get(0));
     }
 
   }
@@ -201,5 +205,30 @@ public class ApplicationEnvironment {
 
   public void setShowOriginalKey(boolean showOriginalKey) {
     this.showOriginalKey = showOriginalKey;
+  }
+
+  public ScopeItem getScopeItem(Session newSession) {
+    for (ScopeItem next: getAllScopeItems()) {
+      if (next.getSession() != null && next.getSession().equals(newSession))
+        return next;
+    }
+
+    throw new IllegalStateException("Session " + newSession.getName() + " not found");
+
+
+  }
+
+  public ScopeItem getScopeItem(SongBook songbook) {
+    for (ScopeItem next: getAllScopeItems()) {
+      if (next.getSongBook() != null && next.getSongBook().equals(songbook))
+        return next;
+    }
+
+    throw new IllegalStateException("Songbook " + songbook + " not found");
+
+  }
+
+  public List<ScopeItem> getAllScopeItems () {
+    return scopeItemProvider.getScopeItems(getCurrentConfiguration());
   }
 }

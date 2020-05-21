@@ -1,10 +1,10 @@
 package org.adonai.model;
 
 public enum AdditionalType {
-  BACKGROUND("fa-file-photo-o"),
-  AUDIO("fa-file-audio-o"),
-  VIDEO("fa-file-video-o"),
-  TEXT("fa-file-text-o");
+  BACKGROUND("far-images"),
+  AUDIO("far-file-audio"),
+  VIDEO("far-file-audio"),
+  TEXT("far-file-alt");
 
   String iconName;
 

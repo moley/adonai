@@ -2,6 +2,7 @@ package org.adonai.fx.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import org.adonai.fx.Consts;
 import org.adonai.model.Configuration;
@@ -17,10 +18,31 @@ public class ScopeItem  {
 
   private List<Integer> songs = new ArrayList<Integer>();
 
+  private final Session session;
+
+  private final SongBook songBook;
+
+  private final Song song;
+
+  private final ScopeItem parentItem;
+
+  public ScopeItem (ScopeItem parentItem, Song song) {
+    name = song.getId() + " - " + song.getName();
+    icon = Consts.createIcon("fas-church", Consts.ICON_SIZE_TOOLBAR); //TODO
+    this.session = null;
+    this.songBook = null;
+    this.song = song;
+    this.parentItem = parentItem;
+  }
+
   public ScopeItem (Session session) {
-    name = session.getName();
+    name = "Session '" + session.getName() + "'";
     icon = Consts.createIcon("fas-church", Consts.ICON_SIZE_TOOLBAR);
     songs.addAll(session.getSongs());
+    this.session = session;
+    this.songBook = null;
+    this.song = null;
+    this.parentItem = null;
   }
 
   public ScopeItem (SongBook songBook) {
@@ -29,6 +51,17 @@ public class ScopeItem  {
     for (Song next: songBook.getSongs()) {
       songs.add(next.getId());
     }
+    this.songBook = songBook;
+    this.session = null;
+    this.song = null;
+    this.parentItem = null;
+  }
+
+  public StringProperty nameProperty () {
+    if (session != null)
+      return session.getNameProperty();
+    else
+      return null;
   }
 
   public String getName() {
@@ -58,5 +91,25 @@ public class ScopeItem  {
     }
 
     return resolved;
+  }
+
+  public Session getSession() {
+    return session;
+  }
+
+  public SongBook getSongBook() {
+    return songBook;
+  }
+
+  public String toString () {
+    return getName();
+  }
+
+  public Song getSong() {
+    return song;
+  }
+
+  public ScopeItem getParentItem() {
+    return parentItem;
   }
 }

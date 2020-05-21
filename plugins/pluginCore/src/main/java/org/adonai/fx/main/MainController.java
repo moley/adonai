@@ -32,7 +32,6 @@ import org.adonai.fx.editor.SongEditor;
 import org.adonai.fx.renderer.ScopeItemCellRenderer;
 import org.adonai.fx.renderer.ScopeItemStringConverter;
 import org.adonai.fx.scope.ScopeController;
-import org.adonai.fx.songstructure.SongStructureController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
@@ -66,7 +65,6 @@ public class MainController extends AbstractController {
   private Mp3Player mp3Player = new Mp3Player();
 
 
-  private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
@@ -103,8 +101,7 @@ public class MainController extends AbstractController {
           Stage stage = scopeMask.getStage();
           ScopeController songStructureController = scopeMask.getController();
           songStructureController.setApplicationEnvironment(getApplicationEnvironment());
-          songStructureController.setSongList(selectedScopeItem.resolveSongs(getApplicationEnvironment().getCurrentSongBook()));
-          songStructureController.setScopeItem(selectedScopeItem);
+          songStructureController.loadData();
 
           //TODO make size of window as big as size of text (no scrolling necessary)
           Bounds sceneBounds = cboScope.localToScene(cboScope.getBoundsInLocal());
@@ -195,7 +192,7 @@ public class MainController extends AbstractController {
 
 
   private void reloadScopeCombobox() {
-    cboScope.setItems(FXCollections.observableArrayList(scopeItemProvider.getScopeItems(getApplicationEnvironment().getCurrentConfiguration())));
+    cboScope.setItems(FXCollections.observableArrayList(getApplicationEnvironment().getAllScopeItems()));
     if (cboScope.getSelectionModel().isEmpty())
       cboScope.getSelectionModel().selectFirst();
   }
