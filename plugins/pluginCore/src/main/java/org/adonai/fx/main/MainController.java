@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -59,15 +60,26 @@ public class MainController extends AbstractController {
   public Label lblId;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
+  public Button btnScope;
+  public Button btnLive;
 
   private ScreenManager screenManager = new ScreenManager();
 
   private Mp3Player mp3Player = new Mp3Player();
 
+  private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<ScopeController>();
+  private Mask<ScopeController> maskScope;
+
 
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
+    btnScope.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
+    btnScope.setTooltip(new Tooltip("Admin structure"));
+    btnLive.setGraphic(Consts.createIcon("fas-guitar", Consts.ICON_SIZE_TOOLBAR));
+    btnLive.setTooltip(new Tooltip("Live"));
+    btnScope.setOnAction(event -> reloadScope());
+    btnLive.setOnAction(event -> reloadEditor());
 
     btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -229,6 +241,15 @@ public class MainController extends AbstractController {
 
   }
 
+  private void reloadScope () {
+    if (maskScope == null)
+      maskScope = maskLoaderScope.load("scope");
+    ScopeController scopeController = maskScope.getController();
+    scopeController.setApplicationEnvironment(getApplicationEnvironment());
+    scopeController.loadData();
+    border.setCenter(maskScope.getRoot());
+  }
+
   private void reloadEditor() {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
@@ -251,8 +272,8 @@ public class MainController extends AbstractController {
     exportConfiguration.setWithLead(false);
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
-    SongEditor root = new SongEditor(exporter.getPanes());
-    root.currentSongProperty().addListener(new ChangeListener<Song>() {
+    SongEditor songeditorRoot = new SongEditor(exporter.getPanes());
+    songeditorRoot.currentSongProperty().addListener(new ChangeListener<Song>() {
       @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
         getApplicationEnvironment().setCurrentSong(newValue);
         lblId.setText(String.valueOf(newValue.getId()));
@@ -262,8 +283,8 @@ public class MainController extends AbstractController {
         btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
       }
     });
-    border.setCenter(root);
-    root.show();
+    border.setCenter(songeditorRoot);
+    songeditorRoot.show();
   }
 
 
@@ -271,7 +292,7 @@ public class MainController extends AbstractController {
     super.setApplicationEnvironment(applicationEnvironment);
 
     reloadScopeCombobox();
-    reloadEditor();
+    reloadScope();
     reloadActionMenu();
 
 

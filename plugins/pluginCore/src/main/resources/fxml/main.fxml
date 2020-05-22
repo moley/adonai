@@ -14,17 +14,25 @@
 
     <top>
         <HBox fx:id="panHeader" fillHeight="true">
+            <Button fx:id="btnScope"></Button>
+            <Button fx:id="btnLive">
+                <HBox.margin>
+                    <Insets>
+                        <right>20</right>
+                    </Insets>
+                </HBox.margin>
+            </Button>
             <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity" styleClass="scopeChooser">
                 <HBox.margin>
                     <Insets>
-                        <right>40</right>
+                        <right>20</right>
                     </Insets>
                 </HBox.margin>
             </ComboBox>
             <HBox spacing="5" fx:id="panSongInfos" maxHeight="Infinity" alignment="CENTER" maxWidth="600" minWidth="600">
                 <HBox.margin>
                     <Insets>
-                        <right>40</right>
+                        <right>20</right>
                     </Insets>
                 </HBox.margin>
                 <Label fx:id="lblId" styleClass="id"></Label>
@@ -42,14 +50,14 @@
                 </buttons>
                 <HBox.margin>
                     <Insets>
-                        <right>40</right>
+                        <right>20</right>
                     </Insets>
                 </HBox.margin>
             </ButtonBar>
             <HBox spacing="5" fx:id="panSongDetails" maxHeight="Infinity" alignment="CENTER">
                 <HBox.margin>
                     <Insets>
-                        <right>40</right>
+                        <right>20</right>
                     </Insets>
                 </HBox.margin>
                 <Label fx:id="lblLeadVoice" styleClass="leadVoice"></Label>

@@ -39,14 +39,12 @@ public class ScopeController extends AbstractController {
 
   private SessionService sessionService = new SessionService();
 
-
-  @FXML
-  public void initialize () {
+  @FXML public void initialize() {
     btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAdd.setOnAction(action -> add());
 
     btnMoveUp.setGraphic(Consts.createIcon("fas-angle-up", Consts.ICON_SIZE_VERY_SMALL));
-    btnMoveUp.setOnAction(action-> moveUp());
+    btnMoveUp.setOnAction(action -> moveUp());
 
     btnRemove.setGraphic(Consts.createIcon("fas-trash", Consts.ICON_SIZE_VERY_SMALL));
     btnRemove.setOnAction(action -> remove());
@@ -54,15 +52,17 @@ public class ScopeController extends AbstractController {
     btnMoveDown.setGraphic(Consts.createIcon("fas-angle-down", Consts.ICON_SIZE_VERY_SMALL));
     btnMoveDown.setOnAction(action -> moveDown());
 
-    treScope.setShowRoot(false);
+    treScope.setShowRoot(true);
     treScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<ScopeItem>>() {
       @Override public void changed(ObservableValue<? extends TreeItem<ScopeItem>> observable,
           TreeItem<ScopeItem> oldValue, TreeItem<ScopeItem> newValue) {
         if (newValue != null) {
           ScopeItem scopeItem = newValue.getValue();
-          boolean songInSessionSelected = scopeItem.getSong() != null && scopeItem.getParentItem().getSession() != null;
+          boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
+              .getSession() != null;
           btnMoveDown.setVisible(songInSessionSelected);
           btnMoveUp.setVisible(songInSessionSelected);
+
         }
       }
     });
@@ -71,53 +71,59 @@ public class ScopeController extends AbstractController {
 
   private void add() {
 
-    TreeItem<ScopeItem> treeItem = treScope.getSelectionModel().getSelectedItem();
-    ScopeItem scopeItem = treeItem.getValue();
+    ScopeItem scopeItem = getSelectedScopeItem();
+    if (scopeItem == null) { //Root
+      sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
+      loadData();
+    } else {
 
-    //Select song in session or session itself
-    Session session = getSession(scopeItem);
-    if (session != null) {
-      log.info("addBefore in session " + session.getName());
-      SelectAction<Song> selectSong = new SelectAction<Song>(getApplicationEnvironment());
-      List<Song> allSongs = getApplicationEnvironment().getCurrentSongBook().getSongs();
-      selectSong.open(allSongs, 0.0, 0.0, new SongCellFactory(), new EventHandler<WindowEvent>() {
-        @Override public void handle(WindowEvent event) {
-          Song selectedSong = selectSong.getSelectedItem();
-          log.info("handle window closed in selectsong on " + selectedSong);
-          if (selectedSong != null) {
-            log.info("Add song " + selectedSong.getId() + " to session " + session.getName());
-            ServiceRegistry serviceRegistry = getApplicationEnvironment().getServices();
-            serviceRegistry.getSessionService().addSong(session, selectedSong);
-            loadData();
+      //Select song in session or session itself
+      Session session = getSession(scopeItem);
+      if (session != null) {
+        log.info("addBefore in session " + session.getName());
+        SelectAction<Song> selectSong = new SelectAction<Song>(getApplicationEnvironment());
+        List<Song> allSongs = getApplicationEnvironment().getCurrentSongBook().getSongs();
+        selectSong.open(allSongs, 0.0, 0.0, new SongCellFactory(), new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            Song selectedSong = selectSong.getSelectedItem();
+            log.info("handle window closed in selectsong on " + selectedSong);
+            if (selectedSong != null) {
+              log.info("Add song " + selectedSong.getId() + " to session " + session.getName());
+              ServiceRegistry serviceRegistry = getApplicationEnvironment().getServices();
+              serviceRegistry.getSessionService().addSong(session, selectedSong);
+              loadData();
+            }
           }
-        }
-      });
+        });
+      }
+
+      SongBook songBook = getSongBook(scopeItem);
+      if (songBook != null) {
+        log.info("add() in songbook");
+        SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
+        Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
+        AddSongAction addSongHandler = new AddSongAction();
+        addSongHandler.add(getApplicationEnvironment(), 0.0, 0.0, currentConfiguration, currentSongBook,
+            new EventHandler<WindowEvent>() {
+              @Override public void handle(WindowEvent event) {
+
+                Song song = addSongHandler.getNewSong();
+                log.info("New song " + song + " created");
+                if (song != null) {
+                  AddSongService addSongService = new AddSongService();   //Add new song to songbook
+                  addSongService.addSong(song, currentSongBook);
+                  getApplicationEnvironment().setCurrentSong(song);
+                  loadData();
+                }
+              }
+            });
+
+      }
     }
 
-    SongBook songBook = getSongBook(scopeItem);
-    if (songBook != null) {
-      log.info("add() in songbook");
-      SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
-      Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
-      AddSongAction addSongHandler = new AddSongAction();
-      addSongHandler.add(getApplicationEnvironment(), 0.0, 0.0, currentConfiguration, currentSongBook, new EventHandler<WindowEvent>() {
-        @Override public void handle(WindowEvent event) {
-
-          Song song = addSongHandler.getNewSong();
-          log.info("New song " + song + " created");
-          if (song != null) {
-            AddSongService addSongService = new AddSongService();   //Add new song to songbook
-            addSongService.addSong(song, currentSongBook);
-            getApplicationEnvironment().setCurrentSong(song);
-            loadData();
-          }
-        }
-      });
-
-    }
   }
 
-  private SongBook getSongBook (final ScopeItem scopeItem) {
+  private SongBook getSongBook(final ScopeItem scopeItem) {
     if (scopeItem.getSongBook() != null)
       return scopeItem.getSongBook();
     else if (scopeItem.getParentItem() != null && scopeItem.getParentItem().getSongBook() != null)
@@ -126,11 +132,11 @@ public class ScopeController extends AbstractController {
       return null;
   }
 
-  private Song getSong (final ScopeItem scopeItem) {
+  private Song getSong(final ScopeItem scopeItem) {
     return scopeItem.getSong();
   }
 
-  private Session getSession (final ScopeItem scopeItem) {
+  private Session getSession(final ScopeItem scopeItem) {
     if (scopeItem.getSession() != null)
       return scopeItem.getSession();
     else if (scopeItem.getParentItem() != null && scopeItem.getParentItem().getSession() != null)
@@ -140,12 +146,30 @@ public class ScopeController extends AbstractController {
   }
 
   private void moveUp() {
-    TreeItem treeItem = treScope.getSelectionModel().getSelectedItem();
+    ScopeItem scopeItem = getSelectedScopeItem();
+    Session session = getSession(scopeItem);
+    if (session != null) {
+      sessionService.moveUp(session, scopeItem.getSong());
+    } else
+      throw new IllegalStateException("MoveDown can only be called with a sessioned scope item");
+  }
+
+  private void moveDown() {
+    ScopeItem scopeItem = getSelectedScopeItem();
+    Session session = getSession(scopeItem);
+    if (session != null) {
+      sessionService.moveDown(session, scopeItem.getSong());
+    } else
+      throw new IllegalStateException("MoveDown can only be called with a sessioned scope item");
+  }
+
+  private ScopeItem getSelectedScopeItem() {
+    TreeItem<ScopeItem> treeItem = treScope.getSelectionModel().getSelectedItem();
+    return treeItem != null ? treeItem.getValue() : null;
   }
 
   private void remove() {
-    TreeItem<ScopeItem> treeItem = treScope.getSelectionModel().getSelectedItem();
-    ScopeItem scopeItem = treeItem.getValue();
+    ScopeItem scopeItem = getSelectedScopeItem();
 
     //A session is selected
     if (scopeItem.getSession() != null) {
@@ -171,15 +195,8 @@ public class ScopeController extends AbstractController {
     }
   }
 
-  private void moveDown() {
-    TreeItem treeItem = treScope.getSelectionModel().getSelectedItem();
-  }
-
-  private void addAfter() {
-    TreeItem treeItem = treScope.getSelectionModel().getSelectedItem();
-  }
-
   public void loadData() {
     treScope.setRoot(scopeTreeProvider.getTree(getApplicationEnvironment()));
+    treScope.getRoot().setExpanded(true);
   }
 }

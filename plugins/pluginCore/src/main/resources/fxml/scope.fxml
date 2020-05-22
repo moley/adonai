@@ -15,7 +15,7 @@
         <ColumnConstraints percentWidth="10"/>
     </columnConstraints>
     <TextField fx:id="txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="0"></TextField>
-    <TreeView fx:id="treScope" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <TreeView fx:id="treScope" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
     </TreeView>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" spacing="5">
         <Button fx:id="btnAdd"></Button>

@@ -4,12 +4,71 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.SongBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class SessionServiceTest {
 
   private SessionService sessionService = new SessionService();
+
+  @Test
+  public void moveUpFirst () {
+    Song song1 = SongBuilder.instance().get();
+    Song song2 = SongBuilder.instance().get();
+
+    Session session = new Session();
+    session.getSongs().add(song1.getId());
+    session.getSongs().add(song2.getId());
+
+    sessionService.moveUp(session, song2);
+    Assert.assertEquals (song2.getId(), session.getSongs().get(0));
+    Assert.assertEquals (song1.getId(), session.getSongs().get(1));
+
+  }
+
+  @Test
+  public void moveUpNotFirst () {
+    Song song1 = SongBuilder.instance().get();
+    Song song2 = SongBuilder.instance().get();
+
+    Session session = new Session();
+    session.getSongs().add(song1.getId());
+    session.getSongs().add(song2.getId());
+
+    sessionService.moveUp(session, song1);
+    Assert.assertEquals (song1.getId(), session.getSongs().get(0));
+    Assert.assertEquals (song2.getId(), session.getSongs().get(1));
+
+  }
+
+  @Test
+  public void moveDownLast () {
+    Song song1 = SongBuilder.instance().get();
+    Song song2 = SongBuilder.instance().get();
+
+    Session session = new Session();
+    session.getSongs().add(song1.getId());
+    session.getSongs().add(song2.getId());
+
+    sessionService.moveDown(session, song2);
+    Assert.assertEquals (song1.getId(), session.getSongs().get(0));
+    Assert.assertEquals (song2.getId(), session.getSongs().get(1));
+  }
+
+  @Test
+  public void moveDownNotLast () {
+    Song song1 = SongBuilder.instance().get();
+    Song song2 = SongBuilder.instance().get();
+
+    Session session = new Session();
+    session.getSongs().add(song1.getId());
+    session.getSongs().add(song2.getId());
+
+    sessionService.moveDown(session, song1);
+    Assert.assertEquals (song2.getId(), session.getSongs().get(0));
+    Assert.assertEquals (song1.getId(), session.getSongs().get(1));
+  }
 
   @Test
   public void addSong () {

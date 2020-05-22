@@ -45,4 +45,20 @@ public class SessionService {
     }
     return sessionSongs;
   }
+
+  public void moveUp(Session session, Song song) {
+    Integer songId = song.getId();
+    int oldIndex = session.getSongs().indexOf(songId);
+    session.getSongs().remove(songId);
+    int newIndex = oldIndex > 0 ? oldIndex - 1: 0;
+    session.getSongs().add(newIndex, songId);
+  }
+
+  public void moveDown(Session session, Song song) {
+    Integer songId = song.getId();
+    int oldIndex = session.getSongs().indexOf(songId);
+    session.getSongs().remove(songId);
+    int newIndex = oldIndex < session.getSongs().size() ? oldIndex + 1: session.getSongs().size();
+    session.getSongs().add(newIndex, songId);
+  }
 }
