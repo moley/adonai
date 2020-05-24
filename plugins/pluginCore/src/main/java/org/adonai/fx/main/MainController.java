@@ -50,20 +50,13 @@ public class MainController extends AbstractController {
   public Button btnPlayerPause;
   public Button btnPlayerForward;
   public Button btnPlayerEnd;
-  public Label lblSongInfo;
   public HBox panHeader;
-  public BorderPane border;
+  public BorderPane main;
   public ComboBox<ScopeItem> cboScope;
-  public HBox panSongInfos;
-  public Label lblLeadVoice;
-  public Label lblTitle;
-  public Label lblId;
+  public Button btnLeadVoice;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
   public Button btnScope;
-  public Button btnLive;
-
-  private ScreenManager screenManager = new ScreenManager();
 
   private Mp3Player mp3Player = new Mp3Player();
 
@@ -76,10 +69,7 @@ public class MainController extends AbstractController {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
     btnScope.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
     btnScope.setTooltip(new Tooltip("Admin structure"));
-    btnLive.setGraphic(Consts.createIcon("fas-guitar", Consts.ICON_SIZE_TOOLBAR));
-    btnLive.setTooltip(new Tooltip("Live"));
     btnScope.setOnAction(event -> reloadScope());
-    btnLive.setOnAction(event -> reloadEditor());
 
     btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -113,7 +103,7 @@ public class MainController extends AbstractController {
           Stage stage = scopeMask.getStage();
           ScopeController songStructureController = scopeMask.getController();
           songStructureController.setApplicationEnvironment(getApplicationEnvironment());
-          songStructureController.loadData();
+          songStructureController.loadData(null);
 
           //TODO make size of window as big as size of text (no scrolling necessary)
           Bounds sceneBounds = cboScope.localToScene(cboScope.getBoundsInLocal());
@@ -177,7 +167,7 @@ public class MainController extends AbstractController {
       }
     });
 
-    /**border.setOnKeyReleased(new EventHandler<KeyEvent>() {
+    /**main.setOnKeyReleased(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
         log.info("Event " + event.getCode());
         if (event.getCode().equals(KeyCode.RIGHT)) {
@@ -246,14 +236,14 @@ public class MainController extends AbstractController {
       maskScope = maskLoaderScope.load("scope");
     ScopeController scopeController = maskScope.getController();
     scopeController.setApplicationEnvironment(getApplicationEnvironment());
-    scopeController.loadData();
-    border.setCenter(maskScope.getRoot());
+    scopeController.loadData(null);
+    main.setCenter(maskScope.getRoot());
   }
 
   private void reloadEditor() {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
-    SizeInfo sizeInfo = new SizeInfo(border.getWidth(), border.getHeight() - 200);
+    SizeInfo sizeInfo = new SizeInfo(main.getWidth(), main.getHeight() - 200);
     PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         reloadEditor();
@@ -276,14 +266,12 @@ public class MainController extends AbstractController {
     songeditorRoot.currentSongProperty().addListener(new ChangeListener<Song>() {
       @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
         getApplicationEnvironment().setCurrentSong(newValue);
-        lblId.setText(String.valueOf(newValue.getId()));
-        lblTitle.setText(newValue.getTitle() != null ? newValue.getTitle(): "");
-        lblLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
+        btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
         btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
         btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
       }
     });
-    border.setCenter(songeditorRoot);
+    main.setCenter(songeditorRoot);
     songeditorRoot.show();
   }
 

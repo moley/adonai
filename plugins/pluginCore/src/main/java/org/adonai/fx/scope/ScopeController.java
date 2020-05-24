@@ -73,8 +73,8 @@ public class ScopeController extends AbstractController {
 
     ScopeItem scopeItem = getSelectedScopeItem();
     if (scopeItem == null) { //Root
-      sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
-      loadData();
+      Session newSession = sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
+      loadData(new ScopeItem(newSession));
     } else {
 
       //Select song in session or session itself
@@ -91,7 +91,7 @@ public class ScopeController extends AbstractController {
               log.info("Add song " + selectedSong.getId() + " to session " + session.getName());
               ServiceRegistry serviceRegistry = getApplicationEnvironment().getServices();
               serviceRegistry.getSessionService().addSong(session, selectedSong);
-              loadData();
+              loadData(new ScopeItem(new ScopeItem(session), selectedSong));
             }
           }
         });
@@ -113,7 +113,7 @@ public class ScopeController extends AbstractController {
                   AddSongService addSongService = new AddSongService();   //Add new song to songbook
                   addSongService.addSong(song, currentSongBook);
                   getApplicationEnvironment().setCurrentSong(song);
-                  loadData();
+                  loadData(new ScopeItem(new ScopeItem(songBook), song));
                 }
               }
             });
@@ -150,6 +150,7 @@ public class ScopeController extends AbstractController {
     Session session = getSession(scopeItem);
     if (session != null) {
       sessionService.moveUp(session, scopeItem.getSong());
+      loadData(scopeItem);
     } else
       throw new IllegalStateException("MoveDown can only be called with a sessioned scope item");
   }
@@ -159,6 +160,7 @@ public class ScopeController extends AbstractController {
     Session session = getSession(scopeItem);
     if (session != null) {
       sessionService.moveDown(session, scopeItem.getSong());
+      loadData(scopeItem);
     } else
       throw new IllegalStateException("MoveDown can only be called with a sessioned scope item");
   }
@@ -173,30 +175,49 @@ public class ScopeController extends AbstractController {
 
     //A session is selected
     if (scopeItem.getSession() != null) {
-
       Configuration configuration = getApplicationEnvironment().getCurrentConfiguration();
       Session session = getSession(scopeItem);
       sessionService.removeSession(configuration, session);
-      loadData();
+      loadData(new ScopeItem(session));
 
     } else {  // A song is selected
       Song song = getSong(scopeItem);
       Session session = getSession(scopeItem);
       if (session != null) {
         sessionService.removeSong(session, song);
-        loadData();
+        loadData(new ScopeItem(session));
       }
       SongBook songBook = getSongBook(scopeItem);
       if (songBook != null) {
         RemoveSongService removeSongService = new RemoveSongService();
         removeSongService.removeSong(song, songBook);
-        loadData();
+        loadData(new ScopeItem(songBook));
       }
     }
   }
 
-  public void loadData() {
+  public void loadData(ScopeItem selectedScopeItem) {
+    String selectedId = (selectedScopeItem != null ? selectedScopeItem.getId() : null);
+
     treScope.setRoot(scopeTreeProvider.getTree(getApplicationEnvironment()));
     treScope.getRoot().setExpanded(true);
+
+    if (selectedId != null) {
+      TreeItem<ScopeItem> root = treScope.getRoot();
+
+      for (TreeItem<ScopeItem> firstLevel : root.getChildren()) {
+        if (firstLevel.getValue().getId().equals(selectedId)) {
+          treScope.getSelectionModel().select(firstLevel);
+          break;
+        }
+        for (TreeItem<ScopeItem> secondLevel : firstLevel.getChildren()) {
+          if (secondLevel.getValue().getId().equals(selectedId)) {
+            firstLevel.setExpanded(true);
+            treScope.getSelectionModel().select(secondLevel);
+            break;
+          }
+        }
+      }
+    }
   }
 }

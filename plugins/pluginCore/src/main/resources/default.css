@@ -5,7 +5,6 @@
 .editortext {
     -fx-font-size: 18;
     -fx-font-family: monospaced;
-    -fx-background-color: green
 }
 
 .id {
@@ -23,18 +22,63 @@
 .leadVoice {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
-  -fx-font-weight: bold;
 }
 
 .chordButton {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
-  -fx-font-weight: bold;
 }
 
 .scopeChooser {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
-  -fx-font-weight: bold;
+}
+
+.tree-cell {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+.menu-item {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+
+.combo-box-popup .list-cell {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+.label {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+}
+
+.text-field {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.list-view .list-cell {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+.button {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+#main {
+-fx-background-color: #CCCCCC;
 }
 

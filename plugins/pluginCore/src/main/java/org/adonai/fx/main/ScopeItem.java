@@ -26,6 +26,9 @@ public class ScopeItem  {
 
   private final ScopeItem parentItem;
 
+
+  private final String id;
+
   public ScopeItem (ScopeItem parentItem, Song song) {
     name = song.getId() + " - " + song.getName();
     icon = Consts.createIcon("fas-church", Consts.ICON_SIZE_TOOLBAR); //TODO
@@ -33,6 +36,7 @@ public class ScopeItem  {
     this.songBook = null;
     this.song = song;
     this.parentItem = parentItem;
+    this.id = parentItem.getId() + "_" + song.getId();
   }
 
   public ScopeItem (Session session) {
@@ -43,6 +47,7 @@ public class ScopeItem  {
     this.songBook = null;
     this.song = null;
     this.parentItem = null;
+    this.id = "session " + session.getName();
   }
 
   public ScopeItem (SongBook songBook) {
@@ -55,6 +60,7 @@ public class ScopeItem  {
     this.session = null;
     this.song = null;
     this.parentItem = null;
+    this.id = "songbook";
   }
 
   public StringProperty nameProperty () {
@@ -75,6 +81,11 @@ public class ScopeItem  {
   public List<Integer> getSongs() {
     return songs;
   }
+
+  public String getId() {
+    return id;
+  }
+
 
   public Node getIcon() {
     return icon;
