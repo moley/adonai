@@ -2,7 +2,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.ui.settings.SettingsController" alignment="CENTER" hgap="10" vgap="10" >
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsController" alignment="CENTER" hgap="10" vgap="10" >
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>

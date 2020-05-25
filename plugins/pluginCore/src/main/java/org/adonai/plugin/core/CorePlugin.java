@@ -2,7 +2,6 @@ package org.adonai.plugin.core;
 
 import org.adonai.ApplicationEnvironment;
 import org.adonai.CorePluginIF;
-import org.adonai.app.JavaFxApplication;
 import org.adonai.fx.FxApplication;
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
@@ -23,11 +22,6 @@ public class CorePlugin extends Plugin implements CorePluginIF {
     logger.info("CorePlugin.start()");
   }
 
-  public void execute () {
-
-    JavaFxApplication.setApplicationEnvironment(new ApplicationEnvironment(getWrapper().getPluginManager()));
-    JavaFxApplication.main(new String [0]);
-  }
 
   public void executeApplication () {
     FxApplication.setApplicationEnvironment(new ApplicationEnvironment(getWrapper().getPluginManager()));

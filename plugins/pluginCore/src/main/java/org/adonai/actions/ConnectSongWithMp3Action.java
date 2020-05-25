@@ -6,14 +6,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.ui.ExtensionSelectorController;
 import org.adonai.ui.ExtensionType;
-import org.adonai.ui.Mask;
-import org.adonai.ui.MaskLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +36,7 @@ public class ConnectSongWithMp3Action {
     }
 
     MaskLoader<ExtensionSelectorController> maskLoader = new MaskLoader<>();
-    Mask<ExtensionSelectorController> mask = maskLoader.load(applicationEnvironment, "extensionselector");
+    Mask<ExtensionSelectorController> mask = maskLoader.load( "extensionselector");
     ExtensionSelectorController extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG, configuration);
     Stage stage = mask.getStage();

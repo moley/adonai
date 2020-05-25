@@ -1,4 +1,4 @@
-package org.adonai.ui.settings;
+package org.adonai.fx.settings;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -61,7 +61,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
       }
     });
 
-    btnAddTenant.setGraphic(Consts.createIcon("fa-plus", Consts.ICON_SIZE_VERY_SMALL));
+    btnAddTenant.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAddTenant.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -73,7 +73,7 @@ public class SettingsTenantsController extends AbstractSettingsController {
         lviTenants.getSelectionModel().select(name);
       }
     });
-    btnRemoveTenant.setGraphic(Consts.createIcon("fa-minus", Consts.ICON_SIZE_VERY_SMALL));
+    btnRemoveTenant.setGraphic(Consts.createIcon("fas-minus", Consts.ICON_SIZE_VERY_SMALL));
     btnRemoveTenant.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {

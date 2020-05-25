@@ -2,9 +2,9 @@ package org.adonai.actions;
 
 import javafx.collections.transformation.FilteredList;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
 import org.adonai.model.NamedElement;
-import org.adonai.ui.Mask;
-import org.adonai.ui.MaskLoader;
 import org.adonai.ui.search.SearchController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class SearchAction {
     LOGGER.info("Open searchAction");
 
     MaskLoader<SearchController> maskLoader = new MaskLoader<SearchController>();
-    Mask<SearchController> searchMask = maskLoader.load(applicationEnvironment, "search");
+    Mask<SearchController> searchMask = maskLoader.load("search");
     searchMask.setSize(SEARCHDIALOG_WIDTH, SEARCHDIALOG_HEIGHT);
     searchMask.getController().setFilteredSongList(filteredList);
     searchMask.getController().setPreset(preset);

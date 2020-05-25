@@ -91,31 +91,11 @@ public class MainController extends AbstractController {
     cboScope.setCellFactory(cellFactory -> new ScopeItemCellRenderer());
     cboScope.setConverter(new ScopeItemStringConverter());
 
-    cboScope.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-          event.consume();
+    cboScope.setOnMouseClicked(evenHandler -> {
+        getApplicationEnvironment().setCurrentScopeItem(cboScope.getSelectionModel().getSelectedItem());
+        reloadEditor();
+      });
 
-          ScopeItem selectedScopeItem = cboScope.getSelectionModel().getSelectedItem();
-          log.info("Double ckick on scope loads scope mask");
-          MaskLoader<ScopeController> scopeMaskLoader = new MaskLoader<ScopeController>();
-          Mask<ScopeController> scopeMask = scopeMaskLoader.load("scope");
-          Stage stage = scopeMask.getStage();
-          ScopeController songStructureController = scopeMask.getController();
-          songStructureController.setApplicationEnvironment(getApplicationEnvironment());
-          songStructureController.loadData(null);
-
-          //TODO make size of window as big as size of text (no scrolling necessary)
-          Bounds sceneBounds = cboScope.localToScene(cboScope.getBoundsInLocal());
-          stage.setX(sceneBounds.getMaxX() + 30);
-          stage.setY(sceneBounds.getMaxY() + 30);
-          stage.setMinWidth(1200);
-          stage.setMinHeight(800);
-
-          stage.showAndWait();
-        }
-      }
-    });
     cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
       @Override public void changed(ObservableValue<? extends ScopeItem> observable, ScopeItem oldValue, ScopeItem newValue) {
         getApplicationEnvironment().setCurrentScopeItem(newValue);
@@ -166,30 +146,6 @@ public class MainController extends AbstractController {
         mp3Player.end();
       }
     });
-
-    /**main.setOnKeyReleased(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        log.info("Event " + event.getCode());
-        if (event.getCode().equals(KeyCode.RIGHT)) {
-
-          //TODO scope
-          SongBook songBook = getApplicationEnvironment().getCurrentSongBook();
-          int indexSong = songBook.getSongs().indexOf(getApplicationEnvironment().getCurrentSong());
-          int newIndexSong = indexSong + 1;
-          getApplicationEnvironment().setCurrentSong(songBook.getSongs().get(newIndexSong));
-          log.info("Step to next song: " + getApplicationEnvironment().getCurrentSong().getId());
-          reloadEditor();
-        } else if (event.getCode().equals(KeyCode.LEFT)) {
-          //TODO scope
-          SongBook songBook = getApplicationEnvironment().getCurrentSongBook();
-          int indexSong = songBook.getSongs().indexOf(getApplicationEnvironment().getCurrentSong());
-          int newIndexSong = indexSong - 1;
-          getApplicationEnvironment().setCurrentSong(songBook.getSongs().get(newIndexSong));
-          log.info("Step to next song: " + getApplicationEnvironment().getCurrentSong().getId());
-          reloadEditor();
-        }
-      }
-    });**/
   }
 
 
@@ -223,7 +179,8 @@ public class MainController extends AbstractController {
     for (MainAction nextMainAction: getApplicationEnvironment().getExtensions(MainAction.class)) {
       MenuItem menuItem = new MenuItem();
       menuItem.setText(nextMainAction.getDisplayName());
-      menuItem.setGraphic(Consts.createIcon(nextMainAction.getIconname(), Consts.ICON_SIZE_TOOLBAR));
+      if (nextMainAction.getIconname() != null)
+        menuItem.setGraphic(Consts.createIcon(nextMainAction.getIconname(), Consts.ICON_SIZE_TOOLBAR));
       menuItem.setOnAction(nextMainAction.getEventHandler(getApplicationEnvironment()));
       btnMainActions.getItems().add(menuItem);
     }

@@ -1,5 +1,7 @@
 package org.adonai.actions;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
@@ -9,12 +11,9 @@ import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.ui.Mask;
-import org.adonai.ui.MaskLoader;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
 import org.adonai.ui.select.SelectController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SelectAction<T> {
@@ -35,7 +34,7 @@ public class SelectAction<T> {
     List<T> objectsToAdd = new ArrayList<T>();
     objectsToAdd.addAll(objects);
     MaskLoader<SelectController> maskLoader = new MaskLoader<SelectController>();
-    selectMask = maskLoader.load(applicationEnvironment, "select");
+    selectMask = maskLoader.load( "select");
     selectMask.setSize(SEARCHDIALOG_WIDTH, SEARCHDIALOG_HEIGHT);
     selectMask.getStage().initModality(Modality.APPLICATION_MODAL);
 

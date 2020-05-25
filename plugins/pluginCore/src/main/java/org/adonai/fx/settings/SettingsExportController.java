@@ -1,4 +1,4 @@
-package org.adonai.ui.settings;
+package org.adonai.fx.settings;
 
 import java.io.IOException;
 import java.util.HashMap;

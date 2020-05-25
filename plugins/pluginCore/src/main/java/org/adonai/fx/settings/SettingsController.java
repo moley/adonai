@@ -1,4 +1,4 @@
-package org.adonai.ui.settings;
+package org.adonai.fx.settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.adonai.api.Configuration;
+import org.adonai.fx.AbstractController;
 import org.adonai.model.Model;
-import org.adonai.ui.AbstractController;
 import org.adonai.ui.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class SettingsController extends AbstractController {
     List<Configuration> extensions = getApplicationEnvironment().getExtensions(Configuration.class);
     for (Configuration next : extensions) {
       LOGGER.info("Add configuration mask " + next.getMaskFilename());
-      settingsPanes.add("/screens/" + next.getMaskFilename());
+      settingsPanes.add("/fxml/" + next.getMaskFilename());
     }
 
     for (String next : settingsPanes) {
@@ -72,7 +72,7 @@ public class SettingsController extends AbstractController {
         panes.put(id, root);
         panConfigurationDetails.getChildren().add(root);
         configurations.add(new SettingsItem(id, name, icon));
-      } catch (IOException e) {
+      } catch (Exception e) {
         throw new IllegalStateException("Error loading mask " + next, e);
       }
     }

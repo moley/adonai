@@ -1,10 +1,10 @@
-package org.adonai.ui.settings;
+package org.adonai.fx.settings;
 
 import org.adonai.AdonaiProperties;
+import org.adonai.fx.AbstractController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
-import org.adonai.ui.AbstractController;
 
 public class AbstractSettingsController extends AbstractController {
 

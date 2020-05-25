@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.adonai.Extension;
 import org.adonai.ExtensionIndex;
+import org.adonai.fx.AbstractController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by OleyMa on 15.09.16.
  */
-public class ExtensionSelectorController extends AbstractController{
+public class ExtensionSelectorController extends AbstractController {
 
   @FXML
   ListView<Extension> lviExtensions;

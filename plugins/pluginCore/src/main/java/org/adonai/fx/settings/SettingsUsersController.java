@@ -1,4 +1,4 @@
-package org.adonai.ui.settings;
+package org.adonai.fx.settings;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,7 +46,7 @@ public class SettingsUsersController extends AbstractSettingsController {
     });
     this.lviUsers.getSelectionModel().selectFirst();
 
-    btnAddUser.setGraphic(Consts.createIcon("fa-plus", Consts.ICON_SIZE_VERY_SMALL));
+    btnAddUser.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAddUser.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -60,7 +60,7 @@ public class SettingsUsersController extends AbstractSettingsController {
 
       }
     });
-    btnRemoveUser.setGraphic(Consts.createIcon("fa-minus", Consts.ICON_SIZE_VERY_SMALL));
+    btnRemoveUser.setGraphic(Consts.createIcon("fas-minus", Consts.ICON_SIZE_VERY_SMALL));
     btnRemoveUser.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {

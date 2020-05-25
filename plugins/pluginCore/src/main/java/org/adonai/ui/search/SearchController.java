@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.adonai.fx.AbstractController;
 import org.adonai.model.NamedElement;
-import org.adonai.ui.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
