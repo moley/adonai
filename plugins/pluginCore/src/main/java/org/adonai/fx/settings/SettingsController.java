@@ -21,7 +21,7 @@ import javafx.scene.layout.StackPane;
 import org.adonai.api.Configuration;
 import org.adonai.fx.AbstractController;
 import org.adonai.model.Model;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

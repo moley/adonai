@@ -15,7 +15,6 @@ import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.services.ModelService;
-import org.adonai.services.SessionService;
 import org.pf4j.PluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +44,6 @@ public class ApplicationEnvironment {
 
   private Song currentSong = null;
 
-  private ScopeItem currentScopeItem = null;
-
-  private List<Song> songsOfCurrentScope = new ArrayList<>();
-
   private boolean showOriginalKey = false;
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
@@ -76,6 +71,13 @@ public class ApplicationEnvironment {
    * @return songs of scope item
    */
   public List<Song> getSongsOfCurrentScope () {
+    List<Song> songsOfCurrentScope = new ArrayList<Song>();
+    SongBook currentSongBook = getCurrentSongBook();
+    for (Integer integer: getCurrentScopeItem().getSongs()) {
+      Song song = currentSongBook.findSong(integer);
+      songsOfCurrentScope.add(song);
+    }
+
     return songsOfCurrentScope;
   }
 
@@ -160,6 +162,7 @@ public class ApplicationEnvironment {
   }
 
   public void setCurrentSong(Song currentSong) {
+    LOGGER.info("set current song " + currentSong.getId());
     this.currentSong = currentSong;
   }
 
@@ -176,27 +179,17 @@ public class ApplicationEnvironment {
   }
 
   public ScopeItem getCurrentScopeItem() {
+
+    ScopeItem currentScopeItem = null;
+
+    if (getCurrentSession() != null) {
+      currentScopeItem =  new ScopeItem(getCurrentSession());
+    }
+    else
+      currentScopeItem =  new ScopeItem(getCurrentSongBook());
+
+
     return currentScopeItem;
-  }
-
-  public void setCurrentScopeItem(ScopeItem currentScopeItem) {
-    if (currentScopeItem == null)
-      return;
-
-    this.currentScopeItem = currentScopeItem;
-    this.songsOfCurrentScope.clear();
-
-    SongBook currentSongBook = getCurrentSongBook();
-    for (Integer integer: currentScopeItem.getSongs()) {
-      Song song = currentSongBook.findSong(integer);
-      this.songsOfCurrentScope.add(song);
-    }
-
-    //if id of last shown song is not available in the current scope, then start at the beginning
-    if (currentSong == null || ! currentScopeItem.getSongs().contains(currentSong.getId())) {
-      this.setCurrentSong(songsOfCurrentScope.isEmpty() ? null: songsOfCurrentScope.get(0));
-    }
-
   }
 
   public boolean isShowOriginalKey() {

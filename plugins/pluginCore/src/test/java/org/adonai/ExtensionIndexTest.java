@@ -3,7 +3,7 @@ package org.adonai;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import org.adonai.ui.ExtensionType;
+import org.adonai.fx.ExtensionType;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;

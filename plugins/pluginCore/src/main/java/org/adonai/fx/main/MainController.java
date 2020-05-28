@@ -92,15 +92,15 @@ public class MainController extends AbstractController {
     cboScope.setConverter(new ScopeItemStringConverter());
 
     cboScope.setOnMouseClicked(evenHandler -> {
-        getApplicationEnvironment().setCurrentScopeItem(cboScope.getSelectionModel().getSelectedItem());
+        ScopeItem scopeItem = cboScope.getSelectionModel().getSelectedItem();
+        getApplicationEnvironment().setCurrentSession(scopeItem.getSession());
         reloadEditor();
       });
 
     cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
       @Override public void changed(ObservableValue<? extends ScopeItem> observable, ScopeItem oldValue, ScopeItem newValue) {
-        getApplicationEnvironment().setCurrentScopeItem(newValue);
+        getApplicationEnvironment().setCurrentSession(newValue.getSession());
         reloadEditor();
-
       }
     });
 
@@ -219,7 +219,7 @@ public class MainController extends AbstractController {
     exportConfiguration.setWithLead(false);
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
-    SongEditor songeditorRoot = new SongEditor(exporter.getPanes());
+    SongEditor songeditorRoot = new SongEditor(getApplicationEnvironment(), exporter.getPanes());
     songeditorRoot.currentSongProperty().addListener(new ChangeListener<Song>() {
       @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
         getApplicationEnvironment().setCurrentSong(newValue);

@@ -12,8 +12,8 @@ import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
-import org.adonai.ui.ExtensionSelectorController;
-import org.adonai.ui.ExtensionType;
+import org.adonai.fx.ExtensionSelectorController;
+import org.adonai.fx.ExtensionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

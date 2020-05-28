@@ -101,18 +101,21 @@ task importProdData (type: Copy) {
 }
 
 task installLocal() {
-
   group = 'distribution'
   description = 'Installs the program into my output dir'
-  File outputDir = rootProject.ext.installpath
+  File outputDir = new File (System.getProperty("user.home") + "/programs/adonai")
   File adonaiZip = project(':app').file("build/distributions/adonai.zip")
 
   println "OutputDir = $outputDir.absolutePath"
 
+  doFirst {
+    delete(outputDir)
+  }
+
   doLast {
     copy {
       from zipTree(adonaiZip)
-      into outputDir
+      into outputDir.parentFile
       eachFile {println it}
     }
   }

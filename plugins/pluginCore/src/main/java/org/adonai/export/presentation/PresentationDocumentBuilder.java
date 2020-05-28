@@ -30,6 +30,7 @@ import org.adonai.export.ExportTokenType;
 import org.adonai.export.NewPageStrategy;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
+import org.adonai.fx.ScreenManager;
 import org.adonai.fx.UiUtils;
 import org.adonai.fx.editcontent.EditContentController;
 import org.adonai.fx.songdetails.SongDetailsController;
@@ -137,12 +138,11 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
                 songDetailsController.setOnSongContentChange(onSongContentChange);
                 songDetailsController.loadData();
 
-                //TODO make size of window as big as size of text (no scrolling necessary)
                 Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
-                stage.setX(sceneBounds.getMinX());
-                stage.setY(sceneBounds.getMinY());
-                stage.setMinWidth(600);
-                stage.setMinHeight(400);
+                stage.setX(sceneBounds.getMinX() + 10);
+                stage.setY(sceneBounds.getMinY() + 50);
+                stage.setMinWidth(800);
+                stage.setMinHeight(600);
 
                 stage.showAndWait();
 
@@ -155,9 +155,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
                 songStructureController.setSong(getApplicationEnvironment().getCurrentSong());
                 songStructureController.loadData();
 
-                //TODO make size of window as big as size of text (no scrolling necessary)
                 Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
-                stage.setX(sceneBounds.getMinX());
+                stage.setX(sceneBounds.getMinX() + 100);
                 stage.setY(sceneBounds.getMinY());
                 stage.setMinWidth(600);
                 stage.setMinHeight(400);
@@ -179,12 +178,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
                 editContentController.setStage(stage);
                 editContentController.setExportToken(exportToken);
 
-                //TODO make size of window as big as size of text (no scrolling necessary)
-                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
-                stage.setX(sceneBounds.getMinX());
-                stage.setY(sceneBounds.getMinY());
-                stage.setMinWidth(600);
-                stage.setMinHeight(400);
+                ScreenManager screenManager = new ScreenManager();
+                screenManager.layoutOnScreen(stage, 200);
 
                 stage.showAndWait();
               }

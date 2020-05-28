@@ -10,7 +10,7 @@ import javafx.stage.StageStyle;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.api.MainAction;
 import org.adonai.model.Model;
-import org.adonai.ui.UiUtils;
+import org.adonai.fx.UiUtils;
 import org.pf4j.Extension;
 
 @Extension(ordinal=99)

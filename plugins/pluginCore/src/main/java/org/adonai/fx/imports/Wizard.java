@@ -1,9 +1,9 @@
-package org.adonai.ui.imports;
+package org.adonai.fx.imports;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
-import org.adonai.ui.imports.pages.WizardPage;
+import org.adonai.fx.imports.pages.WizardPage;
 
 import java.util.Stack;
 

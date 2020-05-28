@@ -1,6 +1,6 @@
 package org.adonai;
 
-import org.adonai.ui.ExtensionType;
+import org.adonai.fx.ExtensionType;
 
 import java.io.File;
 import java.util.ArrayList;

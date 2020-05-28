@@ -1,11 +1,11 @@
-package org.adonai.ui.imports.pages;
+package org.adonai.fx.imports.pages;
 
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.ui.imports.SongImportController;
+import org.adonai.fx.imports.SongImportController;
 
 public class NewSongPage extends WizardPage {
 

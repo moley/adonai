@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Set;
 import org.pf4j.CompoundPluginDescriptorFinder;
@@ -13,6 +14,7 @@ import org.pf4j.ManifestPluginDescriptorFinder;
 import org.pf4j.PluginClassLoader;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
+import org.pf4j.PropertiesPluginDescriptorFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +33,19 @@ public class Main {
         return new CompoundPluginDescriptorFinder()
             // Demo is using the Manifest file
             // PropertiesPluginDescriptorFinder is commented out just to avoid error log
-            //.add(new PropertiesPluginDescriptorFinder())
+            .add(new PropertiesPluginDescriptorFinder())
             .add(new ManifestPluginDescriptorFinder());
+      }
+
+      @Override
+      protected PluginWrapper loadPluginFromPath(Path pluginPath) {
+        LOGGER.info("Load plugin from path " + pluginPath.toString());
+        PluginWrapper pluginWrapper = super.loadPluginFromPath(pluginPath);
+        return pluginWrapper;
       }
     };
     LOGGER.info("Using development mode: " + pluginManager.isDevelopment());
+    LOGGER.info("Using pluginsroot: " + pluginManager.getPluginsRoot().toString());
 
     // load the plugins
     pluginManager.loadPlugins();

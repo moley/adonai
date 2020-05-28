@@ -7,6 +7,13 @@
     -fx-font-family: monospaced;
 }
 
+#header {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+  -fx-text-fill: rgb(160, 160, 160);
+}
+
 .id {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
@@ -23,6 +30,12 @@
   -fx-font-size: 18;
   -fx-font-family: Verdana;
 }
+
+.radio-button {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
 
 .chordButton {
   -fx-font-size: 18;
@@ -46,10 +59,13 @@
  -fx-padding: 10.0px;
 }
 
-
-.combo-box-popup .list-cell {
+.combo-box-base {
  -fx-font-size: 18;
  -fx-font-family: Verdana;
+
+}
+
+.combo-box-popup .list-cell {
  -fx-padding: 10.0px;
 }
 
@@ -74,6 +90,11 @@
 .button {
   -fx-background-radius: 30px;
   -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.spinner {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
 }

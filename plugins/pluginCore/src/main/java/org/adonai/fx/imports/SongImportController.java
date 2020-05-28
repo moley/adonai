@@ -1,4 +1,4 @@
-package org.adonai.ui.imports;
+package org.adonai.fx.imports;
 
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;

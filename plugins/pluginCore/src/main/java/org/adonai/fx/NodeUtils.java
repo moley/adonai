@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

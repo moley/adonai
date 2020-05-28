@@ -1,4 +1,4 @@
-package org.adonai.ui.imports.pages;
+package org.adonai.fx.imports.pages;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -8,8 +8,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.ui.imports.SongImportController;
-import org.adonai.ui.imports.Wizard;
+import org.adonai.fx.imports.SongImportController;
+import org.adonai.fx.imports.Wizard;
 
 /**
  * basic wizard page class
@@ -37,9 +37,10 @@ public abstract class WizardPage extends VBox {
     setSpacing(5);
     setStyle("-fx-padding:10; -fx-border-width: 3;");
 
-    Region spring = new Region();
-    VBox.setVgrow(spring, Priority.ALWAYS);
-    getChildren().addAll(getContent(), spring, getButtons());
+    Parent pageContent = getContent();
+    VBox.setVgrow(pageContent, Priority.ALWAYS);
+
+    getChildren().addAll(pageContent, getButtons());
 
     priorButton.setOnAction(event -> priorPage());
     nextButton.setOnAction(event -> nextPage());

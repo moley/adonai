@@ -1,12 +1,13 @@
-package org.adonai.ui.imports.pages;
+package org.adonai.fx.imports.pages;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.reader.text.TextfileReaderParam;
-import org.adonai.ui.imports.SongImportController;
+import org.adonai.fx.imports.SongImportController;
 import org.adonai.reader.text.TextfileReader;
 
 import java.util.Arrays;
@@ -25,15 +26,18 @@ public class ImportFromClipBoardPage extends WizardPage {
     txaImport.setUserData("importsongwizard.txaImport");
     txaImport.setWrapText(true);
     txaImport.setPromptText("Please copy your song with Copy and Paste into this textfield and press Next");
+    VBox.setVgrow(txaImport, Priority.ALWAYS);
     nextButton.setDisable(true);
     txaImport.textProperty().addListener((observableValue, oldValue, newValue) -> {
       nextButton.setDisable(newValue.isEmpty());
     });
-    return new VBox(
-      5,
+    VBox vbox = new VBox(
+      10,
       new Label("Please copy your song with Copy and Paste into this textfield and press Next"),
       txaImport
     );
+
+    return vbox;
   }
 
   void nextPage() {

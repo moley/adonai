@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 public abstract class ContentChangeableController extends AbstractController{
 
@@ -16,7 +15,6 @@ public abstract class ContentChangeableController extends AbstractController{
 
   private EventHandler<ActionEvent> onSongContentChange;
 
-  private Stage stage;
 
   @FXML
   public void initialize () {
@@ -50,13 +48,7 @@ public abstract class ContentChangeableController extends AbstractController{
     this.onSongContentChange = onSongContentChange;
   }
 
-  public Stage getStage() {
-    return stage;
-  }
 
-  public void setStage(Stage stage) {
-    this.stage = stage;
-  }
 
   protected abstract void save ();
 }

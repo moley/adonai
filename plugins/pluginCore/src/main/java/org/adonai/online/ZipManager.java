@@ -15,7 +15,7 @@ import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
 import org.adonai.services.ModelService;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
 
 public class ZipManager {

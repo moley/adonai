@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
 import java.io.File;
 import javafx.collections.FXCollections;
@@ -13,7 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.adonai.Extension;
 import org.adonai.ExtensionIndex;
-import org.adonai.fx.AbstractController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
 import org.slf4j.Logger;

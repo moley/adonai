@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<GridPane fx:id="search" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.adonai.fx.search.SearchController" vgap="10" >
+
+    <TextField fx:id="txtSearchQuery" userData="searchpage.txtSearchQuery" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.columnIndex="0">
+    </TextField>
+
+    <ListView fx:id="lviItems" userData="searchpage.lviItems" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" GridPane.rowIndex="1" GridPane.columnIndex="0"></ListView>
+
+</GridPane>

@@ -6,34 +6,34 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.fx.Consts;
+import org.adonai.fx.ScreenManager;
+import org.adonai.fx.UiUtils;
+import org.adonai.fx.imports.ImportWizard;
+import org.adonai.fx.imports.SongImportController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
-import org.adonai.ui.Consts;
-import org.adonai.ui.UiUtils;
-import org.adonai.ui.imports.ImportWizard;
-import org.adonai.ui.imports.SongImportController;
 
 
 public class AddSongAction {
 
   private SongImportController songImportController;
 
-  public void add(final ApplicationEnvironment applicationEnvironment, final Double x, final Double y, Configuration configuration,
+  private ScreenManager screenManager = new ScreenManager();
+
+  public void add(final ApplicationEnvironment applicationEnvironment, Configuration configuration,
                   SongBook songBook, EventHandler<WindowEvent> closeRequest) {
 
     songImportController = new SongImportController();
     songImportController.setSongBook(songBook);
     Stage stage = new Stage();
-    stage.setWidth(Consts.getDefaultWidth());
-    stage.setHeight(Consts.getDefaultHeight());
+    screenManager.layoutOnScreen(stage, 50);
     stage.setResizable(false);
     stage.initStyle(StageStyle.UNDECORATED);
-    stage.setX(x);
-    stage.setY(y);
 
     ImportWizard importWizard = new ImportWizard(applicationEnvironment, stage, songImportController, configuration);
-    Scene scene = new Scene(importWizard, Consts.getDefaultWidth(), Consts.getDefaultHeight(), false);
+    Scene scene = new Scene(importWizard, stage.getWidth(), stage.getHeight(), false);
     UiUtils.applyCss(scene);
 
     stage.setOnHiding(closeRequest);

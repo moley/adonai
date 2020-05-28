@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.adonai.DateUtil;
 import org.adonai.export.presentation.Page;
-import org.adonai.ui.UiUtils;
+import org.adonai.fx.UiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

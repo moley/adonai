@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;

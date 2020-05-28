@@ -4,7 +4,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Model;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

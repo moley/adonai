@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Button?>
 <?import javafx.geometry.Insets?>
-<VBox fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.adonai.fx.editcontent.EditContentController">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="org.adonai.fx.editcontent.EditContentController" hgap="20" vgap="20">
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
 
+    <columnConstraints>
+        <ColumnConstraints percentWidth="100"/>
+    </columnConstraints>
 
-    <TextArea fx:id="txaText" styleClass="editortext"></TextArea>
-    <ButtonBar>
+    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPART" id="header" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1"></TextArea>
+    <ButtonBar GridPane.columnIndex="0" GridPane.rowIndex="2">
         <buttons>
             <Button fx:id="btnSave" text="Save"></Button>
             <Button fx:id="btnCancel" text="Cancel"></Button>
         </buttons>
     </ButtonBar>
-</VBox>
+</GridPane>

@@ -20,7 +20,7 @@ import org.adonai.model.User;
 import org.adonai.services.AddSongService;
 import org.adonai.services.ModelService;
 import org.adonai.services.SessionService;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.adonai.uitests.TestUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;

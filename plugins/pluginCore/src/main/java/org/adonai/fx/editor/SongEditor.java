@@ -2,8 +2,12 @@ package org.adonai.fx.editor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -15,8 +19,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.WindowEvent;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.DateUtil;
+import org.adonai.actions.SearchAction;
 import org.adonai.export.presentation.Page;
+import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +47,10 @@ public class SongEditor extends VBox {
 
   //private Metronome metronome = new Metronome();
 
-  public SongEditor(final List<Page> pages) {
+  private ApplicationEnvironment applicationEnvironment;
+
+  public SongEditor(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
+    this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;
     currentIndex = 0;
   }
@@ -74,6 +85,18 @@ public class SongEditor extends VBox {
       rightPane.getChildren().get(0).setVisible(true);
   }
 
+  private void selectSong (Song song) {
+    for (Page nextPage: panes) {
+      if (nextPage.getSong().equals(song)) {
+        disableAndRemove();
+        currentSongProperty.set(song);
+        currentIndex = panes.indexOf(nextPage);
+        enableAndAdd();
+        return;
+      }
+    }
+  }
+
   public void show() {
     enableAndAdd();
 
@@ -83,7 +106,7 @@ public class SongEditor extends VBox {
       throw new IllegalStateException("Scene not yet set");
 
     scene.setOnKeyReleased(event -> {
-      LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
+       LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
       if (event.getCode().equals(KeyCode.M)) {
         //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
         //metronome.setVisible(! metronome.isVisible());
@@ -114,6 +137,19 @@ public class SongEditor extends VBox {
 
           enableAndAdd();
 
+      } else if (event.getCode().equals(KeyCode.S)) {
+        SearchAction<Song> searchAction = new SearchAction();
+        FilteredList <Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
+        filteredList.setPredicate(song -> true);
+        searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            Song selectedSong = searchAction.getSelectedItem();
+            if (selectedSong != null) {
+              applicationEnvironment.setCurrentSong(selectedSong);
+              selectSong(selectedSong);
+            }
+          }
+        }, filteredList, "", 50, 100);
       }
 
     });

@@ -1,4 +1,4 @@
-package org.adonai.ui.imports.pages;
+package org.adonai.fx.imports.pages;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -7,7 +7,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.ui.imports.SongImportController;
+import org.adonai.fx.imports.SongImportController;
 
 public class ChooseImportTypePage extends WizardPage {
   private RadioButton fromTextFile;
@@ -30,9 +30,11 @@ public class ChooseImportTypePage extends WizardPage {
     fromTextFile.setUserData("importsongwizard.rbFromTextFile");
     newSong = new RadioButton("New song");
     newSong.setUserData("importsongwizard.rbNewSong");
-    return new VBox(
+    VBox content =  new VBox(
       10,
       new Label("How do you want to import your song"), fromTextFile, newSong);
+
+    return content;
   }
 
   void nextPage() {

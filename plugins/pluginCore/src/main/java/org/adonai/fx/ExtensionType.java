@@ -1,4 +1,4 @@
-package org.adonai.ui;
+package org.adonai.fx;
 
 import java.io.File;
 import java.util.ArrayList;

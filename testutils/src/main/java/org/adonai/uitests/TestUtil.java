@@ -1,7 +1,7 @@
 package org.adonai.uitests;
 
 import java.io.File;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 
 public class TestUtil {
 

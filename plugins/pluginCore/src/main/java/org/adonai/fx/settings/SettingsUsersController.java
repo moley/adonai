@@ -9,9 +9,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import org.adonai.fx.Consts;
 import org.adonai.model.Model;
 import org.adonai.model.User;
-import org.adonai.ui.Consts;
+
 
 
 public class SettingsUsersController extends AbstractSettingsController {

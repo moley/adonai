@@ -3,6 +3,8 @@ package org.adonai.fx.scope;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,10 +13,11 @@ import javafx.scene.control.TreeView;
 import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSongAction;
-import org.adonai.actions.SelectAction;
+import org.adonai.actions.SearchAction;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.main.ScopeItem;
+import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
@@ -22,7 +25,6 @@ import org.adonai.model.SongBook;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
-import org.adonai.ui.SongCellFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,9 +83,11 @@ public class ScopeController extends AbstractController {
       Session session = getSession(scopeItem);
       if (session != null) {
         log.info("addBefore in session " + session.getName());
-        SelectAction<Song> selectSong = new SelectAction<Song>(getApplicationEnvironment());
+        SearchAction<Song> selectSong = new SearchAction<Song>();
         List<Song> allSongs = getApplicationEnvironment().getCurrentSongBook().getSongs();
-        selectSong.open(allSongs, 0.0, 0.0, new SongCellFactory(), new EventHandler<WindowEvent>() {
+        FilteredList<Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(allSongs));
+        selectSong.open(getApplicationEnvironment(), renderer -> new SongCellRenderer(),
+            new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
             Song selectedSong = selectSong.getSelectedItem();
             log.info("handle window closed in selectsong on " + selectedSong);
@@ -94,7 +98,7 @@ public class ScopeController extends AbstractController {
               loadData(new ScopeItem(new ScopeItem(session), selectedSong));
             }
           }
-        });
+        }, filteredList, "", 10.0, 10.0);
       }
 
       SongBook songBook = getSongBook(scopeItem);
@@ -103,7 +107,7 @@ public class ScopeController extends AbstractController {
         SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
         Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
         AddSongAction addSongHandler = new AddSongAction();
-        addSongHandler.add(getApplicationEnvironment(), 0.0, 0.0, currentConfiguration, currentSongBook,
+        addSongHandler.add(getApplicationEnvironment(), currentConfiguration, currentSongBook,
             new EventHandler<WindowEvent>() {
               @Override public void handle(WindowEvent event) {
 

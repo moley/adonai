@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.adonai.AdonaiProperties;
 import org.adonai.model.Additional;
 import org.adonai.model.Song;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

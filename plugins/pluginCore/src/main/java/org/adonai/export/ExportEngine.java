@@ -118,7 +118,10 @@ public class ExportEngine {
           " / " + nextSong.getLeadVoice().getUsername() :
           "");
 
-      String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle() + "                   " + completeKey + leadVoice;
+      String id = nextSong.getId() != null ? nextSong.getId().toString(): "";
+      String title = nextSong.getTitle() != null ? nextSong.getTitle().toString(): "";
+
+      String idAndTitle = id + "     " + title + "                   " + completeKey + leadVoice;
       if (!idAndTitle.trim().isEmpty()) {
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
         documentBuilder.newToken(

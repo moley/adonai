@@ -1,12 +1,12 @@
-package org.adonai.ui.imports;
+package org.adonai.fx.imports;
 
 import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.model.Configuration;
-import org.adonai.ui.imports.pages.ChooseImportTypePage;
-import org.adonai.ui.imports.pages.ImportFromClipBoardPage;
-import org.adonai.ui.imports.pages.NewSongPage;
-import org.adonai.ui.imports.pages.PreviewPage;
+import org.adonai.fx.imports.pages.ChooseImportTypePage;
+import org.adonai.fx.imports.pages.ImportFromClipBoardPage;
+import org.adonai.fx.imports.pages.NewSongPage;
+import org.adonai.fx.imports.pages.PreviewPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

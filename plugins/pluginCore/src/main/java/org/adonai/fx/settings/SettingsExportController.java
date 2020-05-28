@@ -19,7 +19,7 @@ import org.adonai.StringUtils;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
 import org.adonai.model.Model;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,7 +103,7 @@ public class SettingsExportController extends AbstractSettingsController {
     configurationPerPane.clear();
 
     for (ExportConfiguration exportConfiguration : getConfiguration().getExportConfigurations()) {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/screens/exportconfiguration.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/exportconfiguration.fxml"));
       loader.setResources(resources);
       loader.setClassLoader(getClass().getClassLoader());
       Parent root = null;

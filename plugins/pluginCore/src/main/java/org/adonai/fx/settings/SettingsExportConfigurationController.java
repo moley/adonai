@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import org.adonai.export.ExportConfiguration;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

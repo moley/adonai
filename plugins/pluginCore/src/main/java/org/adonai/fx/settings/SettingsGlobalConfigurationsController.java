@@ -8,7 +8,7 @@ import javafx.scene.control.Tooltip;
 import org.adonai.model.Model;
 import org.adonai.model.SongBook;
 import org.adonai.services.RenumberService;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 
 public class SettingsGlobalConfigurationsController extends AbstractSettingsController{
 

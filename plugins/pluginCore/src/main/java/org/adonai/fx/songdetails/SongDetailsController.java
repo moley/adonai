@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import org.adonai.Key;
 import org.adonai.fx.Consts;
 import org.adonai.fx.ContentChangeableController;
+import org.adonai.fx.renderer.UserCellRenderer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.User;
@@ -65,6 +66,7 @@ public class SongDetailsController extends ContentChangeableController {
   @FXML
   public void initialize () {
     super.initialize();
+    cboLeadVoice.setCellFactory(cellfactory -> new UserCellRenderer());
     spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
     spiSpeed.setEditable(true);
 
@@ -104,6 +106,8 @@ public class SongDetailsController extends ContentChangeableController {
   }
 
   public void loadData() {
+
+    cboLeadVoice.setItems(FXCollections.observableArrayList(configuration.getUsers()));
 
     txtPreset.setText(currentSong.getPreset());
     txtTitle.setText(currentSong.getTitle());

@@ -9,7 +9,7 @@ javafx {
     version = "11.0.2" //12-ea+8"
 }
 
-mainClassName = 'org.adonai.app.AdonaiBootstrap'
+mainClassName = 'org.adonai.app.Main'
 run {
   //systemProperty 'pf4j.pluginsDir', '../plugins'
 }
@@ -44,7 +44,7 @@ distZip {
 
   into (applicationName + "/bin") {
     from rootProject.file ('build')
-    include 'plugins/*'
+    include 'plugins/*.zip'
   }
 
   dependsOn project.rootProject.getTasksByName('assemblePlugin', true)

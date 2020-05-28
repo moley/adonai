@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import org.adonai.AdonaiProperties;
 import org.adonai.model.Model;
 import org.adonai.services.ModelService;
-import org.adonai.ui.Consts;
+import org.adonai.fx.Consts;
 
 public class SettingsTenantsController extends AbstractSettingsController {
 
