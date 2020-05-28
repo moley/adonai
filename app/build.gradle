@@ -50,6 +50,12 @@ distZip {
   dependsOn project.rootProject.getTasksByName('assemblePlugin', true)
 }
 
+task copyRealData (type: Copy) {
+  from (System.getProperty("user.home") + "/.adonai")
+  include 'tenant*/**'
+  into file('.adonai')
+}
+
 
 
 

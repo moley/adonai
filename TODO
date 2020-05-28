@@ -1,27 +1,18 @@
-- When the first reference is before the real part change order
-- Name parts with numbers (REFRAIN 1, ...)
-- Error when removing session from sessions
-- move parts in list up and down by drag and drop (Songs in session, parts in songs)
-- Remove whole line
+- Combine Song structure and details editor to one
+- Split exportpath and styling schemas in two configurations
+- Styling schematas
+- Always select the current song after reloading
+- Import mp3s and configure at song
 
-- Sessions List - toString()
+- Rework wizard
+
 - importing Song via clipboard Validation Title
 
-
 - Icons for part types
-- Instrument matrix per part/line
 - Pics for users
 
-- Parts with same Key are imported as reference although content is not equal
-- Indent between chords without text
 - export with session sequence small / big
 - Export schematas
 
-- Referenced part must not be removed
 - Import pics and set as background of song
-- Import mp3s and configure at song
-
-- Configure different ExportConfigurations
-- Presentation
-
 

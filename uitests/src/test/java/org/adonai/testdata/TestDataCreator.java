@@ -23,6 +23,7 @@ import org.adonai.services.SessionService;
 import org.adonai.fx.Consts;
 import org.adonai.uitests.TestUtil;
 import org.apache.commons.io.FileUtils;
+import org.pf4j.DefaultPluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +63,7 @@ public class TestDataCreator {
 
       SongBook songBook = new SongBook();
 
-      ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+      ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
       ModelService modelService = new ModelService(applicationEnvironment);
       modelService.addTenant(model, nextTenant);
       TenantModel tenantModel = model.getTenantModel(nextTenant);

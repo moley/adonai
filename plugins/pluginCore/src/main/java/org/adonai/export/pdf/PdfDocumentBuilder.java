@@ -143,7 +143,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setOpenPreview(true);
     exportConfiguration.setMinimalChordDistance(new Double(5));
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
-    exportConfiguration.setName("Exportschema PDF Default");
+    exportConfiguration.setName("Styleschema PDF Default");
 
     return exportConfiguration;
   }
