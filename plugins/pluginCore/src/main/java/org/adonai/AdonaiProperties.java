@@ -20,6 +20,10 @@ public class AdonaiProperties {
 
   public final static String PROPERTY_CURRENT_TENANT = "adonai.tenant";
 
+  public static void dispose () {
+    properties = null;
+  }
+
   public AdonaiProperties () {
     if (properties == null) {
       properties = new Properties();

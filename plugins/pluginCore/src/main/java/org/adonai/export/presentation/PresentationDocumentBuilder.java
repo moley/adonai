@@ -4,12 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -19,8 +16,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
@@ -31,26 +26,21 @@ import org.adonai.export.NewPageStrategy;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
-import org.adonai.fx.UiUtils;
 import org.adonai.fx.editcontent.EditContentController;
 import org.adonai.fx.songdetails.SongDetailsController;
-import org.adonai.fx.songstructure.SongStructureController;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Extension(ordinal=1)
-public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
+@Extension(ordinal = 1) public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PresentationDocumentBuilder.class);
-
 
   private SizeInfo sizeInfo;
   private HashMap<ExportTokenType, Font> savedFonts = new HashMap<ExportTokenType, Font>();
 
   private List<Page> pages = new ArrayList<>();
-
 
   private EventHandler<ActionEvent> onSongContentChange;
 
@@ -66,22 +56,21 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     return new SizeInfo(layoutBounds.getWidth(), layoutBounds.getHeight());
   }
 
-  private Font getBaseFont (final ExportTokenType exportTokenType) {
+  private Font getBaseFont(final ExportTokenType exportTokenType) {
     Font fromSaved = savedFonts.get(exportTokenType);
     if (fromSaved != null)
       return fromSaved;
 
     if (exportTokenType.isBold()) {
       savedFonts.put(exportTokenType, Font.font("arial", FontWeight.BOLD, getFontsize(exportTokenType)));
-    }
-    else {
+    } else {
       savedFonts.put(exportTokenType, Font.font("arial", FontWeight.NORMAL, getFontsize(exportTokenType)));
     }
 
     return savedFonts.get(exportTokenType);
   }
 
-  private int getFontsize (final ExportTokenType exportTokenType) {
+  private int getFontsize(final ExportTokenType exportTokenType) {
     if (exportTokenType.equals(ExportTokenType.CHORD))
       return 16;
     else if (exportTokenType.equals(ExportTokenType.TEXT))
@@ -94,9 +83,10 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
   }
 
-  private Page createPane () {
+  private Page createPane() {
     Page currentPane = new Page();
-    currentPane.getPane().setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
+    currentPane.getPane()
+        .setBackground(new Background(new BackgroundFill(Color.rgb(230, 230, 230), CornerRadii.EMPTY, null)));
     currentPane.getPane().setVisible(false);
     return currentPane;
   }
@@ -106,24 +96,22 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     Page currentPage = createPane();
     pages.add(currentPage);
 
-    for (ExportToken nextToken: getExportTokenContainer().getExportTokenList()) {
+    for (ExportToken nextToken : getExportTokenContainer().getExportTokenList()) {
       if (nextToken.getExportTokenType().equals(ExportTokenType.NEW_PAGE)) {
         currentPage = createPane();
         currentPage.setSong(nextToken.getSong());
         currentPage.setSongStructItem(nextToken.getSongStructItem());
         pages.add(currentPage);
-      }
-      else {
+      } else {
         Text text = new Text();
         text.setUserData(nextToken);
         text.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             Text text = (Text) event.getSource();
-            LOGGER.info("On mouse clicked on " + text.getText() + "-" + event.getClickCount() + "-" + event.getButton());
+            LOGGER
+                .info("On mouse clicked on " + text.getText() + "-" + event.getClickCount() + "-" + event.getButton());
 
             ExportToken exportToken = (ExportToken) text.getUserData();
-
-
 
             LOGGER.info("with type " + exportToken.getExportTokenType());
             if (exportToken != null) {
@@ -146,30 +134,8 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
 
                 stage.showAndWait();
 
-              }
-              else if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE) && exportToken.getSongStructItem() != null) {
-                MaskLoader<SongStructureController> songstructureMaskLoader = new MaskLoader<SongStructureController>();
-                Mask<SongStructureController> songstructureMask = songstructureMaskLoader.load("songstructure");
-                Stage stage = songstructureMask.getStage();
-                SongStructureController songStructureController = songstructureMask.getController();
-                songStructureController.setSong(getApplicationEnvironment().getCurrentSong());
-                songStructureController.loadData();
-
-                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
-                stage.setX(sceneBounds.getMinX() + 100);
-                stage.setY(sceneBounds.getMinY());
-                stage.setMinWidth(600);
-                stage.setMinHeight(400);
-                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                  @Override public void handle(WindowEvent event) {
-                    onSongContentChange.handle(new ActionEvent());
-                  }
-                });
-
-                stage.showAndWait();
-
-              }
-              else if (exportToken.getSongStructItem() != null) {
+              } else if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE) && exportToken
+                  .getSongStructItem() != null || (exportToken.getSongStructItem() != null)) {
                 MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
                 Mask<EditContentController> editContentMask = maskLoader.load("editContent");
                 Stage stage = editContentMask.getStage();
@@ -200,7 +166,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
   }
 
   @Override public ExportConfiguration getDefaultConfiguration() {
-    ExportConfiguration exportConfiguration =  new ExportConfiguration();
+    ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.initializeValues();
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithContentPage(false);

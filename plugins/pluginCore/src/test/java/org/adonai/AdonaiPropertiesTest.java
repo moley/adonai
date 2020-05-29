@@ -18,11 +18,13 @@ public class AdonaiPropertiesTest {
   @BeforeClass
   public static void before () {
     Consts.setAdonaiHome(Files.createTempDir());
+    AdonaiProperties.dispose();
   }
 
   @AfterClass
   public static void after () {
     System.setProperty("user.home", savedUserHome);
+    AdonaiProperties.dispose();
   }
 
   @Test

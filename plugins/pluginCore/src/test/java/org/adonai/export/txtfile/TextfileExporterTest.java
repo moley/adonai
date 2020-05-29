@@ -240,6 +240,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithId(true);
     File exportFile = createExportFile(textfileWriter, "exportWithChords");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> content = FileUtils.readLines(exportFile, Charset.defaultCharset());

@@ -7,18 +7,36 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
 <GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="org.adonai.fx.editcontent.EditContentController" hgap="20" vgap="20">
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
 
     <columnConstraints>
-        <ColumnConstraints percentWidth="100"/>
+        <ColumnConstraints percentWidth="30"/>
+        <ColumnConstraints percentWidth="10"/>
+        <ColumnConstraints percentWidth="60"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPART" id="header" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="1"></TextArea>
-    <ButtonBar GridPane.columnIndex="0" GridPane.rowIndex="2">
+
+    <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="2"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="2" spacing="5">
+
+        <Button fx:id="btnAddBefore"></Button>
+        <Button fx:id="btnMoveUp"></Button>
+        <Button fx:id="btnRemove"></Button>
+        <Button fx:id="btnMoveDown"></Button>
+        <Button fx:id="btnAddAfter"></Button>
+
+
+    </VBox>
+
+    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="1"></TextArea>
+
+    <ButtonBar GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="3">
         <buttons>
             <Button fx:id="btnSave" text="Save"></Button>
             <Button fx:id="btnCancel" text="Cancel"></Button>
