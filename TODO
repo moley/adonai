@@ -1,7 +1,13 @@
-- Combine Song structure and details editor to one
+
+- Show additional infos
+- Export
+- Always select the current song after reloading
+- Assign mp3s
+
+
 - Split exportpath and styling schemas in two configurations
 - Styling schematas
-- Always select the current song after reloading
+
 - Import mp3s and configure at song
 
 - Rework wizard

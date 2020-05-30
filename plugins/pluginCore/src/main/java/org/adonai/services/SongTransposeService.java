@@ -48,6 +48,7 @@ public class SongTransposeService {
   }
 
   public void recalculateOrigin (final Song song) {
+    LOGGER.info("recalculate origin chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey());
     if (song.getCurrentKey() == null || song.getOriginalKey() == null)
       throw new IllegalStateException("Both original and current key have to be set to recalculate the origin key");
 
@@ -62,6 +63,7 @@ public class SongTransposeService {
   }
 
   public void recalculateCurrent (final Song song) {
+    LOGGER.info("recalculate current chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey());
     if (song.getCurrentKey() == null || song.getOriginalKey() == null)
       throw new IllegalStateException("Both original and current key have to be set to recalculate the current key");
     for (SongPart nextPart: song.getSongParts()) {

@@ -34,7 +34,7 @@ public class TextRenderer {
         String text = nextPart.getText();
 
         int longest = Integer.max(chord.length(), text.length());
-        if (longest == chord.length())
+        if (longest == chord.length() && longest > 0)
           longest = longest +1;
 
         chordLine += StringUtils.spaces(longest - chord.length());

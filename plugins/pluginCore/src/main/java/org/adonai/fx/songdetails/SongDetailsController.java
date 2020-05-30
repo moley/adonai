@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import org.adonai.Key;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
@@ -70,12 +71,12 @@ public class SongDetailsController extends AbstractController {
     spiSpeed.setEditable(true);
 
     btnRecalculateCurrentKey.setGraphic(Consts.createIcon("fas-calculator", Consts.ICON_SIZE_VERY_SMALL));
+    btnRecalculateCurrentKey.setTooltip(new Tooltip("Calculate current key with chords of origin key"));
     btnRecalculateOriginKey.setGraphic(Consts.createIcon("fas-calculator", Consts.ICON_SIZE_VERY_SMALL));
+    btnRecalculateOriginKey.setTooltip(new Tooltip("Calculate origin key with chords of current key"));
     cboCurrentKey.setItems(FXCollections.observableArrayList(Key.values()));
 
     cboOriginalKey.setItems(FXCollections.observableArrayList(Key.values()));
-
-
   }
 
   public void save() {
@@ -86,23 +87,6 @@ public class SongDetailsController extends AbstractController {
     currentSong.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem() != null ? cboOriginalKey.getSelectionModel().getSelectedItem().toString() : null);
     currentSong.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem() != null ? cboCurrentKey.getSelectionModel().getSelectedItem().toString() : null);
     currentSong.setSpeed(spiSpeed.getValue());
-    Key newKey = cboCurrentKey.getValue();
-
-    if (currentSong.getCurrentKey() != null) {
-      Key previousKey = Key.fromString(currentSong.getCurrentKey());
-
-
-      Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-      alert.setHeaderText(
-          "You have changed the key of the song. Do you want to transpose all chords from " + currentSong.getCurrentKey() + " to " + newKey.name() + "?");
-      Optional<ButtonType> result = alert.showAndWait();
-      if (result.get() == ButtonType.OK) {
-        SongTransposeService songTransposeService = new SongTransposeService();
-        songTransposeService.transpose(currentSong, previousKey, newKey);
-      }
-    }
-    currentSong.setCurrentKey(newKey.name());
-
   }
 
   public void loadData() {
@@ -137,16 +121,16 @@ public class SongDetailsController extends AbstractController {
 
     btnRecalculateCurrentKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-
+        currentSong.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem().name());
         SongTransposeService songTransposeService = new SongTransposeService();
-        currentSong.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem().name());
         songTransposeService.recalculateCurrent(currentSong);
 
       }
     });
     btnRecalculateOriginKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
-        currentSong.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem().name());
+
+        currentSong.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem().name());
         SongTransposeService songTransposeService = new SongTransposeService();
         songTransposeService.recalculateOrigin(currentSong);
       }

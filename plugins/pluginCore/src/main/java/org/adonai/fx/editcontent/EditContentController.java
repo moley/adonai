@@ -29,6 +29,7 @@ import org.adonai.services.AddPartService;
 import org.adonai.services.MovePartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
+import org.adonai.services.SongRepairer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +77,9 @@ public class EditContentController extends AbstractController {
     btnAddAfter.setOnAction(action -> addPartAfter());
     lviStructure.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SongStructItem>() {
       @Override public void changed(ObservableValue<? extends SongStructItem> observable, SongStructItem oldValue, SongStructItem newValue) {
-        serializeCurrentSongPart(oldValue); //serialize old one
+        if (oldValue != null)
+          serializeCurrentSongPart(oldValue); //serialize old one
+        if (newValue != null)
         loadCurrentSongPart(newValue); //and load new one
       }
     });
@@ -93,6 +96,7 @@ public class EditContentController extends AbstractController {
     this.songStructItems = this.song.getStructItems();
 
     reloadSongStructItems();
+    lviStructure.getSelectionModel().select(exportToken.getSongStructItem());
     loadCurrentSongPart(exportToken.getSongStructItem());
   }
 
@@ -106,16 +110,23 @@ public class EditContentController extends AbstractController {
   }
 
   private void serializeCurrentSongPart (SongStructItem songStructItem) {
-    log.info("serialize song part " + songStructItem.getPartId());
+
     SongPart songPart = findSongPart(songStructItem);
+    log.info("serialize song part " + songStructItem.getPartId() + "-" + songPart.getId());
     List<String> lines = new ArrayList<>(Arrays.asList(txaText.getText().split("\n")));
     lines.add(0, "[" + songPart.getSongPartTypeLabel() + "]");
     TextfileReaderParam textfileReaderParam = new TextfileReaderParam();
     textfileReaderParam.setEmptyLineIsNewPart(false);
     textfileReaderParam.setWithTitle(false);
     TextfileReader textfileReader = new TextfileReader();
-    Song song = textfileReader.read(lines, textfileReaderParam);
-    SongPart serializedSongPart = song.getFirstPart();
+    Song serializedSong = textfileReader.read(lines, textfileReaderParam);
+    serializedSong.setOriginalKey(song.getOriginalKey());
+    serializedSong.setCurrentKey(song.getCurrentKey());
+
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(serializedSong);
+    SongPart serializedSongPart = serializedSong.getFirstPart();
+
     songPart.setLines(serializedSongPart.getLines());
   }
 
@@ -180,9 +191,6 @@ public class EditContentController extends AbstractController {
 
   public void reloadSongStructItems() {
     lviStructure.setItems(FXCollections.observableArrayList(songStructItems));
-    if (lviStructure.getSelectionModel().isEmpty())
-      lviStructure.getSelectionModel().selectFirst();
-
   }
 
 }
