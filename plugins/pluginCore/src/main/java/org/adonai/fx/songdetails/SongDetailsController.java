@@ -13,15 +13,15 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import org.adonai.Key;
+import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
-import org.adonai.fx.ContentChangeableController;
 import org.adonai.fx.renderer.UserCellRenderer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.model.User;
 import org.adonai.services.SongTransposeService;
 
-public class SongDetailsController extends ContentChangeableController {
+public class SongDetailsController extends AbstractController {
 
   @FXML
   private ComboBox<Key> cboCurrentKey;
@@ -65,7 +65,6 @@ public class SongDetailsController extends ContentChangeableController {
 
   @FXML
   public void initialize () {
-    super.initialize();
     cboLeadVoice.setCellFactory(cellfactory -> new UserCellRenderer());
     spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
     spiSpeed.setEditable(true);
@@ -79,13 +78,14 @@ public class SongDetailsController extends ContentChangeableController {
 
   }
 
-  @Override protected void save() {
+  public void save() {
     currentSong.setPreset(txtPreset.getText());
     currentSong.setTitle(txtTitle.getText());
     currentSong.setSpeed(spiSpeed.getValue());
     currentSong.setLeadVoice(cboLeadVoice.getSelectionModel().getSelectedItem());
     currentSong.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem() != null ? cboOriginalKey.getSelectionModel().getSelectedItem().toString() : null);
     currentSong.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem() != null ? cboCurrentKey.getSelectionModel().getSelectedItem().toString() : null);
+    currentSong.setSpeed(spiSpeed.getValue());
     Key newKey = cboCurrentKey.getValue();
 
     if (currentSong.getCurrentKey() != null) {

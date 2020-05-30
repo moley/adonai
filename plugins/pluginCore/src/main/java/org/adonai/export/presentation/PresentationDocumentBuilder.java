@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
@@ -123,8 +124,13 @@ import org.slf4j.LoggerFactory;
                 songDetailsController.setStage(stage);
                 songDetailsController.setConfiguration(applicationEnvironment.getCurrentConfiguration());
                 songDetailsController.setCurrentSong(applicationEnvironment.getCurrentSong());
-                songDetailsController.setOnSongContentChange(onSongContentChange);
                 songDetailsController.loadData();
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                  @Override public void handle(WindowEvent event) {
+                    songDetailsController.save();
+                    onSongContentChange.handle(new ActionEvent());
+                  }
+                });
 
                 Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
                 stage.setX(sceneBounds.getMinX() + 10);
@@ -140,9 +146,16 @@ import org.slf4j.LoggerFactory;
                 Mask<EditContentController> editContentMask = maskLoader.load("editContent");
                 Stage stage = editContentMask.getStage();
                 EditContentController editContentController = editContentMask.getController();
-                editContentController.setOnSongContentChange(onSongContentChange);
                 editContentController.setStage(stage);
                 editContentController.setExportToken(exportToken);
+
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                  @Override public void handle(WindowEvent event) {
+                    editContentController.serializeCurrentSongPart();
+                    onSongContentChange.handle(new ActionEvent());
+                  }
+                });
+
 
                 ScreenManager screenManager = new ScreenManager();
                 screenManager.layoutOnScreen(stage, 200);

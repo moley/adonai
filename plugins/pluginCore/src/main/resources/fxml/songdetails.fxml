@@ -42,11 +42,5 @@
     <Spinner fx:id="spiSpeed" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
              GridPane.rowIndex="6" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
-    <ButtonBar GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="7">
-        <buttons>
-            <Button fx:id="btnSave" text="Save"></Button>
-            <Button fx:id="btnCancel" text="Cancel"></Button>
-        </buttons>
-    </ButtonBar>
 
 </GridPane>

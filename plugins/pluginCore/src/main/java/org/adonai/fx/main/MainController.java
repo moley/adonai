@@ -203,6 +203,7 @@ public class MainController extends AbstractController {
     SizeInfo sizeInfo = new SizeInfo(main.getWidth(), main.getHeight() - 200);
     PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
+        log.info("onSongContentChangedHandler triggered");
         reloadEditor();
       }
     });

@@ -20,9 +20,9 @@ public class PresentationExporter implements Exporter {
   public PresentationExporter (final ApplicationEnvironment applicationEnvironment,
       final SizeInfo sizeInfo, EventHandler<ActionEvent> onSongContentChange) {
     presentationDocumentBuilder = new PresentationDocumentBuilder();
-    presentationDocumentBuilder.setOnSongContentChange(onSongContentChange);
     presentationDocumentBuilder.setSizeInfo(sizeInfo);
     presentationDocumentBuilder.setApplicationEnvironment(applicationEnvironment);
+    presentationDocumentBuilder.setOnSongContentChange(onSongContentChange);
   }
 
   @Override public void export(Collection<Song> songs, File exportFile, ExportConfiguration config) {

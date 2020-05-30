@@ -7,13 +7,16 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.stage.WindowEvent;
 import org.adonai.export.ExportToken;
+import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
-import org.adonai.fx.ContentChangeableController;
+import org.adonai.fx.FxApplication;
 import org.adonai.fx.editor.TextRenderer;
 import org.adonai.fx.renderer.SongStructCellRenderer;
 import org.adonai.model.Song;
@@ -26,8 +29,13 @@ import org.adonai.services.AddPartService;
 import org.adonai.services.MovePartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class EditContentController extends ContentChangeableController {
+public class EditContentController extends AbstractController {
+
+  private static final Logger log = LoggerFactory.getLogger(EditContentController.class);
+
 
   @FXML
   private TextArea txaText;
@@ -72,6 +80,7 @@ public class EditContentController extends ContentChangeableController {
         loadCurrentSongPart(newValue); //and load new one
       }
     });
+
   }
 
   /**
@@ -92,7 +101,12 @@ public class EditContentController extends ContentChangeableController {
     txaText.setText(textRenderer.getRenderedText(songPart));
   }
 
+  public void serializeCurrentSongPart () {
+    serializeCurrentSongPart(lviStructure.getSelectionModel().getSelectedItem());
+  }
+
   private void serializeCurrentSongPart (SongStructItem songStructItem) {
+    log.info("serialize song part " + songStructItem.getPartId());
     SongPart songPart = findSongPart(songStructItem);
     List<String> lines = new ArrayList<>(Arrays.asList(txaText.getText().split("\n")));
     lines.add(0, "[" + songPart.getSongPartTypeLabel() + "]");
@@ -114,11 +128,6 @@ public class EditContentController extends ContentChangeableController {
         found.add(next.getId() + "\n");
     }
     throw new IllegalStateException("Part with id " + songStructItem.getPartId() + " not found in current parts (Found ids: " + found + ")");
-  }
-
-  @Override protected void save() {
-    song.setStructItems(songStructItems);
-    song.setSongParts(songParts);
   }
 
   private SongCursor getSongCursor () {
