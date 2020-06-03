@@ -11,6 +11,7 @@ import org.adonai.fx.imports.SongImportController;
 import org.adonai.reader.text.TextfileReader;
 
 import java.util.Arrays;
+import org.controlsfx.control.Notifications;
 
 public class ImportFromClipBoardPage extends WizardPage {
   public final static String TITLE = "Import from clipboard";
@@ -41,23 +42,29 @@ public class ImportFromClipBoardPage extends WizardPage {
   }
 
   void nextPage() {
-    importTextArea();
-    navTo(PreviewPage.TITLE);
+    if (importTextArea())
+      navTo(PreviewPage.TITLE);
   }
 
   void finish () {
-    importTextArea();
-    super.finish();
+    if (importTextArea())
+      super.finish();
   }
 
-  void importTextArea () {
+  boolean importTextArea () {
     if (! txaImport.getText().trim().isEmpty()) {
       TextfileReader textfileReader = new TextfileReader();
       TextfileReaderParam param = new TextfileReaderParam();
-      controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n")), param));
+      try {
+        controller.setSongToImport(textfileReader.read(Arrays.asList(txaImport.getText().split("\n")), param));
+        return true;
+      } catch (Exception e) {
+        Notifications.create().text("Error on import: " + e.getLocalizedMessage()).showError();
+        return false;
+      }
     }
 
-
+    return false;
   }
 
 

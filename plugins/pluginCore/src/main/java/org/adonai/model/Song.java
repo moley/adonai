@@ -150,6 +150,14 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return additionals;
   }
 
+  public Additional getAdditional (final AdditionalType additionalType) {
+    for (Additional next: additionals) {
+      if (next.getAdditionalType().equals(additionalType))
+        return next;
+    }
+    return null;
+  }
+
   public void setAdditionals (final List<Additional> additionals) {
     this.additionals = additionals;
   }

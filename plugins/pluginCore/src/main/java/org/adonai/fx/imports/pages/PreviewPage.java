@@ -19,6 +19,7 @@ import org.adonai.fx.editor.SongEditor;
 import org.adonai.fx.imports.SongImportController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
+import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,30 +55,34 @@ public class PreviewPage extends WizardPage {
           List<Song> songsOfCurrentScope = Arrays.asList(song);
 
           SizeInfo sizeInfo = new SizeInfo(rootpanel.getWidth(), rootpanel.getHeight());
+          try {
 
-          PresentationExporter exporter = new PresentationExporter(applicationEnvironment, sizeInfo, new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-              LOGGER.info("Hello");
-            }
-          });
+            PresentationExporter exporter = new PresentationExporter(applicationEnvironment, sizeInfo, new EventHandler<ActionEvent>() {
+              @Override public void handle(ActionEvent event) {
+                LOGGER.info("Hello");
+              }
+            });
 
-          Configuration configuration = applicationEnvironment.getCurrentConfiguration();
-          ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
+            Configuration configuration = applicationEnvironment.getCurrentConfiguration();
+            ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
-          exportConfiguration.setOriginalKey(false);
-          exportConfiguration.setWithTitle(false);
-          exportConfiguration.setWithLead(false);
-          exportConfiguration.setWithId(false);
-          exportConfiguration.setWithKeys(false);
-          exportConfiguration.setWithLead(false);
-          exportConfiguration.setWithKeys(false);
-          exportConfiguration.setWithChords(true);
+            exportConfiguration.setOriginalKey(false);
+            exportConfiguration.setWithTitle(false);
+            exportConfiguration.setWithLead(false);
+            exportConfiguration.setWithId(false);
+            exportConfiguration.setWithKeys(false);
+            exportConfiguration.setWithLead(false);
+            exportConfiguration.setWithKeys(false);
+            exportConfiguration.setWithChords(true);
 
-          exporter.export(songsOfCurrentScope, null, exportConfiguration);
-          SongEditor songEditor = new SongEditor(applicationEnvironment, exporter.getPanes());
-          rootpanel.getChildren().clear();
-          rootpanel.getChildren().add(songEditor);
-          songEditor.show();
+            exporter.export(songsOfCurrentScope, null, exportConfiguration);
+            SongEditor songEditor = new SongEditor(applicationEnvironment, exporter.getPanes());
+            rootpanel.getChildren().clear();
+            rootpanel.getChildren().add(songEditor);
+            songEditor.show();
+          } catch (Exception e) {
+            Notifications.create().text("Error on preview: " + e.getLocalizedMessage()).showError();
+          }
         }
       }
     });

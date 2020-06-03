@@ -86,19 +86,28 @@ public class SongEditor extends VBox {
   }
 
   private void selectSong (Song song) {
-    for (Page nextPage: panes) {
-      if (nextPage.getSong().equals(song)) {
-        disableAndRemove();
-        currentSongProperty.set(song);
-        currentIndex = panes.indexOf(nextPage);
-        enableAndAdd();
-        return;
+    if (song != null) {
+      for (Page nextPage : panes) {
+        if (nextPage.getSong().equals(song)) {
+          disableAndRemove();
+          currentSongProperty.set(song);
+          currentIndex = panes.indexOf(nextPage);
+          enableAndAdd();
+          return;
+        }
       }
     }
+
+    //default if song not found or no song selected so far
+    song = panes.get(0).getSong();
+    disableAndRemove();
+    currentSongProperty.set(song);
+    currentIndex = 0;
+    enableAndAdd();
   }
 
   public void show() {
-    enableAndAdd();
+    selectSong(applicationEnvironment.getCurrentSong());
 
     Scene scene = getScene();
 

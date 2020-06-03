@@ -1,8 +1,4 @@
-- Handle import errors likely
-- Export
-- Always select the current song after reloading
-- Assign mp3s
-
+- Make usable with keys
 
 - Split exportpath and styling schemas in two configurations
 - Styling schematas

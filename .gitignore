@@ -11,6 +11,7 @@ out/
 .project
 .classpath
 .settings/
+/app/export/
 /export/
 .adonai/
 plugins/pluginApp/adonai.zip
