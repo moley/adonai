@@ -8,6 +8,7 @@ import org.adonai.model.Song;
 import org.adonai.model.SongBuilder;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.SongStructItem;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -123,11 +124,17 @@ public class SongRepairerTest {
     SongPart songPart = new SongPart();
 
     songPart.getLines().add(line);
+    SongStructItem songStructItem = new SongStructItem();
+    songStructItem.setPartId(songPart.getId());
+    song.getStructItems().add(songStructItem);
 
     song.getSongParts().add(songPart);
 
     SongRepairer songRepairer = new SongRepairer();
+    System.out.println (song.getSongParts().size());
     songRepairer.repairSong(song);
+
+    System.out.println (song.getSongParts().size());
 
     Assert.assertEquals("D", linePart.getChord());
     Assert.assertEquals("A", linePart.getOriginalChord());
