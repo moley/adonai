@@ -134,7 +134,19 @@ public class ExportEngine {
 
       for (SongStructItem nextStructItem : nextSong.getStructItems()) {
 
+
         SongPart nextPart = nextSong.findSongPart(nextStructItem);
+
+        if (exportConfiguration.isWithRemarks() != null && exportConfiguration.isWithRemarks().equals(Boolean.TRUE)) {
+          if (nextStructItem.getRemarks() != null && ! nextStructItem.getRemarks().trim().isEmpty()) {
+
+            String remarks = nextStructItem.getRemarks();
+            SizeInfo sizeinfoRemarks = documentBuilder.getSize(remarks, ExportTokenType.REMARKS);
+            ExportToken remarksToken = new ExportToken(nextSong, nextStructItem, remarks, new AreaInfo(locationInfo, sizeinfoRemarks), ExportTokenType.REMARKS);
+            documentBuilder.newToken(remarksToken);
+            locationInfo = locationInfoCalculator.addY(locationInfo, sizeinfoRemarks.getHeight());
+          }
+        }
 
         if (!nextStructItem.isFirstOccurence() && exportConfiguration.getReferenceStrategy()
             .equals(ReferenceStrategy.SHOW_STRUCTURE)) {

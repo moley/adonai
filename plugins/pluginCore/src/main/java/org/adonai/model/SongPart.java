@@ -16,11 +16,6 @@ public class SongPart {
 
   private String referencedSongPart;
 
-  @Deprecated //removed to SongStructItem
-  private SimpleStringProperty quantity = new SimpleStringProperty();
-
-  @Deprecated //removed to SongStructItem
-  private SimpleStringProperty remarks = new SimpleStringProperty();
 
   public SongPartType getSongPartType() {
     return songPartType;
@@ -105,7 +100,7 @@ public class SongPart {
   }
 
   @Override public String toString() {
-    return "SongPart{" + "id='" + id + '\'' + ", quantity=" + quantity + ", remarks=" + remarks + ", songPartType=" + songPartType + ", lines=" + lines + "}\n";
+    return "SongPart{" + "id='" + id + '\'' + ", songPartType=" + songPartType + ", lines=" + lines + "}\n";
   }
 
   public boolean hasText () {
@@ -128,51 +123,12 @@ public class SongPart {
     this.id = id;
   }
 
-  @Deprecated //not needed anymore
-  public String getReferencedSongPart() {
-    return referencedSongPart;
-  }
-
-  public void setReferencedSongPart(String referencedSongPart) {
-    this.referencedSongPart = referencedSongPart;
-  }
-
 
   @XmlTransient
   public String getEqualKey () {
     String equalKey = getSongPartType() + getLines().toString();
     return equalKey.replaceAll("\\s", "");
 
-  }
-
-  @Deprecated //moved to SongStructItem
-  public String getRemarks() {
-    return remarks.getValue();
-  }
-
-  @Deprecated //moved to SongStructItem
-  public void setRemarks(String remarks) {
-    this.remarks.set(remarks);
-  }
-
-  @Deprecated //moved to SongStructItem
-  public String getQuantity() {
-    return quantity.getValue();
-  }
-
-  @Deprecated //moved to SongStructItem
-  public void setQuantity(String quantity) {
-    this.quantity.set(quantity);
-  }
-
-  @Deprecated //moved to SongStructItem
-  public SimpleStringProperty quantityProperty () {
-    return quantity;
-  }
-
-  @Deprecated //moved to SongStructItem
-  public SimpleStringProperty remarksProperty () {
-    return remarks;
   }
 
 }

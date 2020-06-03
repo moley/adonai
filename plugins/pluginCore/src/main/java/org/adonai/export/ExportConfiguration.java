@@ -41,11 +41,16 @@ public class ExportConfiguration {
   private SimpleBooleanProperty withIndexPage = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withIndexPageInitialized = new SimpleBooleanProperty(false);
 
+  private SimpleBooleanProperty withRemarks = new SimpleBooleanProperty(false);
+  private SimpleBooleanProperty withRemarksInitialized = new SimpleBooleanProperty(false);
+
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty openPreviewInitialized = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty originalKey = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty originKeyInitialized = new SimpleBooleanProperty(false);
+
+
 
 
   private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
@@ -86,6 +91,28 @@ public class ExportConfiguration {
 
   public void setNewPageStrategy(NewPageStrategy newPageStrategy) {
     this.newPageStrategy = newPageStrategy;
+  }
+
+  //remarks
+  public Boolean isWithRemarks () {
+    return withRemarks.get();
+  }
+
+  public boolean isWithRemarksInitialized () {
+    return withRemarksInitialized.get();
+  }
+
+  public SimpleBooleanProperty withRemarksProperty () {
+    return withRemarks;
+  }
+
+  public SimpleBooleanProperty withRemarksInitializedProperty () {
+    return withRemarksInitialized;
+  }
+
+  public void setWithRemarks (final Boolean originalKey) {
+    this.withRemarksInitialized.set(Boolean.TRUE);
+    this.withRemarks.set(originalKey);
   }
 
   //original key

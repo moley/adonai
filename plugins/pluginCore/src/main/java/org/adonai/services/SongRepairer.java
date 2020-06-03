@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import org.adonai.Key;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Additional;
@@ -31,9 +30,6 @@ public class SongRepairer {
     //migrate on the fly to new structure elements and collect data for the structure repair loop afterwards
     for (SongPart nextPart : song.getSongParts()) {
 
-      if (nextPart.getReferencedSongPart() != null)
-        continue;
-
       SongPartType songPartType = nextPart.getSongPartType();
       Integer count = aggregatedNumberOfTypes.get(songPartType);
       if (count == null)
@@ -50,30 +46,6 @@ public class SongRepairer {
     Key originKey = song.getOriginalKey() != null ? Key.fromString(song.getOriginalKey()) : null;
 
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
-
-
-
-
-    //migrate on the fly to new structure elements and collect data for the structure repair loop afterwards
-    if (song.getStructItems() == null || song.getStructItems().isEmpty()){
-      List<SongStructItem> migratedStructItems = new ArrayList<SongStructItem>();
-      for (SongPart next : song.getSongParts()) {
-        SongStructItem newSongStructItem = new SongStructItem();
-        newSongStructItem.setPartId(next.getReferencedSongPart() != null ? next.getReferencedSongPart() : next.getId());
-        newSongStructItem.setRemarks(next.getRemarks());
-        newSongStructItem.setQuantity(next.getQuantity());
-        migratedStructItems.add(newSongStructItem);
-      }
-      song.setStructItems(migratedStructItems);
-    }
-
-    //remove all the references in songparts, because we do not need them anymore
-    List<SongPart> referenceSongparts = new ArrayList<SongPart>();
-    for (SongPart nextPart: song.getSongParts()) {
-      if (nextPart.getReferencedSongPart() != null && ! nextPart.getReferencedSongPart().trim().isEmpty())
-        referenceSongparts.add(nextPart);
-    }
-    song.getSongParts().removeAll(referenceSongparts);
 
     //remove duplicate parts
     HashMap<String, SongPart> equalSongPartHashMap = new HashMap<String, SongPart>();

@@ -7,16 +7,16 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.stage.WindowEvent;
+import javafx.scene.control.TextField;
 import org.adonai.export.ExportToken;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
-import org.adonai.fx.FxApplication;
 import org.adonai.fx.editor.TextRenderer;
 import org.adonai.fx.renderer.SongStructCellRenderer;
 import org.adonai.model.Song;
@@ -36,7 +36,11 @@ import org.slf4j.LoggerFactory;
 public class EditContentController extends AbstractController {
 
   private static final Logger log = LoggerFactory.getLogger(EditContentController.class);
-
+  @FXML private TextField txtQuantity;
+  @FXML
+  private TextField txtRemarks;
+  @FXML
+  private ComboBox<SongPartType> cboType;
 
   @FXML
   private TextArea txaText;
@@ -75,6 +79,7 @@ public class EditContentController extends AbstractController {
     btnMoveDown.setOnAction(action -> movePartDown());
     btnAddAfter.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAddAfter.setOnAction(action -> addPartAfter());
+    cboType.setItems(FXCollections.observableArrayList(SongPartType.values()));
     lviStructure.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SongStructItem>() {
       @Override public void changed(ObservableValue<? extends SongStructItem> observable, SongStructItem oldValue, SongStructItem newValue) {
         if (oldValue != null)
@@ -103,6 +108,9 @@ public class EditContentController extends AbstractController {
   private void loadCurrentSongPart (final SongStructItem songStructItem) {
     SongPart songPart = findSongPart(songStructItem); //and load new one
     txaText.setText(textRenderer.getRenderedText(songPart));
+    txtRemarks.setText(songStructItem.getRemarks());
+    txtQuantity.setText(songStructItem.getQuantity());
+    cboType.getSelectionModel().select(songPart.getSongPartType());
   }
 
   public void serializeCurrentSongPart () {
@@ -123,11 +131,18 @@ public class EditContentController extends AbstractController {
     serializedSong.setOriginalKey(song.getOriginalKey());
     serializedSong.setCurrentKey(song.getCurrentKey());
 
+    songStructItem.setRemarks(txtRemarks.getText());
+    songStructItem.setQuantity(txtQuantity.getText());
+    songPart.setSongPartType(cboType.getSelectionModel().getSelectedItem());
+
+
     SongRepairer songRepairer = new SongRepairer();
     songRepairer.repairSong(serializedSong);
     SongPart serializedSongPart = serializedSong.getFirstPart();
 
     songPart.setLines(serializedSongPart.getLines());
+
+    songRepairer.repairSong(song);
   }
 
   private SongPart findSongPart (final SongStructItem songStructItem) {

@@ -13,6 +13,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -62,7 +63,10 @@ import org.slf4j.LoggerFactory;
     if (fromSaved != null)
       return fromSaved;
 
-    if (exportTokenType.isBold()) {
+    if (exportTokenType.isItalic()) {
+      savedFonts.put(exportTokenType, Font.font("arial", FontPosture.ITALIC, getFontsize(exportTokenType)));
+    }
+    else if (exportTokenType.isBold()) {
       savedFonts.put(exportTokenType, Font.font("arial", FontWeight.BOLD, getFontsize(exportTokenType)));
     } else {
       savedFonts.put(exportTokenType, Font.font("arial", FontWeight.NORMAL, getFontsize(exportTokenType)));
@@ -79,6 +83,8 @@ import org.slf4j.LoggerFactory;
     else if (exportTokenType.equals(ExportTokenType.TITLE))
       return 20;
     else if (exportTokenType.equals(ExportTokenType.STRUCTURE))
+      return 12;
+    else if (exportTokenType.equals(ExportTokenType.REMARKS))
       return 12;
     else
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
@@ -198,6 +204,7 @@ import org.slf4j.LoggerFactory;
     exportConfiguration.setMinimalChordDistance(new Double(5));
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema Editor Default");
+    exportConfiguration.setWithRemarks(Boolean.TRUE);
 
     return exportConfiguration;
   }

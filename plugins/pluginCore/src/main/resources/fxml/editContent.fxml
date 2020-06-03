@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
 <GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="org.adonai.fx.editcontent.EditContentController" hgap="20" vgap="20">
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
@@ -15,14 +17,15 @@
     <columnConstraints>
         <ColumnConstraints percentWidth="30"/>
         <ColumnConstraints percentWidth="10"/>
-        <ColumnConstraints percentWidth="60"/>
+        <ColumnConstraints percentWidth="20"/>
+        <ColumnConstraints percentWidth="40"/>
     </columnConstraints>
 
     <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
 
-    <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="2"/>
-    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="2" spacing="5">
+    <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="4" spacing="5">
 
         <Button fx:id="btnAddBefore"></Button>
         <Button fx:id="btnMoveUp"></Button>
@@ -33,5 +36,16 @@
 
     </VBox>
 
-    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="2" GridPane.rowIndex="1"></TextArea>
+
+    <Label fx:id="lblType" text="Part Type:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="1"></Label>
+    <ComboBox fx:id="cboType" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="1"></ComboBox>
+
+    <Label fx:id="lblQuantity" text="Quantity:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="2"></Label>
+    <TextField fx:id="txtQuantity" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="2"></TextField>
+
+    <Label fx:id="lblRemarks" text="Remarks:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="3"></Label>
+    <TextField fx:id="txtRemarks" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="3"></TextField>
+
+    <Label fx:id="lblContent" text="Content:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="4"></Label>
+    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="3" GridPane.rowIndex="4"></TextArea>
 </GridPane>

@@ -145,6 +145,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema PDF Default");
 
+
     return exportConfiguration;
   }
 

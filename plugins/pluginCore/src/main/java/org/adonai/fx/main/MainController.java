@@ -215,9 +215,12 @@ public class MainController extends AbstractController {
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
     exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
+    exportConfiguration.setInterPartDistance(Double.valueOf(40));
+    exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithKeys(false);
     exportConfiguration.setWithLead(false);
+    exportConfiguration.setWithRemarks(true); //TODO from configuration
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
     SongEditor songeditorRoot = new SongEditor(getApplicationEnvironment(), exporter.getPanes());

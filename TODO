@@ -1,5 +1,4 @@
-
-- Show additional infos
+- Handle import errors likely
 - Export
 - Always select the current song after reloading
 - Assign mp3s
