@@ -57,7 +57,6 @@ public class SettingsTenantsController extends AbstractSettingsController {
       public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
         lblName.setText(newValue);
         adonaiProperties.setCurrentTenant(newValue);
-        adonaiProperties.save();
       }
     });
 

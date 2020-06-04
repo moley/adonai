@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSongAction;
@@ -66,6 +68,20 @@ public class ScopeController extends AbstractController {
           btnMoveUp.setVisible(songInSessionSelected);
 
         }
+      }
+    });
+
+    treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        if (event.getText().equals("+")) {
+          event.consume();
+          add();
+        }
+        else if (event.getText().equals("-")) {
+          event.consume();
+          remove();
+        }
+
       }
     });
 

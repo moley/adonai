@@ -1,21 +1,15 @@
 package org.adonai.actions;
 
-import java.io.File;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.adonai.ApplicationEnvironment;
-import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.fx.ExtensionSelectorController;
+import org.adonai.fx.ExtensionType;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
-import org.adonai.fx.UiUtils;
-import org.adonai.model.Additional;
-import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
-import org.adonai.fx.ExtensionSelectorController;
-import org.adonai.fx.ExtensionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

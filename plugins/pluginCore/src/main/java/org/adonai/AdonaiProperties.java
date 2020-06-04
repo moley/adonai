@@ -56,7 +56,7 @@ public class AdonaiProperties {
     properties.setProperty(key, value);
   }
 
-  public void save () {
+  private void save () {
     propertiesFile.getParentFile().mkdirs();
     try {
       properties.store(new FileOutputStream(propertiesFile), "Handled by adonai");
@@ -72,5 +72,6 @@ public class AdonaiProperties {
 
   public void setCurrentTenant (final String newTenant) {
     properties.setProperty(PROPERTY_CURRENT_TENANT, newTenant);
+    save();
   }
 }

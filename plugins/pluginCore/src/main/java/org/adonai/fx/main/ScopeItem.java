@@ -31,7 +31,7 @@ public class ScopeItem  {
 
   public ScopeItem (ScopeItem parentItem, Song song) {
     name = song.getId() + " - " + song.getName();
-    icon = Consts.createIcon("fas-church", Consts.ICON_SIZE_TOOLBAR); //TODO
+    icon = Consts.createIcon("fas-music", Consts.ICON_SIZE_TOOLBAR);
     this.session = null;
     this.songBook = null;
     this.song = song;

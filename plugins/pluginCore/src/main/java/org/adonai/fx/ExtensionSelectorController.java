@@ -58,7 +58,7 @@ public class ExtensionSelectorController extends AbstractController {
 
   @FXML
   public void initialize() {
-    txtSearch.setOnKeyTyped(new EventHandler<KeyEvent>() {
+    txtSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
       @Override
       public void handle(KeyEvent event) {

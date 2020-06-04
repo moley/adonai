@@ -57,7 +57,6 @@ public class TestDataCreator {
 
     AdonaiProperties adonaiProperties = new AdonaiProperties();
     adonaiProperties.setCurrentTenant("tenant1");
-    adonaiProperties.save();
 
     for (String nextTenant : Arrays.asList("tenant1", "tenant2")) {
 
