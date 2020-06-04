@@ -1,17 +1,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsController" alignment="CENTER" hgap="10" vgap="10" >
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
-
-    <Label fx:id="lblTitle" text="CONFIGURATIONS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
-
-
 
     <ListView fx:id="lviConfigurationList" userData="settings.lviConfigurationList" GridPane.columnIndex="0" GridPane.rowIndex="1"
               GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>

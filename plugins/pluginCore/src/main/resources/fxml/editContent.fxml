@@ -21,7 +21,7 @@
         <ColumnConstraints percentWidth="40"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header" GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
 
     <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>

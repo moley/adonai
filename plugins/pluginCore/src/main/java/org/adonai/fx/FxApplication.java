@@ -37,12 +37,7 @@ public class FxApplication extends Application {
 
     ScreenManager screenManager = new ScreenManager();
     primaryStage.initStyle(StageStyle.UNDECORATED);
-    primaryStage.setX(screenManager.getPrimary().getBounds().getMinX() + 5);
-    primaryStage.setY(screenManager.getPrimary().getBounds().getMinY() + 5);
-    primaryStage.setWidth(screenManager.getPrimary().getBounds().getWidth() - 10);
-    primaryStage.setHeight(screenManager.getPrimary().getBounds().getHeight() - 30);
-    primaryStage.setMaxHeight(screenManager.getPrimary().getBounds().getHeight() - 30);
-
+    screenManager.layoutOnScreen(primaryStage);
     log.info("Primary stage Bounds: " + primaryStage.getWidth() + "-" + primaryStage.getHeight());
     primaryStage.toFront();
     primaryStage.show();

@@ -2,16 +2,19 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsConfigurationsController" alignment="CENTER" hgap="10" vgap="10" >
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsConfigurationsController" alignment="TOP_CENTER" hgap="10" vgap="10" >
     <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
 
+    <Label fx:id="lblTitle" userData="users.lblTitle" text="CONFIGURATION - VIEWS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
-    <Label text="Admin screen" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <ComboBox fx:id="cboAdminScreen" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+
+    <Label text="Admin screen" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <ComboBox fx:id="cboAdminScreen" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
 
 </GridPane>

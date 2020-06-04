@@ -1,6 +1,5 @@
 package org.adonai.fx.settings;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,8 +19,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.adonai.api.Configuration;
 import org.adonai.fx.AbstractController;
-import org.adonai.model.Model;
 import org.adonai.fx.Consts;
+import org.adonai.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

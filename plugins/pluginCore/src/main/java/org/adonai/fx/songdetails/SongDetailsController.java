@@ -177,7 +177,7 @@ public class SongDetailsController extends AbstractController {
     Additional additional = song.getAdditional(AdditionalType.AUDIO);
     return additional != null ?
         additional.getLink()
-            .substring((additional.getLink().lastIndexOf("/") >= 0 ? additional.getLink().lastIndexOf("/") : 0)) :
+            .substring((additional.getLink().lastIndexOf("/") >= 0 ? additional.getLink().lastIndexOf("/") + 1: 0)) :
         "n.a.";
   }
 

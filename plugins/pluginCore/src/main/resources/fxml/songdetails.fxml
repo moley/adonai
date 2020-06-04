@@ -6,24 +6,24 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.ButtonBar?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.songdetails.SongDetailsController" alignment="CENTER" hgap="20" vgap="20" >
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="20"/>
-        <ColumnConstraints percentWidth="60"/>
+        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="20"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" userData="songdetails.lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+    <Label fx:id="lblTitle" userData="songdetails.lblTitle" text="EDIT SONG DETAILS" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="4"/>
 
     <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <TextField fx:id="txtTitle" userData="songdetails.txtTitle" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
                GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
     <Label text="Mp3" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>
-    <Label fx:id="lblCurrentMp3" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-    <Button fx:id="btnAssignMp3" text="Assign mp3" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+    <Label fx:id="lblCurrentMp3" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <Button fx:id="btnAssignMp3" text="Assign mp3" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
 
     <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS"/>
     <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>

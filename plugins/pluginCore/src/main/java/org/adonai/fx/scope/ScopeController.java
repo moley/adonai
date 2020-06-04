@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 public class ScopeController extends AbstractController {
 
-  private static final Logger log = LoggerFactory.getLogger(ScopeController.class);
+  private final static Logger log = LoggerFactory.getLogger(ScopeController.class);
   @FXML private TreeView<ScopeItem> treScope;
   @FXML private Button btnAdd;
   @FXML private Button btnMoveUp;
@@ -57,23 +57,37 @@ public class ScopeController extends AbstractController {
     btnMoveDown.setOnAction(action -> moveDown());
 
     treScope.setShowRoot(true);
-    treScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<ScopeItem>>() {
-      @Override public void changed(ObservableValue<? extends TreeItem<ScopeItem>> observable,
-          TreeItem<ScopeItem> oldValue, TreeItem<ScopeItem> newValue) {
-        if (newValue != null) {
-          ScopeItem scopeItem = newValue.getValue();
-          boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
-              .getSession() != null;
-          btnMoveDown.setVisible(songInSessionSelected);
-          btnMoveUp.setVisible(songInSessionSelected);
 
+    treScope.setOnKeyTyped(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        log.info("handle onKeyTyped " + getSelectedScopeItem());
+
+      }
+    });
+
+    treScope.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+      @Override public void handle(KeyEvent event) {
+        log.info("handle onKeyReleased " + getSelectedScopeItem());
+        if (event.getCode().equals(KeyCode.UP) && event.isShiftDown()) {
+          log.info("onKeyTyped down");
+          event.consume();
+          moveUp();
+        }
+        else if (event.getCode().equals(KeyCode.DOWN) && event.isShiftDown()) {
+          log.info("onKeyTyped up");
+          event.consume();
+          moveDown();
         }
       }
     });
 
     treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
+        log.info("handle onKeyPressed " + getSelectedScopeItem());
+
         if (event.getText().equals("+")) {
+
           event.consume();
           add();
         }
@@ -82,6 +96,24 @@ public class ScopeController extends AbstractController {
           remove();
         }
 
+
+      }
+
+
+    });
+
+    treScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<ScopeItem>>() {
+      @Override public void changed(ObservableValue<? extends TreeItem<ScopeItem>> observable,
+          TreeItem<ScopeItem> oldValue, TreeItem<ScopeItem> newValue) {
+        log.info("selectionChanged property");
+        if (newValue != null) {
+          ScopeItem scopeItem = newValue.getValue();
+          boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
+              .getSession() != null;
+          btnMoveDown.setVisible(songInSessionSelected);
+          btnMoveUp.setVisible(songInSessionSelected);
+
+        }
       }
     });
 

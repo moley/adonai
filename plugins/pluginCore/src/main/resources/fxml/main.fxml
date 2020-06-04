@@ -13,7 +13,7 @@
 
     <top>
         <HBox fx:id="panHeader" fillHeight="true" >
-            <Button fx:id="btnScope" maxHeight="Infinity" alignment="CENTER"></Button>
+            <Button fx:id="btnWorkspace" maxHeight="Infinity" alignment="CENTER"></Button>
             <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity" styleClass="scopeChooser">
                 <HBox.margin>
                     <Insets>

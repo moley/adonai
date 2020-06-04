@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 
   private ApplicationEnvironment applicationEnvironment;
 
+
   @Override public SizeInfo getSize(String text, ExportTokenType exportTokenType) {
     Text txtAsText = new Text(text);
 
@@ -126,6 +127,9 @@ import org.slf4j.LoggerFactory;
                 MaskLoader<SongDetailsController> songdetailsMaskLoader = new MaskLoader<SongDetailsController>();
                 Mask<SongDetailsController> songdetailsMask = songdetailsMaskLoader.load("songdetails");
                 Stage stage = songdetailsMask.getStage();
+                ScreenManager screenManager = new ScreenManager();
+                screenManager.layoutOnScreen(stage, 300);
+
                 SongDetailsController songDetailsController = songdetailsMask.getController();
                 songDetailsController.setStage(stage);
                 songDetailsController.setConfiguration(applicationEnvironment.getCurrentConfiguration());
@@ -138,12 +142,6 @@ import org.slf4j.LoggerFactory;
                   }
                 });
 
-                Bounds sceneBounds = text.localToScene(text.getBoundsInLocal());
-                stage.setX(sceneBounds.getMinX() + 10);
-                stage.setY(sceneBounds.getMinY() + 50);
-                stage.setMinWidth(800);
-                stage.setMinHeight(600);
-
                 stage.showAndWait();
 
               } else if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE) && exportToken
@@ -151,6 +149,7 @@ import org.slf4j.LoggerFactory;
                 MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
                 Mask<EditContentController> editContentMask = maskLoader.load("editContent");
                 Stage stage = editContentMask.getStage();
+
                 EditContentController editContentController = editContentMask.getController();
                 editContentController.setStage(stage);
                 editContentController.setExportToken(exportToken);
@@ -161,7 +160,6 @@ import org.slf4j.LoggerFactory;
                     onSongContentChange.handle(new ActionEvent());
                   }
                 });
-
 
                 ScreenManager screenManager = new ScreenManager();
                 screenManager.layoutOnScreen(stage, 200);

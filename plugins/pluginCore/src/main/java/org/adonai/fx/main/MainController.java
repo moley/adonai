@@ -51,7 +51,7 @@ public class MainController extends AbstractController {
   public Button btnLeadVoice;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
-  public Button btnScope;
+  public Button btnWorkspace;
 
   private Mp3Player mp3Player = new Mp3Player();
 
@@ -62,9 +62,9 @@ public class MainController extends AbstractController {
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
-    btnScope.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
-    btnScope.setTooltip(new Tooltip("Admin structure"));
-    btnScope.setOnAction(event -> reloadScope());
+    btnWorkspace.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
+    btnWorkspace.setTooltip(new Tooltip("Workspace"));
+    btnWorkspace.setOnAction(event -> reloadScope());
 
     btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {

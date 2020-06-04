@@ -2,14 +2,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsGlobalConfigurationsController" alignment="CENTER" hgap="10" vgap="10" >
+<?import javafx.scene.control.Label?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsGlobalConfigurationsController" alignment="TOP_CENTER" hgap="10" vgap="10" >
     <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>
         <ColumnConstraints percentWidth="80"/>
     </columnConstraints>
 
-    <Button fx:id="btnRenumber" text="Renumber" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+    <Label fx:id="lblTitle" userData="users.lblTitle" text="CONFIGURATION - GLOBAL" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+
+
+    <Button fx:id="btnRenumber" text="Renumber" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
 
 
 </GridPane>

@@ -35,8 +35,6 @@ public class ExtensionSelectorController extends AbstractController {
   @FXML
   TextField txtSearch;
 
-  Model model;
-
   ExtensionIndex extensionIndex;
 
   ExtensionType currentType = ExtensionType.SONG;
