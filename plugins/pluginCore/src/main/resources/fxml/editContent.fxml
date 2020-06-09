@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.MenuButton?>
 <GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="org.adonai.fx.editcontent.EditContentController" hgap="20" vgap="20">
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
@@ -27,12 +28,11 @@
     <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="4" spacing="5">
 
-        <Button fx:id="btnAddBefore"></Button>
-        <Button fx:id="btnMoveUp"></Button>
+        <MenuButton fx:id="btnAdd"></MenuButton>
+        <MenuButton fx:id="btnCopy"></MenuButton>
         <Button fx:id="btnRemove"></Button>
+        <Button fx:id="btnMoveUp"></Button>
         <Button fx:id="btnMoveDown"></Button>
-        <Button fx:id="btnAddAfter"></Button>
-
 
     </VBox>
 

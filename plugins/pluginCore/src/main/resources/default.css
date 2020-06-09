@@ -95,6 +95,13 @@
   -fx-font-family: Verdana;
 }
 
+.menu-button {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
 .spinner {
   -fx-font-size: 18;
   -fx-font-family: Verdana;

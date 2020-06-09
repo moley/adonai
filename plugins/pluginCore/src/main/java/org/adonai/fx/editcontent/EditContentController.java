@@ -3,17 +3,23 @@ package org.adonai.fx.editcontent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.ContextMenuEvent;
 import org.adonai.export.ExportToken;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
@@ -30,6 +36,7 @@ import org.adonai.services.MovePartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongRepairer;
+import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,11 +53,11 @@ public class EditContentController extends AbstractController {
   private TextArea txaText;
 
   @FXML private ListView<SongStructItem> lviStructure;
-  @FXML private Button btnAddBefore;
+  @FXML private MenuButton btnAdd;
+  @FXML private MenuButton btnCopy;
   @FXML private Button btnMoveUp;
   @FXML private Button btnRemove;
   @FXML private Button btnMoveDown;
-  @FXML private Button btnAddAfter;
 
   private Song song;
 
@@ -69,16 +76,19 @@ public class EditContentController extends AbstractController {
   @FXML
   public void initialize () {
     lviStructure.setCellFactory(cellfactory -> new SongStructCellRenderer());
-    btnAddBefore.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
-    btnAddBefore.setOnAction(action-> addPartBefore());
     btnMoveUp.setGraphic(Consts.createIcon("fas-angle-up", Consts.ICON_SIZE_VERY_SMALL));
     btnMoveUp.setOnAction(action -> movePartUp());
+    btnMoveUp.setTooltip(new Tooltip("Move selected part upwards"));
     btnRemove.setGraphic(Consts.createIcon("fas-trash", Consts.ICON_SIZE_VERY_SMALL));
     btnRemove.setOnAction(action -> removePart());
+    btnRemove.setTooltip(new Tooltip("Remove selected part"));
     btnMoveDown.setGraphic(Consts.createIcon("fas-angle-down", Consts.ICON_SIZE_VERY_SMALL));
     btnMoveDown.setOnAction(action -> movePartDown());
-    btnAddAfter.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
-    btnAddAfter.setOnAction(action -> addPartAfter());
+    btnMoveDown.setTooltip(new Tooltip("Move selected part downwards"));
+    btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
+    btnAdd.setTooltip(new Tooltip("Add new part after selected part"));
+    btnCopy.setGraphic(Consts.createIcon("fas-copy", Consts.ICON_SIZE_VERY_SMALL));
+    btnCopy.setTooltip(new Tooltip("Add copy of an already existing part after selected part"));
     cboType.setItems(FXCollections.observableArrayList(SongPartType.values()));
     lviStructure.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SongStructItem>() {
       @Override public void changed(ObservableValue<? extends SongStructItem> observable, SongStructItem oldValue, SongStructItem newValue) {
@@ -163,18 +173,6 @@ public class EditContentController extends AbstractController {
     return songCursor;
   }
 
-  private void addPartBefore () {
-    SongStructItem songStructItem = addPartService.addPartBefore(getSongCursor(), null, SongPartType.REFRAIN);
-    reloadSongStructItems();
-    lviStructure.getSelectionModel().select(songStructItem);
-  }
-
-  private void addPartAfter () {
-    SongStructItem songStructItem = addPartService.addPartAfter(getSongCursor(), null, SongPartType.REFRAIN);
-    reloadSongStructItems();
-    lviStructure.getSelectionModel().select(songStructItem);
-  }
-
   private void movePartUp () {
     SongCursor songCursor = getSongCursor();
     SongStructItem songStructItem = songCursor.getCurrentSongStructItem();
@@ -206,6 +204,39 @@ public class EditContentController extends AbstractController {
 
   public void reloadSongStructItems() {
     lviStructure.setItems(FXCollections.observableArrayList(songStructItems));
+
+    btnAdd.getItems().clear();
+    for (SongPartType nextType: SongPartType.values()) {
+      MenuItem menuItem = new MenuItem(nextType.name());
+      menuItem.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent event) {
+          final SongPartType currentSongPartType = nextType;
+          addPartService.addPartAfter(getSongCursor(), null, currentSongPartType);
+          reloadSongStructItems();
+        }
+      });
+      btnAdd.getItems().add(menuItem);
+
+    }
+
+    btnCopy.getItems().clear();
+    HashSet<String> copiedItems = new HashSet<>();
+    for (final SongStructItem nextStructItem: songStructItems) {
+      String copiedName = nextStructItem.getText();
+      if (!copiedItems.contains(copiedName)) {
+        MenuItem menuItem = new MenuItem(copiedName);
+        menuItem.setOnAction(new EventHandler<ActionEvent>() {
+          @Override public void handle(ActionEvent event) {
+            final SongStructItem currentSongStructItem = nextStructItem;
+            SongPart songPart = song.findSongPart(currentSongStructItem);
+            addPartService.addPartAfter(getSongCursor(), songPart, null);
+            reloadSongStructItems();
+          }
+        });
+        btnCopy.getItems().add(menuItem);
+      }
+    }
+
   }
 
 }

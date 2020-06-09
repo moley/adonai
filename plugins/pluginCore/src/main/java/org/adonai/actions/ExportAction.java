@@ -65,6 +65,8 @@ public class ExportAction implements MainAction {
         exportConfiguration.setWithContentPage(true);
         exportConfiguration.setWithIndexPage(true);
         exportConfiguration.setWithChords(true);
+        exportConfiguration.setWithId(true);
+        exportConfiguration.setWithTitle(true);
         exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
         exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
         exportConfiguration.setWithIndexPage(songs.size() > 1);
