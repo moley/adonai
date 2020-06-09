@@ -39,6 +39,9 @@ public class Song extends AbstractSessionItem implements NamedElement{
   }
 
   public int getIndex (final SongStructItem songStructItem) {
+    if (songStructItem == null)
+      throw new IllegalArgumentException("Parameter 'songStructItem' must not be null");
+
     return structItems.indexOf(songStructItem);
   }
 
@@ -76,7 +79,9 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public SongStructItem getNextStructItem (SongStructItem songStructItem) {
     int index = getIndex(songStructItem);
-    return (index < getSongParts().size() - 1)? getStructItems().get(index + 1): null;
+    boolean notLast = index < getStructItems().size() - 1;
+    SongStructItem nextItem =  notLast ? getStructItems().get(index + 1): null;
+    return nextItem;
   }
 
   public SongStructItem getFirstStructItem () {

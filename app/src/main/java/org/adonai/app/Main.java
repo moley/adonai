@@ -26,6 +26,10 @@ public class Main {
       throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     LOGGER.info("Starting application in path " + new File("").getAbsolutePath());
 
+    if (new File ("../build").exists()) {
+      System.setProperty("pf4j.pluginsDir", new File ("../build/plugins").getAbsolutePath());
+    }
+
     // create the plugin manager
     final PluginManager pluginManager = new DefaultPluginManager() {
       @Override

@@ -69,10 +69,6 @@ public class EditContentController extends AbstractController {
 
   private TextRenderer textRenderer =  new TextRenderer();
 
-  private List<SongStructItem> songStructItems = new ArrayList<SongStructItem>();
-
-  private List<SongPart> songParts = new ArrayList<SongPart>();
-
   @FXML
   public void initialize () {
     lviStructure.setCellFactory(cellfactory -> new SongStructCellRenderer());
@@ -107,8 +103,6 @@ public class EditContentController extends AbstractController {
    */
   public void setExportToken(ExportToken exportToken) {
     this.song = exportToken.getSong();
-    this.songParts = this.song.getSongParts();
-    this.songStructItems = this.song.getStructItems();
 
     reloadSongStructItems();
     lviStructure.getSelectionModel().select(exportToken.getSongStructItem());
@@ -157,7 +151,7 @@ public class EditContentController extends AbstractController {
 
   private SongPart findSongPart (final SongStructItem songStructItem) {
     Collection<String> found = new ArrayList<>();
-    for (SongPart next: songParts) {
+    for (SongPart next: song.getSongParts()) {
       if (next.getId().equals(songStructItem.getPartId()))
         return next;
       else
@@ -203,7 +197,7 @@ public class EditContentController extends AbstractController {
   }
 
   public void reloadSongStructItems() {
-    lviStructure.setItems(FXCollections.observableArrayList(songStructItems));
+    lviStructure.setItems(FXCollections.observableArrayList(song.getStructItems()));
 
     btnAdd.getItems().clear();
     for (SongPartType nextType: SongPartType.values()) {
@@ -221,7 +215,7 @@ public class EditContentController extends AbstractController {
 
     btnCopy.getItems().clear();
     HashSet<String> copiedItems = new HashSet<>();
-    for (final SongStructItem nextStructItem: songStructItems) {
+    for (final SongStructItem nextStructItem: song.getStructItems()) {
       String copiedName = nextStructItem.getText();
       if (!copiedItems.contains(copiedName)) {
         MenuItem menuItem = new MenuItem(copiedName);

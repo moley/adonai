@@ -32,7 +32,7 @@ public class MovePartServiceTest {
   }
 
   @Test
-  public void moveLastPartUp () {
+  public void moveValidPartUp () {
     Song song = SongTestData.getSongWithTwoPartsTwoLines();
     SongCursor cursor = new SongCursor(song, 1, 1, 0, 0);
     LinePart focusedLinePart = movePartService.movePartUp(cursor);
@@ -45,6 +45,42 @@ public class MovePartServiceTest {
     Assert.assertEquals (2, song.getSongParts().size());
     Assert.assertEquals (SongPartType.REFRAIN, part1.getSongPartType());
     Assert.assertEquals (SongPartType.VERS, part2.getSongPartType());
+
+  }
+
+  @Test
+  public void movePartUpInMultiVerseSong () {
+    Song song = SongTestData.getSongWithTwoVerses();
+    System.out.println ("Before: " + song.getStructItems());
+    SongCursor cursor = new SongCursor(song, 1, 1, 0, 0);
+    LinePart focusedLinePart = movePartService.movePartUp(cursor);
+    System.out.println ("After: " + song.getStructItems());
+
+
+    Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
+    Assert.assertEquals (4, song.getStructItems().size());
+    Assert.assertEquals ("VERS 2", song.getStructItems().get(0).getText());
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(1).getText());
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(2).getText());
+    Assert.assertEquals ("VERS 2", song.getStructItems().get(3).getText());
+
+  }
+
+  @Test
+  public void movePartDownInMultiVerseSong () {
+    Song song = SongTestData.getSongWithTwoVerses();
+    System.out.println ("Before: " + song.getStructItems());
+    SongCursor cursor = new SongCursor(song, 0, 1, 0, 0);
+    LinePart focusedLinePart = movePartService.movePartDown(cursor);
+    System.out.println ("After: " + song.getStructItems());
+
+
+    Assert.assertEquals (focusedLinePart, cursor.getCurrentLinePart());
+    Assert.assertEquals (4, song.getStructItems().size());
+    Assert.assertEquals ("VERS 2", song.getStructItems().get(0).getText());
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(1).getText());
+    Assert.assertEquals ("VERS 1", song.getStructItems().get(2).getText());
+    Assert.assertEquals ("VERS 2", song.getStructItems().get(3).getText());
 
   }
 
