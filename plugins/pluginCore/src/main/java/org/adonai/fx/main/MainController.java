@@ -8,12 +8,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.api.MainAction;
@@ -31,6 +35,7 @@ import org.adonai.fx.scope.ScopeController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
+import org.adonai.presentation.Metronome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +57,12 @@ public class MainController extends AbstractController {
   public Button btnTransposedKey;
   public Button btnOriginalKey;
   public Button btnWorkspace;
+  public Pane panMetronome;
+  public Button btnSpeed;
 
   private Mp3Player mp3Player = new Mp3Player();
+
+  private Metronome metronome = new Metronome();
 
   private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<ScopeController>();
   private Mask<ScopeController> maskScope;
@@ -65,6 +74,18 @@ public class MainController extends AbstractController {
     btnWorkspace.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
     btnWorkspace.setTooltip(new Tooltip("Workspace"));
     btnWorkspace.setOnAction(event -> reloadScope());
+    main.setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.M)) {
+          metronome.setBpm(getApplicationEnvironment().getCurrentSong().getSpeed());
+          metronome.setVisible(! metronome.isVisible());
+
+        }
+
+      }
+    });
+
+    panMetronome.getChildren().add(metronome.getControl());
 
     btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -225,10 +246,13 @@ public class MainController extends AbstractController {
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
         btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
         btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
+        btnSpeed.setText(newValue.getSpeedNotNull());
+
       }
     });
     main.setCenter(songeditorRoot);
     songeditorRoot.show();
+
   }
 
 

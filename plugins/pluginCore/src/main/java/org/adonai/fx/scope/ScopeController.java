@@ -58,18 +58,20 @@ public class ScopeController extends AbstractController {
 
     treScope.setShowRoot(true);
 
-    treScope.setOnKeyTyped(new EventHandler<KeyEvent>() {
+
+    treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
-        log.info("handle onKeyTyped " + getSelectedScopeItem());
+        log.info("handle onKeyPressed " + getSelectedScopeItem());
 
-      }
-    });
-
-    treScope.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-      @Override public void handle(KeyEvent event) {
-        log.info("handle onKeyReleased " + getSelectedScopeItem());
-        if (event.getCode().equals(KeyCode.UP) && event.isShiftDown()) {
+        if (event.getText().equals("+")) {
+          event.consume();
+          add();
+        }
+        else if (event.getText().equals("-")) {
+          event.consume();
+          remove();
+        }
+        else if (event.getCode().equals(KeyCode.UP) && event.isShiftDown()) {
           log.info("onKeyTyped down");
           event.consume();
           moveUp();
@@ -78,22 +80,6 @@ public class ScopeController extends AbstractController {
           log.info("onKeyTyped up");
           event.consume();
           moveDown();
-        }
-      }
-    });
-
-    treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        log.info("handle onKeyPressed " + getSelectedScopeItem());
-
-        if (event.getText().equals("+")) {
-
-          event.consume();
-          add();
-        }
-        else if (event.getText().equals("-")) {
-          event.consume();
-          remove();
         }
 
 

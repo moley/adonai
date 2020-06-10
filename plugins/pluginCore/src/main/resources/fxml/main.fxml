@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
 <BorderPane fx:id="main" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.adonai.fx.main.MainController">
 
@@ -45,6 +46,17 @@
             </Button>
             <Button fx:id="btnOriginalKey" styleClass="chordButton" ></Button>
             <Button fx:id="btnTransposedKey" styleClass="chordButton" ></Button>
+            <Button fx:id="btnSpeed" alignment="CENTER">
+                <HBox.margin>
+                    <Insets>
+                        <left>50</left>
+                        <right>20</right>
+                    </Insets>
+                </HBox.margin>
+            </Button>
+            <Pane fx:id="panMetronome" HBox.hgrow="NEVER">
+
+            </Pane>
             <Pane HBox.hgrow="ALWAYS"/>
             <MenuButton fx:id="btnMainActions" userData="mainpage.btnMainActions"/>
         </HBox>

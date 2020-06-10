@@ -217,6 +217,10 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return speedProperty.get();
   }
 
+  public String getSpeedNotNull () {
+    return (getSpeed() != null ? String.valueOf(getSpeed()) : "0");
+  }
+
   public void setSpeed (final Integer newSpeed) {
     this.speedProperty.set(newSpeed);
   }

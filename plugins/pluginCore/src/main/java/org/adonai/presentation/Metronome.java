@@ -9,6 +9,8 @@ public class Metronome {
 
   private int waitInMillis = 0;
 
+  private Integer bpm;
+
   private static final Logger LOGGER = LoggerFactory.getLogger(Metronome.class);
 
   private Button rating = new Button();
@@ -74,6 +76,7 @@ public class Metronome {
   }
 
   public void setBpm(final Integer bpm) {
+    this.bpm = bpm;
     LOGGER.info("set bpm " + bpm);
     if (bpm == null || bpm.intValue() == 0)
       waitInMillis = 0;
@@ -82,6 +85,10 @@ public class Metronome {
       //60 bpm 60 pro minute, 1 pro Sekunde
       //120 bpm 120 pro Minute, 2 pro Sekunde
       waitInMillis = (60 * 1000) / bpm;
+  }
+
+  public Integer getBpm () {
+    return bpm;
   }
 
   public void stop() {
