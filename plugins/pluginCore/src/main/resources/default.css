@@ -82,6 +82,11 @@
   -fx-font-family: Verdana;
 }
 
+.text-area {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
 .list-view .list-cell {
  -fx-font-size: 18;
  -fx-font-family: Verdana;

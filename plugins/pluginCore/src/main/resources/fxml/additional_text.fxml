@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.GridPane?>
 <GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="org.adonai.fx.additionals.AdditionalDetailTextController" hgap="20" vgap="20">
-    <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
+
 
     <!--<columnConstraints>
         <ColumnConstraints percentWidth="30"/>
@@ -14,6 +14,7 @@
         <ColumnConstraints percentWidth="40"/>
     </columnConstraints>-->
 
-    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="TEXT" id="header" GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <TextArea fx:id="txaContent" userData="additionalText.txaContent" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+              GridPane.fillWidth="true" GridPane.fillHeight="true" GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
 </GridPane>

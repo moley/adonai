@@ -133,7 +133,7 @@ public class ScopeController extends AbstractController {
       songDetailsController.setWithAdditionals(withAdditionals);
       stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
         @Override public void handle(WindowEvent event) {
-          //TODO
+          songDetailsController.save();
         }
       });
 

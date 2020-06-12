@@ -16,19 +16,18 @@
     <columnConstraints>
         <ColumnConstraints percentWidth="30"/>
         <ColumnConstraints percentWidth="10"/>
-        <ColumnConstraints percentWidth="20"/>
-        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="60"/>
     </columnConstraints>
 
     <Label fx:id="lblTitle" userData="editContent.lblTitle" text="ADDITIONALS" id="header" GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-
-    <ListView fx:id="lviAdditionals" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>
-    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="4" spacing="5">
+    <ListView fx:id="lviAdditionals" GridPane.columnIndex="0" GridPane.fillHeight="true" GridPane.rowIndex="1" GridPane.rowSpan="4" GridPane.hgrow="ALWAYS"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.fillHeight="true" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.rowSpan="4" spacing="5">
         <MenuButton fx:id="btnAdd"></MenuButton>
         <Button fx:id="btnRemove"></Button>
     </VBox>
 
-    <StackPane fx:id="panDetails" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2"></StackPane>
+    <StackPane fx:id="panDetails" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+               GridPane.fillWidth="true" GridPane.fillHeight="true"></StackPane>
 
 </GridPane>

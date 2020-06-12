@@ -3,7 +3,7 @@ package org.adonai.fx.additionals;
 import org.adonai.fx.AbstractController;
 import org.adonai.model.Additional;
 
-public class AdditionalDetailController extends AbstractController {
+public abstract class AdditionalDetailController extends AbstractController {
 
   private Additional additional;
 
@@ -14,4 +14,6 @@ public class AdditionalDetailController extends AbstractController {
   public void setAdditional(Additional additional) {
     this.additional = additional;
   }
+
+  protected abstract void save ();
 }
