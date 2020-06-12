@@ -8,6 +8,8 @@ public class Additional {
 
   private AdditionalType additionalType;
 
+  private String content;
+
   public String getLink() {
     return link;
   }
@@ -29,5 +31,13 @@ public class Additional {
 
   public void setCacheLink(String cacheLink) {
     this.cacheLink = cacheLink;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
   }
 }

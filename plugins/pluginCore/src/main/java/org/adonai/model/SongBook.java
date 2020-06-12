@@ -8,7 +8,7 @@ import java.util.List;
  * Created by OleyMa on 01.09.16.
  */
 @XmlRootElement
-public class SongBook {
+public class SongBook extends WithAdditionals {
 
   private List<Song> songs = new ArrayList<Song>();
 

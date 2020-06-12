@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by OleyMa on 01.09.16.
  */
-public class Session implements NamedElement {
+public class Session extends WithAdditionals implements NamedElement {
 
   private List<Integer> songs = new ArrayList<Integer>();
   private StringProperty name = new SimpleStringProperty();

@@ -76,15 +76,15 @@ public class STYLE {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link String }
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link SUP }
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * 
      * 
      */

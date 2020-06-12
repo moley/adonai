@@ -9,6 +9,7 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.WithAdditionals;
 
 public class ScopeItem  {
 
@@ -102,6 +103,17 @@ public class ScopeItem  {
     }
 
     return resolved;
+  }
+
+  public WithAdditionals getWithAdditionals () {
+    if (getSession() != null)
+      return getSession();
+    else if (getSongBook() != null)
+      return songBook;
+    else if (getSong() != null)
+      return song;
+    else
+      throw new IllegalStateException("ScopeItem does not contain any additionalsHolder");
   }
 
   public Session getSession() {

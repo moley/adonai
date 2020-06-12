@@ -1,4 +1,4 @@
 package org.adonai.model;
 
-public class AbstractSessionItem {
+public class AbstractSessionItem extends WithAdditionals {
 }

@@ -16,7 +16,6 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   private Integer id;
 
-  private List<Additional> additionals = new ArrayList<Additional>();
 
   private List<SongStructItem> structItems = new ArrayList<SongStructItem>();
 
@@ -143,40 +142,7 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return titleProperty;
   }
 
-  public Additional findAdditional (final AdditionalType additionalType) {
-    for (Additional next: additionals) {
-      if (next.getAdditionalType().equals(additionalType))
-        return next;
-    }
-    return null;
-  }
 
-  public List<Additional> getAdditionals () {
-    return additionals;
-  }
-
-  public Additional getAdditional (final AdditionalType additionalType) {
-    for (Additional next: additionals) {
-      if (next.getAdditionalType().equals(additionalType))
-        return next;
-    }
-    return null;
-  }
-
-  public void setAdditionals (final List<Additional> additionals) {
-    this.additionals = additionals;
-  }
-
-  public void setAdditional (final Additional additional) {
-    for (Additional next: additionals) {
-      if (next.getAdditionalType().equals(additional.getAdditionalType())) {
-        additionals.remove(next);
-        break;
-      }
-    }
-
-    additionals.add(additional);
-  }
 
   @Override
   public String getName() {

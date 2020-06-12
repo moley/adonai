@@ -8,22 +8,29 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSongAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
+import org.adonai.fx.ScreenManager;
+import org.adonai.fx.additionals.AdditionalsController;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.WithAdditionals;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
@@ -33,6 +40,7 @@ import org.slf4j.LoggerFactory;
 public class ScopeController extends AbstractController {
 
   private final static Logger log = LoggerFactory.getLogger(ScopeController.class);
+  @FXML private Button btnAdditionals;
   @FXML private TreeView<ScopeItem> treScope;
   @FXML private Button btnAdd;
   @FXML private Button btnMoveUp;
@@ -57,7 +65,6 @@ public class ScopeController extends AbstractController {
     btnMoveDown.setOnAction(action -> moveDown());
 
     treScope.setShowRoot(true);
-
 
     treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
@@ -103,6 +110,35 @@ public class ScopeController extends AbstractController {
       }
     });
 
+    btnAdditionals.setTooltip(new Tooltip("Open additionals dialog"));
+    btnAdditionals.setOnAction(event -> openAdditionalsMask());
+
+  }
+
+  private void openAdditionalsMask () {
+
+    if (treScope.getSelectionModel().getSelectedItem() != null) {
+      ScopeItem selectedScopeItem = treScope.getSelectionModel().getSelectedItem().getValue();
+      MaskLoader<AdditionalsController> songdetailsMaskLoader = new MaskLoader<AdditionalsController>();
+      Mask<AdditionalsController> songdetailsMask = songdetailsMaskLoader.load("additionals");
+      Stage stage = songdetailsMask.getStage();
+      ScreenManager screenManager = new ScreenManager();
+      screenManager.layoutOnScreen(stage, 100);
+
+      AdditionalsController songDetailsController = songdetailsMask.getController();
+      songDetailsController.setStage(stage);
+      songDetailsController.setApplicationEnvironment(getApplicationEnvironment());
+
+      WithAdditionals withAdditionals = selectedScopeItem.getWithAdditionals();
+      songDetailsController.setWithAdditionals(withAdditionals);
+      stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        @Override public void handle(WindowEvent event) {
+          //TODO
+        }
+      });
+
+      stage.showAndWait();
+    }
   }
 
   private void add() {
