@@ -112,6 +112,18 @@
   -fx-font-family: Verdana;
 }
 
+.scriptureVerseNumber {
+  -fx-font-size: 14;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.scriptureContent {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+
 #main {
 -fx-background-color: #CCCCCC;
 }

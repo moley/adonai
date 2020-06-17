@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.adonai.fx.scripture.ScriptureController">
+    <padding>
+        <Insets top="40" bottom="40" left="30" right="30"/>
+    </padding>
+
+    <ComboBox fx:id="cboBible" userData="editContent.cboBible"/>
+    <ComboBox fx:id="cboBook" userData="editContent.cboBook"/>
+    <ComboBox fx:id="cboChapters" userData="editContent.cboChapters"/>
+
+    <ScrollPane>
+        <VBox fx:id="panContent" userData="editContent.panContent">
+
+        </VBox>
+    </ScrollPane>
+
+
+</VBox>
