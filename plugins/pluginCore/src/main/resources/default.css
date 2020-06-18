@@ -112,6 +112,14 @@
   -fx-font-family: Verdana;
 }
 
+.scriptureChapterNumber {
+  -fx-font-size: 20;
+  -fx-text-fill: rgb(160, 160, 160);
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+  -fx-padding: 20 0 10 0;
+}
+
 .scriptureVerseNumber {
   -fx-font-size: 14;
   -fx-font-family: Verdana;

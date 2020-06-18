@@ -14,7 +14,7 @@ public class ScriptureDialog extends Application {
     Mask<ScriptureController> mask = maskLoader.load("scripture");
     primaryStage.setScene(mask.getScene());
     primaryStage.setWidth(800);
-    primaryStage.setHeight(600);
+    primaryStage.setHeight(1024);
     primaryStage.setResizable(false);
 
     primaryStage.show();

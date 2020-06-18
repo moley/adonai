@@ -1,19 +1,16 @@
 package org.adonai.fx.scripture;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.adonai.StringUtils;
 import org.adonai.bibles.Bible;
 import org.adonai.bibles.BibleBook;
 import org.adonai.bibles.BibleService;
@@ -22,58 +19,67 @@ import org.adonai.bibles.Book;
 import org.adonai.bibles.Chapter;
 import org.adonai.bibles.Verse;
 import org.adonai.fx.AbstractController;
-import org.adonai.fx.renderer.ScriptureChapterCellRenderer;
-import org.adonai.fx.renderer.ScriptureChapterStringConverter;
 
 public class ScriptureController extends AbstractController {
+  @FXML private TextField txtSearch;
   @FXML private ComboBox<Bibles> cboBible;
   @FXML private ComboBox<Book> cboBook;
-  @FXML private ComboBox<Chapter> cboChapters;
 
   @FXML private VBox panContent;
 
   private BibleService bibleService = new BibleService();
 
+  private String reference;
+
+  /**
+   * #LUTHER_1912,DEUTERONOMY(5,12-14)
+   * #LUTHER_1912,DEUTERONOMY(5,12)
+   * #LUTHER_1912,DEUTERONOMY(5,12-6,12)
+   */
+
   public void initialize () {
     cboBible.setItems(FXCollections.observableArrayList(Bibles.values()));
     cboBible.getSelectionModel().selectFirst();
-    cboBible.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> renderChapters(cboBible.getSelectionModel().getSelectedItem(), cboBook.getSelectionModel().getSelectedItem()));
+    cboBible.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> renderContent(cboBook.getSelectionModel().getSelectedItem()));
 
     cboBook.setItems(FXCollections.observableArrayList(Book.values()));
     cboBook.getSelectionModel().selectFirst();
     cboBook.getSelectionModel().selectedItemProperty().addListener(
-        (observable, oldValue, newValue) -> renderChapters(cboBible.getSelectionModel().getSelectedItem(), newValue));
-
-    renderChapters(cboBible.getSelectionModel().getSelectedItem(), cboBook.getSelectionModel().getSelectedItem());
-
-    cboChapters.setCellFactory(cellfactory -> new ScriptureChapterCellRenderer());
-    cboChapters.setConverter(new ScriptureChapterStringConverter());
-    cboChapters.getSelectionModel().selectedItemProperty().addListener(
         (observable, oldValue, newValue) -> renderContent(newValue));
 
+    renderContent(cboBook.getSelectionModel().getSelectedItem());
+
+    txtSearch.setOnKeyReleased(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER))
+          renderContent(cboBook.getSelectionModel().getSelectedItem());
+      }
+    });
+
   }
 
-  void renderChapters (Bibles bibles, Book book) {
-    Bible bible = bibleService.getBible(bibles);
+  void renderContent (Book book) {
+    reference = "#" + cboBible.getSelectionModel().getSelectedItem().name() + "," + cboBook.getSelectionModel().getSelectedItem().name() + "(" + txtSearch.getText() + ")";
+
+    Bible bible = bibleService.getBible(cboBible.getSelectionModel().getSelectedItem());
     BibleBook bibleBook = bible.findBook(book);
-    cboChapters.setItems(FXCollections.observableArrayList(bibleBook.getChapters()));
-    cboChapters.getSelectionModel().selectFirst();
-    renderContent(cboChapters.getSelectionModel().getSelectedItem());
-  }
-
-  void renderContent (Chapter chapter) {
-    if (chapter != null) {
+    if (book != null) {
       panContent.getChildren().clear();
-      for (Verse verse : chapter.getVerses()) {
-        HBox verseBox = new HBox(10);
-        Label lblVerseNumber = new Label(String.valueOf(verse.getNumber()));
-        lblVerseNumber.getStyleClass().setAll("scriptureVerseNumber");
-        Text text = new Text(verse.getText());
-        text.wrappingWidthProperty().set(600);
-        text.getStyleClass().setAll("scriptureContent");
+      for (Chapter chapter: bibleBook.getChapters()) {
+        Label chapterLabel = new Label(String.valueOf(chapter.getNumber()));
+        chapterLabel.getStyleClass().setAll("scriptureChapterNumber");
+        panContent.getChildren().add(chapterLabel);
+        for (Verse verse : chapter.getVerses()) {
+          HBox verseBox = new HBox(10);
+          Label lblVerseNumber = new Label(String.valueOf(verse.getNumber()));
+          lblVerseNumber.getStyleClass().setAll("scriptureVerseNumber");
+          Text text = new Text(verse.getText());
+          text.wrappingWidthProperty().set(600);
+          text.getStyleClass().setAll("scriptureContent");
 
-        verseBox.getChildren().addAll(lblVerseNumber, text);
-        panContent.getChildren().add(verseBox);
+          verseBox.getChildren().addAll(lblVerseNumber, text);
+          panContent.getChildren().add(verseBox);
+        }
       }
     }
 
