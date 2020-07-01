@@ -6,6 +6,8 @@ public class Verse {
 
   private String text;
 
+  private boolean marked;
+
   public String getText() {
     return text;
   }
@@ -20,5 +22,13 @@ public class Verse {
 
   public void setNumber(int number) {
     this.number = number;
+  }
+
+  public boolean isMarked() {
+    return marked;
+  }
+
+  public void setMarked(boolean marked) {
+    this.marked = marked;
   }
 }

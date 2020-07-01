@@ -16,7 +16,7 @@ public class BibleService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BibleService.class);
 
-  public Collection<Bible> getAllBibles() {
+  public BibleContainer getAllBibles() {
 
     Set<String> bibleUrls = new HashSet<>();
     bibleUrls.add("/bibles/LUTHER 1912.xml");
@@ -38,18 +38,11 @@ public class BibleService {
       }
     }
 
-    return bibles;
+    BibleContainer bibleContainer = new BibleContainer();
+    bibleContainer.setBibles(bibles);
+    return bibleContainer;
 
   }
 
-  public Bible getBible(final Bibles bibles) {
-    for (Bible next: getAllBibles()) {
-      if (next.getName().equalsIgnoreCase(bibles.getName())) {
-        return next;
-      }
-    }
 
-    throw new IllegalStateException("Bible " + bibles.getName() + " not found");
-
-  }
 }

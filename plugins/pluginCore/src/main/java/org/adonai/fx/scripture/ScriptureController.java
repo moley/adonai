@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.adonai.bibles.Bible;
 import org.adonai.bibles.BibleBook;
+import org.adonai.bibles.BibleContainer;
 import org.adonai.bibles.BibleService;
 import org.adonai.bibles.Bibles;
 import org.adonai.bibles.Book;
@@ -31,6 +32,8 @@ public class ScriptureController extends AbstractController {
 
   private String reference;
 
+  private BibleContainer bibleContainer = new BibleContainer();
+
   /**
    * #LUTHER_1912,DEUTERONOMY(5,12-14)
    * #LUTHER_1912,DEUTERONOMY(5,12)
@@ -38,6 +41,8 @@ public class ScriptureController extends AbstractController {
    */
 
   public void initialize () {
+    bibleContainer = bibleService.getAllBibles();
+
     cboBible.setItems(FXCollections.observableArrayList(Bibles.values()));
     cboBible.getSelectionModel().selectFirst();
     cboBible.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> renderContent(cboBook.getSelectionModel().getSelectedItem()));
@@ -58,10 +63,12 @@ public class ScriptureController extends AbstractController {
 
   }
 
+
+
   void renderContent (Book book) {
     reference = "#" + cboBible.getSelectionModel().getSelectedItem().name() + "," + cboBook.getSelectionModel().getSelectedItem().name() + "(" + txtSearch.getText() + ")";
 
-    Bible bible = bibleService.getBible(cboBible.getSelectionModel().getSelectedItem());
+    Bible bible = bibleContainer.getBible(cboBible.getSelectionModel().getSelectedItem());
     BibleBook bibleBook = bible.findBook(book);
     if (book != null) {
       panContent.getChildren().clear();
