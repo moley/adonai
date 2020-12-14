@@ -19,6 +19,7 @@ public class ChordTest {
     Assert.assertEquals ("Eb", chord.toString());
   }
 
+
   @Test
   public void dis () {
     Chord chord = new Chord("Dis7");
@@ -118,6 +119,13 @@ public class ChordTest {
   public void majChord () throws InvalidChordException {
     Chord chord = new Chord ("Gmaj");
   }
+
+  @Test
+  public void minChord () {
+    Chord chord = new Chord("Amin7");
+
+  }
+
 
   @Test
   public void sextChord () throws InvalidChordException {

@@ -13,6 +13,8 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
@@ -88,6 +90,9 @@ public class ScopeController extends AbstractController {
           event.consume();
           moveDown();
         }
+        else if (event.getCode().equals(KeyCode.ENTER)) {
+          stepToSong();
+        }
 
 
       }
@@ -110,9 +115,22 @@ public class ScopeController extends AbstractController {
       }
     });
 
+    treScope.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override public void handle(MouseEvent event) {
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+          stepToSong();
+        }
+      }
+    });
+
     btnAdditionals.setTooltip(new Tooltip("Open additionals dialog"));
     btnAdditionals.setOnAction(event -> openAdditionalsMask());
 
+  }
+
+  private void stepToSong () {
+    ScopeItem selected = treScope.getSelectionModel().getSelectedItem().getValue();
+    log.info("Step to " + selected.getId() + "-" + selected.getName());
   }
 
   private void openAdditionalsMask () {

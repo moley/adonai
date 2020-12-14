@@ -8,6 +8,7 @@ public class ChordPart {
   Note note;
   boolean moll;
   boolean major;
+  boolean minor;
   boolean add;
   Integer intervall;
   boolean sus;
@@ -22,6 +23,9 @@ public class ChordPart {
       asString += "m";
     if (major)
       asString += "maj";
+
+    if (minor)
+      asString += "min";
 
     if (sus)
       asString +="sus";
@@ -77,6 +81,11 @@ public class ChordPart {
     if (! trimmed.isEmpty() && trimmed.startsWith("maj")) {
       trimmed = trimmed.substring(3);
       major = true;
+    }
+
+    if (! trimmed.isEmpty() && trimmed.startsWith("min")) {
+      trimmed = trimmed.substring(3);
+      minor = true;
     }
 
     if (! trimmed.isEmpty() && trimmed.startsWith("add")) {
