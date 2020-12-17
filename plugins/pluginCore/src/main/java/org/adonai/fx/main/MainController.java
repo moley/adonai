@@ -4,8 +4,10 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,8 +20,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
+import org.adonai.actions.HelpAction;
+import org.adonai.actions.SearchAction;
 import org.adonai.api.MainAction;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.presentation.PresentationDocumentBuilder;
@@ -31,6 +36,7 @@ import org.adonai.fx.MaskLoader;
 import org.adonai.fx.editor.SongEditor;
 import org.adonai.fx.renderer.ScopeItemCellRenderer;
 import org.adonai.fx.renderer.ScopeItemStringConverter;
+import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
@@ -56,6 +62,7 @@ public class MainController extends AbstractController {
   public Button btnLeadVoice;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
+  public Button btnHelp;
   public Button btnWorkspace;
   public Pane panMetronome;
   public Button btnSpeed;
@@ -67,19 +74,40 @@ public class MainController extends AbstractController {
   private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<ScopeController>();
   private Mask<ScopeController> maskScope;
 
-
-
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
     btnWorkspace.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
     btnWorkspace.setTooltip(new Tooltip("Workspace"));
     btnWorkspace.setOnAction(event -> reloadScope());
+    btnHelp.setTooltip(new Tooltip("Help screen"));
+    btnHelp.setOnAction(event -> openHelp ());
+    btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
+
     main.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.F1)) {
+          openHelp();
+        }
         if (event.getCode().equals(KeyCode.M)) {
           metronome.setBpm(getApplicationEnvironment().getCurrentSong().getSpeed());
           metronome.setVisible(! metronome.isVisible());
 
+        }
+        else if (event.getCode().equals(KeyCode.S)) {
+          ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+          SearchAction<Song> searchAction = new SearchAction();
+          FilteredList<Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
+          filteredList.setPredicate(song -> true);
+          searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
+            @Override public void handle(WindowEvent event) {
+              Song selectedSong = searchAction.getSelectedItem();
+              if (selectedSong != null) {
+                applicationEnvironment.setCurrentSession(null);
+                applicationEnvironment.setCurrentSong(selectedSong);
+                reloadEditor();
+              }
+            }
+          }, filteredList, "", 50, 100);
         }
 
       }
@@ -164,6 +192,10 @@ public class MainController extends AbstractController {
     });
   }
 
+  private void openHelp() {
+    HelpAction helpAction = new HelpAction();
+    helpAction.show(this);
+  }
 
   private void reloadScopeCombobox() {
     cboScope.setItems(FXCollections.observableArrayList(getApplicationEnvironment().getAllScopeItems()));
@@ -210,10 +242,16 @@ public class MainController extends AbstractController {
     ScopeController scopeController = maskScope.getController();
     scopeController.setApplicationEnvironment(getApplicationEnvironment());
     scopeController.loadData(null);
+    scopeController.setMainController(this);
     main.setCenter(maskScope.getRoot());
   }
 
-  private void reloadEditor() {
+  public Node getCenter () {
+    return main.getCenter();
+  }
+
+
+  public void reloadEditor() {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(main.getWidth(), main.getHeight() - 200);

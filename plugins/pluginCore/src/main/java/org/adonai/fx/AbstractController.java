@@ -2,12 +2,15 @@ package org.adonai.fx;
 
 import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.fx.main.MainController;
 
 public class AbstractController {
 
   private ApplicationEnvironment applicationEnvironment;
 
   private Stage stage;
+
+  private MainController mainController;
 
 
   public ApplicationEnvironment getApplicationEnvironment() {
@@ -26,4 +29,11 @@ public class AbstractController {
     this.stage = stage;
   }
 
+  public MainController getMainController() {
+    return mainController;
+  }
+
+  public void setMainController(MainController mainController) {
+    this.mainController = mainController;
+  }
 }

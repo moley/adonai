@@ -27,6 +27,7 @@ dependencies {
     compile 'javax.activation:activation:1.1'
     compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
     compile 'com.sun.mail:javax.mail:1.6.2'
+    compile 'com.atlassian.commonmark:commonmark:0.16.1'
 
     compile 'org.kordamp.ikonli:ikonli-javafx:11.5.0'
     compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.5.0'

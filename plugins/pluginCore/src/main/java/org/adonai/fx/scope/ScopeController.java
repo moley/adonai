@@ -131,6 +131,10 @@ public class ScopeController extends AbstractController {
   private void stepToSong () {
     ScopeItem selected = treScope.getSelectionModel().getSelectedItem().getValue();
     log.info("Step to " + selected.getId() + "-" + selected.getName());
+
+    getApplicationEnvironment().setCurrentSession(null); //SongBook
+    getApplicationEnvironment().setCurrentSong(selected.getSong());
+    getMainController().reloadEditor();
   }
 
   private void openAdditionalsMask () {

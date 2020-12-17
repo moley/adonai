@@ -50,6 +50,7 @@ public class SongEditor extends VBox {
   private ApplicationEnvironment applicationEnvironment;
 
   public SongEditor(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
+    this.setId("songeditor");
     this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;
     currentIndex = 0;
@@ -146,19 +147,6 @@ public class SongEditor extends VBox {
 
           enableAndAdd();
 
-      } else if (event.getCode().equals(KeyCode.S)) {
-        SearchAction<Song> searchAction = new SearchAction();
-        FilteredList <Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
-        filteredList.setPredicate(song -> true);
-        searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
-          @Override public void handle(WindowEvent event) {
-            Song selectedSong = searchAction.getSelectedItem();
-            if (selectedSong != null) {
-              applicationEnvironment.setCurrentSong(selectedSong);
-              selectSong(selectedSong);
-            }
-          }
-        }, filteredList, "", 50, 100);
       }
 
     });

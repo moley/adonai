@@ -58,6 +58,7 @@
 
             </Pane>
             <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnHelp" maxHeight="Infinity" alignment="CENTER"></Button>
             <MenuButton fx:id="btnMainActions" userData="mainpage.btnMainActions"/>
         </HBox>
 
