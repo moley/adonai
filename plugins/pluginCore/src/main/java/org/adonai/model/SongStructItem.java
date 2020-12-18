@@ -1,8 +1,12 @@
 package org.adonai.model;
 
 import javafx.beans.property.SimpleStringProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SongStructItem {
+
+  private final static Logger LOGGER = LoggerFactory.getLogger(SongStructItem.class);
 
   /**
    * text to be shown in structure (e.g. VERS 1)
@@ -27,6 +31,10 @@ public class SongStructItem {
 
   private SimpleStringProperty quantity = new SimpleStringProperty();
   private SimpleStringProperty remarks = new SimpleStringProperty();
+
+  public SongStructItem () {
+
+  }
 
   public String getText() {
     return text;

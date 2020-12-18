@@ -43,10 +43,10 @@ public class SongInfoService {
       quantityString = quantityString + "x";
 
     if (songStructItem.getShorttext() == null)
-      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + "has no shorttext");
+      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + " has no shorttext");
 
     if (songStructItem.getText() == null)
-      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + "has no text");
+      throw new IllegalStateException("SongStructItem with part id" + songStructItem.getPartId() + " in song " + song.getId() + " has no text");
 
 
 

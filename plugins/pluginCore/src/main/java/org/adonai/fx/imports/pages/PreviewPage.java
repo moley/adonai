@@ -81,6 +81,7 @@ public class PreviewPage extends WizardPage {
             rootpanel.getChildren().add(songEditor);
             songEditor.show();
           } catch (Exception e) {
+            LOGGER.info(e.getLocalizedMessage(), e);
             Notifications.create().text("Error on preview: " + e.getLocalizedMessage()).showError();
           }
         }

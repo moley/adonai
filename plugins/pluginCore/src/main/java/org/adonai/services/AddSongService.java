@@ -24,6 +24,8 @@ public class AddSongService {
       newSong.getStructItems().add(firstSongStructItem);
       newSong.getSongParts().add(songPart);
     }
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(newSong);
     return newSong;
   }
 

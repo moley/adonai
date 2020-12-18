@@ -48,12 +48,19 @@ public class ApplicationEnvironment {
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
 
-
   /**
    * constructor
    * @param pluginManager  the plugin manager
    */
   public ApplicationEnvironment(final PluginManager pluginManager) {
+    this (pluginManager, null);
+  }
+
+      /**
+       * constructor
+       * @param pluginManager  the plugin manager
+       */
+  public ApplicationEnvironment(final PluginManager pluginManager, Model model) {
     if (initialized)
       LOGGER.error("ApplicationEnvironment must be initialized only once in the application", new IllegalStateException());
     else
@@ -61,8 +68,10 @@ public class ApplicationEnvironment {
 
     this.pluginManager = pluginManager;
 
-    ModelService modelService = new ModelService(this);
-    model = modelService.load();
+    if (model == null) {
+      ModelService modelService = new ModelService(this);
+      this.model = modelService.load();
+    }
   }
 
   /**
@@ -97,7 +106,7 @@ public class ApplicationEnvironment {
    * @return extensions of a certain type
    */
   public <T> List<T> getExtensions (Class<T> type) {
-    return pluginManager.getExtensions(type);
+    return pluginManager != null ? pluginManager.getExtensions(type): new ArrayList<>();
   }
 
   public AdonaiProperties getAdonaiProperties() {
