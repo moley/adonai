@@ -16,7 +16,10 @@ public class UiUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(UiUtils.class);
 
   public static void applyCss (final Scene scene) {
-    scene.getStylesheets().add(UiUtils.class.getResource("/default.css").toExternalForm());
+
+    String url = UiUtils.class.getResource("/default.css").toExternalForm();
+    LOGGER.info("apply css from " + url);
+    scene.getStylesheets().add(url);
   }
 
   public static void close (final Window stage) {

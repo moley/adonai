@@ -27,6 +27,7 @@ public class ImportFromClipBoardPage extends WizardPage {
     txaImport.setUserData("importsongwizard.txaImport");
     txaImport.setWrapText(true);
     txaImport.setPromptText("Please copy your song with Copy and Paste into this textfield and press Next");
+    txaImport.setStyle("-fx-font-family: monospaced;");
     VBox.setVgrow(txaImport, Priority.ALWAYS);
     nextButton.setDisable(true);
     txaImport.textProperty().addListener((observableValue, oldValue, newValue) -> {

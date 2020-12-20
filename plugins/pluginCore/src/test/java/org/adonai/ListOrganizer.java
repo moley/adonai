@@ -1,5 +1,6 @@
 package org.adonai;
 
+import java.util.Arrays;
 import javafx.application.Application;
 import javafx.collections.*;
 import javafx.geometry.*;
@@ -8,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.adonai.fx.UiUtils;
 import org.adonai.model.Song;
 import org.adonai.model.SongStructItem;
 import org.slf4j.Logger;
@@ -32,119 +34,122 @@ public class ListOrganizer extends Application {
 
     song = SongTestData.getSongWithTwoPartsTwoLines();
 
+
     ListView<SongStructItem> birdList = new ListView<SongStructItem>();
     birdList.setItems(FXCollections.observableArrayList(song.getStructItems()));
     birdList.setCellFactory(param -> new SongPartCell());
     birdList.setPrefWidth(180);
 
-    VBox layout = new VBox(birdList);
-    layout.setPadding(new Insets(10));
 
-    stage.setScene(new Scene(layout));
-    stage.show();
-  }
+VBox layout = new VBox(birdList);
+layout.setPadding(new Insets(10));
 
-  public static void main(String[] args) {
-    launch(ListOrganizer.class);
-  }
+stage.setScene(new Scene(layout));
+UiUtils.applyCss(stage.getScene());
+stage.show();
+}
 
-  private class SongPartCell extends ListCell<SongStructItem> {
+public static void main(String[] args) {
+launch(ListOrganizer.class);
+}
 
-    public SongPartCell() {
-      ListCell thisCell = this;
+private class SongPartCell extends ListCell<SongStructItem> {
 
-      setOnDragDetected(event -> {
-        if (getItem() == null) {
-          return;
-        }
+public SongPartCell() {
+ListCell thisCell = this;
 
-        Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putString(new Integer(getItem().hashCode()).toString());
-        dragboard.setContent(content);
+setOnDragDetected(event -> {
+if (getItem() == null) {
+return;
+}
 
-        event.consume();
-      });
+Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
+ClipboardContent content = new ClipboardContent();
+content.putString(new Integer(getItem().hashCode()).toString());
+dragboard.setContent(content);
 
-      setOnDragOver(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
-          event.acceptTransferModes(TransferMode.MOVE);
-        }
+event.consume();
+});
 
-        event.consume();
-      });
+setOnDragOver(event -> {
+if (event.getGestureSource() != thisCell &&
+event.getDragboard().hasString()) {
+event.acceptTransferModes(TransferMode.MOVE);
+}
 
-      setOnDragEntered(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
-          setOpacity(0.3);
-        }
-      });
+event.consume();
+});
 
-      setOnDragExited(event -> {
-        if (event.getGestureSource() != thisCell &&
-          event.getDragboard().hasString()) {
-          setOpacity(1);
-        }
-      });
+setOnDragEntered(event -> {
+if (event.getGestureSource() != thisCell &&
+event.getDragboard().hasString()) {
+setOpacity(0.3);
+}
+});
 
-      setOnDragDropped(event -> {
-        if (getItem() == null) {
-          return;
-        }
+setOnDragExited(event -> {
+if (event.getGestureSource() != thisCell &&
+event.getDragboard().hasString()) {
+setOpacity(1);
+}
+});
 
-        Dragboard db = event.getDragboard();
-        boolean success = false;
+setOnDragDropped(event -> {
+if (getItem() == null) {
+return;
+}
 
-        if (db.hasString()) {
-          ObservableList<SongStructItem> items = getListView().getItems();
-          int draggedIdx = -1;
-          for (int i = 0; i < items.size(); i++) {
-            if (new Integer(items.get(i).hashCode()).toString().equals(db.getString()))
-              draggedIdx = i;
+Dragboard db = event.getDragboard();
+boolean success = false;
 
-          }
+if (db.hasString()) {
+ObservableList<SongStructItem> items = getListView().getItems();
+int draggedIdx = -1;
+for (int i = 0; i < items.size(); i++) {
+if (new Integer(items.get(i).hashCode()).toString().equals(db.getString()))
+draggedIdx = i;
 
-          int thisIdx = items.indexOf(getItem());
+}
 
-          LOGGER.info("Vorher: " + song);
+int thisIdx = items.indexOf(getItem());
 
-          SongStructItem temp = song.getStructItems().get(draggedIdx);
-          song.getStructItems().set(draggedIdx, song.getStructItems().get(thisIdx));
-          song.getStructItems().set(thisIdx, temp);
+LOGGER.info("Vorher: " + song);
 
-          items.set(draggedIdx, getItem());
-          items.set(thisIdx, temp);
+SongStructItem temp = song.getStructItems().get(draggedIdx);
+song.getStructItems().set(draggedIdx, song.getStructItems().get(thisIdx));
+song.getStructItems().set(thisIdx, temp);
 
-          LOGGER.info("Nachher: " + song.getStructItems());
+items.set(draggedIdx, getItem());
+items.set(thisIdx, temp);
 
-          getListView().setItems(FXCollections.observableArrayList(song.getStructItems()));
+LOGGER.info("Nachher: " + song.getStructItems());
 
-          success = true;
+getListView().setItems(FXCollections.observableArrayList(song.getStructItems()));
 
-        }
-        event.setDropCompleted(success);
+success = true;
 
-        event.consume();
-      });
+}
+event.setDropCompleted(success);
 
-      setOnDragDone(DragEvent::consume);
-    }
+event.consume();
+});
 
-    @Override
-    protected void updateItem(SongStructItem item, boolean empty) {
+setOnDragDone(DragEvent::consume);
+}
 
-      super.updateItem(item, empty);
-      if (empty || item == null) {
-        setGraphic(null);
-        setText(null);
-      } else {
-        setText(item.getPartId());
-      }
+@Override
+protected void updateItem(SongStructItem item, boolean empty) {
 
-    }
-  }
+super.updateItem(item, empty);
+if (empty || item == null) {
+setGraphic(null);
+setText(null);
+} else {
+setText(item.getPartId());
+}
+
+}
+}
 
 
 }

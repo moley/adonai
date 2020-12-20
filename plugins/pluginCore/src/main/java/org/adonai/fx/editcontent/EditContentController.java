@@ -95,6 +95,8 @@ public class EditContentController extends AbstractController {
       }
     });
 
+    txaText.setStyle("-fx-font-family: monospaced;");
+
   }
 
   /**
