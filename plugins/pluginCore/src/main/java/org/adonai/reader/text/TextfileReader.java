@@ -68,8 +68,8 @@ public class TextfileReader {
       if (newSongPart != null) {
         currentChordLine = addPendingChordLine(currentChordLine, currentSongPart);
         currentSongPart = newSongPart;
-        currentSongPart.setId(UUID.randomUUID().toString());
-        song.getSongParts().add(currentSongPart);
+        if (! song.getSongParts().contains(currentSongPart))
+          song.getSongParts().add(currentSongPart);
         SongStructItem songStructItem = new SongStructItem();
         songStructItem.setPartId(currentSongPart.getId());
         currentStructItem = songStructItem;
@@ -177,31 +177,40 @@ public class TextfileReader {
     if (line.contains("[") && line.contains("]")) {
       String completeType = line.replace("[", "").replace("]", "").trim().toUpperCase();
 
-      String [] types = completeType.split(" ");
-      String type = types[0];
-      if (type.equals("STROPHE"))
-        type = SongPartType.VERS.name();
-      else if (type.startsWith("VERSE"))
-        type = SongPartType.VERS.name();
-      else if (type.startsWith("PRE-CHORUS"))
-        type = SongPartType.BRIDGE.name();
-      else if (type.startsWith("CHORUS"))
-        type = SongPartType.REFRAIN.name();
-      else if (type.startsWith("INTERLUDE"))
-        type = SongPartType.ZWISCHENSPIEL.name();
-      else if (type.equals("OUTRO"))
-        type = SongPartType.EXTRO.name();
+      SongPart existingPart = createdParts.get(completeType);
+      if (existingPart != null) {
+        return existingPart;
+      }
+      else {
 
-      SongPartType determinedSongPart = SongPartType.valueOf(type);
-      if (determinedSongPart == null)
-        throw new IllegalStateException("Part " + type + " not found, please add mapping");
+        String[] types = completeType.split(" ");
+        String type = types[0];
+        if (type.equals("STROPHE"))
+          type = SongPartType.VERS.name();
+        else if (type.startsWith("VERSE"))
+          type = SongPartType.VERS.name();
+        else if (type.startsWith("PRE-CHORUS"))
+          type = SongPartType.BRIDGE.name();
+        else if (type.startsWith("CHORUS"))
+          type = SongPartType.REFRAIN.name();
+        else if (type.startsWith("INTERLUDE"))
+          type = SongPartType.ZWISCHENSPIEL.name();
+        else if (type.equals("OUTRO"))
+          type = SongPartType.EXTRO.name();
 
-      LOGGER.info("- created songpart with songparttype " + determinedSongPart + "(" + completeType + ")");
+        SongPartType determinedSongPart = SongPartType.valueOf(type);
+        if (determinedSongPart == null)
+          throw new IllegalStateException("Part " + type + " not found, please add mapping");
 
-      SongPart songPart = new SongPart();
-      songPart.setSongPartType(determinedSongPart);
-      createdParts.put(completeType, songPart);
-      return songPart;
+        LOGGER.info("- created songpart with songparttype " + determinedSongPart + "(" + completeType + ")");
+
+        SongPart songPart = new SongPart();
+        songPart.setSongPartType(determinedSongPart);
+        songPart.getId(); //to initialize the id
+        createdParts.put(completeType, songPart);
+        return songPart;
+      }
+
     }
 
     return null;

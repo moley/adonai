@@ -12,9 +12,13 @@ import org.adonai.reader.text.TextfileReader;
 
 import java.util.Arrays;
 import org.controlsfx.control.Notifications;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImportFromClipBoardPage extends WizardPage {
   public final static String TITLE = "Import from clipboard";
+
+  private Logger log = LoggerFactory.getLogger(ImportFromClipBoardPage.class);
 
   public ImportFromClipBoardPage(final ApplicationEnvironment applicationEnvironment, final SongImportController controller) {
     super(applicationEnvironment, TITLE, controller);
@@ -31,6 +35,8 @@ public class ImportFromClipBoardPage extends WizardPage {
     VBox.setVgrow(txaImport, Priority.ALWAYS);
     nextButton.setDisable(true);
     txaImport.textProperty().addListener((observableValue, oldValue, newValue) -> {
+      log.info("newValue = " + newValue);
+      txaImport.setText(newValue.replace("\n\n", "\n"));
       nextButton.setDisable(newValue.isEmpty());
     });
     VBox vbox = new VBox(

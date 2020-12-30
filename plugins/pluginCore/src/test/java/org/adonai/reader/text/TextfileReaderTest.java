@@ -37,6 +37,69 @@ public class TextfileReaderTest {
   }
 
   @Test
+  public void readIchWillDichAnbeten () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/IchWillDichAnbeten.txt"), "UTF-8");
+    TextfileReaderParam param = new TextfileReaderParam();
+    param.setEmptyLineIsNewPart(true);
+    Song song = textfileReader.read(content, param);
+    for (SongPart next: song.getSongParts()) {
+      System.out.println(next.getSongPartType() + "-" + next.getEqualKey());
+    }
+
+    for (SongStructItem songStructItem : song.getStructItems()) {
+      System.out.println(songStructItem.getPartId() + "-" + songStructItem.getText());
+    }
+
+    Assert.assertEquals (song.getSongParts().get(0).getId(), song.getStructItems().get(0).getPartId()); //VERS1
+    Assert.assertEquals (song.getSongParts().get(1).getId(), song.getStructItems().get(1).getPartId()); //REFRAIN
+    Assert.assertEquals (song.getSongParts().get(2).getId(), song.getStructItems().get(2).getPartId()); //VERS2
+    Assert.assertEquals (song.getSongParts().get(1).getId(), song.getStructItems().get(3).getPartId()); //REFRAIN
+
+
+  }
+
+  @Test
+  public void readWithRef2 () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/WithRef.txt"), "UTF-8");
+    TextfileReaderParam param = new TextfileReaderParam();
+    param.setEmptyLineIsNewPart(true);
+    Song song = textfileReader.read(content, param);
+    for (SongPart next: song.getSongParts()) {
+      System.out.println(next.getSongPartType() + "-" + next.getEqualKey());
+    }
+
+    for (SongStructItem songStructItem : song.getStructItems()) {
+      System.out.println(songStructItem.getPartId() + "-" + songStructItem.getText());
+    }
+
+    Assert.assertEquals (song.getSongParts().get(0).getId(), song.getStructItems().get(0).getPartId());
+    Assert.assertEquals (song.getSongParts().get(1).getId(), song.getStructItems().get(1).getPartId());
+    Assert.assertEquals (song.getSongParts().get(0).getId(), song.getStructItems().get(2).getPartId());
+
+  }
+
+  @Test
+  public void readWithRef () throws IOException {
+    List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/WithRef.txt"), "UTF-8");
+    TextfileReaderParam param = new TextfileReaderParam();
+    param.setEmptyLineIsNewPart(true);
+    Song song = textfileReader.read(content, param);
+    for (SongPart next: song.getSongParts()) {
+      System.out.println(next.getSongPartType() + "-" + next.getEqualKey());
+    }
+
+    for (SongStructItem songStructItem : song.getStructItems()) {
+      System.out.println(songStructItem.getPartId() + "-" + songStructItem.getText());
+    }
+
+    Assert.assertEquals (song.getSongParts().get(0).getId(), song.getStructItems().get(0).getPartId());
+    Assert.assertEquals (song.getSongParts().get(1).getId(), song.getStructItems().get(1).getPartId());
+    Assert.assertEquals (song.getSongParts().get(0).getId(), song.getStructItems().get(2).getPartId());
+    Assert.assertEquals (song.getSongParts().get(2).getId(), song.getStructItems().get(3).getPartId());
+
+  }
+
+  @Test
   public void readExampleWithoutPartTypes () throws IOException {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/text/SongWithoutPartTypes.txt"), "UTF-8");
     TextfileReaderParam param = new TextfileReaderParam();
@@ -68,6 +131,8 @@ public class TextfileReaderTest {
     Song song = textfileReader.read(content, new TextfileReaderParam());
     SongPart refrain = song.getSongParts().get(2);
     Assert.assertTrue (refrain.getFirstLine().getText().startsWith("Jesus hier knie ich vor dir"));
+
+
 
   }
 

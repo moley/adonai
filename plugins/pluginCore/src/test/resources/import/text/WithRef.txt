@@ -1,0 +1,15 @@
+[VERS 1]
+G
+This is verse one
+
+[REFRAIN]
+D
+Some refrain
+
+[VERS 1]
+G
+This is verse one
+
+[VERS 2]
+G
+This is verse two
