@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import org.adonai.fx.AbstractController;
 import org.adonai.model.NamedElement;
@@ -29,34 +30,36 @@ public class SearchController<T extends NamedElement> extends AbstractController
   @FXML
   public void initialize() {
     selectedElement = null;
-    txtSearchQuery.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override
-      public void handle(KeyEvent event) {
-        LOGGER.info("event keyreleased " + event.getCode() + " notified at txtSearchQuery");
-        if (event.getCode().equals(KeyCode.ESCAPE)) {
-          filteredData.setPredicate(s-> true);
-        }
-
-        if (event.getCode().equals(KeyCode.DOWN))
-          lviItems.requestFocus();
-
-        if (event.getCode().equals(KeyCode.ENTER) && ! lviItems.getSelectionModel().isEmpty()) {
-          selectedElement = lviItems.getSelectionModel().getSelectedItem();
-          getStage().close();
-        }
-
+    txtSearchQuery.setOnKeyPressed(event -> {
+      LOGGER.info("event keyreleased " + event.getCode() + " notified at txtSearchQuery");
+      if (event.getCode().equals(KeyCode.ESCAPE)) {
+        filteredData.setPredicate(s-> true);
       }
+
+      if (event.getCode().equals(KeyCode.DOWN))
+        lviItems.requestFocus();
+
+      if (event.getCode().equals(KeyCode.ENTER) && ! lviItems.getSelectionModel().isEmpty()) {
+        selectedElement = lviItems.getSelectionModel().getSelectedItem();
+        getStage().close();
+      }
+
     });
     txtSearchQuery.textProperty().addListener(obs->{
       refreshFilter();
     });
 
-    lviItems.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER)) {
-          selectedElement = lviItems.getSelectionModel().getSelectedItem();
-          getStage().close();
-        }
+    lviItems.setOnKeyPressed(event -> {
+      if (event.getCode().equals(KeyCode.ENTER)) {
+        selectedElement = lviItems.getSelectionModel().getSelectedItem();
+        getStage().close();
+      }
+    });
+
+    lviItems.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 2) {
+        selectedElement = lviItems.getSelectionModel().getSelectedItem();
+        getStage().close();
       }
     });
 
