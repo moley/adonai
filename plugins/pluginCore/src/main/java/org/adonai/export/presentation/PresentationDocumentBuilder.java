@@ -116,8 +116,11 @@ import org.slf4j.LoggerFactory;
         text.setOnMouseClicked(new EventHandler<MouseEvent>() {
           @Override public void handle(MouseEvent event) {
             Text text = (Text) event.getSource();
-            LOGGER
-                .info("On mouse clicked on " + text.getText() + "-" + event.getClickCount() + "-" + event.getButton());
+            event.consume();
+            if (event.getClickCount() > 1)
+              return;
+
+            LOGGER.info("On mouse clicked on " + text.getText() + "-" + event.getClickCount() + "-" + event.getButton());
 
             ExportToken exportToken = (ExportToken) text.getUserData();
 

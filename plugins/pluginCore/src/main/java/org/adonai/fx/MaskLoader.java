@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.adonai.ApplicationEnvironment;
@@ -27,6 +28,7 @@ public class MaskLoader<T extends AbstractController> {
       Scene scene = new Scene(root);
       UiUtils.applyCss(scene);
       Stage stage = new Stage(StageStyle.UNDECORATED);
+      stage.initModality(Modality.APPLICATION_MODAL);
       stage.setScene(scene);
       mask.setRoot(root);
       mask.setStage(stage);

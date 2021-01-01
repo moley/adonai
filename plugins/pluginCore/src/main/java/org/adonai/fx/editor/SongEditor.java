@@ -1,13 +1,8 @@
 package org.adonai.fx.editor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -19,12 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.DateUtil;
-import org.adonai.actions.SearchAction;
 import org.adonai.export.presentation.Page;
-import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,19 +24,15 @@ public class SongEditor extends VBox {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SongEditor.class);
 
-  private DateUtil dateUtil = new DateUtil();
-
   private Pane leftPane = new Pane();
 
   private Pane rightPane = new Pane();
 
-  private List<Page> panes = new ArrayList<Page>();
+  private List<Page> panes;
 
-  private int currentIndex = 0;
+  private int currentIndex;
 
   private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
-
-  //private Metronome metronome = new Metronome();
 
   private ApplicationEnvironment applicationEnvironment;
 
