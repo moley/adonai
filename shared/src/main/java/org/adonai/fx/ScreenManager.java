@@ -42,24 +42,48 @@ public class ScreenManager {
     return Screen.getScreens();
   }
 
-  public void layoutOnScreen (final Stage stage) {
-    Screen externalOrPrimary = getPrimary();
-    stage.setX(externalOrPrimary.getVisualBounds().getMinX());
-    stage.setY(externalOrPrimary.getVisualBounds().getMinY());
-    stage.setWidth(externalOrPrimary.getVisualBounds().getWidth());
-    stage.setHeight(externalOrPrimary.getVisualBounds().getHeight());
+
+  public void layoutOnScreen (final Stage stage, Screen screen) {
+    if (screen == null)
+      throw new IllegalArgumentException("Parameter screen must not be null");
+
+    stage.setX(screen.getVisualBounds().getMinX());
+    stage.setY(screen.getVisualBounds().getMinY());
+    stage.setWidth(screen.getVisualBounds().getWidth());
+    stage.setHeight(screen.getVisualBounds().getHeight());
   }
 
-  public void layoutOnScreen (final Stage stage, int border) {
-    Screen externalOrPrimary = getPrimary();
-    stage.setX(externalOrPrimary.getVisualBounds().getMinX() + border);
-    stage.setY(externalOrPrimary.getVisualBounds().getMinY() + border);
-    stage.setWidth(externalOrPrimary.getVisualBounds().getWidth() - (border * 2));
-    stage.setHeight(externalOrPrimary.getVisualBounds().getHeight() - (border * 2));
+  public void layoutOnScreen (final Stage stage, int border, Screen screen) {
+    if (screen == null)
+      throw new IllegalArgumentException("Parameter screen must not be null");
+
+    stage.setX(screen.getVisualBounds().getMinX() + border);
+    stage.setY(screen.getVisualBounds().getMinY() + border);
+    stage.setWidth(screen.getVisualBounds().getWidth() - (border * 2));
+    stage.setHeight(screen.getVisualBounds().getHeight() - (border * 2));
   }
 
+  public Screen getScreen(String adminScreen) {
+    if (getAllScreens().size() == 1)
+      return getPrimary();
+    if (adminScreen == null)
+      return getPrimary();
+    String [] tokens = adminScreen.split("#");
+    if (tokens != null && tokens.length == 2) {
+      for (Screen next : getAllScreens()) {
+        if (Double.valueOf(tokens[0]).equals(next.getBounds().getMinX()) &&
+            Double.valueOf(tokens[1]).equals(next.getBounds().getMinY())) {
+          LOGGER.info("Found screen " + next + " for key " + adminScreen);
+          return next;
+        }
+      }
+    }
+    return getPrimary();
+  }
 
-
-
-
+  public String getId (final Screen screen) {
+    String id =  screen.getBounds().getMinX() + "#" + screen.getBounds().getMinY();
+    LOGGER.info("ID for screen " + screen + ":" + id);
+    return id;
+  }
 }

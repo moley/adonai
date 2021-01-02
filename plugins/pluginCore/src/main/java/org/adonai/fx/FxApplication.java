@@ -32,12 +32,13 @@ public class FxApplication extends Application {
     Mask<MainController> mask = maskLoader.load("main");
     MainController mainController = mask.getController();
     mainController.setApplicationEnvironment(applicationEnvironment);
+    applicationEnvironment.setMainStage(primaryStage);
 
     primaryStage.setScene(mask.getScene());
 
     ScreenManager screenManager = new ScreenManager();
     primaryStage.initStyle(StageStyle.UNDECORATED);
-    screenManager.layoutOnScreen(primaryStage);
+    screenManager.layoutOnScreen(primaryStage, applicationEnvironment.getAdminScreen());
     log.info("Primary stage Bounds: " + primaryStage.getWidth() + "-" + primaryStage.getHeight());
     primaryStage.toFront();
     primaryStage.show();

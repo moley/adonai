@@ -3,6 +3,7 @@ package org.adonai.actions;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.ExtensionSelectorController;
 import org.adonai.fx.ExtensionType;
 import org.adonai.fx.Mask;
@@ -26,7 +27,7 @@ public class ConnectSongWithMp3Action {
   private ExtensionSelectorController extensionSelectorController;
 
 
-  public void connect (Configuration configuration, Song selectedSong, EventHandler<WindowEvent> onHiding) {
+  public void connect (ApplicationEnvironment applicationEnvironment, Configuration configuration, Song selectedSong, EventHandler<WindowEvent> onHiding) {
 
     if (selectedSong == null) {
       LOGGER.warn("Selected song is <null>");
@@ -39,7 +40,7 @@ public class ConnectSongWithMp3Action {
     extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG, configuration);
     Stage stage = mask.getStage();
-    screenManager.layoutOnScreen(stage, 100);
+    screenManager.layoutOnScreen(stage, 100, applicationEnvironment.getAdminScreen());
     stage.setTitle("Connect song " + selectedSong.getTitle() + " with mp3 file");
     stage.setOnHiding(onHiding);
 

@@ -61,18 +61,22 @@ public class SettingsController extends AbstractController {
 
 
         AbstractSettingsController abstractSettingsController = loader.getController();
+        abstractSettingsController.setApplicationEnvironment(getApplicationEnvironment());
+        abstractSettingsController.setStage(getStage());
         abstractSettingsController.setModel(model);
         LOGGER.info("Set model of settings controller " + abstractSettingsController.getClass().getName());
+        if (abstractSettingsController.isVisible()) {
 
-        ResourceBundle resources = loader.getResources();
+          ResourceBundle resources = loader.getResources();
 
-        String id = next.substring(next.lastIndexOf("/") + 1).replace(".fxml", "");
-        String name = resources.getString(id);
-        String icon = resources.getString(id + "_icon");
+          String id = next.substring(next.lastIndexOf("/") + 1).replace(".fxml", "");
+          String name = resources.getString(id);
+          String icon = resources.getString(id + "_icon");
 
-        panes.put(id, root);
-        panConfigurationDetails.getChildren().add(root);
-        configurations.add(new SettingsItem(id, name, icon));
+          panes.put(id, root);
+          panConfigurationDetails.getChildren().add(root);
+          configurations.add(new SettingsItem(id, name, icon));
+        }
       } catch (Exception e) {
         throw new IllegalStateException("Error loading mask " + next, e);
       }

@@ -20,6 +20,8 @@ public class Configuration {
 
   private String tenant;
 
+  private String adminScreen;
+
   private List<User> users = new ArrayList<User>();
 
   private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
@@ -104,6 +106,14 @@ public class Configuration {
 
   public void setTenant(String tenant) {
     this.tenant = tenant;
+  }
+
+  public String getAdminScreen() {
+    return adminScreen;
+  }
+
+  public void setAdminScreen(String adminScreen) {
+    this.adminScreen = adminScreen;
   }
 
   @Override public String toString() {

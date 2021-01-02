@@ -145,7 +145,7 @@ public class ScopeController extends AbstractController {
       Mask<AdditionalsController> songdetailsMask = songdetailsMaskLoader.load("additionals");
       Stage stage = songdetailsMask.getStage();
       ScreenManager screenManager = new ScreenManager();
-      screenManager.layoutOnScreen(stage, 100);
+      screenManager.layoutOnScreen(stage, 100, getApplicationEnvironment().getAdminScreen());
 
       AdditionalsController songDetailsController = songdetailsMask.getController();
       songDetailsController.setStage(stage);

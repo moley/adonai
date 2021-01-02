@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import org.adonai.additionals.AdditionalsImporter;
+import org.adonai.fx.ScreenManager;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.main.ScopeItemProvider;
 import org.adonai.model.Additional;
@@ -48,6 +51,9 @@ public class ApplicationEnvironment {
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
 
+
+  private Stage mainStage;
+
   /**
    * constructor
    * @param pluginManager  the plugin manager
@@ -88,6 +94,18 @@ public class ApplicationEnvironment {
     }
 
     return songsOfCurrentScope;
+  }
+
+  public Screen getAdminScreen () {
+    String adminScreen = getCurrentConfiguration().getAdminScreen();
+    ScreenManager screenManager = new ScreenManager();
+    return screenManager.getScreen (adminScreen);
+  }
+
+  public void setAdminScreen (final Screen screen) {
+    ScreenManager screenManager = new ScreenManager();
+    String adminScreenId = screenManager.getId(screen);
+    getCurrentConfiguration().setAdminScreen(adminScreenId);
   }
 
   /**
@@ -232,5 +250,13 @@ public class ApplicationEnvironment {
 
   public List<ScopeItem> getAllScopeItems () {
     return scopeItemProvider.getScopeItems(getCurrentConfiguration());
+  }
+
+  public Stage getMainStage() {
+    return mainStage;
+  }
+
+  public void setMainStage(Stage mainStage) {
+    this.mainStage = mainStage;
   }
 }

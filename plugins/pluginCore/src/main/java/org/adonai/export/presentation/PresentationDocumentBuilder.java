@@ -131,7 +131,7 @@ import org.slf4j.LoggerFactory;
                 Mask<SongDetailsController> songdetailsMask = songdetailsMaskLoader.load("songdetails");
                 Stage stage = songdetailsMask.getStage();
                 ScreenManager screenManager = new ScreenManager();
-                screenManager.layoutOnScreen(stage, 300);
+                screenManager.layoutOnScreen(stage, 300, getApplicationEnvironment().getAdminScreen());
 
                 SongDetailsController songDetailsController = songdetailsMask.getController();
                 songDetailsController.setStage(stage);
@@ -165,7 +165,7 @@ import org.slf4j.LoggerFactory;
                 });
 
                 ScreenManager screenManager = new ScreenManager();
-                screenManager.layoutOnScreen(stage, 200);
+                screenManager.layoutOnScreen(stage, 200, getApplicationEnvironment().getAdminScreen());
 
                 stage.showAndWait();
               }

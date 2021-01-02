@@ -145,7 +145,7 @@ public class SongDetailsController extends AbstractController {
     btnAssignMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         ConnectSongWithMp3Action connectSongWithMp3Action = new ConnectSongWithMp3Action();
-        connectSongWithMp3Action.connect(configuration, currentSong, new EventHandler<WindowEvent>() {
+        connectSongWithMp3Action.connect(getApplicationEnvironment(), configuration, currentSong, new EventHandler<WindowEvent>() {
           @Override public void handle(WindowEvent event) {
             LOGGER.info("handle onHiding event");
 

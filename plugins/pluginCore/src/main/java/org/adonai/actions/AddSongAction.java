@@ -28,7 +28,7 @@ public class AddSongAction {
     songImportController = new SongImportController();
     songImportController.setSongBook(songBook);
     Stage stage = new Stage();
-    screenManager.layoutOnScreen(stage, 50);
+    screenManager.layoutOnScreen(stage, 50, applicationEnvironment.getAdminScreen());
     stage.setResizable(false);
     stage.initStyle(StageStyle.UNDECORATED);
 

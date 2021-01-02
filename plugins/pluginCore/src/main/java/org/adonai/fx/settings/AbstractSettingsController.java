@@ -28,4 +28,8 @@ public class AbstractSettingsController extends AbstractController {
     TenantModel tenantModel = getTenantModel();
     return tenantModel.get();
   }
+
+  public boolean isVisible () {
+    return true;
+  }
 }

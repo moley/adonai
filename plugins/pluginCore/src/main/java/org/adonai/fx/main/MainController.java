@@ -215,6 +215,7 @@ public class MainController extends AbstractController {
     scopeController.setApplicationEnvironment(getApplicationEnvironment());
     scopeController.loadData(null);
     scopeController.setMainController(this);
+
     main.setCenter(maskScope.getRoot());
   }
 
