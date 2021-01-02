@@ -38,6 +38,10 @@ public class ScreenManager {
     return primary;
   }
 
+  public List<Screen> getAllScreens () {
+    return Screen.getScreens();
+  }
+
   public void layoutOnScreen (final Stage stage) {
     Screen externalOrPrimary = getPrimary();
     stage.setX(externalOrPrimary.getVisualBounds().getMinX());

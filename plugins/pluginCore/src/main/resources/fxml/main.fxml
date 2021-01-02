@@ -3,25 +3,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.Label?>
 <BorderPane fx:id="main" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.adonai.fx.main.MainController">
-
     <top>
         <HBox fx:id="panHeader" fillHeight="true" >
-            <Button fx:id="btnWorkspace" maxHeight="Infinity" alignment="CENTER"></Button>
-            <ComboBox fx:id="cboScope" userData="mainpage.cboScope" maxHeight="Infinity" styleClass="scopeChooser">
+            <Button fx:id="btnAdmin" maxHeight="Infinity" alignment="CENTER">
                 <HBox.margin>
                     <Insets>
                         <right>20</right>
                     </Insets>
                 </HBox.margin>
-            </ComboBox>
+            </Button>
             <ButtonBar >
                 <buttons>
                     <Button fx:id="btnPlayerBeginning"></Button>

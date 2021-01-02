@@ -59,8 +59,10 @@ public class SettingsController extends AbstractController {
       try {
         root = loader.load();
 
+
         AbstractSettingsController abstractSettingsController = loader.getController();
         abstractSettingsController.setModel(model);
+        LOGGER.info("Set model of settings controller " + abstractSettingsController.getClass().getName());
 
         ResourceBundle resources = loader.getResources();
 

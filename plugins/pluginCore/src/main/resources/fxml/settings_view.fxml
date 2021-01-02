@@ -2,7 +2,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsConfigurationsController" alignment="TOP_CENTER" hgap="10" vgap="10" >
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsViewConfigurationsController" alignment="TOP_CENTER" hgap="10" vgap="10" >
     <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
     <columnConstraints>
         <ColumnConstraints percentWidth="20"/>

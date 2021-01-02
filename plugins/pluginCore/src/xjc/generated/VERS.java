@@ -50,12 +50,12 @@ import javax.xml.bind.annotation.XmlType;
 public class VERS {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "SUP", type = SUP.class, required = false),
+        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "NOTE", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "SUP", type = SUP.class, required = false),
         @XmlElementRef(name = "XREF", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "BR", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "BR", type = JAXBElement.class, required = false)
     })
     @XmlMixed
     protected List<Object> content;
@@ -88,24 +88,24 @@ public class VERS {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link NOTE }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
-     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
-     * {@link JAXBElement }{@code <}{@link BR }{@code >}
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link String }
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link SUP }
-     * {@link JAXBElement }{@code <}{@link NOTE }{@code >}
+     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link BR }{@code >}
+     * {@link JAXBElement }{@code <}{@link NOTE }{@code >}
+     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link NOTE }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link NOTE }{@code >}
+     * {@link JAXBElement }{@code <}{@link XREF }{@code >}
+     * {@link JAXBElement }{@code <}{@link BR }{@code >}
      * 
      * 
      */

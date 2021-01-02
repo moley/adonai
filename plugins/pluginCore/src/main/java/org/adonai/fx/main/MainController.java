@@ -9,8 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -34,8 +32,6 @@ import org.adonai.fx.Consts;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.editor.SongEditor;
-import org.adonai.fx.renderer.ScopeItemCellRenderer;
-import org.adonai.fx.renderer.ScopeItemStringConverter;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
 import org.adonai.model.Configuration;
@@ -58,12 +54,11 @@ public class MainController extends AbstractController {
   public Button btnPlayerEnd;
   public HBox panHeader;
   public BorderPane main;
-  public ComboBox<ScopeItem> cboScope;
   public Button btnLeadVoice;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
   public Button btnHelp;
-  public Button btnWorkspace;
+  public Button btnAdmin;
   public Pane panMetronome;
   public Button btnSpeed;
 
@@ -76,9 +71,9 @@ public class MainController extends AbstractController {
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
-    btnWorkspace.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
-    btnWorkspace.setTooltip(new Tooltip("Workspace"));
-    btnWorkspace.setOnAction(event -> reloadScope());
+    btnAdmin.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
+    btnAdmin.setTooltip(new Tooltip("Admin"));
+    btnAdmin.setOnAction(event -> reloadScope());
     btnHelp.setTooltip(new Tooltip("Help screen"));
     btnHelp.setOnAction(event -> openHelp ());
     btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
@@ -132,22 +127,6 @@ public class MainController extends AbstractController {
       }
     });
 
-    cboScope.setCellFactory(cellFactory -> new ScopeItemCellRenderer());
-    cboScope.setConverter(new ScopeItemStringConverter());
-
-    cboScope.setOnMouseClicked(evenHandler -> {
-        ScopeItem scopeItem = cboScope.getSelectionModel().getSelectedItem();
-        getApplicationEnvironment().setCurrentSession(scopeItem.getSession());
-        reloadEditor();
-      });
-
-    cboScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ScopeItem>() {
-      @Override public void changed(ObservableValue<? extends ScopeItem> observable, ScopeItem oldValue, ScopeItem newValue) {
-        getApplicationEnvironment().setCurrentSession(newValue.getSession());
-        reloadEditor();
-      }
-    });
-
     btnPlayerBeginning.setGraphic(Consts.createIcon("fas-fast-backward", Consts.ICON_SIZE_TOOLBAR));
     btnPlayerBeginning.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -197,12 +176,6 @@ public class MainController extends AbstractController {
     helpAction.show(this);
   }
 
-  private void reloadScopeCombobox() {
-    cboScope.setItems(FXCollections.observableArrayList(getApplicationEnvironment().getAllScopeItems()));
-    if (cboScope.getSelectionModel().isEmpty())
-      cboScope.getSelectionModel().selectFirst();
-  }
-
   private void reloadActionMenu () {
     log.info("reloadActionMenu called");
     btnMainActions.getItems().clear();
@@ -215,7 +188,6 @@ public class MainController extends AbstractController {
         @Override public void handle(ActionEvent event) {
           log.info("Selected menuitem " + event.getSource());
           getApplicationEnvironment().getAdonaiProperties().setCurrentTenant(nextTenant);
-          reloadScopeCombobox();
           reloadEditor();
         }
       });
@@ -296,13 +268,7 @@ public class MainController extends AbstractController {
 
   @Override public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
     super.setApplicationEnvironment(applicationEnvironment);
-
-    reloadScopeCombobox();
     reloadScope();
     reloadActionMenu();
-
-
-
-
   }
 }
