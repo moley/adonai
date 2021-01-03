@@ -189,7 +189,7 @@ public class ApplicationEnvironment {
   }
 
   public void setCurrentSong(Song currentSong) {
-    LOGGER.info("set current song " + currentSong.getId());
+    LOGGER.info("set current song " + (currentSong != null ? currentSong.getId(): "null"));
     this.currentSong = currentSong;
   }
 

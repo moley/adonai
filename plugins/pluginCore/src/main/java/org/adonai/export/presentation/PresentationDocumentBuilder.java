@@ -135,6 +135,7 @@ import org.slf4j.LoggerFactory;
 
                 SongDetailsController songDetailsController = songdetailsMask.getController();
                 songDetailsController.setStage(stage);
+                songDetailsController.setApplicationEnvironment(getApplicationEnvironment());
                 songDetailsController.setConfiguration(applicationEnvironment.getCurrentConfiguration());
                 songDetailsController.setCurrentSong(applicationEnvironment.getCurrentSong());
                 songDetailsController.loadData();
