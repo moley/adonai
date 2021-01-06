@@ -104,7 +104,7 @@ public class ScopeController extends AbstractController {
       @Override public void changed(ObservableValue<? extends TreeItem<ScopeItem>> observable,
           TreeItem<ScopeItem> oldValue, TreeItem<ScopeItem> newValue) {
         log.info("selectionChanged property");
-        if (newValue != null) {
+        if (newValue != null && newValue.getValue() != null) {
           ScopeItem scopeItem = newValue.getValue();
           boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
               .getSession() != null;
@@ -134,7 +134,7 @@ public class ScopeController extends AbstractController {
 
     getApplicationEnvironment().setCurrentSession(null); //SongBook
     getApplicationEnvironment().setCurrentSong(selected.getSong());
-    getMainController().reloadEditor();
+    getMainController().reloadViewer();
   }
 
   private void openAdditionalsMask () {
@@ -142,7 +142,7 @@ public class ScopeController extends AbstractController {
     if (treScope.getSelectionModel().getSelectedItem() != null) {
       ScopeItem selectedScopeItem = treScope.getSelectionModel().getSelectedItem().getValue();
       MaskLoader<AdditionalsController> songdetailsMaskLoader = new MaskLoader<AdditionalsController>();
-      Mask<AdditionalsController> songdetailsMask = songdetailsMaskLoader.load("additionals");
+      Mask<AdditionalsController> songdetailsMask = songdetailsMaskLoader.loadWithStage("additionals");
       Stage stage = songdetailsMask.getStage();
       ScreenManager screenManager = new ScreenManager();
       screenManager.layoutOnScreen(stage, 100, getApplicationEnvironment().getAdminScreen());

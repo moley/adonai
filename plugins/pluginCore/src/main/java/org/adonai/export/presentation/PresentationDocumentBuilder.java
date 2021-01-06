@@ -16,8 +16,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.export.AbstractDocumentBuilder;
@@ -25,11 +23,6 @@ import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
 import org.adonai.export.ExportTokenType;
 import org.adonai.export.NewPageStrategy;
-import org.adonai.fx.Mask;
-import org.adonai.fx.MaskLoader;
-import org.adonai.fx.ScreenManager;
-import org.adonai.fx.editcontent.EditContentController;
-import org.adonai.fx.songdetails.SongDetailsController;
 import org.adonai.model.SongPartDescriptorStrategy;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
@@ -127,7 +120,7 @@ import org.slf4j.LoggerFactory;
             LOGGER.info("with type " + exportToken.getExportTokenType());
             if (exportToken != null) {
               if (exportToken.getExportTokenType().equals(ExportTokenType.TITLE)) {
-                MaskLoader<SongDetailsController> songdetailsMaskLoader = new MaskLoader<SongDetailsController>();
+                /**MaskLoader<SongDetailsController> songdetailsMaskLoader = new MaskLoader<SongDetailsController>();
                 Mask<SongDetailsController> songdetailsMask = songdetailsMaskLoader.load("songdetails");
                 Stage stage = songdetailsMask.getStage();
                 ScreenManager screenManager = new ScreenManager();
@@ -139,18 +132,16 @@ import org.slf4j.LoggerFactory;
                 songDetailsController.setConfiguration(applicationEnvironment.getCurrentConfiguration());
                 songDetailsController.setCurrentSong(applicationEnvironment.getCurrentSong());
                 songDetailsController.loadData();
-                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                  @Override public void handle(WindowEvent event) {
-                    songDetailsController.save();
-                    onSongContentChange.handle(new ActionEvent());
-                  }
+                stage.setOnCloseRequest(event12 -> {
+                  songDetailsController.save();
+                  onSongContentChange.handle(new ActionEvent());
                 });
 
-                stage.showAndWait();
+                stage.showAndWait();**/
 
               } else if (exportToken.getExportTokenType().equals(ExportTokenType.STRUCTURE) && exportToken
                   .getSongStructItem() != null || (exportToken.getSongStructItem() != null)) {
-                MaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
+                /**TODOMaskLoader<EditContentController> maskLoader = new MaskLoader<EditContentController>();
                 Mask<EditContentController> editContentMask = maskLoader.load("editContent");
                 Stage stage = editContentMask.getStage();
 
@@ -158,17 +149,17 @@ import org.slf4j.LoggerFactory;
                 editContentController.setStage(stage);
                 editContentController.setExportToken(exportToken);
 
-                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                  @Override public void handle(WindowEvent event) {
-                    editContentController.serializeCurrentSongPart();
-                    onSongContentChange.handle(new ActionEvent());
-                  }
+                stage.setOnCloseRequest(event1 -> {
+                  editContentController.serializeCurrentSongPart();
+                  onSongContentChange.handle(new ActionEvent());
                 });
 
-                ScreenManager screenManager = new ScreenManager();
-                screenManager.layoutOnScreen(stage, 200, getApplicationEnvironment().getAdminScreen());
-
-                stage.showAndWait();
+                Bounds bounds = UiUtils.getBounds(applicationEnvironment.getSongEditor());
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                stage.setWidth(bounds.getWidth());
+                stage.setHeight(bounds.getHeight());
+                stage.showAndWait();**/
               }
             }
           }

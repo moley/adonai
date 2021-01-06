@@ -1,6 +1,7 @@
 package org.adonai.fx.main;
 
 import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,9 +32,10 @@ import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
-import org.adonai.fx.editor.SongEditor;
+import org.adonai.fx.editcontent.SongEditor;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
+import org.adonai.fx.viewer.SongViewer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
@@ -59,6 +61,8 @@ public class MainController extends AbstractController {
   public Button btnOriginalKey;
   public Button btnHelp;
   public Button btnAdmin;
+  public Button btnViewer;
+  public Button btnEditor;
   public Pane panMetronome;
   public Button btnSpeed;
 
@@ -66,8 +70,12 @@ public class MainController extends AbstractController {
 
   private Metronome metronome = new Metronome();
 
-  private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<ScopeController>();
+  private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<>();
   private Mask<ScopeController> maskScope;
+
+  private MaskLoader<SongEditor> maskLoaderContent = new MaskLoader<>();
+  private Mask<SongEditor> songEditorMask;
+
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
@@ -78,34 +86,60 @@ public class MainController extends AbstractController {
     btnHelp.setOnAction(event -> openHelp ());
     btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
 
-    main.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    btnViewer.setGraphic(Consts.createIcon("fas-binoculars", Consts.ICON_SIZE_TOOLBAR));
+    btnViewer.setTooltip(new Tooltip("Viewer"));
+    btnViewer.setOnAction(event -> {
+      reloadViewer();
+    });
+
+    btnEditor.setGraphic(Consts.createIcon("fas-edit", Consts.ICON_SIZE_TOOLBAR));
+    btnEditor.setTooltip(new Tooltip("Editor"));
+    btnEditor.setOnAction(event -> {
+      reloadEditor();
+    });
+
+    main.setOnKeyTyped(new EventHandler<KeyEvent>() {
       @Override public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.F1)) {
-          openHelp();
-        }
-        if (event.getCode().equals(KeyCode.M)) {
-          metronome.setBpm(getApplicationEnvironment().getCurrentSong().getSpeed());
-          metronome.setVisible(! metronome.isVisible());
+        if (event.getCode().equals(KeyCode.E)) {
+          Platform.runLater(new Runnable() {
+            @Override public void run() {
+              reloadEditor ();
+            }
+          });
 
         }
-        else if (event.getCode().equals(KeyCode.S)) {
-          ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
-          SearchAction<Song> searchAction = new SearchAction();
-          FilteredList<Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
-          filteredList.setPredicate(song -> true);
-          searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
-            @Override public void handle(WindowEvent event) {
-              Song selectedSong = searchAction.getSelectedItem();
-              if (selectedSong != null) {
-                applicationEnvironment.setCurrentSession(null);
-                applicationEnvironment.setCurrentSong(selectedSong);
-                reloadEditor();
-              }
-            }
-          }, filteredList, "", 50, 100);
-        }
+      }
+    });
+
+    main.setOnKeyPressed(event -> {
+      if (event.getCode().equals(KeyCode.F1)) {
+        openHelp();
+      }
+      if (event.getCode().equals(KeyCode.M)) {
+        metronome.setBpm(getApplicationEnvironment().getCurrentSong().getSpeed());
+        metronome.setVisible(! metronome.isVisible());
 
       }
+      else if (event.getCode().equals(KeyCode.E)) {
+        reloadEditor ();
+      }
+      else if (event.getCode().equals(KeyCode.S)) {
+        ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
+        SearchAction<Song> searchAction = new SearchAction();
+        FilteredList<Song> filteredList = new FilteredList<>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
+        filteredList.setPredicate(song -> true);
+        searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
+          @Override public void handle(WindowEvent event) {
+            Song selectedSong = searchAction.getSelectedItem();
+            if (selectedSong != null) {
+              applicationEnvironment.setCurrentSession(null);
+              applicationEnvironment.setCurrentSong(selectedSong);
+              reloadViewer();
+            }
+          }
+        }, filteredList, "", 50, 100);
+      }
+
     });
 
     panMetronome.getChildren().add(metronome.getControl());
@@ -115,7 +149,7 @@ public class MainController extends AbstractController {
         getApplicationEnvironment().setShowOriginalKey(false);
         btnTransposedKey.setStyle("-fx-background-color:yellow");
         btnOriginalKey.setStyle("");
-        reloadEditor();
+        reloadViewer();
       }
     });
     btnOriginalKey.setOnAction(new EventHandler<ActionEvent>() {
@@ -123,7 +157,7 @@ public class MainController extends AbstractController {
         getApplicationEnvironment().setShowOriginalKey(true);
         btnOriginalKey.setStyle("-fx-background-color:yellow");
         btnTransposedKey.setStyle("");
-        reloadEditor();
+        reloadViewer();
       }
     });
 
@@ -188,7 +222,7 @@ public class MainController extends AbstractController {
         @Override public void handle(ActionEvent event) {
           log.info("Selected menuitem " + event.getSource());
           getApplicationEnvironment().getAdonaiProperties().setCurrentTenant(nextTenant);
-          reloadEditor();
+          reloadViewer();
         }
       });
       btnMainActions.getItems().add(menuItem);
@@ -210,13 +244,27 @@ public class MainController extends AbstractController {
 
   private void reloadScope () {
     if (maskScope == null)
-      maskScope = maskLoaderScope.load("scope");
+      maskScope = maskLoaderScope.loadWithStage("scope");
     ScopeController scopeController = maskScope.getController();
     scopeController.setApplicationEnvironment(getApplicationEnvironment());
     scopeController.loadData(null);
     scopeController.setMainController(this);
-
     main.setCenter(maskScope.getRoot());
+    main.requestLayout();
+
+  }
+
+  private void reloadEditor () {
+    if (songEditorMask == null)
+      songEditorMask = maskLoaderContent.loadWithStage("editContent");
+    SongEditor songEditor = songEditorMask.getController();
+    songEditor.setApplicationEnvironment(getApplicationEnvironment());
+    if (getApplicationEnvironment().getCurrentSong() == null && getApplicationEnvironment().getCurrentSongBook().getSongs().size() > 0)
+      getApplicationEnvironment().setCurrentSong(getApplicationEnvironment().getCurrentSongBook().getSongs().get(0));
+    songEditor.setSong(getApplicationEnvironment().getCurrentSong());
+    songEditor.setMainController(this);
+    main.setCenter(songEditorMask.getRoot());
+    main.requestLayout();
   }
 
   public Node getCenter () {
@@ -224,15 +272,13 @@ public class MainController extends AbstractController {
   }
 
 
-  public void reloadEditor() {
+  public void reloadViewer() {
     log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(main.getWidth(), main.getHeight() - 200);
-    PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        log.info("onSongContentChangedHandler triggered");
-        reloadEditor();
-      }
+    PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, event -> {
+      log.info("onSongContentChangedHandler triggered");
+      reloadViewer();
     });
 
     Configuration configuration = getApplicationEnvironment().getCurrentConfiguration();
@@ -250,8 +296,8 @@ public class MainController extends AbstractController {
     exportConfiguration.setWithRemarks(true); //TODO from configuration
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
-    SongEditor songeditorRoot = new SongEditor(getApplicationEnvironment(), exporter.getPanes());
-    songeditorRoot.currentSongProperty().addListener(new ChangeListener<Song>() {
+    SongViewer songViewer = new SongViewer(getApplicationEnvironment(), exporter.getPanes());
+    songViewer.currentSongProperty().addListener(new ChangeListener<Song>() {
       @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
         getApplicationEnvironment().setCurrentSong(newValue);
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
@@ -261,8 +307,9 @@ public class MainController extends AbstractController {
 
       }
     });
-    main.setCenter(songeditorRoot);
-    songeditorRoot.show();
+
+    main.setCenter(songViewer);
+    songViewer.show();
 
   }
 

@@ -11,41 +11,127 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.MenuButton?>
-<GridPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="org.adonai.fx.editcontent.EditContentController" hgap="20" vgap="20">
-    <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.BorderPane?>
+<TabPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.adonai.fx.editcontent.SongEditor" side="BOTTOM" fx:id="tabPane">
 
-    <columnConstraints>
-        <ColumnConstraints percentWidth="30"/>
-        <ColumnConstraints percentWidth="10"/>
-        <ColumnConstraints percentWidth="20"/>
-        <ColumnConstraints percentWidth="40"/>
-    </columnConstraints>
+    <tabs>
+        <Tab fx:id="tabStructureEditor" text="Structure Editor">
+            <GridPane fx:id="root" hgap="20" vgap="20">
+                <padding>
+                    <Insets top="40" bottom="40" left="30" right="30"/>
+                </padding>
 
-    <Label fx:id="lblTitle" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header" GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="30"/>
+                    <ColumnConstraints percentWidth="10"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="40"/>
+                </columnConstraints>
+
+                <Label fx:id="lblTitleStructureEditor" userData="editContent.lblTitle" text="EDIT SONGPARTS" id="header"
+                       GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0"
+                       GridPane.rowIndex="0"/>
+
+                <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>
+                <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="4"
+                      spacing="5">
+
+                    <MenuButton fx:id="btnAdd"></MenuButton>
+                    <MenuButton fx:id="btnCopy"></MenuButton>
+                    <Button fx:id="btnRemove"></Button>
+                    <Button fx:id="btnMoveUp"></Button>
+                    <Button fx:id="btnMoveDown"></Button>
+
+                </VBox>
 
 
-    <ListView fx:id="lviStructure" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.rowSpan="4"/>
-    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.rowSpan="4" spacing="5">
+                <Label fx:id="lblType" text="Part Type:" styleClass="editortext" GridPane.columnIndex="2"
+                       GridPane.rowIndex="1"></Label>
+                <ComboBox fx:id="cboType" styleClass="editortext" GridPane.columnIndex="3"
+                          GridPane.rowIndex="1"></ComboBox>
 
-        <MenuButton fx:id="btnAdd"></MenuButton>
-        <MenuButton fx:id="btnCopy"></MenuButton>
-        <Button fx:id="btnRemove"></Button>
-        <Button fx:id="btnMoveUp"></Button>
-        <Button fx:id="btnMoveDown"></Button>
+                <Label fx:id="lblQuantity" text="Quantity:" styleClass="editortext" GridPane.columnIndex="2"
+                       GridPane.rowIndex="2"></Label>
+                <TextField fx:id="txtQuantity" styleClass="editortext" GridPane.columnIndex="3"
+                           GridPane.rowIndex="2"></TextField>
 
-    </VBox>
+                <Label fx:id="lblRemarks" text="Remarks:" styleClass="editortext" GridPane.columnIndex="2"
+                       GridPane.rowIndex="3"></Label>
+                <TextField fx:id="txtRemarks" styleClass="editortext" GridPane.columnIndex="3"
+                           GridPane.rowIndex="3"></TextField>
+
+                <Label fx:id="lblContent" text="Content:" styleClass="editortext" GridPane.columnIndex="2"
+                       GridPane.rowIndex="4"></Label>
+                <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                          GridPane.columnIndex="3" GridPane.rowIndex="4"></TextArea>
+            </GridPane>
+        </Tab>
+
+        <Tab fx:id="tabTextEditor" text="Text Editor">
+            <BorderPane>
+                <center>
+                    <TextArea fx:id="txaAsText"></TextArea>
+                </center>
+            </BorderPane>
+        </Tab>
+
+        <Tab fx:id="tabSongProperties" text="Song Properties">
+            <GridPane hgap="20" vgap="20">
+                <padding>
+                    <Insets top="40" bottom="40" left="30" right="30"/>
+                </padding>
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="40"/>
+                    <ColumnConstraints percentWidth="20"/>
+                </columnConstraints>
+
+                <Label fx:id="lblTitleSongProperties" userData="songdetails.lblTitle" text="EDIT SONGPARTS" id="header"
+                       GridPane.halignment="CENTER" GridPane.columnSpan="4" GridPane.columnIndex="0"
+                       GridPane.rowIndex="0"/>
 
 
-    <Label fx:id="lblType" text="Part Type:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="1"></Label>
-    <ComboBox fx:id="cboType" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="1"></ComboBox>
+                <Label text="Title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtTitle" userData="songdetails.txtTitle" GridPane.columnIndex="1"
+                           GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
-    <Label fx:id="lblQuantity" text="Quantity:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="2"></Label>
-    <TextField fx:id="txtQuantity" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="2"></TextField>
+                <Label text="Mp3" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillWidth="true"
+                       GridPane.hgrow="ALWAYS"/>
+                <Label fx:id="lblCurrentMp3" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2"
+                       GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+                <Button fx:id="btnAssignMp3" text="Assign mp3" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
 
-    <Label fx:id="lblRemarks" text="Remarks:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="3"></Label>
-    <TextField fx:id="txtRemarks" styleClass="editortext"  GridPane.columnIndex="3" GridPane.rowIndex="3"></TextField>
+                <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.fillWidth="true"
+                       GridPane.hgrow="ALWAYS"/>
+                <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.fillWidth="true"
+                          GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+                <Button fx:id="btnRecalculateCurrentKey" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
 
-    <Label fx:id="lblContent" text="Content:" styleClass="editortext"  GridPane.columnIndex="2" GridPane.rowIndex="4"></Label>
-    <TextArea fx:id="txaText" styleClass="editortext" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS" GridPane.columnIndex="3" GridPane.rowIndex="4"></TextArea>
-</GridPane>
+                <Label text="Original key" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <ComboBox fx:id="cboOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                          GridPane.rowIndex="4" GridPane.fillWidth="true"/>
+                <Button fx:id="btnRecalculateOriginKey" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+
+                <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                          GridPane.rowIndex="5" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+
+                <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                <TextField fx:id="txtPreset" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="6" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+
+                <Label text="Speed (bpm)" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                <Spinner fx:id="spiSpeed" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                         GridPane.rowIndex="7" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+
+
+            </GridPane>
+        </Tab>
+    </tabs>
+</TabPane>

@@ -30,7 +30,8 @@ public class Metronome {
       @Override public void run() {
         LOGGER.info("Metronome started");
         while (metronomeAvailable) {
-          LOGGER.info("Metronome running (" + waitInMillis + ")");
+          if (waitInMillis > 0)
+            LOGGER.info("Metronome running (" + waitInMillis + ")");
 
           if (waitInMillis == 0) {
             rating.setVisible(false);

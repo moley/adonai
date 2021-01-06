@@ -7,6 +7,20 @@
     -fx-font-family: monospaced;
 }
 
+.tab-label {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    /* if outer border should be 10 radius */
+    -fx-background-radius: 10 10 0 0, 9 9 0 0, 8 8 0 0;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-radius: 9 9 0 0, 8 8 0 0;
+}
+
 #header {
   -fx-font-size: 30;
   -fx-font-family: Verdana;

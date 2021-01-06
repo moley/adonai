@@ -11,7 +11,7 @@ public class ScriptureDialog extends Application {
   @Override public void start(Stage primaryStage) throws Exception {
 
     MaskLoader<ScriptureController> maskLoader = new MaskLoader<>();
-    Mask<ScriptureController> mask = maskLoader.load("scripture");
+    Mask<ScriptureController> mask = maskLoader.loadWithStage("scripture");
     primaryStage.setScene(mask.getScene());
     primaryStage.setWidth(800);
     primaryStage.setHeight(1024);

@@ -7,8 +7,6 @@ import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
 import org.adonai.fx.main.MainController;
 
-import static org.adonai.fx.FxApplication.getApplicationEnvironment;
-
 public class HelpAction {
 
   private ScreenManager screenManager = new ScreenManager();
@@ -16,7 +14,7 @@ public class HelpAction {
 
   public void show (MainController mainController) {
     MaskLoader<HelpController> maskLoader = new MaskLoader<>();
-    Mask<HelpController> mask = maskLoader.load( "help");
+    Mask<HelpController> mask = maskLoader.loadWithStage( "help");
     HelpController helpController = mask.getController();
     helpController.setMainController(mainController);
     helpController.render ();

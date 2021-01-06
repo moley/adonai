@@ -1,4 +1,4 @@
-package org.adonai.fx.editor;
+package org.adonai.fx.viewer;
 
 import java.util.List;
 import javafx.beans.property.ObjectProperty;
@@ -20,9 +20,9 @@ import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SongEditor extends VBox {
+public class SongViewer extends VBox {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SongEditor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SongViewer.class);
 
   private Pane leftPane = new Pane();
 
@@ -36,7 +36,7 @@ public class SongEditor extends VBox {
 
   private ApplicationEnvironment applicationEnvironment;
 
-  public SongEditor(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
+  public SongViewer(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
     this.setId("songeditor");
     this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;

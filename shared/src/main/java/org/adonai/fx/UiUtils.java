@@ -33,24 +33,6 @@ public class UiUtils {
   }
 
 
-  public static void hideOnEsc (final Stage stage) {
-    stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent escEvent) -> {
-      if (KeyCode.ESCAPE == escEvent.getCode()) {
-        escEvent.consume();
-        stage.close();
-      }
-    });
-
-  }
-
-  public static void hideOnFocusLost (final Stage stage) {
-    stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-      if (! isNowFocused) {
-        stage.hide();
-      }
-    });
-  }
-
 
 
 

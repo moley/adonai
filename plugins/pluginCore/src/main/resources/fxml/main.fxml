@@ -12,6 +12,10 @@
     <top>
         <HBox fx:id="panHeader" fillHeight="true" >
             <Button fx:id="btnAdmin" maxHeight="Infinity" alignment="CENTER">
+            </Button>
+            <Button fx:id="btnViewer" maxHeight="Infinity" alignment="CENTER">
+            </Button>
+            <Button fx:id="btnEditor" maxHeight="Infinity" alignment="CENTER">
                 <HBox.margin>
                     <Insets>
                         <right>20</right>

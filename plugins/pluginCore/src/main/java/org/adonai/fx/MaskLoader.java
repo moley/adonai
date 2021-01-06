@@ -16,7 +16,7 @@ public class MaskLoader<T extends AbstractController> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
-  public Mask<T> load (final String name) {
+  public Mask<T> loadWithStage(final String name) {
     LOGGER.info("Loading mask '" + name + "'");
     Mask<T> mask = new Mask<T>();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
@@ -28,7 +28,6 @@ public class MaskLoader<T extends AbstractController> {
       Scene scene = new Scene(root);
       UiUtils.applyCss(scene);
       Stage stage = new Stage(StageStyle.UNDECORATED);
-      stage.initModality(Modality.APPLICATION_MODAL);
       stage.setScene(scene);
       mask.setRoot(root);
       mask.setStage(stage);
@@ -43,6 +42,23 @@ public class MaskLoader<T extends AbstractController> {
       });
 
 
+      return mask;
+    } catch (Exception e) {
+      LOGGER.error("Error loading mask " + name + ": " + e.getLocalizedMessage(), e);
+      throw new IllegalStateException(e);
+    }
+  }
+
+  public Mask<T> load(final String name) {
+    LOGGER.info("Loading mask '" + name + "'");
+    Mask<T> mask = new Mask<T>();
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
+    loader.setClassLoader(getClass().getClassLoader());
+    try {
+      Parent root = loader.load();
+      T controller = loader.getController();
+      mask.setRoot(root);
+      mask.setController(controller);
       return mask;
     } catch (Exception e) {
       LOGGER.error("Error loading mask " + name + ": " + e.getLocalizedMessage(), e);

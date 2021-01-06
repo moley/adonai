@@ -29,7 +29,7 @@ public class FxApplication extends Application {
   @Override public void start(Stage primaryStage) throws Exception {
 
     MaskLoader maskLoader = new MaskLoader();
-    Mask<MainController> mask = maskLoader.load("main");
+    Mask<MainController> mask = maskLoader.loadWithStage("main");
     MainController mainController = mask.getController();
     mainController.setApplicationEnvironment(applicationEnvironment);
     applicationEnvironment.setMainStage(primaryStage);

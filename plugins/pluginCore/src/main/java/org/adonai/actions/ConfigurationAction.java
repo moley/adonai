@@ -28,7 +28,7 @@ public class ConfigurationAction implements MainAction {
     return new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
         MaskLoader<SettingsController> maskLoader = new MaskLoader();
-        Mask<SettingsController> settingsMask = maskLoader.load( "settings");
+        Mask<SettingsController> settingsMask = maskLoader.loadWithStage( "settings");
         screenManager.layoutOnScreen(settingsMask.getStage(), applicationEnvironment.getAdminScreen());
         settingsMask.getController().setStage(settingsMask.getStage());
         settingsMask.getController().setApplicationEnvironment(applicationEnvironment);

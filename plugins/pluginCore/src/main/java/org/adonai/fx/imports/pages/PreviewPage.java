@@ -15,7 +15,7 @@ import org.adonai.SizeInfo;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.presentation.PresentationDocumentBuilder;
 import org.adonai.export.presentation.PresentationExporter;
-import org.adonai.fx.editor.SongEditor;
+import org.adonai.fx.viewer.SongViewer;
 import org.adonai.fx.imports.SongImportController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
@@ -65,7 +65,7 @@ public class PreviewPage extends WizardPage {
       exportConfiguration.setWithChords(true);
 
       exporter.export(songsOfCurrentScope, null, exportConfiguration);
-      SongEditor songEditor = new SongEditor(applicationEnvironment, exporter.getPanes());
+      SongViewer songEditor = new SongViewer(applicationEnvironment, exporter.getPanes());
       rootpanel.getChildren().clear();
       rootpanel.getChildren().add(songEditor);
       songEditor.show();

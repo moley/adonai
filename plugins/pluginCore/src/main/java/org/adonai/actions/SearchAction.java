@@ -37,7 +37,7 @@ public class SearchAction<T extends NamedElement> {
     this.applicationEnvironment = applicationEnvironment;
     this.listViewListCellCallback = listViewListCellCallback;
     this.onCloseEvent = onCloseEvent;
-    searchMask = maskLoader.load("search");
+    searchMask = maskLoader.loadWithStage("search");
 
     LOGGER.info("Open searchAction with " + filteredList.size() + " songs");
 

@@ -36,7 +36,7 @@ public class ConnectSongWithMp3Action {
 
 
     MaskLoader<ExtensionSelectorController> maskLoader = new MaskLoader<>();
-    Mask<ExtensionSelectorController> mask = maskLoader.load( "extensionselector");
+    Mask<ExtensionSelectorController> mask = maskLoader.loadWithStage( "extensionselector");
     extensionSelectorController = mask.getController();
     extensionSelectorController.init(ExtensionType.SONG, configuration);
     Stage stage = mask.getStage();

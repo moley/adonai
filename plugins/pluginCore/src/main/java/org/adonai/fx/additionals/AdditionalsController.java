@@ -70,7 +70,7 @@ public class AdditionalsController extends AbstractController {
     for (AdditionalType nextType : AdditionalType.values()) {
       MaskLoader<AdditionalDetailController> songdetailsMaskLoader = new MaskLoader<AdditionalDetailController>();
       Mask<AdditionalDetailController> songdetailsMask = songdetailsMaskLoader
-          .load("additional_" + nextType.name().toLowerCase());
+          .loadWithStage("additional_" + nextType.name().toLowerCase());
       songdetailsMask.getRoot().setVisible(false);
       panDetails.getChildren().add(songdetailsMask.getRoot());
       masks.put(nextType, songdetailsMask);

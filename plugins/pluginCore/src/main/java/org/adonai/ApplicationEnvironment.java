@@ -8,6 +8,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.fx.ScreenManager;
+import org.adonai.fx.viewer.SongViewer;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.main.ScopeItemProvider;
 import org.adonai.model.Additional;
@@ -50,7 +51,6 @@ public class ApplicationEnvironment {
   private boolean showOriginalKey = false;
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
-
 
   private Stage mainStage;
 
@@ -259,4 +259,6 @@ public class ApplicationEnvironment {
   public void setMainStage(Stage mainStage) {
     this.mainStage = mainStage;
   }
+
+
 }

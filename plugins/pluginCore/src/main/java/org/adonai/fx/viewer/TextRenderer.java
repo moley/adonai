@@ -1,4 +1,4 @@
-package org.adonai.fx.editor;
+package org.adonai.fx.viewer;
 
 import java.util.ArrayList;
 import java.util.List;

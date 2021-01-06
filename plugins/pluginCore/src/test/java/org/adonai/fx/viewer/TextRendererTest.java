@@ -1,4 +1,4 @@
-package org.adonai.fx.editor;
+package org.adonai.fx.viewer;
 
 import org.adonai.model.Song;
 import org.adonai.model.SongBuilder;
