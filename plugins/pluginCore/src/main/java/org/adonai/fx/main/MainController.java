@@ -256,7 +256,7 @@ public class MainController extends AbstractController {
 
   private void reloadEditor () {
     if (songEditorMask == null)
-      songEditorMask = maskLoaderContent.loadWithStage("editContent");
+      songEditorMask = maskLoaderContent.loadWithStage("songeditor");
     SongEditor songEditor = songEditorMask.getController();
     songEditor.setApplicationEnvironment(getApplicationEnvironment());
     if (getApplicationEnvironment().getCurrentSong() == null && getApplicationEnvironment().getCurrentSongBook().getSongs().size() > 0)

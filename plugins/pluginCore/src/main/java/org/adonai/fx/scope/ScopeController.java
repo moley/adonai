@@ -100,26 +100,21 @@ public class ScopeController extends AbstractController {
 
     });
 
-    treScope.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<ScopeItem>>() {
-      @Override public void changed(ObservableValue<? extends TreeItem<ScopeItem>> observable,
-          TreeItem<ScopeItem> oldValue, TreeItem<ScopeItem> newValue) {
-        log.info("selectionChanged property");
-        if (newValue != null && newValue.getValue() != null) {
-          ScopeItem scopeItem = newValue.getValue();
-          boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
-              .getSession() != null;
-          btnMoveDown.setVisible(songInSessionSelected);
-          btnMoveUp.setVisible(songInSessionSelected);
+    treScope.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+      log.info("selectionChanged property");
+      if (newValue != null && newValue.getValue() != null) {
+        ScopeItem scopeItem = newValue.getValue();
+        boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
+            .getSession() != null;
+        btnMoveDown.setVisible(songInSessionSelected);
+        btnMoveUp.setVisible(songInSessionSelected);
 
-        }
       }
     });
 
-    treScope.setOnMouseClicked(new EventHandler<MouseEvent>() {
-      @Override public void handle(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-          stepToSong();
-        }
+    treScope.setOnMouseClicked(event -> {
+      if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+        stepToSong();
       }
     });
 
