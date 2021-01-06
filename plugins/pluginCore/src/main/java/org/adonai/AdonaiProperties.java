@@ -14,11 +14,15 @@ public class AdonaiProperties {
   private static final Logger LOGGER = LoggerFactory.getLogger(AdonaiProperties.class);
 
 
+
+
+
   private static Properties properties;
 
   private File propertiesFile;
 
   public final static String PROPERTY_CURRENT_TENANT = "adonai.tenant";
+  public final static String PROPERTY_DROPBOX_ACCESSTOKEN = "adonai.dropbox.accesstoken";
 
   public static void dispose () {
     properties = null;
@@ -73,5 +77,13 @@ public class AdonaiProperties {
   public void setCurrentTenant (final String newTenant) {
     properties.setProperty(PROPERTY_CURRENT_TENANT, newTenant);
     save();
+  }
+
+  public String getDropboxAccessToken () {
+    return properties.getProperty(PROPERTY_DROPBOX_ACCESSTOKEN);
+  }
+
+  public File getPropertiesFile() {
+    return propertiesFile;
   }
 }

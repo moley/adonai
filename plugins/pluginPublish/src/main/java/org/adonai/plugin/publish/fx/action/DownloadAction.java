@@ -26,19 +26,19 @@ public class DownloadAction implements MainAction {
   }
 
   @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
-    return new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        try {
-          DropboxAdapter dropboxAdapter = new DropboxAdapter();
-          File homPath = Consts.getAdonaiHome();
-          File downloadFile = dropboxAdapter.download(new File (homPath.getParentFile(), ".adonai_backup"));
+    return event -> {
+      try {
+        DropboxAdapter dropboxAdapter = new DropboxAdapter();
+        File homPath = Consts.getAdonaiHome();
+        String credentials = applicationEnvironment.getAdonaiProperties().getDropboxAccessToken();
+        File downloadFile = dropboxAdapter.download(new File(homPath.getParentFile(), ".adonai_backup"), credentials);
 
-          Notifications.create().title("Download").text("Downloaded backup to " + downloadFile.getAbsolutePath() + ". Unzip manually to ~/.adonai to overwrite").show();
-          log.info("Download finished");
-        } catch (Exception e) {
-          Notifications.create().title("Download").text("Error downloading content").showError();
-          log.error(e.getLocalizedMessage(), e);
-        }
+        Notifications.create().title("Download").text("Downloaded backup to " + downloadFile.getAbsolutePath() + ". Unzip manually to ~/.adonai to overwrite")
+            .show();
+        log.info("Download finished");
+      } catch (Exception e) {
+        Notifications.create().title("Download").text("Error downloading content").showError();
+        log.error(e.getLocalizedMessage(), e);
       }
     };
   }

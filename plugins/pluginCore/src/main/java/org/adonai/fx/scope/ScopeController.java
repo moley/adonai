@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 public class ScopeController extends AbstractController {
 
   private final static Logger log = LoggerFactory.getLogger(ScopeController.class);
-  @FXML private Button btnAdditionals;
   @FXML private TreeView<ScopeItem> treScope;
   @FXML private Button btnAdd;
   @FXML private Button btnMoveUp;
@@ -117,9 +116,6 @@ public class ScopeController extends AbstractController {
         stepToSong();
       }
     });
-
-    btnAdditionals.setTooltip(new Tooltip("Open additionals dialog"));
-    btnAdditionals.setOnAction(event -> openAdditionalsMask());
 
   }
 

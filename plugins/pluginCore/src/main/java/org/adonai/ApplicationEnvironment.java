@@ -8,7 +8,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.fx.ScreenManager;
-import org.adonai.fx.viewer.SongViewer;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.main.ScopeItemProvider;
 import org.adonai.model.Additional;
@@ -73,11 +72,6 @@ public class ApplicationEnvironment {
       initialized = true;
 
     this.pluginManager = pluginManager;
-
-    if (model == null) {
-      ModelService modelService = new ModelService(this);
-      this.model = modelService.load();
-    }
   }
 
   /**
@@ -133,6 +127,10 @@ public class ApplicationEnvironment {
 
 
   public Model getModel() {
+    if (model == null) {
+      ModelService modelService = new ModelService(this);
+      this.model = modelService.load();
+    }
     return model;
   }
 
@@ -147,7 +145,7 @@ public class ApplicationEnvironment {
 
 
   public Configuration getCurrentConfiguration () {
-    return model.getCurrentTenantModel().get();
+    return getModel().getCurrentTenantModel().get();
 
   }
 

@@ -24,19 +24,16 @@ public class DropboxAdapter implements OnlineAdapter {
   private static final Logger LOGGER = LoggerFactory.getLogger(DropboxAdapter.class);
 
 
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
-
-  public final static String PROPERTY_DROPBOX_ACCESSTOKEN = "adonai.dropbox.accesstoken";
 
 
   private DbxClientV2 clientV2;
 
   @Override
-  public String upload(File uploadFile, final String path) {
+  public String upload(File uploadFile, final String path, final String credentials) {
 
     String remotePath = "/" + path + uploadFile.getName();
     LOGGER.info("Upload " + uploadFile.getAbsolutePath() + " to '" + remotePath + "'");
-    DbxClientV2 clientV2 = getClientV2();
+    DbxClientV2 clientV2 = getClientV2(credentials);
     try {
       FullAccount fullAccount = clientV2.users().getCurrentAccount();
       LOGGER.info ("Email: " + fullAccount.getEmail());
@@ -75,7 +72,7 @@ public class DropboxAdapter implements OnlineAdapter {
   }
 
   @Override
-  public File download(final File toPath) {
+  public File download(final File toPath, final String credentials) {
 
     LOGGER.info("Download configFile to " + toPath.getAbsolutePath());
 
@@ -85,7 +82,7 @@ public class DropboxAdapter implements OnlineAdapter {
 
     try {
       FileOutputStream fos = new FileOutputStream(downloadFile);
-      DbxClientV2 clientV2 = getClientV2();
+      DbxClientV2 clientV2 = getClientV2(credentials);
       clientV2.files().downloadBuilder("/adonai.zip").download(fos);
     } catch (IOException | DbxException e) {
       throw new IllegalStateException("Error downloading adonai.zip", e);
@@ -94,10 +91,9 @@ public class DropboxAdapter implements OnlineAdapter {
     return downloadFile;
   }
 
-  public DbxClientV2 getClientV2() {
+  private DbxClientV2 getClientV2(final String accessToken) {
     if (clientV2 == null) {
       DbxRequestConfig config = DbxRequestConfig.newBuilder("adonai/1.0").build();
-      String accessToken = adonaiProperties.getProperty(PROPERTY_DROPBOX_ACCESSTOKEN);
       clientV2 = new DbxClientV2(config, accessToken);
     }
     return clientV2;
@@ -107,9 +103,6 @@ public class DropboxAdapter implements OnlineAdapter {
     this.clientV2 = clientV2;
   }
 
-  public AdonaiProperties getAdonaiProperties() {
-    return adonaiProperties;
-  }
 
 
 

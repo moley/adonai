@@ -34,8 +34,7 @@ public class DropboxAdapterTest {
     configFile.createNewFile();
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
-    dropboxAdapter.getAdonaiProperties().setProperty(DropboxAdapter.PROPERTY_DROPBOX_ACCESSTOKEN, "helloworld");
-    dropboxAdapter.download(tmpPath);
+    dropboxAdapter.download(tmpPath, "helloworld");
 
     Mockito.verify(mockedDownloadBuilder, Mockito.atLeast(1)).download(Mockito.any());
   }
@@ -68,8 +67,7 @@ public class DropboxAdapterTest {
     configFile.createNewFile();
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
-    dropboxAdapter.getAdonaiProperties().setProperty(DropboxAdapter.PROPERTY_DROPBOX_ACCESSTOKEN, "helloworld");
-    Assert.assertNull (dropboxAdapter.upload(configFile, ""));
+    Assert.assertNull (dropboxAdapter.upload(configFile, "", "helloworld"));
 
   }
 

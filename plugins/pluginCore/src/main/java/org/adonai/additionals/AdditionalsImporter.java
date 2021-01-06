@@ -40,7 +40,7 @@ public class AdditionalsImporter {
         LOGGER.info("Refresh cache (" + additional.getLink() + "->" + additionalFile.getAbsolutePath());
         FileUtils.copyFile(new File (additional.getLink()), additionalFile);
       } catch (IOException e) {
-        throw new IllegalStateException("Error copying " + additional.getLink() + " to cache " + additionalFile.getAbsolutePath(), e);
+        LOGGER.error("Error refreshing cache: " + e.getLocalizedMessage());
       }
     }
   }

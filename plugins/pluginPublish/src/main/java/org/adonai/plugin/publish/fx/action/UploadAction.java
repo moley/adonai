@@ -40,7 +40,7 @@ public class UploadAction implements MainAction {
 
           ZipManager zipManager = new ZipManager(applicationEnvironment);
           File zippedBackupFile = zipManager.zip();
-          dropboxAdapter.upload(zippedBackupFile, "");
+          dropboxAdapter.upload(zippedBackupFile, "", applicationEnvironment.getAdonaiProperties().getDropboxAccessToken());
 
           File exportPath = applicationEnvironment.getCurrentConfiguration().getExportPathAsFile();
           log.info("Using export path " + exportPath.getAbsolutePath());
@@ -51,7 +51,7 @@ public class UploadAction implements MainAction {
             for (File nextExportFile : songbookExport.listFiles()) {
               log.info("Check file " + nextExportFile.getAbsolutePath());
               if (nextExportFile.getName().endsWith(".pdf")) {
-                ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/"));
+                ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/", applicationEnvironment.getAdonaiProperties().getDropboxAccessToken()));
               }
             }
           }
