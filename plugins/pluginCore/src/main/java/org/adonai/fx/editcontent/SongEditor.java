@@ -324,7 +324,9 @@ public class SongEditor extends AbstractController {
    */
   public void setSong(Song song) {
     this.song = song;
+    lviStructure.getSelectionModel().clearSelection();
     loadStructureEditor();
+    lviStructure.getSelectionModel().selectFirst();
   }
 
   private String getMp3Label(final Song song) {
@@ -336,7 +338,9 @@ public class SongEditor extends AbstractController {
   }
 
   private void loadCurrentSongPart(final SongStructItem songStructItem) {
+
     SongPart songPart = findSongPart(songStructItem); //and load new one
+    log.info("load song part " + songStructItem.getPartId() + "-" + songPart);
     txaText.setText(textRenderer.getRenderedText(songPart));
     txtRemarks.setText(songStructItem.getRemarks());
     txtQuantity.setText(songStructItem.getQuantity());
@@ -346,7 +350,7 @@ public class SongEditor extends AbstractController {
   private void serializeCurrentSongPart(SongStructItem songStructItem) {
 
     SongPart songPart = findSongPart(songStructItem);
-    log.info("serialize song part " + songStructItem.getPartId() + "-" + songPart.getId());
+    log.info("serialize song part " + songStructItem.getPartId() + "#" + songPart);
     List<String> lines = new ArrayList<>(Arrays.asList(txaText.getText().split("\n")));
     lines.add(0, "[" + songPart.getSongPartTypeLabel() + "]");
     TextfileReaderParam textfileReaderParam = new TextfileReaderParam();
