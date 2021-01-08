@@ -107,7 +107,7 @@ public class ExportAction implements MainAction {
               try {
                 FileUtils.copyFile(new File (nextAdditional.getLink()), destFile);
               } catch (IOException e) {
-                throw new IllegalStateException(e);
+                LOGGER.error("Error copying file " +nextAdditional.getLink() + ":" + e.getLocalizedMessage());
               }
             }
           }

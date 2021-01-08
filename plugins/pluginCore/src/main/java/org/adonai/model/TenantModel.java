@@ -177,7 +177,7 @@ public class TenantModel {
         configFile.getParentFile().mkdirs();
 
       if (configFile.exists()) {
-        File savedConfigFile = new File (configFile.getParentFile(), configFile.getName() + new Date().toString());
+        File savedConfigFile = new File (configFile.getParentFile(), "." + configFile.getName() + new Date().toString());
         FileUtils.copyFile(configFile, savedConfigFile);
       }
 

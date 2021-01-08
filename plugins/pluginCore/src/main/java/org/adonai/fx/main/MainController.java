@@ -297,15 +297,12 @@ public class MainController extends AbstractController {
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
     SongViewer songViewer = new SongViewer(getApplicationEnvironment(), exporter.getPanes());
-    songViewer.currentSongProperty().addListener(new ChangeListener<Song>() {
-      @Override public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-        getApplicationEnvironment().setCurrentSong(newValue);
-        btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
-        btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
-        btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
-        btnSpeed.setText(newValue.getSpeedNotNull());
-
-      }
+    songViewer.currentSongProperty().addListener((observable, oldValue, newValue) -> {
+      getApplicationEnvironment().setCurrentSong(newValue);
+      btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
+      btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
+      btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
+      btnSpeed.setText(newValue.getSpeedNotNull());
     });
 
     main.setCenter(songViewer);

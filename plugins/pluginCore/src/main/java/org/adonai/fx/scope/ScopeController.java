@@ -101,7 +101,7 @@ public class ScopeController extends AbstractController {
 
     treScope.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
       log.info("selectionChanged property");
-      if (newValue != null && newValue.getValue() != null) {
+      if (newValue != null && newValue.getValue() != null && newValue.getValue() instanceof ScopeItem) {
         ScopeItem scopeItem = newValue.getValue();
         boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
             .getSession() != null;

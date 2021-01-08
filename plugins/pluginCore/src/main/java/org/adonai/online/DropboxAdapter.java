@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import org.adonai.AdonaiProperties;
 import org.slf4j.Logger;
@@ -31,32 +32,52 @@ public class DropboxAdapter implements OnlineAdapter {
   @Override
   public String upload(File uploadFile, final String path, final String credentials) {
 
-    String remotePath = "/" + path + uploadFile.getName();
+    String remotePath = "/" + path;
     LOGGER.info("Upload " + uploadFile.getAbsolutePath() + " to '" + remotePath + "'");
     DbxClientV2 clientV2 = getClientV2(credentials);
+
+    FileMetadata fileMetadata = null;
     try {
-      FullAccount fullAccount = clientV2.users().getCurrentAccount();
-      LOGGER.info ("Email: " + fullAccount.getEmail());
+      fileMetadata = ((FileMetadata)clientV2.files().getMetadata(remotePath));
+    } catch (DbxException e) {
+      LOGGER.debug("Error getting metdata on " + remotePath);
+    }
 
-      try (InputStream in = new FileInputStream(uploadFile)) {
-        FileMetadata metadata = clientV2.files().uploadBuilder(remotePath).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
-        LOGGER.info ("Metadata ID " + metadata.getId() + "-" + metadata.getPathDisplay());
+    try {
+      //FullAccount fullAccount = clientV2.users().getCurrentAccount();
+      //LOGGER.info ("Email: " + fullAccount.getEmail());
 
-        List<SharedLinkMetadata> links = clientV2.sharing().listSharedLinks().getLinks();
-        SharedLinkMetadata sharedLinkMetadata = getOrCreateLinkMetadata(metadata.getPathLower(), links);
 
-        String url = sharedLinkMetadata != null ? sharedLinkMetadata.getUrl(): null;
-        LOGGER.info("URL: " + url);
+      long remoteModifiedTime = fileMetadata != null ? fileMetadata.getClientModified().getTime(): 0;
+      long localModifiedTime = uploadFile.lastModified();
+      boolean locallyModified = remoteModifiedTime < localModifiedTime;
 
-        return url;
+      LOGGER.info("Check if file " + uploadFile.getAbsolutePath() + " was modified ( remote " + remoteModifiedTime + "- local " + localModifiedTime + "-" + locallyModified);
 
-      } catch (IOException e) {
-        throw new IllegalStateException("Error uploading " + uploadFile.getName() + " to " + path, e);
+      if (locallyModified) {
+        try (InputStream in = new FileInputStream(uploadFile)) {
+          FileMetadata metadata = clientV2.files().uploadBuilder(remotePath).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
+
+          List<SharedLinkMetadata> links = clientV2.sharing().listSharedLinks().getLinks();
+          SharedLinkMetadata sharedLinkMetadata = getOrCreateLinkMetadata(metadata.getPathLower(), links);
+
+          String url = sharedLinkMetadata != null ? sharedLinkMetadata.getUrl() : null;
+          LOGGER.info("Uploaded " + url);
+
+          return null;
+
+        } catch (IOException e) {
+          throw new IllegalStateException("Error uploading " + uploadFile.getName() + " to " + path, e);
+        }
       }
+      else
+        LOGGER.info("File " + uploadFile.getAbsolutePath() + " was already uploaded");
 
     } catch (DbxException e) {
       throw new IllegalStateException(e);
     }
+
+    return null; //TODO remove return type
 
   }
 
