@@ -8,6 +8,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -42,6 +44,8 @@ import org.slf4j.LoggerFactory;
 public class ScopeController extends AbstractController {
 
   private final static Logger log = LoggerFactory.getLogger(ScopeController.class);
+  @FXML private Label lblName;
+  @FXML private TextField txtName;
   @FXML private TreeView<ScopeItem> treScope;
   @FXML private Button btnAdd;
   @FXML private Button btnMoveUp;
@@ -53,6 +57,8 @@ public class ScopeController extends AbstractController {
   private SessionService sessionService = new SessionService();
 
   @FXML public void initialize() {
+    lblName.setVisible(false);
+    txtName.setVisible(false);
     btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAdd.setOnAction(action -> add());
 
@@ -101,12 +107,29 @@ public class ScopeController extends AbstractController {
 
     treScope.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
       log.info("selectionChanged property");
-      if (newValue != null && newValue.getValue() != null && newValue.getValue() instanceof ScopeItem) {
+
+      if (oldValue != null && oldValue.getValue() != null) {
+        ScopeItem scopeItem = oldValue.getValue();
+        if (scopeItem.getSession() != null) {
+          txtName.textProperty().unbind();
+        }
+      }
+
+      if (newValue != null && newValue.getValue() != null) {
         ScopeItem scopeItem = newValue.getValue();
-        boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem()
-            .getSession() != null;
+        boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem().getSession() != null;
+        boolean sessionDetailsShown = scopeItem != null && scopeItem.getSession() != null;
+
         btnMoveDown.setVisible(songInSessionSelected);
         btnMoveUp.setVisible(songInSessionSelected);
+
+        lblName.setVisible(sessionDetailsShown);
+        txtName.setVisible(sessionDetailsShown);
+
+        if (scopeItem.getSession() != null) {
+          Session currentSession = scopeItem.getSession();
+          txtName.textProperty().bindBidirectional(currentSession.getNameProperty());
+        }
 
       }
     });
@@ -123,7 +146,7 @@ public class ScopeController extends AbstractController {
     ScopeItem selected = treScope.getSelectionModel().getSelectedItem().getValue();
     log.info("Step to " + selected.getId() + "-" + selected.getName());
 
-    getApplicationEnvironment().setCurrentSession(null); //SongBook
+    getApplicationEnvironment().setCurrentSession(selected.getSession());
     getApplicationEnvironment().setCurrentSong(selected.getSong());
     getMainController().reloadViewer();
   }
@@ -157,7 +180,7 @@ public class ScopeController extends AbstractController {
   private void add() {
 
     ScopeItem scopeItem = getSelectedScopeItem();
-    if (scopeItem == null) { //Root
+    if (scopeItem.isRoot()) { //Root
       Session newSession = sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
       loadData(new ScopeItem(newSession));
     } else {

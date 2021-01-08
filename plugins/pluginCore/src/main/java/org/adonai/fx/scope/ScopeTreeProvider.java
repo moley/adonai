@@ -11,7 +11,8 @@ public class ScopeTreeProvider {
 
   public TreeItem getTree (final ApplicationEnvironment applicationEnvironment) {
     TreeItem rootItem = new TreeItem();
-    rootItem.setValue("Tenant " + applicationEnvironment.getCurrentTenant());
+    ScopeItem scopeItemRoot = new ScopeItem(applicationEnvironment.getCurrentTenant());
+    rootItem.setValue(scopeItemRoot);
     SongBook currentSongBook = applicationEnvironment.getCurrentSongBook();
     ScopeItem scopeItemSongBook = applicationEnvironment.getScopeItem(currentSongBook);
     TreeItem treeItemSongBook = new TreeItem(scopeItemSongBook, scopeItemSongBook.getIcon());

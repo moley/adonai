@@ -27,13 +27,29 @@ public class ScopeItem  {
 
   private final ScopeItem parentItem;
 
+  private final String tenantName;
+
 
   private final String id;
+
+
+
+  public ScopeItem (String tenantName) {
+    name = "Tenant " + tenantName;
+    this.tenantName = tenantName;
+    icon = null;
+    this.session = null;
+    this.songBook = null;
+    this.song = null;
+    this.parentItem = null;
+    this.id = "root";
+  }
 
   public ScopeItem (ScopeItem parentItem, Song song) {
     name = song.getId() + " - " + song.getName();
     icon = Consts.createIcon("fas-music", Consts.ICON_SIZE_TOOLBAR);
-    this.session = null;
+    this.tenantName = null;
+    this.session = (parentItem.getSession() != null ? parentItem.getSession(): null);
     this.songBook = null;
     this.song = song;
     this.parentItem = parentItem;
@@ -44,6 +60,7 @@ public class ScopeItem  {
     name = "Session '" + session.getName() + "'";
     icon = Consts.createIcon("fas-church", Consts.ICON_SIZE_TOOLBAR);
     songs.addAll(session.getSongs());
+    this.tenantName = null;
     this.session = session;
     this.songBook = null;
     this.song = null;
@@ -58,6 +75,7 @@ public class ScopeItem  {
       songs.add(next.getId());
     }
     this.songBook = songBook;
+    this.tenantName = null;
     this.session = null;
     this.song = null;
     this.parentItem = null;
@@ -114,6 +132,10 @@ public class ScopeItem  {
       return song;
     else
       throw new IllegalStateException("ScopeItem does not contain any additionalsHolder");
+  }
+
+  public boolean isRoot () {
+    return tenantName != null;
   }
 
   public Session getSession() {
