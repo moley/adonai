@@ -42,9 +42,11 @@ public class ZipManager {
 
     ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();
-    files.add(applicationEnvironment.getAdonaiProperties().getPropertiesFile());
+    if (applicationEnvironment.getAdonaiProperties().getPropertiesFile().exists())
+      files.add(applicationEnvironment.getAdonaiProperties().getPropertiesFile());
     for (TenantModel tenantModel : model.getTenantModels()) {
-      files.add(tenantModel.getConfigFile());
+      if (tenantModel.getConfigFile().exists())
+        files.add(tenantModel.getConfigFile());
     }
 
 
