@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
@@ -15,6 +16,19 @@ import org.pf4j.DefaultPluginManager;
 
 public class ZipManagerTest {
 
+  private ApplicationEnvironment applicationEnvironment;
+
+  @Before
+  public void before () {
+    AdonaiProperties.dispose();
+    applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
+  }
+
+  @After
+  public void after () {
+    applicationEnvironment.dispose();
+  }
+
   private String getInitialContent () {
     return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<configuration>\n</configuration>";
   }
@@ -22,7 +36,6 @@ public class ZipManagerTest {
   @Test
   public void writeRead () throws IOException {
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
 
     File tenant1ConfigOriginal = new File (Consts.getAdonaiHome(), "tenant_tenant1/config.xml");
     File tenant2ConfigOriginal = new File (Consts.getAdonaiHome(), "tenant_tenant2/config.xml");

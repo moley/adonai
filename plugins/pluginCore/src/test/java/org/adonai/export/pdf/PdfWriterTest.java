@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
-import org.adonai.ApplicationEnvironment;
 import org.adonai.export.AbstractExportTest;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportToken;
@@ -29,8 +28,6 @@ public class PdfWriterTest extends AbstractExportTest {
   private static final Logger LOGGER = LoggerFactory.getLogger(PdfWriterTest.class);
 
   private boolean openPreview = false;
-
-  private ApplicationEnvironment applicationEnvironment;
 
 
   @AfterClass

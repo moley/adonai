@@ -26,6 +26,8 @@ public class DefaultExportConfigurationCreatorTest {
 
     Assert.assertEquals ("Number of default export configurations invalid", expectedNumberOfDefaultConfigurations, configuration.getExportConfigurations().size());
 
+    applicationEnvironment.dispose();
+
   }
 
 }

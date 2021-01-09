@@ -74,6 +74,10 @@ public class ApplicationEnvironment {
     this.pluginManager = pluginManager;
   }
 
+  public void dispose () {
+    ApplicationEnvironment.initialized = false;
+  }
+
   /**
    * gets all songs of the currently selected scope item
    *

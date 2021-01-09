@@ -15,11 +15,12 @@ public class ModelServiceTest {
 
   private File savedHome;
   private ModelService ModelService;
+  private ApplicationEnvironment applicationEnvironment;
 
   @Before public void before() {
     savedHome = Consts.getAdonaiHome();
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
+    applicationEnvironment = new ApplicationEnvironment(new DefaultPluginManager());
     this.ModelService = new ModelService(applicationEnvironment);
     File adonaiHome = Files.createTempDir();
     Consts.setAdonaiHome(adonaiHome);
@@ -27,6 +28,7 @@ public class ModelServiceTest {
 
   @After public void after() {
     Consts.setAdonaiHome(savedHome);
+    applicationEnvironment.dispose();
   }
 
   @Test public void add() {

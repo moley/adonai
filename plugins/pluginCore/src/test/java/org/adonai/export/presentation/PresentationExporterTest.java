@@ -15,6 +15,7 @@ import org.pf4j.PluginManager;
 
 public class PresentationExporterTest {
 
+
   @Test
   public void exportNewAddedSong () {
 
@@ -29,5 +30,7 @@ public class PresentationExporterTest {
 
     PresentationExporter exporter = new PresentationExporter(applicationEnvironment, new SizeInfo(0,0), null);
     exporter.export(Arrays.asList(songToImport), null, new ExportConfiguration());
+
+    applicationEnvironment.dispose();
   }
 }
