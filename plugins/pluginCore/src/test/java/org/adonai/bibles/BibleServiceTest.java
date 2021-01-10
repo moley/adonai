@@ -24,8 +24,8 @@ public class BibleServiceTest {
   @Test
   public void normalized () {
     Bible bible = bibleContainer.getBible( Bibles.ELBERFELDER_1905);
-    Verse verse = bible.findVerse(Book.GENESIS, 1, 2);
-    Assert.assertEquals ("Und die Erde war wüst und leer, und Finsternis war über der Tiefe; und der Geist Gottes schwebte über den Wassern.", verse.getText());
+    Verse verse = bible.findVerse(Book.GENESIS, 1, 1);
+    Assert.assertEquals ("Im Anfang schuf Gott die Himmel und die Erde.", verse.getText());
   }
 
   @Test(expected = IllegalStateException.class)
