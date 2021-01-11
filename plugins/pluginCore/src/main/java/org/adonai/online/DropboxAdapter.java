@@ -4,6 +4,8 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.WriteMode;
 import com.dropbox.core.v2.sharing.RequestedVisibility;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
@@ -14,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.adonai.AdonaiProperties;
@@ -124,7 +127,31 @@ public class DropboxAdapter implements OnlineAdapter {
     this.clientV2 = clientV2;
   }
 
+  public List<RemoteFile> list(String name, String token)  {
+    List<RemoteFile> remoteFileList = new ArrayList<>();
+    DbxClientV2 clientV2 = getClientV2(token);
+    list(remoteFileList, clientV2, name);
+    return remoteFileList;
+  }
 
+  private void list (List<RemoteFile> remoteFiles, DbxClientV2 clientV2, final String name) {
+    ListFolderResult listFolderResult = null;
+    try {
+      listFolderResult = clientV2.files().listFolder("/" + name);
+    } catch (DbxException e) {
+      throw new IllegalStateException("Error getting list of " + name);
+    }
+    for (Metadata next: listFolderResult.getEntries()) {
+      if (next instanceof FileMetadata) {
+        FileMetadata fileMetadata = (FileMetadata) next;
+        RemoteFile remoteFile = new RemoteFile();
+        remoteFile.setPath(fileMetadata.getPathDisplay());
+        remoteFile.setLastModified(fileMetadata.getServerModified().getTime());
+        remoteFiles.add(remoteFile);
+      }
+      else
+        list(remoteFiles, clientV2, next.getPathDisplay());
+    }
 
-
+  }
 }

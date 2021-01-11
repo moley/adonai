@@ -8,6 +8,7 @@ javafx {
 }
 
 
+
 dependencies {
     compile group: 'org.pf4j', name: 'pf4j', version: "${pf4jVersion}"
     compile 'org.pf4j:pf4j-update:2.2.0'
@@ -23,6 +24,9 @@ dependencies {
     compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.5.0'
     compile 'org.controlsfx:controlsfx:11.0.0'
     runtime 'ch.qos.logback:logback-classic:1.2.3'
+
+
+
 
 
 }
