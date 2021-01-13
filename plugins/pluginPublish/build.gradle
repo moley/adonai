@@ -9,4 +9,7 @@ javafx {
 
 dependencies {
     compileOnly project(':plugins:pluginCore')
+
+    compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
+
 }

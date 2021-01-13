@@ -51,20 +51,20 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class INFORMATION {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "description", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "subject", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "date", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "coverage", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "language", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "type", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "format", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "rights", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "title", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "source", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "creator", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "publisher", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "subject", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "language", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "description", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "coverage", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "identifier", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "type", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "publisher", type = JAXBElement.class, required = false),
         @XmlElementRef(name = "contributors", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "format", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "source", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "date", type = JAXBElement.class, required = false)
     })
     protected List<JAXBElement<?>> titleOrCreatorOrDescription;
 
@@ -88,18 +88,18 @@ public class INFORMATION {
      * Objects of the following type(s) are allowed in the list
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * 
      * 
      */

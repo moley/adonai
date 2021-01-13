@@ -9,6 +9,8 @@ import org.adonai.ApplicationEnvironment;
 import org.adonai.api.MainAction;
 import org.adonai.model.User;
 import org.adonai.online.DropboxAdapter;
+import org.adonai.online.FileStore;
+import org.adonai.online.FileStoreState;
 import org.adonai.online.MailSender;
 import org.adonai.online.ZipManager;
 import org.controlsfx.control.Notifications;
@@ -17,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Extension(ordinal=1)
-public class UploadAction implements MainAction {
+public class UploadAction extends AbstractRemoteAction implements MainAction {
 
   private Logger log = LoggerFactory.getLogger(UploadAction.class);
 
@@ -34,30 +36,22 @@ public class UploadAction implements MainAction {
     return new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
+        File tenantPath = applicationEnvironment.getModel().getCurrentTenantModel().getTenantPath();
+
         try {
           Collection<String> ids = new ArrayList<>();
-          DropboxAdapter dropboxAdapter = new DropboxAdapter();
 
-          ZipManager zipManager = new ZipManager(applicationEnvironment);
-          File zippedBackupFile = zipManager.zip();
-          dropboxAdapter.upload(zippedBackupFile, "", applicationEnvironment.getAdonaiProperties().getDropboxAccessToken());
-
-          File exportPath = applicationEnvironment.getCurrentConfiguration().getExportPathAsFile();
-          log.info("Using export path " + exportPath.getAbsolutePath());
-          File songbookExport = new File(exportPath, "songbook");
-          if (songbookExport.exists()) {
-            if (songbookExport.listFiles() == null || songbookExport.listFiles().length == 0)
-              throw new IllegalStateException("Export path " + songbookExport.getAbsolutePath() + " is empty");
-            for (File nextExportFile : songbookExport.listFiles()) {
-              log.info("Check file " + nextExportFile.getAbsolutePath());
-              if (nextExportFile.getName().endsWith(".pdf")) {
-                ids.add(dropboxAdapter.upload(nextExportFile, "export/songbook/", applicationEnvironment.getAdonaiProperties().getDropboxAccessToken()));
-              }
-            }
+          FileStore fileStore = new FileStore();
+          FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
+          int numberOfUploaded = fileStore.upload(remoteState, true);
+          if (numberOfUploaded > 0) {
+            Notifications.create().title("Upload").text("No data for upload found").show();
           }
+          else Notifications.create().title("Upload").text(numberOfUploaded + " files uploaded").show();
+
 
           ArrayList<String> users = new ArrayList<>();
-          for (User next : applicationEnvironment.getCurrentConfiguration().getUsers()) {
+          /**for (User next : applicationEnvironment.getCurrentConfiguration().getUsers()) {
             if (next.getMail() != null && !next.getMail().trim().isEmpty())
               users.add(next.getMail());
           }
@@ -74,7 +68,7 @@ public class UploadAction implements MainAction {
             Notifications.create().title("Upload").text("Upload finished, mail sent to " + users + " with links " + ids)
                 .show();
             log.info("Upload finished, mail sent to " + users + " with links " + ids);
-          }
+          }**/
         } catch (Exception e) {
           Notifications.create().title("Upload").text("Error uploading content").showError();
           log.error(e.getLocalizedMessage(), e);

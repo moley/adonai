@@ -25,7 +25,6 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.3' //html import
     compile 'javax.xml.bind:jaxb-api:2.3.0'
     compile 'javax.activation:activation:1.1'
-    compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
     compile 'com.sun.mail:javax.mail:1.6.2'
     compile 'com.atlassian.commonmark:commonmark:0.16.1'
 

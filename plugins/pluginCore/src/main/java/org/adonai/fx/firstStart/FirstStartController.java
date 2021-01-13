@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import org.adonai.AdonaiProperties;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
-import org.adonai.online.DropboxAdapter;
 import org.controlsfx.control.Notifications;
 import org.pf4j.util.Unzip;
 
@@ -24,9 +23,10 @@ public class FirstStartController extends AbstractController {
     btnStart.setOnAction(event -> {
 
       if (! txtAccessToken.getText().strip().isEmpty()) {
-        DropboxAdapter dropboxAdapter = new DropboxAdapter();
         File homPath = Consts.getAdonaiHome();
-        File downloadFile = dropboxAdapter.download(homPath.getParentFile(), txtAccessToken.getText().strip());
+        if (true)
+          throw new IllegalStateException("NYI");
+        File downloadFile = null; //dropboxAdapter.download(homPath.getParentFile(), txtAccessToken.getText().strip());
         Unzip unzip = new Unzip();
         unzip.setDestination(Consts.getAdonaiHome());
         unzip.setSource(downloadFile);

@@ -10,11 +10,10 @@ import com.dropbox.core.v2.sharing.DbxUserSharingRequests;
 import com.dropbox.core.v2.sharing.ListSharedLinksResult;
 import com.dropbox.core.v2.users.DbxUserUsersRequests;
 import com.dropbox.core.v2.users.FullAccount;
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -28,13 +27,13 @@ public class DropboxAdapterTest {
     Mockito.when(mockedUserFileRequests.downloadBuilder(Mockito.anyString())).thenReturn(mockedDownloadBuilder);
     Mockito.when(mockedClient.files()).thenReturn(mockedUserFileRequests);
 
-    File tmpPath = Files.createTempDir();
+    File tmpPath = Files.createTempDirectory(getClass().getName()).toFile();
     File configFile = new File(tmpPath, "config.xml");
     configFile.getParentFile().mkdirs();
     configFile.createNewFile();
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
-    dropboxAdapter.download(tmpPath, "helloworld");
+    dropboxAdapter.download(tmpPath, "helloworld", "");
 
     Mockito.verify(mockedDownloadBuilder, Mockito.atLeast(1)).download(Mockito.any());
   }
@@ -61,13 +60,13 @@ public class DropboxAdapterTest {
     Mockito.when(mockedClient.users()).thenReturn(mockedUserUsersRequest);
     Mockito.when(mockedClient.sharing()).thenReturn(mockedDbxUserSharingRequests);
 
-    File tmpPath = Files.createTempDir();
+    File tmpPath = Files.createTempDirectory(getClass().getName()).toFile();
     File configFile = new File(tmpPath, "config.xml");
     configFile.getParentFile().mkdirs();
     configFile.createNewFile();
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
-    Assert.assertNull (dropboxAdapter.upload(configFile, "", "helloworld"));
+    dropboxAdapter.upload(configFile, "", "helloworld");
 
   }
 

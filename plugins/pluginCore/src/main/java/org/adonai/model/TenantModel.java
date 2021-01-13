@@ -44,10 +44,15 @@ public class TenantModel {
     this.applicationEnvironment = applicationEnvironment;
   }
 
+  public File getTenantPath () {
+    File adonaiHome = Consts.getAdonaiHome();
+    File tenantPath = new File(adonaiHome, "tenant_" + tenant);
+    return tenantPath;
+  }
+
   public File getConfigFile () {
     if (configFile == null) {
-      File adonaiHome = Consts.getAdonaiHome();
-      File tenantPath = new File(adonaiHome, "tenant_" + tenant);
+      File tenantPath = getTenantPath();
       return new File(tenantPath, "config.xml");
     }
     else

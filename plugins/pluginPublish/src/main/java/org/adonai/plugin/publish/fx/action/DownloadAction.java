@@ -1,21 +1,22 @@
 package org.adonai.plugin.publish.fx.action;
 
 import java.io.File;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.api.MainAction;
-import org.adonai.fx.Consts;
-import org.adonai.online.DropboxAdapter;
+import org.adonai.online.FileStore;
+import org.adonai.online.FileStoreState;
 import org.controlsfx.control.Notifications;
 import org.pf4j.Extension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Extension(ordinal=1)
-public class DownloadAction implements MainAction {
-
-  private Logger log = LoggerFactory.getLogger(DownloadAction.class);
+@Slf4j
+public class DownloadAction extends AbstractRemoteAction implements MainAction {
 
   @Override public String getIconname() {
     return "fas-cloud-download-alt";
@@ -27,19 +28,24 @@ public class DownloadAction implements MainAction {
 
   @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
     return event -> {
-      try {
-        DropboxAdapter dropboxAdapter = new DropboxAdapter();
-        File homPath = Consts.getAdonaiHome();
-        String credentials = applicationEnvironment.getAdonaiProperties().getDropboxAccessToken();
-        File downloadFile = dropboxAdapter.download(new File(homPath.getParentFile(), ".adonai_backup"), credentials);
 
-        Notifications.create().title("Download").text("Downloaded backup to " + downloadFile.getAbsolutePath() + ". Unzip manually to ~/.adonai to overwrite")
-            .show();
-        log.info("Download finished");
-      } catch (Exception e) {
-        Notifications.create().title("Download").text("Error downloading content").showError();
-        log.error(e.getLocalizedMessage(), e);
+
+      File tenantPath = applicationEnvironment.getModel().getCurrentTenantModel().getTenantPath();
+
+
+      FileStore fileStore = new FileStore();
+      try {
+        FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
+        int numberOfUploaded = fileStore.download(tenantPath, remoteState);
+        if (numberOfUploaded > 0) {
+          Notifications.create().title("Download").text("No data for download found").show();
+        }
+        else Notifications.create().title("Download").text(numberOfUploaded + " files downloaded").show();
+      } catch (IOException e) {
+        log.error("Error downloading " + tenantPath.getAbsolutePath() + ":" + e.getLocalizedMessage(), e);
       }
+
+
     };
   }
 }
