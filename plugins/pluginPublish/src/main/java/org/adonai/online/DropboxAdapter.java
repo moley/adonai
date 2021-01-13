@@ -114,7 +114,7 @@ public class DropboxAdapter implements OnlineAdapter {
     try {
       listFolderResult = clientV2.files().listFolder("/" + name);
     } catch (DbxException e) {
-      throw new IllegalStateException("Error getting list of " + name + ":" + e.getLocalizedMessage(), e);
+      return;
     }
     for (Metadata next : listFolderResult.getEntries()) {
       if (next instanceof FileMetadata) {

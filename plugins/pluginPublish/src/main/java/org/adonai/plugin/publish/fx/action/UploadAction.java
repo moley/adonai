@@ -43,7 +43,7 @@ public class UploadAction extends AbstractRemoteAction implements MainAction {
 
           FileStore fileStore = new FileStore();
           FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
-          int numberOfUploaded = fileStore.upload(remoteState, true);
+          int numberOfUploaded = fileStore.upload(remoteState, false);
           if (numberOfUploaded > 0) {
             Notifications.create().title("Upload").text("No data for upload found").show();
           }

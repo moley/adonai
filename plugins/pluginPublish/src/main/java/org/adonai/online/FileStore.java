@@ -61,6 +61,7 @@ public class FileStore {
       else
         next.setUploaded(false);
     }
+    LOGGER.info("Uploaded " + numberOfUploadedFiles + " files");
     return numberOfUploadedFiles;
   }
 
@@ -83,6 +84,7 @@ public class FileStore {
       else
         next.setDownloaded(false);
     }
+    LOGGER.info("Downloaded " + numberOfDownloadedFiles + " files");
     return numberOfDownloadedFiles;
 
   }
