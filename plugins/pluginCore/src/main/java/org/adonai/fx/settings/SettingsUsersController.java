@@ -1,5 +1,7 @@
 package org.adonai.fx.settings;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,25 +14,30 @@ import javafx.scene.control.TextField;
 import org.adonai.fx.Consts;
 import org.adonai.model.Model;
 import org.adonai.model.User;
-
-
+import org.adonai.online.MailSender;
+import org.controlsfx.control.Notifications;
 
 public class SettingsUsersController extends AbstractSettingsController {
 
-  @FXML
-  ListView<User> lviUsers;
+
 
   @FXML
-  TextField txtUsername;
+  private ListView<User> lviUsers;
 
   @FXML
-  TextField txtMailadress;
+  private TextField txtUsername;
 
   @FXML
-  Button btnAddUser;
+  private TextField txtMailadress;
 
   @FXML
-  Button btnRemoveUser;
+  private Button btnAddUser;
+
+  @FXML
+  private Button btnRemoveUser;
+
+  @FXML
+  private Button btnInvite;
 
   private void refresh () {
     this.lviUsers.setItems(FXCollections.observableArrayList(getConfiguration().getUsers()));
@@ -73,6 +80,26 @@ public class SettingsUsersController extends AbstractSettingsController {
           lviUsers.getSelectionModel().select(toSelect);
         }
       }
+    });
+
+    btnInvite.setText("Invite user");
+    btnInvite.setOnAction(event -> {
+      User selectedItem = lviUsers.getSelectionModel().getSelectedItem();
+      if (selectedItem != null && selectedItem.getMail() != null && ! selectedItem.getMail().trim().isEmpty()) {
+        MailSender mailSender = new MailSender();
+        String accessKey = getApplicationEnvironment().getAdonaiProperties().getDropboxAccessToken() + "_" + getTenantModel().getTenant();
+        List<String> text = Arrays.asList("Hello " + selectedItem.getUsername(),
+                                          "",
+                                          "You were invited to join adonai.",
+                                          "To use it:",
+                                          "  - Install and start the software from TODO",
+                                          "  - Copy the access key '" + accessKey + "' to the first usage dialog",
+                                          "",
+                                          "Have fun using adonai.");
+        mailSender.sendMail(Arrays.asList(selectedItem.getMail()), "Invitation to adonai", text);
+      }
+      else
+        Notifications.create().title("Invite user").text("No valid mail address found. Please select user with an mail address.").show();
     });
 
   }

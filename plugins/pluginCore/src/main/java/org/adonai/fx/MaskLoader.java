@@ -1,5 +1,6 @@
 package org.adonai.fx;
 
+import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,10 +18,17 @@ public class MaskLoader<T extends AbstractController> {
   private static final Logger LOGGER = LoggerFactory.getLogger(MaskLoader.class);
 
   public Mask<T> loadWithStage(final String name) {
+    return loadWithStage(name, getClass().getClassLoader());
+  }
+
+  public Mask<T> loadWithStage(final String name, ClassLoader classLoader) {
     LOGGER.info("Loading mask '" + name + "'");
     Mask<T> mask = new Mask<T>();
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
-    loader.setClassLoader(getClass().getClassLoader());
+    URL resource = classLoader.getResource("fxml/" + name + ".fxml");
+    if (resource == null)
+      throw new IllegalStateException("Could not find mask with name " + name + " and classloader " + classLoader.getName());
+    FXMLLoader loader = new FXMLLoader(resource);
+    loader.setClassLoader(classLoader);
     try {
       Parent root = loader.load();
       T controller = loader.getController();
@@ -50,10 +58,17 @@ public class MaskLoader<T extends AbstractController> {
   }
 
   public Mask<T> load(final String name) {
+    return load(name, getClass().getClassLoader());
+  }
+
+  public Mask<T> load(final String name, ClassLoader classLoader) {
     LOGGER.info("Loading mask '" + name + "'");
     Mask<T> mask = new Mask<T>();
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
-    loader.setClassLoader(getClass().getClassLoader());
+    URL resource = classLoader.getResource("/fxml/" + name + ".fxml");
+    if (resource == null)
+      throw new IllegalStateException("Could not find mask with name " + name + " and classloader " + classLoader.getName());
+    FXMLLoader loader = new FXMLLoader();
+    loader.setClassLoader(classLoader);
     try {
       Parent root = loader.load();
       T controller = loader.getController();

@@ -52,6 +52,14 @@ public class AdonaiProperties {
     return properties.getProperty(key, defaultValue);
   }
 
+  public boolean getPropertyBoolean (final String key, final boolean defaultValue) {
+    String prop =  properties.getProperty(key);
+    if (prop == null)
+      return defaultValue;
+    else
+      return Boolean.valueOf(prop);
+  }
+
   public String getProperty (final String key) {
     return properties.getProperty(key);
   }
@@ -81,6 +89,11 @@ public class AdonaiProperties {
 
   public String getDropboxAccessToken () {
     return properties.getProperty(PROPERTY_DROPBOX_ACCESSTOKEN);
+  }
+
+  public void setDropboxAccessToken (final String accessToken) {
+    properties.setProperty(PROPERTY_DROPBOX_ACCESSTOKEN, accessToken);
+    save();
   }
 
   public File getPropertiesFile() {

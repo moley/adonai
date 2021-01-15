@@ -18,6 +18,7 @@
              GridPane.fillHeight="false"  GridPane.vgrow="NEVER" spacing="5">
         <Button fx:id="btnAddUser" userData="users.btnAdd" />
         <Button fx:id="btnRemoveUser" userData="users.btnRemove" />
+        <Button fx:id="btnInvite" userData="users.btnInvite" />
     </HBox>
 
     <Label text="Username" GridPane.columnIndex="1" GridPane.rowIndex="1"/>

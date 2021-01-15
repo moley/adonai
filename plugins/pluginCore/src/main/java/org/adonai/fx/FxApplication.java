@@ -2,12 +2,10 @@ package org.adonai.fx;
 
 import java.io.File;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
-import org.adonai.fx.firstStart.FirstStartController;
+import org.adonai.api.InitStep;
 import org.adonai.fx.main.MainController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class FxApplication extends Application {
 
   private MaskLoader maskLoader = new MaskLoader();
-
 
   private static final Logger log = LoggerFactory.getLogger(FxApplication.class);
 
@@ -37,29 +34,21 @@ public class FxApplication extends Application {
 
     File adonaiHome = Consts.getAdonaiHome();
 
-    if (! adonaiHome.exists()) {
-      log.info("Adonai home path '" + adonaiHome.getAbsolutePath() + "' not available, seems to be the first start.");
-      Stage firstStartStage = new Stage(StageStyle.UNDECORATED);
+    for (InitStep nextInitStep : getApplicationEnvironment().getPluginManager().getExtensions(InitStep.class)) {
+      if (nextInitStep.isExecuted(getApplicationEnvironment())) {
+        log.info("Execute initStep " + nextInitStep.getClass().getName());
+        nextInitStep.execute(getApplicationEnvironment());
+        log.info("Finished initStep " + nextInitStep.getClass().getName());
 
-      Mask<FirstStartController> mask = maskLoader.loadWithStage("firstStart");
-      FirstStartController firstStartController = mask.getController();
-      firstStartController.setStage(firstStartStage);
-      firstStartStage.setScene(mask.getScene());
-      ScreenManager screenManager = new ScreenManager();
-      firstStartStage.initStyle(StageStyle.UNDECORATED);
-      screenManager.layoutOnScreen(firstStartStage, 200, screenManager.getPrimary());
-      firstStartStage.toFront();
-      firstStartStage.showAndWait();
-    }
-    else {
-      log.info("Adonai home path '" + adonaiHome.getAbsolutePath() + "' is available");
+      } else
+        log.info("InitStep " + nextInitStep.getClass().getName() + " is not executed");
     }
 
     showMainMask(stage);
 
   }
 
-  private void showMainMask (Stage primaryStage) {
+  private void showMainMask(Stage primaryStage) {
     Mask<MainController> mask = maskLoader.loadWithStage("main");
     MainController mainController = mask.getController();
     mainController.setApplicationEnvironment(applicationEnvironment);
@@ -75,6 +64,5 @@ public class FxApplication extends Application {
     primaryStage.show();
 
   }
-
 
 }
