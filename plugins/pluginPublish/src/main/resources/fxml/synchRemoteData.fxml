@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.HBox?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           fx:controller="org.adonai.plugin.publish.fx.initstep.SynchRemoteDataController" alignment="TOP_CENTER"
           hgap="10" vgap="10">
@@ -15,20 +17,32 @@
         <ColumnConstraints percentWidth="70"/>
     </columnConstraints>
 
-    <Label fx:id="lblWelcome" userData="firstStart.lblWelcome" id="header" text="SYNCH TEAM DATA"
+    <Label fx:id="lblWelcome" userData="synchRemoteData.lblWelcome" id="header" text="SYNCH TEAM DATA"
            GridPane.halignment="CENTER" GridPane.columnSpan="2" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
     <Label wrapText="true"
            text="If you have got an access key from a team member, copy and paste it into the textfield 'Token' or let it empty to start a plain new installation"
            GridPane.columnSpan="2" GridPane.columnIndex="0" GridPane.rowIndex="1"></Label>
 
-    <Label fx:id="lblAccessToken" userData="firstStart.lblAccessToken" text="Token:" GridPane.rowIndex="2"
-           GridPane.columnIndex="0"/>
-    <TextField fx:id="txtAccessToken" userData="firstStart.txtAccessToken" GridPane.rowIndex="2"
-               GridPane.columnIndex="1"/>
+    <Label fx:id="lblAccessToken" userData="synchRemoteData.lblAccessToken" text="Token:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtAccessToken" userData="synchRemoteData.txtAccessToken" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-    <Button fx:id="btnStart" text="Start adonai" GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2"
-            GridPane.halignment="CENTER"></Button>
+    <ProgressBar visible="false" fx:id="pgbProgress" maxWidth="Infinity" GridPane.columnSpan="2" GridPane.columnIndex="0" GridPane.rowIndex="3"  GridPane.hgrow="ALWAYS" GridPane.fillWidth="true">
+        <GridPane.margin>
+            <Insets top="70"/>
+        </GridPane.margin>
+    </ProgressBar>
+    <Label visible="false" fx:id="lblProgress" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.hgrow = "ALWAYS" GridPane.fillWidth="true"/>
+
+    <HBox GridPane.rowIndex="5" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.fillWidth="true">
+        <Button fx:id="btnSynchronize" text="Synchronize and start adonai"/>
+        <Button fx:id="btnStart" text="Start adonai" GridPane.rowIndex="5"/>
+        <GridPane.margin>
+            <Insets top="70"/>
+        </GridPane.margin>
+    </HBox>
+
+
 
 
 </GridPane>

@@ -25,4 +25,24 @@ public class FileStoreState {
     return fileStoreStateItem;
 
   }
+
+  public List<FileStoreStateItem> getItemsRemoteNewer () {
+    List<FileStoreStateItem> filteredItems = new ArrayList<>();
+    for (FileStoreStateItem next: items) {
+      if (next.isRemoteNewer())
+        filteredItems.add(next);
+    }
+
+    return filteredItems;
+  }
+
+  public List<FileStoreStateItem> getItemsLocalNewer () {
+    List<FileStoreStateItem> filteredItems = new ArrayList<>();
+    for (FileStoreStateItem next: items) {
+      if (next.isLocalNewer())
+        filteredItems.add(next);
+    }
+
+    return filteredItems;
+  }
 }

@@ -64,7 +64,7 @@ public class ModelService {
     return tenants;
   }
 
-  private File getTenantPath (final String tenant) {
+  public File getTenantPath (final String tenant) {
     return new File (Consts.getAdonaiHome(), "tenant_" + tenant);
   }
 

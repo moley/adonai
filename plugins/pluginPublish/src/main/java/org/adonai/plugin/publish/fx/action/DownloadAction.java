@@ -11,8 +11,6 @@ import org.adonai.online.FileStore;
 import org.adonai.online.FileStoreState;
 import org.controlsfx.control.Notifications;
 import org.pf4j.Extension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Extension(ordinal=1)
 @Slf4j
@@ -36,7 +34,7 @@ public class DownloadAction extends AbstractRemoteAction implements MainAction {
       FileStore fileStore = new FileStore();
       try {
         FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
-        int numberOfUploaded = fileStore.download(tenantPath, remoteState);
+        int numberOfUploaded = fileStore.download(tenantPath, remoteState, null); //TODO
         if (numberOfUploaded > 0) {
           Notifications.create().title("Download").text("No data for download found").show();
         }

@@ -170,16 +170,5 @@ public class SongRepairer {
     //remove empty parts
     song.getSongParts().removeAll(emptySongParts);
 
-
-
-
-    if (song.findAdditional(AdditionalType.AUDIO) != null) {
-      Additional additional = song.findAdditional(AdditionalType.AUDIO);
-
-      additionalsImporter.refreshCache(song, additional, false);
-
-    }
-
-
   }
 }
