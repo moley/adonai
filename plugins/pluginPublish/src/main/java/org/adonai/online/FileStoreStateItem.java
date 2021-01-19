@@ -41,4 +41,6 @@ public class FileStoreStateItem {
   public boolean isRemoteNewer () {
     return changedRemote > changedLocally;
   }
+
+
 }

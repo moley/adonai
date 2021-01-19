@@ -1,5 +1,6 @@
 package org.adonai.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.adonai.Chord;
 import org.adonai.Key;
 import org.adonai.KeyManager;
@@ -12,10 +13,8 @@ import org.adonai.model.SongPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class SongTransposeService {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(SongTransposeService.class);
-
 
   private KeyManager manager = new KeyManager();
 
@@ -48,7 +47,7 @@ public class SongTransposeService {
   }
 
   public void recalculateOrigin (final Song song) {
-    LOGGER.info("recalculate origin chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey());
+    log.info("recalculate origin chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey() + ")");
     if (song.getCurrentKey() == null || song.getOriginalKey() == null)
       throw new IllegalStateException("Both original and current key have to be set to recalculate the origin key");
 
@@ -60,10 +59,12 @@ public class SongTransposeService {
         }
       }
     }
+
+    log.info("Recalculating origin chords finished");
   }
 
   public void recalculateCurrent (final Song song) {
-    LOGGER.info("recalculate current chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey());
+    log.info("recalculate current chords (from " + song.getOriginalKey() + " to " + song.getCurrentKey() + ")");
     if (song.getCurrentKey() == null || song.getOriginalKey() == null)
       throw new IllegalStateException("Both original and current key have to be set to recalculate the current key");
     for (SongPart nextPart: song.getSongParts()) {
@@ -74,6 +75,8 @@ public class SongTransposeService {
         }
       }
     }
+
+    log.info("Recalculated current chords finished");
 
 
   }
@@ -90,7 +93,7 @@ public class SongTransposeService {
 
     NoteEntryType noteEntryType = manager.getType(to);
 
-    LOGGER.info("Transposing song " + song.getId() + " from " + fromIndex + "(" + from + ") to " + toIndex + "(" + to + ")");
+    log.info("Transposing song " + song.getId() + " from " + fromIndex + "(" + from + ") to " + toIndex + "(" + to + ")");
 
     for (SongPart nextPart: song.getSongParts()) {
       for (Line line: nextPart.getLines()) {

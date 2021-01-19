@@ -39,6 +39,7 @@ public class AdditionalsImporter {
       try {
         LOGGER.info("Refresh cache (" + additional.getLink() + "->" + additionalFile.getAbsolutePath());
         FileUtils.copyFile(new File (additional.getLink()), additionalFile);
+        additionalFile.setLastModified(System.currentTimeMillis());
       } catch (IOException e) {
         LOGGER.error("Error refreshing cache: " + e.getLocalizedMessage());
       }

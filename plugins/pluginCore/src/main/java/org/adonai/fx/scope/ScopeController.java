@@ -151,32 +151,6 @@ public class ScopeController extends AbstractController {
     getMainController().reloadViewer();
   }
 
-  private void openAdditionalsMask () {
-
-    if (treScope.getSelectionModel().getSelectedItem() != null) {
-      ScopeItem selectedScopeItem = treScope.getSelectionModel().getSelectedItem().getValue();
-      MaskLoader<AdditionalsController> songdetailsMaskLoader = new MaskLoader<AdditionalsController>();
-      Mask<AdditionalsController> songdetailsMask = songdetailsMaskLoader.loadWithStage("additionals");
-      Stage stage = songdetailsMask.getStage();
-      ScreenManager screenManager = new ScreenManager();
-      screenManager.layoutOnScreen(stage, 100, getApplicationEnvironment().getAdminScreen());
-
-      AdditionalsController songDetailsController = songdetailsMask.getController();
-      songDetailsController.setStage(stage);
-      songDetailsController.setApplicationEnvironment(getApplicationEnvironment());
-
-      WithAdditionals withAdditionals = selectedScopeItem.getWithAdditionals();
-      songDetailsController.setWithAdditionals(withAdditionals);
-      stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-        @Override public void handle(WindowEvent event) {
-          songDetailsController.save();
-        }
-      });
-
-      stage.showAndWait();
-    }
-  }
-
   private void add() {
 
     ScopeItem scopeItem = getSelectedScopeItem();

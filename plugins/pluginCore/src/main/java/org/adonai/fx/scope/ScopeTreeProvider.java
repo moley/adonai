@@ -6,12 +6,14 @@ import org.adonai.fx.main.ScopeItem;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.TenantModel;
 
 public class ScopeTreeProvider {
 
   public TreeItem getTree (final ApplicationEnvironment applicationEnvironment) {
     TreeItem rootItem = new TreeItem();
-    ScopeItem scopeItemRoot = new ScopeItem(applicationEnvironment.getCurrentTenant());
+    TenantModel currentTenantModel = applicationEnvironment.getModel().getCurrentTenantModel();
+    ScopeItem scopeItemRoot = new ScopeItem(currentTenantModel);
     rootItem.setValue(scopeItemRoot);
     SongBook currentSongBook = applicationEnvironment.getCurrentSongBook();
     ScopeItem scopeItemSongBook = applicationEnvironment.getScopeItem(currentSongBook);

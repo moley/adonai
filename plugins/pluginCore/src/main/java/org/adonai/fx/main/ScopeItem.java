@@ -9,6 +9,7 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.TenantModel;
 import org.adonai.model.WithAdditionals;
 
 public class ScopeItem  {
@@ -34,9 +35,9 @@ public class ScopeItem  {
 
 
 
-  public ScopeItem (String tenantName) {
-    name = "Tenant " + tenantName;
-    this.tenantName = tenantName;
+  public ScopeItem (TenantModel tenantModel) {
+    name = "Tenant " + tenantModel.getTenant() + "(" + tenantModel.getConfigFile().getAbsolutePath() + ")";
+    this.tenantName = tenantModel.getTenant();
     icon = null;
     this.session = null;
     this.songBook = null;

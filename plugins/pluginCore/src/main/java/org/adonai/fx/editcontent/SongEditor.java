@@ -249,6 +249,7 @@ public class SongEditor extends AbstractController {
   public void loadStructureEditor () {
     log.info("load structureeditor");
     this.lblTitleStructureEditor.setText(song.getTitle());
+
     reloadSongStructItems();
     loadCurrentSongPart(song.getStructItems().get(0));
 

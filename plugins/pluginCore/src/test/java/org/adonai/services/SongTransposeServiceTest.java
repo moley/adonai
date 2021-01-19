@@ -22,6 +22,7 @@ public class SongTransposeServiceTest {
 
   }
 
+
   @Test
   public void transposeUp () {
     Song song = createSongInC();
@@ -88,6 +89,16 @@ public class SongTransposeServiceTest {
     song.setCurrentKey("G");
     songTransposeService.recalculateCurrent(song);
     Assert.assertEquals ("C", song.getFirstPart().getFirstLine().getFirstLinePart().getChord());
+  }
+
+  @Test
+  public void recalculateCurrentError () {
+    Song song = new SongBuilder().withPart(SongPartType.INTRO).withLine().withLinePart("", "H5", "H5").get();
+    song.setCurrentKey("A");
+    song.setOriginalKey("H");
+    songTransposeService.recalculateCurrent(song);
+    Assert.assertEquals ("A5", song.getFirstPart().getFirstLine().getFirstLinePart().getChord());
+
   }
 
 

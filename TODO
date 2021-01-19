@@ -1,3 +1,4 @@
+- after transposing and stepping back to editor the current selected part is overwritten by the previous editor content
 - Refresh in TabPane of Editor
 - TextEditor and SongPropertiesEditor
 - Installation process and first start impression

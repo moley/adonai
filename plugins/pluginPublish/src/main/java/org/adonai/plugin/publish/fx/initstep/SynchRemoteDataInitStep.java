@@ -39,6 +39,7 @@ public class SynchRemoteDataInitStep implements InitStep {
     try {
       File tenantPath = applicationEnvironment.getServices().getModelService().getTenantPath(applicationEnvironment.getCurrentTenant());
       FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
+      log.error("The following remote items after newer: " + remoteState.getItemsRemoteNewer());
       return ! remoteState.getItemsRemoteNewer().isEmpty();
 
     } catch (IOException e) {

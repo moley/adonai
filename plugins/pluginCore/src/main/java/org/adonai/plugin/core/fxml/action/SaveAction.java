@@ -31,7 +31,7 @@ public class SaveAction implements MainAction {
         try {
           Model model = applicationEnvironment.getModel();
           model.save();
-          Notifications.create().text("Model saved successfully").showInformation();
+          Notifications.create().text("Model saved successfully (" + model.getCurrentTenantModel().getConfigFile().getAbsolutePath() + ")").showInformation();
         } catch (Exception e) {
           logger.error(e.getLocalizedMessage(), e);
           Notifications.create().text("Error saving model: " + e.getLocalizedMessage()).showError();
