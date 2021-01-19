@@ -32,7 +32,6 @@ public class SongViewer extends VBox {
 
   private int currentIndex;
 
-  private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
 
   private ApplicationEnvironment applicationEnvironment;
 
@@ -43,9 +42,6 @@ public class SongViewer extends VBox {
     currentIndex = 0;
   }
 
-  public ObjectProperty<Song> currentSongProperty () {
-    return currentSongProperty;
-  }
 
   private void disableAndRemove() {
     if (!leftPane.getChildren().isEmpty())
@@ -64,7 +60,7 @@ public class SongViewer extends VBox {
     if (currentIndex + 1 < panes.size())
       rightPane.getChildren().add(panes.get(currentIndex + 1).getPane());
 
-    currentSongProperty.set(panes.get(currentIndex).getSong());
+    applicationEnvironment.currentSongProperty().set(panes.get(currentIndex).getSong());
 
     if (!leftPane.getChildren().isEmpty())
       leftPane.getChildren().get(0).setVisible(true);
@@ -78,7 +74,7 @@ public class SongViewer extends VBox {
       for (Page nextPage : panes) {
         if (nextPage.getSong().equals(song)) {
           disableAndRemove();
-          currentSongProperty.set(song);
+          applicationEnvironment.currentSongProperty().set(song);
           currentIndex = panes.indexOf(nextPage);
           enableAndAdd();
           return;
@@ -89,7 +85,7 @@ public class SongViewer extends VBox {
     //default if song not found or no song selected so far
     song = panes.get(0).getSong();
     disableAndRemove();
-    currentSongProperty.set(song);
+    applicationEnvironment.currentSongProperty().set(song);
     currentIndex = 0;
     enableAndAdd();
   }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.adonai.additionals.AdditionalsImporter;
@@ -45,13 +47,16 @@ public class ApplicationEnvironment {
 
   private Session currentSession = null;
 
-  private Song currentSong = null;
-
   private boolean showOriginalKey = false;
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
 
   private Stage mainStage;
+
+
+
+  private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
+
 
   /**
    * constructor
@@ -187,12 +192,12 @@ public class ApplicationEnvironment {
   }
 
   public Song getCurrentSong() {
-    return currentSong;
+    return currentSongProperty.get();
   }
 
   public void setCurrentSong(Song currentSong) {
     LOGGER.info("set current song " + (currentSong != null ? currentSong.getId(): "null"));
-    this.currentSong = currentSong;
+    this.currentSongProperty.set(currentSong);
   }
 
   public SongBook getCurrentSongBook() {
@@ -260,6 +265,10 @@ public class ApplicationEnvironment {
 
   public void setMainStage(Stage mainStage) {
     this.mainStage = mainStage;
+  }
+
+  public ObjectProperty<Song> currentSongProperty() {
+    return currentSongProperty;
   }
 
 

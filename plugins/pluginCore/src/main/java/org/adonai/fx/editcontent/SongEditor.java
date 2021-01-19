@@ -135,7 +135,7 @@ public class SongEditor extends AbstractController {
     lviStructure.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SongStructItem>() {
       @Override public void changed(ObservableValue<? extends SongStructItem> observable, SongStructItem oldValue,
           SongStructItem newValue) {
-        if (oldValue != null)
+        if (oldValue != null && newValue != null)
           serializeCurrentSongPart(oldValue); //serialize old one
         if (newValue != null)
           loadCurrentSongPart(newValue); //and load new one

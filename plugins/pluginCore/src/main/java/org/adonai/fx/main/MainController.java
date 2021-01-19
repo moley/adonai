@@ -203,6 +203,7 @@ public class MainController extends AbstractController {
         mp3Player.end();
       }
     });
+
   }
 
   private void openHelp() {
@@ -296,15 +297,10 @@ public class MainController extends AbstractController {
     exportConfiguration.setWithRemarks(true); //TODO from configuration
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
-    SongViewer songViewer = new SongViewer(getApplicationEnvironment(), exporter.getPanes());
-    songViewer.currentSongProperty().addListener((observable, oldValue, newValue) -> {
-      getApplicationEnvironment().setCurrentSong(newValue);
-      btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
-      btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
-      btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
-      btnSpeed.setText(newValue.getSpeedNotNull());
-    });
 
+
+
+    SongViewer songViewer = new SongViewer(getApplicationEnvironment(), exporter.getPanes());
     main.setCenter(songViewer);
     songViewer.show();
 
@@ -313,6 +309,14 @@ public class MainController extends AbstractController {
 
   @Override public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
     super.setApplicationEnvironment(applicationEnvironment);
+
+    applicationEnvironment.currentSongProperty().addListener((observable, oldValue, newValue) -> {
+      btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
+      btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
+      btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
+      btnSpeed.setText(newValue.getSpeedNotNull());
+    });
+
     reloadScope();
     reloadActionMenu();
   }

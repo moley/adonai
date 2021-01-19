@@ -1,8 +1,6 @@
 package org.adonai.fx.scope;
 
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.EventHandler;
@@ -10,31 +8,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSongAction;
 import org.adonai.actions.SearchAction;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
-import org.adonai.fx.Mask;
-import org.adonai.fx.MaskLoader;
-import org.adonai.fx.ScreenManager;
-import org.adonai.fx.additionals.AdditionalsController;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
-import org.adonai.model.WithAdditionals;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
@@ -119,6 +109,10 @@ public class ScopeController extends AbstractController {
         ScopeItem scopeItem = newValue.getValue();
         boolean songInSessionSelected = scopeItem != null && scopeItem.getSong() != null && scopeItem.getParentItem().getSession() != null;
         boolean sessionDetailsShown = scopeItem != null && scopeItem.getSession() != null;
+
+        if (scopeItem.getSong() != null) {
+          getApplicationEnvironment().currentSongProperty().set(scopeItem.getSong());
+        }
 
         btnMoveDown.setVisible(songInSessionSelected);
         btnMoveUp.setVisible(songInSessionSelected);
