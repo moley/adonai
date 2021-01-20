@@ -3,6 +3,7 @@ package org.adonai.online;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.DeleteResult;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,25 +33,27 @@ public class DropboxAdapter implements OnlineAdapter {
     LOGGER.info("Upload " + basePath.getAbsolutePath() + " to '" + path + "'");
     DbxClientV2 clientV2 = getClientV2(credentials);
 
-    FileMetadata fileMetadata = null;
+    //WriteMode.OVERWRITE does not set the modified date, so we have to remove old entries before
     try {
-      fileMetadata = ((FileMetadata) clientV2.files().getMetadata(path));
+      if (clientV2.files().getMetadata(path) != null) {
+        clientV2.files().deleteV2(path);
+        LOGGER.info("Deleted remote file " + path + " because we overwrite it");
+      }
     } catch (DbxException e) {
-      LOGGER.debug("Error getting metdata on " + path);
+      LOGGER.info("File " + path + "does not exist");
     }
 
     try {
-      //FullAccount fullAccount = clientV2.users().getCurrentAccount();
-      //LOGGER.info ("Email: " + fullAccount.getEmail());
-
       try (InputStream in = new FileInputStream(basePath)) {
-        FileMetadata metadata = clientV2.files().uploadBuilder(path).withMode(WriteMode.OVERWRITE).uploadAndFinish(in);
+        FileMetadata metadata = clientV2.files().uploadBuilder(path).withMode(WriteMode.ADD).uploadAndFinish(in);
 
         List<SharedLinkMetadata> links = clientV2.sharing().listSharedLinks().getLinks();
         SharedLinkMetadata sharedLinkMetadata = getOrCreateLinkMetadata(metadata.getPathLower(), links);
 
+
         String url = sharedLinkMetadata != null ? sharedLinkMetadata.getUrl() : null;
-        LOGGER.info("Uploaded " + url);
+        LOGGER.info("Uploaded " + url + " with client modified at " + metadata.getClientModified());
+        basePath.setLastModified(metadata.getClientModified().getTime());
 
       } catch (IOException e) {
         throw new IllegalStateException("Error uploading " + basePath.getName() + " to " + path, e);
