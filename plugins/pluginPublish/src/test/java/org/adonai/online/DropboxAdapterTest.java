@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -33,7 +34,7 @@ public class DropboxAdapterTest {
     configFile.createNewFile();
     DropboxAdapter dropboxAdapter = new DropboxAdapter();
     dropboxAdapter.setClientV2(mockedClient);
-    dropboxAdapter.download(tmpPath, "helloworld", "");
+    dropboxAdapter.download(new File (tmpPath, "helloworld"), "helloworld", "");
 
     Mockito.verify(mockedDownloadBuilder, Mockito.atLeast(1)).download(Mockito.any());
   }
@@ -42,6 +43,7 @@ public class DropboxAdapterTest {
   public void upload() throws IOException, DbxException {
     DbxClientV2 mockedClient = Mockito.mock(DbxClientV2.class);
     FileMetadata mockedFileMetaData = Mockito.mock(FileMetadata.class);
+    Mockito.when(mockedFileMetaData.getClientModified()).thenReturn(new Date());
     DbxUserFilesRequests mockedUserFileRequests = Mockito.mock(DbxUserFilesRequests.class);
     DbxUserUsersRequests mockedUserUsersRequest = Mockito.mock(DbxUserUsersRequests.class);
     FullAccount mockedFullAcount = Mockito.mock(FullAccount.class);
