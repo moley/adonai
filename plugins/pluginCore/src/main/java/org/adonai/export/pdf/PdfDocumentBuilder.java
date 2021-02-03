@@ -74,7 +74,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     else if (exportTokenType.equals(ExportTokenType.TEXT))
       return 12;
     else if (exportTokenType.equals(ExportTokenType.TITLE))
-      return 8;
+      return 14;
     else if (exportTokenType.equals(ExportTokenType.STRUCTURE))
       return 8;
     else
@@ -138,9 +138,9 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setInterPartDistance(new Double(15));
     exportConfiguration.setStructureDistance(new Double(5));
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-    exportConfiguration.setLeftBorder(new Double(40));
-    exportConfiguration.setUpperBorder(new Double(40));
-    exportConfiguration.setLowerBorder(new Double(40));
+    exportConfiguration.setLeftBorder(new Double(30));
+    exportConfiguration.setUpperBorder(new Double(20));
+    exportConfiguration.setLowerBorder(new Double(20));
     exportConfiguration.setOpenPreview(true);
     exportConfiguration.setMinimalChordDistance(new Double(5));
     exportConfiguration.setDocumentBuilderClass(getClass().getName());

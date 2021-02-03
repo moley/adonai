@@ -132,6 +132,7 @@ public class MainController extends AbstractController {
           @Override public void handle(WindowEvent event) {
             Song selectedSong = searchAction.getSelectedItem();
             if (selectedSong != null) {
+              log.info("Search action selects song " + selectedSong.getId());
               applicationEnvironment.setCurrentSession(null);
               applicationEnvironment.setCurrentSong(selectedSong);
               reloadViewer();
@@ -311,6 +312,7 @@ public class MainController extends AbstractController {
     super.setApplicationEnvironment(applicationEnvironment);
 
     applicationEnvironment.currentSongProperty().addListener((observable, oldValue, newValue) -> {
+      log.info("Current song property changed to " + newValue.getId());
       btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
       btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
       btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");

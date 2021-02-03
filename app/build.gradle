@@ -56,6 +56,42 @@ task copyRealData (type: Copy) {
   into file('.adonai')
 }
 
+task copyDependencies(type: Copy) {
+  destinationDir libsDir
+  from configurations.runtime
+}
+
+task javapackager(type: Exec, dependsOn: [assemble, copyDependencies]) {
+  def nativeType
+  if (System.properties['os.name'].toLowerCase().contains('windows'))
+    nativeType = 'msi'
+  if (System.properties['os.name'].toLowerCase().contains('mac'))
+    nativeType = 'dmg'
+  if (System.properties['os.name'].toLowerCase().contains('linux'))
+    nativeType = 'rpm'
+
+  def dependencies = []
+  configurations.runtime.forEach({ file ->
+    dependencies.add('-srcfiles')
+    dependencies.add(file.getName())
+  })
+
+  workingDir project.projectDir
+  commandLine = [
+          'javapackager',
+          '-deploy',
+          '-nosign',
+          '-native', nativeType,
+          '-outdir', "${buildDir}/distribution",
+          '-outfile', project.name,
+          '-name', 'Adonai',
+          '-appclass', mainClassName,
+          '-srcdir', libsDir,
+          '-srcfiles', jar.archiveName
+  ] + dependencies
+}
+
+
 
 
 

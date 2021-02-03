@@ -247,16 +247,17 @@ public class SongEditor extends AbstractController {
   }
 
   public void loadStructureEditor () {
-    log.info("load structureeditor");
+    log.info("load structureeditor of song " + song.getId());
     this.lblTitleStructureEditor.setText(song.getTitle());
 
     reloadSongStructItems();
-    loadCurrentSongPart(song.getStructItems().get(0));
+    loadCurrentSongPart(lviStructure.getSelectionModel().getSelectedItem());
 
   }
 
   public void saveStructureEditor () {
-    log.info("save structureeditor");
+    serializeCurrentSongPart(lviStructure.getSelectionModel().getSelectedItem());
+    log.info("save structureeditor of song " + song.getId());
   }
 
   public void loadTextEditor () {
@@ -270,7 +271,7 @@ public class SongEditor extends AbstractController {
   }
 
   public void loadSongProperties () {
-    log.info("load song properties");
+    log.info("load song properties of song " + song.getId());
     this.lblTitleSongProperties.setText(song.getTitle());
     cboLeadVoice.setItems(FXCollections.observableArrayList(getConfiguration().getUsers()));
     lblCurrentMp3.setText(getMp3Label(song));
@@ -302,7 +303,7 @@ public class SongEditor extends AbstractController {
   }
 
   public void saveSongProperties () {
-    log.info("save song properties");
+    log.info("save song properties of song " + song.getId());
     song.setPreset(txtPreset.getText());
     song.setTitle(txtTitle.getText());
     song.setSpeed(spiSpeed.getValue());
@@ -351,7 +352,6 @@ public class SongEditor extends AbstractController {
   private void serializeCurrentSongPart(SongStructItem songStructItem) {
 
     SongPart songPart = findSongPart(songStructItem);
-    log.info("serialize song part " + songStructItem.getPartId() + "#" + songPart);
     List<String> lines = new ArrayList<>(Arrays.asList(txaText.getText().split("\n")));
     lines.add(0, "[" + songPart.getSongPartTypeLabel() + "]");
     TextfileReaderParam textfileReaderParam = new TextfileReaderParam();
@@ -371,6 +371,8 @@ public class SongEditor extends AbstractController {
     SongPart serializedSongPart = serializedSong.getFirstPart();
 
     songPart.setLines(serializedSongPart.getLines());
+
+    log.info("serialize song part " + songStructItem.getPartId() + "#" + songPart + " with content " + songPart.getLines());
 
     songRepairer.repairSong(song);
   }
@@ -424,6 +426,7 @@ public class SongEditor extends AbstractController {
 
   public void reloadSongStructItems() {
     lviStructure.setItems(FXCollections.observableArrayList(song.getStructItems()));
+    lviStructure.getSelectionModel().selectFirst();
 
     btnAdd.getItems().clear();
     for (SongPartType nextType : SongPartType.values()) {
