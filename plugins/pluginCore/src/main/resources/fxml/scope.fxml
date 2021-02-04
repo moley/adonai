@@ -12,9 +12,9 @@
           fx:controller="org.adonai.fx.scope.ScopeController" hgap="5" vgap="5">
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
     <columnConstraints>
-        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="60"/>
         <ColumnConstraints percentWidth="10"/>
-        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="20"/>
     </columnConstraints>
 
     <Label fx:id="lblTitle" userData="scope.lblTitle" text="ADMIN" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
