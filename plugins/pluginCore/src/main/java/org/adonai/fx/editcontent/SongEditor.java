@@ -326,9 +326,7 @@ public class SongEditor extends AbstractController {
    */
   public void setSong(Song song) {
     this.song = song;
-    lviStructure.getSelectionModel().clearSelection();
-    loadStructureEditor();
-    lviStructure.getSelectionModel().selectFirst();
+    load(tabPane.getSelectionModel().getSelectedItem());
   }
 
   private String getMp3Label(final Song song) {
