@@ -16,7 +16,7 @@
          fx:controller="org.adonai.fx.editcontent.SongEditor" side="BOTTOM" fx:id="tabPane">
 
     <tabs>
-        <Tab fx:id="tabStructureEditor" text="Structure Editor">
+        <Tab fx:id="tabStructureEditor" text="Structure Editor" closable="false">
             <GridPane fx:id="root" hgap="20" vgap="20">
                 <padding>
                     <Insets top="40" bottom="40" left="30" right="30"/>
@@ -68,7 +68,7 @@
             </GridPane>
         </Tab>
 
-        <!--<Tab fx:id="tabTextEditor" text="Text Editor">
+        <!--<Tab fx:id="tabTextEditor" text="Text Editor" closable="false">
             <BorderPane>
                 <center>
                     <TextArea fx:id="txaAsText"></TextArea>
@@ -76,7 +76,7 @@
             </BorderPane>
         </Tab>-->
 
-        <Tab fx:id="tabSongProperties" text="Song Properties">
+        <Tab fx:id="tabSongProperties" text="Song Properties" closable="false">
             <GridPane hgap="20" vgap="20">
                 <padding>
                     <Insets top="40" bottom="40" left="30" right="30"/>
