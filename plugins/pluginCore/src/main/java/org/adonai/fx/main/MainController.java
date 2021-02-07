@@ -252,6 +252,7 @@ public class MainController extends AbstractController {
     scopeController.loadData(null);
     scopeController.setMainController(this);
     main.setCenter(maskScope.getRoot());
+    getApplicationEnvironment().setCursorSelectsSong(false);
     main.requestLayout();
 
   }
@@ -266,6 +267,7 @@ public class MainController extends AbstractController {
     songEditor.setSong(getApplicationEnvironment().getCurrentSong());
     songEditor.setMainController(this);
     main.setCenter(songEditorMask.getRoot());
+    getApplicationEnvironment().setCursorSelectsSong(false);
     main.requestLayout();
   }
 
@@ -282,6 +284,8 @@ public class MainController extends AbstractController {
       log.info("onSongContentChangedHandler triggered");
       reloadViewer();
     });
+
+    getApplicationEnvironment().setCursorSelectsSong(true);
 
     Configuration configuration = getApplicationEnvironment().getCurrentConfiguration();
     ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);

@@ -32,7 +32,6 @@ public class SongViewer extends VBox {
 
   private int currentIndex;
 
-
   private ApplicationEnvironment applicationEnvironment;
 
   public SongViewer(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
@@ -41,7 +40,6 @@ public class SongViewer extends VBox {
     this.panes = pages;
     currentIndex = 0;
   }
-
 
   private void disableAndRemove() {
     if (!leftPane.getChildren().isEmpty())
@@ -69,7 +67,7 @@ public class SongViewer extends VBox {
       rightPane.getChildren().get(0).setVisible(true);
   }
 
-  private void selectSong (Song song) {
+  private void selectSong(Song song) {
     if (song != null) {
       for (Page nextPage : panes) {
         if (nextPage.getSong().equals(song)) {
@@ -99,37 +97,39 @@ public class SongViewer extends VBox {
       throw new IllegalStateException("Scene not yet set");
 
     scene.setOnKeyReleased(event -> {
-       LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
-      if (event.getCode().equals(KeyCode.M)) {
-        //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
-        //metronome.setVisible(! metronome.isVisible());
-      } else if (event.getCode().equals(KeyCode.RIGHT)) {
-
-        disableAndRemove();
-
-        if (currentIndex < panes.size() - 1)
-          currentIndex++;
-
-        LOGGER.info("toLeft (" + currentIndex + ")");
-
-        if (panes.get(currentIndex).getSong() != null)
+      LOGGER.info("onKeyPressed " + event.getCode() + " recieved");
+      if (applicationEnvironment.isCursorSelectsSong()) {
+        if (event.getCode().equals(KeyCode.M)) {
           //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+          //metronome.setVisible(! metronome.isVisible());
+        } else if (event.getCode().equals(KeyCode.RIGHT)) {
 
-          enableAndAdd();
+          disableAndRemove();
 
-      } else if (event.getCode().equals(KeyCode.LEFT)) {
-        disableAndRemove();
+          if (currentIndex < panes.size() - 1)
+            currentIndex++;
 
-        if (currentIndex > 0)
-          currentIndex--;
+          LOGGER.info("toRight (" + currentIndex + ")");
 
-        LOGGER.info("toRight (" + currentIndex + ")");
+          if (panes.get(currentIndex).getSong() != null)
+            //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
 
-        if (panes.get(currentIndex).getSong() != null)
-          //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+            enableAndAdd();
 
-          enableAndAdd();
+        } else if (event.getCode().equals(KeyCode.LEFT)) {
+          disableAndRemove();
 
+          if (currentIndex > 0)
+            currentIndex--;
+
+          LOGGER.info("toLeft (" + currentIndex + ")");
+
+          if (panes.get(currentIndex).getSong() != null)
+            //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
+
+            enableAndAdd();
+
+        }
       }
 
     });

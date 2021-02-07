@@ -55,6 +55,8 @@ public class ApplicationEnvironment {
 
 
 
+  private boolean cursorSelectsSong = false;
+
   private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
 
 
@@ -269,6 +271,14 @@ public class ApplicationEnvironment {
 
   public ObjectProperty<Song> currentSongProperty() {
     return currentSongProperty;
+  }
+
+  public boolean isCursorSelectsSong() {
+    return cursorSelectsSong;
+  }
+
+  public void setCursorSelectsSong(boolean cursorSelectsSong) {
+    this.cursorSelectsSong = cursorSelectsSong;
   }
 
 
