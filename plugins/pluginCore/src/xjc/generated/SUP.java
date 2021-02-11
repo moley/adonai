@@ -44,8 +44,8 @@ import javax.xml.bind.annotation.XmlType;
 public class SUP {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false),
-        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false)
+        @XmlElementRef(name = "STYLE", type = JAXBElement.class, required = false),
+        @XmlElementRef(name = "GRAM", type = JAXBElement.class, required = false)
     })
     @XmlMixed
     protected List<Serializable> content;
@@ -70,15 +70,15 @@ public class SUP {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
-     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
      * {@link String }
+     * {@link JAXBElement }{@code <}{@link STYLE }{@code >}
+     * {@link JAXBElement }{@code <}{@link GRAM }{@code >}
      * 
      * 
      */

@@ -19,6 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
@@ -32,6 +34,8 @@ import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
+import org.adonai.fx.ScreenManager;
+import org.adonai.fx.editcontent.SetKeyController;
 import org.adonai.fx.editcontent.SongEditor;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
@@ -76,6 +80,11 @@ public class MainController extends AbstractController {
   private MaskLoader<SongEditor> maskLoaderContent = new MaskLoader<>();
   private Mask<SongEditor> songEditorMask;
 
+  private MaskLoader<SetKeyController> maskLoader = new MaskLoader();
+
+
+
+
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
@@ -85,6 +94,8 @@ public class MainController extends AbstractController {
     btnHelp.setTooltip(new Tooltip("Help screen"));
     btnHelp.setOnAction(event -> openHelp ());
     btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
+
+
 
     btnViewer.setGraphic(Consts.createIcon("fas-binoculars", Consts.ICON_SIZE_TOOLBAR));
     btnViewer.setTooltip(new Tooltip("Viewer"));

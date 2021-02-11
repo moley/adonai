@@ -10,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,16 +26,20 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import org.adonai.Key;
 import org.adonai.actions.ConnectSongWithMp3Action;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.ExtensionSelectorController;
+import org.adonai.fx.Mask;
+import org.adonai.fx.MaskLoader;
+import org.adonai.fx.ScreenManager;
+import org.adonai.fx.renderer.SongStructCellRenderer;
 import org.adonai.fx.renderer.UserCellRenderer;
 import org.adonai.fx.viewer.TextRenderer;
-import org.adonai.fx.renderer.SongStructCellRenderer;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
@@ -52,7 +55,6 @@ import org.adonai.services.MovePartService;
 import org.adonai.services.RemovePartService;
 import org.adonai.services.SongCursor;
 import org.adonai.services.SongRepairer;
-import org.adonai.services.SongTransposeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,9 +92,9 @@ public class SongEditor extends AbstractController {
 
   @FXML private Button btnAssignMp3;
 
-  @FXML private ComboBox<Key> cboCurrentKey;
+  @FXML private Button btnCurrentKey;
 
-  @FXML private ComboBox<Key> cboOriginalKey;
+  @FXML private Button btnOriginalKey;
 
   @FXML private ComboBox<User> cboLeadVoice;
 
@@ -101,10 +103,6 @@ public class SongEditor extends AbstractController {
   @FXML private TextField txtTitle;
 
   @FXML private Spinner<Integer> spiSpeed;
-
-  @FXML private Button btnRecalculateOriginKey;
-
-  @FXML private Button btnRecalculateCurrentKey;
 
   private Song song;
 
@@ -115,6 +113,24 @@ public class SongEditor extends AbstractController {
   private MovePartService movePartService = new MovePartService();
 
   private TextRenderer textRenderer = new TextRenderer();
+
+  private MaskLoader<SetKeyController> maskLoader = new MaskLoader<>();
+
+  private void stepToKeyDialog (final boolean original) {
+    Stage initStepStage = new Stage();
+    Mask<SetKeyController> mask = maskLoader.loadWithStage("set_key", getClass().getClassLoader());
+    SetKeyController controller = mask.getController();
+    controller.setStage(initStepStage);
+    controller.setOriginalKey(original);
+    controller.setApplicationEnvironment(getApplicationEnvironment());
+    initStepStage.setScene(mask.getScene());
+    ScreenManager screenManager = new ScreenManager();
+    initStepStage.initStyle(StageStyle.UNDECORATED);
+    screenManager.layoutOnScreen(initStepStage, 200, getApplicationEnvironment().getAdminScreen());
+    initStepStage.toFront();
+    initStepStage.showAndWait();
+
+  }
 
   @FXML public void initialize() {
     lviStructure.setCellFactory(cellfactory -> new SongStructCellRenderer());
@@ -148,16 +164,6 @@ public class SongEditor extends AbstractController {
     spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
     spiSpeed.setEditable(true);
 
-    btnRecalculateCurrentKey.setGraphic(Consts.createIcon("fas-calculator", Consts.ICON_SIZE_VERY_SMALL));
-    btnRecalculateCurrentKey.setTooltip(new Tooltip("Calculate current key with chords of origin key"));
-    btnRecalculateOriginKey.setGraphic(Consts.createIcon("fas-calculator", Consts.ICON_SIZE_VERY_SMALL));
-    btnRecalculateOriginKey.setTooltip(new Tooltip("Calculate origin key with chords of current key"));
-
-    cboCurrentKey.setItems(FXCollections.observableArrayList(Key.values()));
-
-    cboOriginalKey.setItems(FXCollections.observableArrayList(Key.values()));
-
-
     tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
       @Override public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
         save(oldValue);
@@ -172,22 +178,8 @@ public class SongEditor extends AbstractController {
       }
     });
 
-    btnRecalculateCurrentKey.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        song.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem().name());
-        SongTransposeService songTransposeService = new SongTransposeService();
-        songTransposeService.recalculateCurrent(song);
-
-      }
-    });
-    btnRecalculateOriginKey.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-
-        song.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem().name());
-        SongTransposeService songTransposeService = new SongTransposeService();
-        songTransposeService.recalculateOrigin(song);
-      }
-    });
+    btnCurrentKey.setOnAction(event -> stepToKeyDialog(false));
+    btnOriginalKey.setOnAction(event -> stepToKeyDialog(true));
 
     btnAssignMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -291,15 +283,16 @@ public class SongEditor extends AbstractController {
 
     //set current key
     if (song.getCurrentKey() != null) {
-      cboCurrentKey.getSelectionModel().select(Key.fromString(song.getCurrentKey()));
-    } else
-      cboCurrentKey.getSelectionModel().clearSelection();
+      btnCurrentKey.setText(song.getCurrentKey());
+    } else {
+      btnCurrentKey.setText("");
+    }
 
     //set original key
     if (song.getOriginalKey() != null) {
-      cboOriginalKey.getSelectionModel().select(Key.fromString(song.getOriginalKey()));
+      btnOriginalKey.setText(song.getOriginalKey());
     } else
-      cboOriginalKey.getSelectionModel().clearSelection();
+      btnOriginalKey.setText("");
   }
 
   public void saveSongProperties () {
@@ -308,12 +301,8 @@ public class SongEditor extends AbstractController {
     song.setTitle(txtTitle.getText());
     song.setSpeed(spiSpeed.getValue());
     song.setLeadVoice(cboLeadVoice.getSelectionModel().getSelectedItem());
-    song.setOriginalKey(cboOriginalKey.getSelectionModel().getSelectedItem() != null ?
-        cboOriginalKey.getSelectionModel().getSelectedItem().toString() :
-        null);
-    song.setCurrentKey(cboCurrentKey.getSelectionModel().getSelectedItem() != null ?
-        cboCurrentKey.getSelectionModel().getSelectedItem().toString() :
-        null);
+    song.setOriginalKey(btnOriginalKey.getText());
+    song.setCurrentKey(btnCurrentKey.getText());
     song.setSpeed(spiSpeed.getValue());
   }
 

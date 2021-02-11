@@ -106,14 +106,12 @@
 
                 <Label text="Current key" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.fillWidth="true"
                        GridPane.hgrow="ALWAYS"/>
-                <ComboBox fx:id="cboCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.fillWidth="true"
+                <Button fx:id="btnCurrentKey" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.fillWidth="true"
                           GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-                <Button fx:id="btnRecalculateCurrentKey" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
 
                 <Label text="Original key" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                <ComboBox fx:id="cboOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                <Button fx:id="btnOriginalKey" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
                           GridPane.rowIndex="4" GridPane.fillWidth="true"/>
-                <Button fx:id="btnRecalculateOriginKey" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
 
                 <Label text="Lead voice" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
                 <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"

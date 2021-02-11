@@ -67,6 +67,16 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return parts.get(0);
   }
 
+  public SongPart getFirstPart (SongPartType type) {
+    for (SongPart next: parts) {
+      if (next.getSongPartType().equals(type))
+        return next;
+    }
+
+    return null;
+
+  }
+
   public SongPart getLastPart () {
     return parts.get(parts.size() - 1);
   }
