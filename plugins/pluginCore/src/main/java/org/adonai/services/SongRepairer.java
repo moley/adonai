@@ -42,8 +42,8 @@ public class SongRepairer {
 
   public void repairSong(final Song song) {
 
-    Key currentKey = song.getCurrentKey() != null ? Key.fromString(song.getCurrentKey()) : null;
-    Key originKey = song.getOriginalKey() != null ? Key.fromString(song.getOriginalKey()) : null;
+    Key currentKey = (song.getCurrentKey() != null && ! song.getCurrentKey().trim().isEmpty()) ? Key.fromString(song.getCurrentKey()) : null;
+    Key originKey = (song.getOriginalKey() != null && ! song.getOriginalKey().trim().isEmpty()) ? Key.fromString(song.getOriginalKey()) : null;
 
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
 

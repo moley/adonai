@@ -130,8 +130,10 @@ public class TenantModel {
         LOGGER.info("Created new configuration " + System.identityHashCode(currentConfiguration) + " because " + configFile.getAbsolutePath() + " does not exist");
       }
 
-      DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
-      defaultExportConfigurationCreator.createDefaultExportConfigurations(applicationEnvironment, currentConfiguration);
+      if (applicationEnvironment.isCreateDefaultExportConfigurations()) {
+        DefaultExportConfigurationCreator defaultExportConfigurationCreator = new DefaultExportConfigurationCreator();
+        defaultExportConfigurationCreator.createDefaultExportConfigurations(applicationEnvironment, currentConfiguration);
+      }
 
       //Automatic migrations
       SongRepairer songRepairer = new SongRepairer();

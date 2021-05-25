@@ -57,6 +57,8 @@ public class ApplicationEnvironment {
 
   private boolean cursorSelectsSong = false;
 
+  private boolean createDefaultExportConfigurations = true;
+
   private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
 
 
@@ -281,5 +283,11 @@ public class ApplicationEnvironment {
     this.cursorSelectsSong = cursorSelectsSong;
   }
 
+  public boolean isCreateDefaultExportConfigurations() {
+    return createDefaultExportConfigurations;
+  }
 
+  public void setCreateDefaultExportConfigurations(boolean createDefaultExportConfigurations) {
+    this.createDefaultExportConfigurations = createDefaultExportConfigurations;
+  }
 }
