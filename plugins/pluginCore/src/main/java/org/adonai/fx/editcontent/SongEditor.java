@@ -128,6 +128,12 @@ public class SongEditor extends AbstractController {
     initStepStage.initStyle(StageStyle.UNDECORATED);
     screenManager.layoutOnScreen(initStepStage, 200, getApplicationEnvironment().getAdminScreen());
     initStepStage.toFront();
+    initStepStage.setOnHiding(new EventHandler<WindowEvent>() {
+      @Override public void handle(WindowEvent event) {
+        loadSongProperties(); //to reload changed keys
+        getApplicationEnvironment().setCurrentSong(getApplicationEnvironment().getCurrentSong()); //to trigger reload of key buttons
+      }
+    });
     initStepStage.showAndWait();
 
   }
@@ -330,7 +336,7 @@ public class SongEditor extends AbstractController {
 
     SongPart songPart = findSongPart(songStructItem); //and load new one
     log.info("load song part " + songStructItem.getPartId() + "-" + songPart);
-    txaText.setText(textRenderer.getRenderedText(songPart));
+    txaText.setText(textRenderer.getRenderedText(songPart, false));
     txtRemarks.setText(songStructItem.getRemarks());
     txtQuantity.setText(songStructItem.getQuantity());
     cboType.getSelectionModel().select(songPart.getSongPartType());

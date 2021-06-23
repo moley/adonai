@@ -9,7 +9,7 @@ import org.adonai.model.SongPart;
 
 public class TextRenderer {
 
-  public String getRenderedText (final SongPart songPart) {
+  public String getRenderedText (final SongPart songPart, final boolean original) {
     List<String> lines = new ArrayList<>();
     for (Line line: songPart.getLines()) {
       String chordLine = "";
@@ -24,13 +24,15 @@ public class TextRenderer {
             textLine += "";
           }
         }**/
+
+        String selectedChord = original ? nextPart.getOriginalChord() : nextPart.getChord();
         if (nextPart.getText() != null)
           textLine += nextPart.getText();
 
-        if (nextPart.getChord() != null)
-          chordLine += nextPart.getChord();
+        if (selectedChord != null)
+          chordLine += selectedChord;
 
-        String chord = nextPart.getChord() != null ? nextPart.getChord(): "";
+        String chord = selectedChord != null ? selectedChord: "";
         String text = nextPart.getText();
 
         int longest = Integer.max(chord.length(), text.length());

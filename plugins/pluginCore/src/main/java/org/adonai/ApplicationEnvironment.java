@@ -201,6 +201,7 @@ public class ApplicationEnvironment {
 
   public void setCurrentSong(Song currentSong) {
     LOGGER.info("set current song " + (currentSong != null ? currentSong.getId(): "null"));
+    this.currentSongProperty.set(null); //to trigger the listener
     this.currentSongProperty.set(currentSong);
   }
 

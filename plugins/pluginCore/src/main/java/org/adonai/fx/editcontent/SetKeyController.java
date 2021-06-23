@@ -70,8 +70,8 @@ public class SetKeyController extends AbstractController {
   public void renderContent () {
     SongPart originPart = currentSong.getFirstPart(SongPartType.REFRAIN);
     SongPart previewPart = previewSong.getFirstPart(SongPartType.REFRAIN);
-    txtTextFrom.setText(textRenderer.getRenderedText(originPart));
-    txtTextTo.setText(textRenderer.getRenderedText(previewPart));
+    txtTextFrom.setText(textRenderer.getRenderedText(originPart, isOriginalKey()));
+    txtTextTo.setText(textRenderer.getRenderedText(previewPart, isOriginalKey()));
   }
 
   public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
