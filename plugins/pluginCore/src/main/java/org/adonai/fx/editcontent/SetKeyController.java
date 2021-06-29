@@ -86,6 +86,9 @@ public class SetKeyController extends AbstractController {
     this.previewSong = songCloneService.cloneSong(this.currentSong);
 
     String fromChord = originalKey ? currentSong.getOriginalKey(): currentSong.getCurrentKey();
+    if (fromChord == null)
+      fromChord = "";
+    
     log.info("From Chord: <" + fromChord + ">");
     btnFrom.setText(fromChord);
     lblTitle.setText(originalKey ? "SET ORIGINAL KEY": "SET CURRENT KEY");
