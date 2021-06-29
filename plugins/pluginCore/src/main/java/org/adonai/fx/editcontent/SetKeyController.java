@@ -86,33 +86,29 @@ public class SetKeyController extends AbstractController {
     this.previewSong = songCloneService.cloneSong(this.currentSong);
 
     String fromChord = originalKey ? currentSong.getOriginalKey(): currentSong.getCurrentKey();
-    if (fromChord == null) {
-      fromChord = "C";
-      currentSong.setOriginalKey(fromChord);
-      currentSong.setCurrentKey(fromChord);
-
-    }
+    log.info("From Chord: <" + fromChord + ">");
     btnFrom.setText(fromChord);
     lblTitle.setText(originalKey ? "SET ORIGINAL KEY": "SET CURRENT KEY");
 
-    cboTo.getSelectionModel().select(Key.fromString(fromChord));
+    if (! fromChord.trim().isEmpty())
+      cboTo.getSelectionModel().select(Key.fromString(fromChord));
 
 
-    cboTo.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-      @Override public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-         log.info("Change chord from " + btnFrom.getText() + " to "+ cboTo.getSelectionModel().getSelectedItem().toString());
+    cboTo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+       log.info("Change chord from " + btnFrom.getText() + " to "+ cboTo.getSelectionModel().getSelectedItem().toString());
 
-         if (originalKey) {
-           previewSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
+       if (originalKey) {
+         previewSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
+         if (! fromChord.trim().isEmpty())
            songTransposeService.recalculateOrigin(previewSong);
-         }
-         else {
-           previewSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
+       }
+       else {
+         previewSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
+         if (! fromChord.trim().isEmpty())
            songTransposeService.recalculateCurrent(previewSong);
-         }
+       }
 
-         renderContent();
-      }
+       renderContent();
     });
 
     renderContent();
