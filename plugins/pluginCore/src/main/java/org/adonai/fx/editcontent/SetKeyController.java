@@ -73,7 +73,7 @@ public class SetKeyController extends AbstractController {
 
     if (originPart == null) {
       originPart = currentSong.getFirstPart();
-      previewPart = currentSong.getFirstPart();
+      previewPart = previewSong.getFirstPart();
     }
 
     txtTextFrom.setText(textRenderer.getRenderedText(originPart, isOriginalKey()));
