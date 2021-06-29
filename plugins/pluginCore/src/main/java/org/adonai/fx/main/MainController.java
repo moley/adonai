@@ -327,11 +327,19 @@ public class MainController extends AbstractController {
     super.setApplicationEnvironment(applicationEnvironment);
 
     applicationEnvironment.currentSongProperty().addListener((observable, oldValue, newValue) -> {
-      log.info("Current song property changed to " + newValue.getId());
-      btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername(): "");
-      btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey(): "");
-      btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()): "");
-      btnSpeed.setText(newValue.getSpeedNotNull());
+      if (newValue != null) {
+        log.info("Current song property changed to " + newValue.getId());
+        btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername() : "");
+        btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey() : "");
+        btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()) : "");
+        btnSpeed.setText(newValue.getSpeedNotNull());
+      }
+      else {
+        btnLeadVoice.setText("");
+        btnOriginalKey.setText("");
+        btnTransposedKey.setText("");
+        btnSpeed.setText("");
+      }
     });
 
     reloadScope();
