@@ -1,5 +1,8 @@
 package org.adonai;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public enum Key {
 
   C(0, 0, "C"),
@@ -33,8 +36,13 @@ public enum Key {
   }
 
   public static Key fromString (String key) {
-    key = key.replace("#", "is");
-    return Key.valueOf(key);
+    try {
+      key = key.replace("#", "is");
+      return Key.valueOf(key);
+    } catch (Exception e) {
+      log.info("No key found for <" + key + ">");
+      throw new RuntimeException(e);
+    }
   }
 
   public String getDescription () {
