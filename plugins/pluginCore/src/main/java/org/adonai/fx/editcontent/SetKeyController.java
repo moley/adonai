@@ -99,12 +99,12 @@ public class SetKeyController extends AbstractController {
 
        if (originalKey) {
          previewSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
-         if (! fromChord.trim().isEmpty())
+         if (! btnFrom.getText().trim().isEmpty())
            songTransposeService.recalculateOrigin(previewSong);
        }
        else {
          previewSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
-         if (! fromChord.trim().isEmpty())
+         if (! btnFrom.getText().trim().isEmpty())
            songTransposeService.recalculateCurrent(previewSong);
        }
 
