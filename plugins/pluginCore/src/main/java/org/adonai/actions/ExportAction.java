@@ -41,7 +41,7 @@ public class ExportAction implements MainAction {
     return new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
 
-        String name = applicationEnvironment.getCurrentScopeItem().getName();
+        String name = applicationEnvironment.getCurrentScopeItem().getName().trim();
         Configuration configuration = applicationEnvironment.getCurrentConfiguration();
         List<Song> songs = applicationEnvironment.getSongsOfCurrentScope();
 

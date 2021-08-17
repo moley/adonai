@@ -1,12 +1,16 @@
 package org.adonai;
 
-import java.util.Arrays;
 import javafx.application.Application;
-import javafx.collections.*;
-import javafx.geometry.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.*;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.adonai.fx.UiUtils;

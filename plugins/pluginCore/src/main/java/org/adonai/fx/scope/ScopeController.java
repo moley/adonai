@@ -49,6 +49,12 @@ public class ScopeController extends AbstractController {
   @FXML public void initialize() {
     lblName.setVisible(false);
     txtName.setVisible(false);
+    txtName.setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override public void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER))
+         loadData(getSelectedScopeItem());
+      }
+    });
     btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAdd.setOnAction(action -> add());
 
@@ -101,7 +107,8 @@ public class ScopeController extends AbstractController {
       if (oldValue != null && oldValue.getValue() != null) {
         ScopeItem scopeItem = oldValue.getValue();
         if (scopeItem.getSession() != null) {
-          txtName.textProperty().unbind();
+          Session currentSession = scopeItem.getSession();
+          txtName.textProperty().unbindBidirectional(currentSession.getNameProperty());
         }
       }
 
@@ -124,6 +131,8 @@ public class ScopeController extends AbstractController {
           Session currentSession = scopeItem.getSession();
           txtName.textProperty().bindBidirectional(currentSession.getNameProperty());
         }
+
+
 
       }
     });
@@ -297,5 +306,6 @@ public class ScopeController extends AbstractController {
         }
       }
     }
+    treScope.requestFocus();
   }
 }
