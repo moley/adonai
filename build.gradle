@@ -18,23 +18,57 @@ repositories {
     mavenCentral()
 }
 
-ext.lombokVersion = '1.18.6'
+ext.lombokVersion = '1.18.22'
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:3.2.4'
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    implementation 'org.apache.poi:poi:4.1.1'//word/ppt export / import
+    implementation 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
+    implementation 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
+    implementation 'com.lowagie:itext:2.1.3'  //pdf export
+    implementation 'com.googlecode.soundlibs:jlayer:1.0.1.4'
+    implementation 'com.mpatric:mp3agic:0.8.4'
+    implementation 'org.jfxtras:jfxtras-menu:8.0-r5'
+    implementation 'org.jsoup:jsoup:1.10.3' //html import
+    implementation 'javax.activation:activation:1.1'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'com.atlassian.commonmark:commonmark:0.16.1'
+
+    implementation 'org.kordamp.ikonli:ikonli-javafx:11.5.0'
+    implementation 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.5.0'
+    implementation 'org.controlsfx:controlsfx:11.0.0'
+
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.1'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.bitbucket.cowwoc:diff-match-patch:1.2'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'com.sun.xml.bind:jaxb-impl:2.3.5'
+    implementation 'com.sun.xml.bind:jaxb-core:2.3.0.1'
+    implementation 'org.reflections:reflections:0.10.2'
+
+    testImplementation 'com.google.guava:guava:28.2-jre'
+    testImplementation 'org.testfx:testfx-junit:4.0.15-alpha'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+
+
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 test {
     testLogging {
@@ -97,46 +131,7 @@ javafx {
 
 mainClassName = 'org.adonai.app.Main'
 
-dependencies {
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-
-    compile 'org.apache.poi:poi:4.1.1'//word/ppt export / import
-    compile 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
-    compile 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
-    compile 'com.lowagie:itext:2.1.3'  //pdf export
-    compile 'com.googlecode.soundlibs:jlayer:1.0.1.4'
-    compile 'com.mpatric:mp3agic:0.8.4'
-    compile 'org.jfxtras:jfxtras-menu:8.0-r5'
-    compile 'org.jsoup:jsoup:1.10.3' //html import
-    compile 'javax.activation:activation:1.1'
-    compile 'com.sun.mail:javax.mail:1.6.2'
-    compile 'com.atlassian.commonmark:commonmark:0.16.1'
-
-    compile 'org.kordamp.ikonli:ikonli-javafx:11.5.0'
-    compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.5.0'
-    compile 'org.controlsfx:controlsfx:11.0.0'
-
-    compile 'com.dropbox.core:dropbox-core-sdk:3.1.1'
-
-    compile 'commons-io:commons-io:2.6'
-
-    compile 'org.bitbucket.cowwoc:diff-match-patch:1.2'
-
-    testCompile 'com.google.guava:guava:28.2-jre'
-    testCompile "org.testfx:testfx-junit:4.0.15-alpha"
-
-
-    compile 'javax.xml.bind:jaxb-api:2.3.1'
-    compile 'com.sun.xml.bind:jaxb-impl:2.3.5'
-    compile 'com.sun.xml.bind:jaxb-core:2.3.0.1'
-
-    compile 'org.reflections:reflections:0.10.2' //to find all exporter classes e.g.
-
-    runtime 'ch.qos.logback:logback-classic:1.2.3'
-
-}
 
 def applicationName = 'adonai'
 
