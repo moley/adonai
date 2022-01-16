@@ -1,7 +1,0 @@
-include 'shared'
-include 'plugins'
-include 'plugins:pluginCore'
-include 'plugins:pluginPublish'
-include 'app'
-include 'uitests'
-include 'testutils'
