@@ -2,7 +2,7 @@
 [![CodeCoverage](https://codecov.io/gh/moley/adonai/branch/master/graph/badge.svg)](https://codecov.io/gh/moley/adonai)
 
 distZip -> create distribution
-install -> installieren
+installLocal -> install local
 
 
 #Development
@@ -12,7 +12,4 @@ You have to configure a gradle call in rootproject with jar task in your launch 
 Use org.adonai.app.AdonaiBootstrap as main class and the root project's dir as working directory. 
 
 ## Start the application in gradle 
-*Does not work currently*
-
-##Build a fat jar
-If you want to build a jar with bootstrapping, api and all plugins call gradlew :app:uberjar 
+Call `./gradlew run`
