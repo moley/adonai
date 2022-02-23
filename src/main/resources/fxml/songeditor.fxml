@@ -117,13 +117,17 @@
                 <ComboBox fx:id="cboLeadVoice" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
                           GridPane.rowIndex="5" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
-                <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                <TextField fx:id="txtPreset" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-                           GridPane.rowIndex="6" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+                <Label text="Song status" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                <ComboBox fx:id="cboSongStatus" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                          GridPane.rowIndex="6" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
-                <Label text="Speed (bpm)" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                <Label text="Preset" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                <TextField fx:id="txtPreset" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="7" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+
+                <Label text="Speed (bpm)" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
                 <Spinner fx:id="spiSpeed" GridPane.columnIndex="1" GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
-                         GridPane.rowIndex="7" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
+                         GridPane.rowIndex="8" GridPane.fillWidth="true" GridPane.columnSpan="2"/>
 
 
             </GridPane>

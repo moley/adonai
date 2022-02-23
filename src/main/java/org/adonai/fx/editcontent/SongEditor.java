@@ -38,6 +38,7 @@ import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
 import org.adonai.fx.renderer.SongStructCellRenderer;
+import org.adonai.fx.renderer.StatusRenderer;
 import org.adonai.fx.renderer.UserCellRenderer;
 import org.adonai.fx.TextRenderer;
 import org.adonai.model.Additional;
@@ -47,6 +48,7 @@ import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
 import org.adonai.model.SongStructItem;
+import org.adonai.model.Status;
 import org.adonai.model.User;
 import org.adonai.reader.text.TextfileReader;
 import org.adonai.reader.text.TextfileReaderParam;
@@ -97,6 +99,8 @@ public class SongEditor extends AbstractController {
   @FXML private Button btnOriginalKey;
 
   @FXML private ComboBox<User> cboLeadVoice;
+
+  @FXML private ComboBox<Status> cboSongStatus;
 
   @FXML private TextField txtPreset;
 
@@ -166,6 +170,7 @@ public class SongEditor extends AbstractController {
 
     txaText.setStyle("-fx-font-family: monospaced;");
 
+    cboSongStatus.setCellFactory(cellfactory -> new StatusRenderer());
     cboLeadVoice.setCellFactory(cellfactory -> new UserCellRenderer());
     spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
     spiSpeed.setEditable(true);
@@ -272,6 +277,7 @@ public class SongEditor extends AbstractController {
     log.info("load song properties of song " + song.getId());
     this.lblTitleSongProperties.setText(song.getTitle());
     cboLeadVoice.setItems(FXCollections.observableArrayList(getConfiguration().getUsers()));
+    cboSongStatus.setItems(FXCollections.observableArrayList(Status.values()));
     lblCurrentMp3.setText(getMp3Label(song));
 
     txtPreset.setText(song.getPreset());
@@ -282,10 +288,15 @@ public class SongEditor extends AbstractController {
       spiSpeed.getValueFactory().setValue(0);
 
     //set lead voice
-    if (song.getLeadVoice() != null) {
+    if (song.getLeadVoice() != null)
       cboLeadVoice.getSelectionModel().select(song.getLeadVoice());
-    } else
+    else
       cboLeadVoice.getSelectionModel().clearSelection();
+
+    if (song.getStatus() != null)
+      cboSongStatus.getSelectionModel().select(song.getStatus());
+    else
+      cboSongStatus.getSelectionModel().clearSelection();
 
     //set current key
     if (song.getCurrentKey() != null) {
@@ -307,6 +318,7 @@ public class SongEditor extends AbstractController {
     song.setTitle(txtTitle.getText());
     song.setSpeed(spiSpeed.getValue());
     song.setLeadVoice(cboLeadVoice.getSelectionModel().getSelectedItem());
+    song.setStatus(cboSongStatus.getSelectionModel().getSelectedItem());
     song.setOriginalKey(btnOriginalKey.getText());
     song.setCurrentKey(btnCurrentKey.getText());
     song.setSpeed(spiSpeed.getValue());

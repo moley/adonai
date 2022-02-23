@@ -173,6 +173,10 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return status;
   }
 
+  public boolean isDisabled () {
+    return getStatus() != null && getStatus().equals(Status.INACTIVE);
+  }
+
   public void setStatus(Status status) {
     this.status = status;
   }

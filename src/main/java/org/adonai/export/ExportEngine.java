@@ -3,7 +3,6 @@ package org.adonai.export;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.adonai.AreaInfo;
@@ -43,6 +42,9 @@ public class ExportEngine {
     if (exportConfiguration.isWithContentPage()) {
 
       for (Song nextSong : songs) {
+        if (nextSong.isDisabled())
+          continue;
+
         String idAndTitle = nextSong.getId() + "     " + nextSong.getTitle();
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
         documentBuilder.newToken(new ExportToken(null, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId),
@@ -68,13 +70,12 @@ public class ExportEngine {
     if (exportConfiguration.isWithIndexPage()) {
 
       List<Song> sortedSongs = new ArrayList<Song>(songs);
-      Collections.sort(sortedSongs, new Comparator<Song>() {
-        @Override public int compare(Song o1, Song o2) {
-          return o1.getTitle().compareTo(o2.getTitle());
-        }
-      });
+      sortedSongs.sort(Comparator.comparing(Song::getTitle));
 
       for (Song nextSong : sortedSongs) {
+        if (nextSong.isDisabled())
+          continue;
+
         String idAndTitle = String.format("%.80s  %2d", nextSong.getTitle(), nextSong.getId());
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TEXT);
         documentBuilder.newToken(new ExportToken(null, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId),
@@ -98,6 +99,8 @@ public class ExportEngine {
     }
 
     for (Song nextSong : songs) {
+      if (nextSong.isDisabled())
+        continue;
 
       Double maxStructureWidth = getLongestStructureText(documentBuilder, nextSong, exportConfiguration);
 
@@ -200,7 +203,7 @@ public class ExportEngine {
               }
             }
 
-            Double heightOfText = new Double(0);
+            Double heightOfText = (double) 0;
 
             if (exportConfiguration.isWithChords()) {
 
@@ -211,7 +214,7 @@ public class ExportEngine {
                 if (sizeInfoText.getHeight() > heightOfText)
                   heightOfText = sizeInfoText.getHeight();
 
-                Double widthOfChord = new Double(0);
+                Double widthOfChord = (double) 0;
                 if (nextLinePart.getChord() != null && !nextLinePart.getChord().trim().isEmpty() && exportConfiguration
                     .isWithChords()) {
 

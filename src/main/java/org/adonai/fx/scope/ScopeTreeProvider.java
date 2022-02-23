@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.Consts;
 import org.adonai.fx.main.ScopeItem;
@@ -78,7 +79,10 @@ public class ScopeTreeProvider {
     if (song.getAdditional(AdditionalType.AUDIO) != null)
       btnAdditionalMp3.setGraphic(Consts.createIcon("fas-file-audio", Consts.ICON_SIZE_TOOLBAR));
 
-    return new TreeItem(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnOriginalKey, btnCurrentKey, btnAdditionalMp3));
+    Label lblStatus = new Label();
+    lblStatus.setText((song.getStatus() != null ? song.getStatus().name():""));
+
+    return new TreeItem(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnOriginalKey, btnCurrentKey, btnAdditionalMp3, lblStatus));
 
   }
 }

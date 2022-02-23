@@ -24,8 +24,8 @@ import org.adonai.model.SongPartDescriptorStrategy;
 
 public class PdfDocumentBuilder extends AbstractDocumentBuilder {
 
-  private Rectangle pagesizeA4;
-  private Document document;
+  private final Rectangle pagesizeA4;
+  private final Document document;
 
   BaseFont bf;
   BaseFont bfBold;
@@ -38,18 +38,15 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     try {
       bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
       bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    } catch (DocumentException e) {
+    } catch (IOException | DocumentException e) {
       throw new IllegalStateException(e);
     }
-
 
   }
 
 
   public SizeInfo getPageSize () {
-    return new SizeInfo(new Double (document.getPageSize().getWidth()), new Double(document.getPageSize().getHeight()));
+    return new SizeInfo(Double.valueOf(document.getPageSize().getWidth()), Double.valueOf(document.getPageSize().getHeight()));
   }
 
 
@@ -63,7 +60,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     float descent = baseFont.getDescentPoint(text, fontsize);
     float width = chunk.getWidthPoint();
     float height = ascent - descent;
-    return new SizeInfo(new Double(width), new Double(height));
+    return new SizeInfo(Double.valueOf(width), Double.valueOf(height));
   }
 
   private BaseFont getBaseFont (final ExportTokenType exportTokenType) {
@@ -109,8 +106,8 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
 
           cb.saveState();
           cb.beginText();
-          Double realY = pagesizeA4.getHeight() - nextToken.getAreaInfo().getY() - heightFirstLine;
-          cb.moveText(nextToken.getAreaInfo().getX().floatValue(), realY.floatValue());
+          double realY = pagesizeA4.getHeight() - nextToken.getAreaInfo().getY() - heightFirstLine;
+          cb.moveText(nextToken.getAreaInfo().getX().floatValue(), (float) realY);
           cb.setFontAndSize(nextToken.getExportTokenType().isBold() ? bfBold : bf, getFontsize(nextToken.getExportTokenType()));
           cb.showText(nextToken.getText());
           cb.endText();
@@ -122,9 +119,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
 
       document.close();
 
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    } catch (DocumentException e) {
+    } catch (IOException | DocumentException e) {
       throw new IllegalStateException(e);
     }
 
@@ -137,17 +132,17 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithContentPage(true);
-    exportConfiguration.setTitleSongDistance(new Double(5));
-    exportConfiguration.setInterLineDistance(new Double(5));
-    exportConfiguration.setChordTextDistance(new Double(4));
-    exportConfiguration.setInterPartDistance(new Double(15));
-    exportConfiguration.setStructureDistance(new Double(5));
+    exportConfiguration.setTitleSongDistance(5.0);
+    exportConfiguration.setInterLineDistance(5.0);
+    exportConfiguration.setChordTextDistance(4.0);
+    exportConfiguration.setInterPartDistance(15.0);
+    exportConfiguration.setStructureDistance(5.0);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-    exportConfiguration.setLeftBorder(new Double(30));
-    exportConfiguration.setUpperBorder(new Double(20));
-    exportConfiguration.setLowerBorder(new Double(20));
+    exportConfiguration.setLeftBorder(30.0);
+    exportConfiguration.setUpperBorder(20.0);
+    exportConfiguration.setLowerBorder(20.0);
     exportConfiguration.setOpenPreview(true);
-    exportConfiguration.setMinimalChordDistance(new Double(5));
+    exportConfiguration.setMinimalChordDistance(5.0);
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema PDF Default");
 
