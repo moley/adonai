@@ -1,0 +1,11 @@
+{title: Macht hoch die Tür die Tor macht weit}
+{artist: Text: Georg Weissel | Musik: Johann Anastasius Freylinghausen}
+{key: D}
+{time: 6/4}
+{ccli_license: 1378912}
+{ccli: 5588206}
+{copyright: Words: Public Domain | Music: Public Domain}
+{footer: Nutzung ausschließlich im Rahmen der SongSelect®-Nutzungsbedingungen. Alle Rechte vorbehalten. www.ccli.com}
+
+{comment: Vers 1}
+Bla [D]Blub [A]Bla [C]

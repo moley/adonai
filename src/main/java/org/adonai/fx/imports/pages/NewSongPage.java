@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.imports.SongImportController;
 
@@ -12,8 +13,8 @@ public class NewSongPage extends WizardPage {
   public final static String TITLE = "New song";
 
 
-  public NewSongPage(final ApplicationEnvironment applicationEnvironment, final SongImportController controller) {
-    super(applicationEnvironment, TITLE, controller);
+  public NewSongPage(final ApplicationEnvironment applicationEnvironment, final Stage stage, final SongImportController controller) {
+    super(applicationEnvironment, stage, TITLE, controller);
   }
 
   private TextField txtTitle;

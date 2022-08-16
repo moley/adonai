@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.export.ExportConfiguration;
@@ -32,8 +33,8 @@ public class PreviewPage extends WizardPage {
   VBox rootpanel;
 
   public final static String TITLE = "Preview";
-  public PreviewPage(ApplicationEnvironment applicationEnvironment, SongImportController controller, Configuration configuration) {
-    super(applicationEnvironment, TITLE, controller);
+  public PreviewPage(ApplicationEnvironment applicationEnvironment, final Stage stage, SongImportController controller, Configuration configuration) {
+    super(applicationEnvironment, stage, TITLE, controller);
     this.configuration = configuration;
   }
 

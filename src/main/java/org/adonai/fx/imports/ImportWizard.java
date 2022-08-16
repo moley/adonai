@@ -2,6 +2,7 @@ package org.adonai.fx.imports;
 
 import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.fx.imports.pages.ImportFromFilePage;
 import org.adonai.model.Configuration;
 import org.adonai.fx.imports.pages.ChooseImportTypePage;
 import org.adonai.fx.imports.pages.ImportFromClipBoardPage;
@@ -22,10 +23,11 @@ public class ImportWizard extends Wizard {
   Configuration configuration;
 
   public ImportWizard(final ApplicationEnvironment applicationEnvironment, Stage owner, final SongImportController importController, Configuration configuration) {
-    super(new ChooseImportTypePage(applicationEnvironment, importController),
-      new NewSongPage(applicationEnvironment, importController),
-      new ImportFromClipBoardPage(applicationEnvironment, importController),
-      new PreviewPage(applicationEnvironment, importController, configuration));
+    super(new ChooseImportTypePage(applicationEnvironment, owner, importController),
+      new ImportFromFilePage(applicationEnvironment, owner, importController),
+      new NewSongPage(applicationEnvironment, owner, importController),
+      new ImportFromClipBoardPage(applicationEnvironment, owner, importController),
+      new PreviewPage(applicationEnvironment, owner, importController, configuration));
     this.importController = importController;
     this.owner = owner;
   }

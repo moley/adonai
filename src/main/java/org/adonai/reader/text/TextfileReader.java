@@ -68,7 +68,7 @@ public class TextfileReader {
       if (newSongPart != null) {
         currentChordLine = addPendingChordLine(currentChordLine, currentSongPart);
         currentSongPart = newSongPart;
-        if (! song.getSongParts().contains(currentSongPart))
+        if (! song.getSongParts().contains(currentSongPart)) //TODO extract to lib
           song.getSongParts().add(currentSongPart);
         SongStructItem songStructItem = new SongStructItem();
         songStructItem.setPartId(currentSongPart.getId());

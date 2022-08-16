@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.imports.SongImportController;
 import org.adonai.fx.imports.Wizard;
@@ -24,8 +25,11 @@ public abstract class WizardPage extends VBox {
 
   protected ApplicationEnvironment applicationEnvironment;
 
-  WizardPage(ApplicationEnvironment applicationEnvironment, String title, final SongImportController controller) {
+  private Stage stage;
+
+  WizardPage(ApplicationEnvironment applicationEnvironment, final Stage stage, String title, final SongImportController controller) {
     this.applicationEnvironment = applicationEnvironment;
+    this.stage = stage;
     finishButton.setUserData("importsongwizard.btnFinish");
     priorButton.setUserData("importsongwizard.btnPrevious");
     nextButton.setUserData("importsongwizard.btnNext");
@@ -56,6 +60,10 @@ public abstract class WizardPage extends VBox {
     finishButton.setDefaultButton(true);
     buttonBar.getChildren().addAll(spring, priorButton, nextButton, cancelButton, finishButton);
     return buttonBar;
+  }
+
+  public Stage getStage () {
+    return stage;
   }
 
   abstract Parent getContent();

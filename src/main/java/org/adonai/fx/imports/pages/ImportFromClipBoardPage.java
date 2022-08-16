@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.reader.text.TextfileReaderParam;
 import org.adonai.fx.imports.SongImportController;
@@ -20,8 +21,8 @@ public class ImportFromClipBoardPage extends WizardPage {
 
   private Logger log = LoggerFactory.getLogger(ImportFromClipBoardPage.class);
 
-  public ImportFromClipBoardPage(final ApplicationEnvironment applicationEnvironment, final SongImportController controller) {
-    super(applicationEnvironment, TITLE, controller);
+  public ImportFromClipBoardPage(final ApplicationEnvironment applicationEnvironment, final Stage stage, final SongImportController controller) {
+    super(applicationEnvironment, stage, TITLE, controller);
   }
 
   private TextArea txaImport;
