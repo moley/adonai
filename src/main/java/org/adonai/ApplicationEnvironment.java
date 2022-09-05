@@ -38,8 +38,6 @@ public class ApplicationEnvironment {
 
   private Model model;
 
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
-
   private final ServiceRegistry serviceRegistry = new ServiceRegistry(this);
 
   private Session currentSession = null;
@@ -54,25 +52,20 @@ public class ApplicationEnvironment {
 
   private boolean createDefaultExportConfigurations = true;
 
+
   private final ObjectProperty<Song> currentSongProperty = new SimpleObjectProperty<Song>();
 
   /**
    * constructor
    */
   public ApplicationEnvironment() {
-    this(null);
-  }
-
-  /**
-   * constructor
-   */
-  public ApplicationEnvironment(Model model) {
-    if (initialized)
+    if (initialized) {
       LOGGER.error("ApplicationEnvironment must be initialized only once in the application",
           new IllegalStateException());
-    else
+    } else
       initialized = true;
   }
+
 
   public void dispose() {
     ApplicationEnvironment.initialized = false;
@@ -137,9 +130,6 @@ public class ApplicationEnvironment {
     return instances;
   }
 
-  public AdonaiProperties getAdonaiProperties() {
-    return adonaiProperties;
-  }
 
   public Model getModel() {
     if (model == null) {
@@ -149,12 +139,14 @@ public class ApplicationEnvironment {
     return model;
   }
 
-  public String getCurrentTenant() {
-    return adonaiProperties.getCurrentTenant();
+  public Collection<String> getAllTenants() {
+    return getServices().getModelService().getTenants();
   }
 
-  public Collection<String> getTenants() {
-    return getServices().getModelService().getTenants();
+  public Collection<String> getOtherTenants () {
+    Collection<String> allTenants = getAllTenants();
+    allTenants.remove(getModel().getCurrentTenant());
+    return allTenants;
   }
 
   public Configuration getCurrentConfiguration() {
@@ -176,7 +168,7 @@ public class ApplicationEnvironment {
 
     for (Additional nextAdditional : currentSong.getAdditionals()) {
       if (nextAdditional.getAdditionalType().equals(AdditionalType.AUDIO) && nextAdditional.getLink() != null) {
-        File additionalFile = importer.getAdditionalFile(currentSong, nextAdditional);
+        File additionalFile = importer.getAdditionalFile(getModel(), currentSong, nextAdditional);
         LOGGER.info("getMp3FileOfCurrentSong returns " + additionalFile);
         return additionalFile;
       }

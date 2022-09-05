@@ -4,7 +4,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.Consts;
 import org.adonai.fx.main.ScopeItem;
@@ -16,26 +15,29 @@ import org.adonai.model.TenantModel;
 
 public class ScopeTreeProvider {
 
-  public TreeItem getTree (final ApplicationEnvironment applicationEnvironment) {
-    TreeItem rootItem = new TreeItem();
+  public TreeItem<ScopeItem> getTree (final ApplicationEnvironment applicationEnvironment) {
+    TreeItem <ScopeItem> rootItem = new TreeItem<>();
     TenantModel currentTenantModel = applicationEnvironment.getModel().getCurrentTenantModel();
     ScopeItem scopeItemRoot = new ScopeItem(currentTenantModel);
     rootItem.setValue(scopeItemRoot);
+
+    //SongBook
     SongBook currentSongBook = applicationEnvironment.getCurrentSongBook();
     ScopeItem scopeItemSongBook = applicationEnvironment.getScopeItem(currentSongBook);
-    TreeItem treeItemSongBook = new TreeItem(scopeItemSongBook, scopeItemSongBook.getIcon());
+    TreeItem <ScopeItem>treeItemSongBook = new TreeItem<>(scopeItemSongBook, scopeItemSongBook.getIcon());
     for (Song song : scopeItemSongBook.getSongBook().getSongs()) {
-      TreeItem treeItemSong = createSongTreeItem(scopeItemSongBook, song);
+      TreeItem <ScopeItem>treeItemSong = createSongTreeItem(scopeItemSongBook, song);
       treeItemSongBook.getChildren().add(treeItemSong);
     }
     rootItem.getChildren().add(treeItemSongBook);
 
+    //Sessions
     for (Session nextSession: applicationEnvironment.getCurrentConfiguration().getSessions()) {
       ScopeItem scopeItemSession = applicationEnvironment.getScopeItem(nextSession);
-      TreeItem treeItemSession = new TreeItem(scopeItemSession, scopeItemSession.getIcon());
+      TreeItem <ScopeItem>treeItemSession = new TreeItem<>(scopeItemSession, scopeItemSession.getIcon());
       for (Integer songId : nextSession.getSongs()) {
         Song song = currentSongBook.findSong(songId);
-        TreeItem treeItemSong = createSongTreeItem(scopeItemSession, song);
+        TreeItem <ScopeItem>treeItemSong = createSongTreeItem(scopeItemSession, song);
 
         treeItemSession.getChildren().add(treeItemSong);
       }
@@ -46,7 +48,7 @@ public class ScopeTreeProvider {
 
   }
 
-  private TreeItem createSongTreeItem (final ScopeItem parent, final Song song) {
+  private TreeItem <ScopeItem> createSongTreeItem (final ScopeItem parent, final Song song) {
     ScopeItem scopeItem = new ScopeItem(parent, song);
 
     Label lblId = new Label(song.getId().toString());
@@ -82,7 +84,7 @@ public class ScopeTreeProvider {
     Label lblStatus = new Label();
     lblStatus.setText((song.getStatus() != null ? song.getStatus().name():""));
 
-    return new TreeItem(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnOriginalKey, btnCurrentKey, btnAdditionalMp3, lblStatus));
+    return new TreeItem<>(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnOriginalKey, btnCurrentKey, btnAdditionalMp3, lblStatus));
 
   }
 }

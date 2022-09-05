@@ -17,7 +17,7 @@
         <ColumnConstraints percentWidth="20"/>
     </columnConstraints>
 
-    <Label fx:id="lblTitle" userData="scope.lblTitle" text="ADMIN" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <Label fx:id="lblTitle" userData="scope.lblTitle" text="DATA" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
 
     <TreeView fx:id="treScope" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
     </TreeView>

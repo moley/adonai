@@ -1,8 +1,6 @@
 package org.adonai.fx.editcontent;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -26,7 +24,7 @@ public class SetKeyController extends AbstractController {
 
   public Button btnSave;
   public Button btnCancel;
-  public ComboBox cboTo;
+  public ComboBox<Key> cboTo;
   public Button btnFrom;
   public TextArea txtTextFrom;
   public TextArea txtTextTo;
@@ -115,28 +113,22 @@ public class SetKeyController extends AbstractController {
 
 
 
-    btnSave.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
+    btnSave.setOnAction(event -> {
 
-        if (originalKey) {
-          currentSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
-          if (! btnFrom.getText().trim().isEmpty())
-            songTransposeService.recalculateOrigin(currentSong);
-        }
-        else {
-          currentSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
-          if (! btnFrom.getText().trim().isEmpty())
-            songTransposeService.recalculateCurrent(currentSong);
-        }
-        getStage().close();
+      if (originalKey) {
+        currentSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (! btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateOrigin(currentSong);
       }
+      else {
+        currentSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (! btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateCurrent(currentSong);
+      }
+      getStage().close();
     });
 
-    btnCancel.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        getStage().close();
-      }
-    });
+    btnCancel.setOnAction(event -> getStage().close());
 
   }
 }

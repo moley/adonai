@@ -1,6 +1,5 @@
 package org.adonai.fx;
 
-import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -12,9 +11,9 @@ import org.slf4j.LoggerFactory;
 
 public class FxApplication extends Application {
 
-  private MaskLoader maskLoader = new MaskLoader();
+  private final MaskLoader<MainController> maskLoader = new MaskLoader<>();
 
-  private ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment();
+  private final ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment();
 
   private static final Logger log = LoggerFactory.getLogger(FxApplication.class);
 
@@ -27,8 +26,6 @@ public class FxApplication extends Application {
   }
 
   @Override public void start(Stage stage) throws Exception {
-
-    File adonaiHome = Consts.getAdonaiHome();
 
     for (InitStep nextInitStep : getApplicationEnvironment().getExtensions(InitStep.class)) {
       if (nextInitStep.isExecuted(getApplicationEnvironment())) {

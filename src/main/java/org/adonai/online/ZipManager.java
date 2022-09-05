@@ -12,10 +12,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import org.adonai.ApplicationEnvironment;
+import org.adonai.fx.Consts;
 import org.adonai.model.Model;
 import org.adonai.model.TenantModel;
 import org.adonai.services.ModelService;
-import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
 
 public class ZipManager {
@@ -42,8 +42,6 @@ public class ZipManager {
 
     ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();
-    if (applicationEnvironment.getAdonaiProperties().getPropertiesFile().exists())
-      files.add(applicationEnvironment.getAdonaiProperties().getPropertiesFile());
     for (TenantModel tenantModel : model.getTenantModels()) {
       if (tenantModel.getConfigFile().exists())
         files.add(tenantModel.getConfigFile());

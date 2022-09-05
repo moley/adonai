@@ -5,21 +5,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import org.adonai.Key;
-import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
 import org.adonai.model.SongStructItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SongRepairer {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SongRepairer.class.getName());
-
-  private AdditionalsImporter additionalsImporter = new AdditionalsImporter();
   private SongTransposeService songTransposeService = new SongTransposeService();
 
   public HashMap<SongPartType, Integer> getAggregatedNumberOfTypes (final Song song) {

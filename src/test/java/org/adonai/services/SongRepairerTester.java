@@ -10,7 +10,7 @@ public class SongRepairerTester {
 
   public static void main(String[] args) {
 
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(null);
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment();
     applicationEnvironment.setCreateDefaultExportConfigurations(false);
     ModelService modelService = new ModelService(applicationEnvironment);
     Model model = modelService.load();

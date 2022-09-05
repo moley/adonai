@@ -10,7 +10,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.adonai.AdonaiProperties;
 
 @Slf4j
 public class MailSender {
@@ -25,33 +24,34 @@ public class MailSender {
   public void sendMail(final List<String> adresses, final String subject, final List<String> text) {
     String missingMessage = "";
 
-    AdonaiProperties adonaiProperties = new AdonaiProperties();
+    if (true)
+      throw new IllegalStateException("NYI");
     Properties prop = new Properties();
-    final String username = adonaiProperties.getProperty(ADONAI_SMTP_USERNAME);
+    final String username = null; //adonaiProperties.getProperty(ADONAI_SMTP_USERNAME);
     if (username == null)
       missingMessage += "- adonai.smtp.username is missing. Please configure a valid username\n";
 
-    final String password = adonaiProperties.getProperty(ADONAI_SMTP_PASSWORD);
+    final String password  = null; //adonaiProperties.getProperty(ADONAI_SMTP_PASSWORD);
     if (password == null)
       missingMessage += "- adonai.smtp.password is missing. Please configure a valid password\n";
 
-    final String host = adonaiProperties.getProperty(ADONAI_SMTP_HOST);
+    final String host  = null; // adonaiProperties.getProperty(ADONAI_SMTP_HOST);
     if (host == null)
       missingMessage += "- adonai.smtp.host is missing. Please configure a valid smtp host\n";
 
-    final String port = adonaiProperties.getProperty(ADONAI_SMTP_PORT);
+    final String port  = null; // adonaiProperties.getProperty(ADONAI_SMTP_PORT);
     if (port == null)
       missingMessage += "- adonai.smtp.port is missing. Please configure a valid smtp port\n";
 
-    final String auth = adonaiProperties.getProperty(ADONAI_SMTP_AUTH);
+    final String auth  = null; // adonaiProperties.getProperty(ADONAI_SMTP_AUTH);
     if (auth == null)
       missingMessage += "- adonai.smtp.auth is missing. Please configure by true/false if authentication over AUTH command should be enabled\n";
 
     if (! missingMessage.trim().isEmpty())
       throw new IllegalStateException("Configuration is missing:\n" + missingMessage);
 
-    final String sslEnable = adonaiProperties.getProperty(ADONAI_SMTP_SSL_ENABLE);
-    final String debug = adonaiProperties.getProperty("adonai.smtp.debug", Boolean.TRUE.toString());
+    final String sslEnable  = null; //adonaiProperties.getProperty(ADONAI_SMTP_SSL_ENABLE);
+    final String debug  = null; //adonaiProperties.getProperty("adonai.smtp.debug", Boolean.TRUE.toString());
     prop.put("mail.smtp.host", host);
     prop.put("mail.smtp.port", port);
     prop.put("mail.smtp.auth", auth);

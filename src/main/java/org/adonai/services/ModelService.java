@@ -76,6 +76,8 @@ public class ModelService {
     tenantPath.mkdirs();
 
     TenantModel tenantModel = new TenantModel(applicationEnvironment, tenant);
+    tenantModel.load(); //to initialize the model
+    tenantModel.save();
     model.getTenantModels().add(tenantModel);
   }
 

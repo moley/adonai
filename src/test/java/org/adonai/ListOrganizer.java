@@ -69,7 +69,7 @@ return;
 
 Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
 ClipboardContent content = new ClipboardContent();
-content.putString(new Integer(getItem().hashCode()).toString());
+content.putString(Integer.valueOf(getItem().hashCode()).toString());
 dragboard.setContent(content);
 
 event.consume();
@@ -110,7 +110,7 @@ if (db.hasString()) {
 ObservableList<SongStructItem> items = getListView().getItems();
 int draggedIdx = -1;
 for (int i = 0; i < items.size(); i++) {
-if (new Integer(items.get(i).hashCode()).toString().equals(db.getString()))
+if (Integer.valueOf(items.get(i).hashCode()).toString().equals(db.getString()))
 draggedIdx = i;
 
 }

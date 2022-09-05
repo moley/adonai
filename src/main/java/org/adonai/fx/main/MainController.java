@@ -4,20 +4,15 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.stage.WindowEvent;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.actions.HelpAction;
@@ -30,11 +25,10 @@ import org.adonai.fx.AbstractController;
 import org.adonai.fx.Consts;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
-import org.adonai.fx.editcontent.SetKeyController;
+import org.adonai.fx.SongViewer;
 import org.adonai.fx.editcontent.SongEditor;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
-import org.adonai.fx.SongViewer;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
@@ -58,62 +52,46 @@ public class MainController extends AbstractController {
   public Button btnLeadVoice;
   public Button btnTransposedKey;
   public Button btnOriginalKey;
-  public Button btnHelp;
+  //public Button btnHelp;
   public Button btnAdmin;
   public Button btnViewer;
   public Button btnEditor;
   public Pane panMetronome;
   public Button btnSpeed;
 
-  private Mp3Player mp3Player = new Mp3Player();
+  private final Mp3Player mp3Player = new Mp3Player();
 
-  private Metronome metronome = new Metronome();
+  private final Metronome metronome = new Metronome();
 
-  private MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<>();
+  private final MaskLoader<ScopeController> maskLoaderScope = new MaskLoader<>();
   private Mask<ScopeController> maskScope;
 
-  private MaskLoader<SongEditor> maskLoaderContent = new MaskLoader<>();
+  private final MaskLoader<SongEditor> maskLoaderContent = new MaskLoader<>();
   private Mask<SongEditor> songEditorMask;
-
-  private MaskLoader<SetKeyController> maskLoader = new MaskLoader();
-
-
-
-
 
   public void initialize() {
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
     btnAdmin.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
-    btnAdmin.setTooltip(new Tooltip("Admin"));
+    btnAdmin.setTooltip(new Tooltip("Data"));
     btnAdmin.setOnAction(event -> reloadScope());
-    btnHelp.setTooltip(new Tooltip("Help screen"));
-    btnHelp.setOnAction(event -> openHelp ());
-    btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
+    //btnHelp.setTooltip(new Tooltip("Help screen"));
+    //btnHelp.setOnAction(event -> openHelp ());
+    //btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
 
 
 
     btnViewer.setGraphic(Consts.createIcon("fas-binoculars", Consts.ICON_SIZE_TOOLBAR));
     btnViewer.setTooltip(new Tooltip("Viewer"));
-    btnViewer.setOnAction(event -> {
-      reloadViewer();
-    });
+    btnViewer.setOnAction(event -> reloadViewer());
 
     btnEditor.setGraphic(Consts.createIcon("fas-edit", Consts.ICON_SIZE_TOOLBAR));
     btnEditor.setTooltip(new Tooltip("Editor"));
-    btnEditor.setOnAction(event -> {
-      reloadEditor();
-    });
+    btnEditor.setOnAction(event -> reloadEditor());
 
-    main.setOnKeyTyped(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.E)) {
-          Platform.runLater(new Runnable() {
-            @Override public void run() {
-              reloadEditor ();
-            }
-          });
+    main.setOnKeyTyped(event -> {
+      if (event.getCode().equals(KeyCode.E)) {
+        Platform.runLater(this::reloadEditor);
 
-        }
       }
     });
 
@@ -129,20 +107,18 @@ public class MainController extends AbstractController {
       else if (event.getCode().equals(KeyCode.E)) {
         reloadEditor ();
       }
-      else if (event.getCode().equals(KeyCode.S)) {
+      else if (event.getCode().equals(KeyCode.F)) {
         ApplicationEnvironment applicationEnvironment = getApplicationEnvironment();
-        SearchAction<Song> searchAction = new SearchAction();
+        SearchAction<Song> searchAction = new SearchAction<>();
         FilteredList<Song> filteredList = new FilteredList<>(FXCollections.observableArrayList(applicationEnvironment.getSongsOfCurrentScope()));
         filteredList.setPredicate(song -> true);
-        searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), new EventHandler<WindowEvent>() {
-          @Override public void handle(WindowEvent event) {
-            Song selectedSong = searchAction.getSelectedItem();
-            if (selectedSong != null) {
-              log.info("Search action selects song " + selectedSong.getId());
-              applicationEnvironment.setCurrentSession(null);
-              applicationEnvironment.setCurrentSong(selectedSong);
-              reloadViewer();
-            }
+        searchAction.open(applicationEnvironment, cellrendere -> new SongCellRenderer(), event1 -> {
+          Song selectedSong = searchAction.getSelectedItem();
+          if (selectedSong != null) {
+            log.info("Search action selects song " + selectedSong.getId());
+            applicationEnvironment.setCurrentSession(null);
+            applicationEnvironment.setCurrentSong(selectedSong);
+            reloadViewer();
           }
         }, filteredList, "", 50, 100);
       }
@@ -151,64 +127,48 @@ public class MainController extends AbstractController {
 
     panMetronome.getChildren().add(metronome.getControl());
 
-    btnTransposedKey.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        getApplicationEnvironment().setShowOriginalKey(false);
-        btnTransposedKey.setStyle("-fx-background-color:yellow");
-        btnOriginalKey.setStyle("");
-        reloadViewer();
-      }
+    btnTransposedKey.setOnAction(event -> {
+      getApplicationEnvironment().setShowOriginalKey(false);
+      btnTransposedKey.setStyle("-fx-background-color:yellow");
+      btnOriginalKey.setStyle("");
+      reloadViewer();
     });
-    btnOriginalKey.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        getApplicationEnvironment().setShowOriginalKey(true);
-        btnOriginalKey.setStyle("-fx-background-color:yellow");
-        btnTransposedKey.setStyle("");
-        reloadViewer();
-      }
+    btnOriginalKey.setOnAction(event -> {
+      getApplicationEnvironment().setShowOriginalKey(true);
+      btnOriginalKey.setStyle("-fx-background-color:yellow");
+      btnTransposedKey.setStyle("");
+      reloadViewer();
     });
 
     btnPlayerBeginning.setGraphic(Consts.createIcon("fas-fast-backward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerBeginning.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.beginning();
-      }
+    btnPlayerBeginning.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.beginning();
     });
     btnPlayerBackward.setGraphic(Consts.createIcon("fas-step-backward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerBackward.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.backward();
-      }
+    btnPlayerBackward.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.backward();
     });
     btnPlayerPause.setGraphic(Consts.createIcon("fas-pause", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerPause.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.pause();
-      }
+    btnPlayerPause.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.pause();
     });
     btnPlayerPlay.setGraphic(Consts.createIcon("fas-play", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerPlay.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.play();
-      }
+    btnPlayerPlay.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.play();
     });
     btnPlayerForward.setGraphic(Consts.createIcon("fas-step-forward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerForward.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.forward();
-      }
+    btnPlayerForward.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.forward();
     });
     btnPlayerEnd.setGraphic(Consts.createIcon("fas-fast-forward", Consts.ICON_SIZE_TOOLBAR));
-    btnPlayerEnd.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
-        mp3Player.end();
-      }
+    btnPlayerEnd.setOnAction(event -> {
+      mp3Player.setFile(getApplicationEnvironment().getMp3FileOfCurrentSong());
+      mp3Player.end();
     });
 
   }
@@ -218,33 +178,19 @@ public class MainController extends AbstractController {
     helpAction.show(this);
   }
 
-  private void reloadActionMenu () {
+    private void reloadActionMenu () {
     log.info("reloadActionMenu called");
     btnMainActions.getItems().clear();
 
-    for (String nextTenant: getApplicationEnvironment().getTenants()) {
-      MenuItem menuItem = new MenuItem();
-      menuItem.setUserData(nextTenant);
-      menuItem.setText("Use tenant " + nextTenant);
-      menuItem.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent event) {
-          log.info("Selected menuitem " + event.getSource());
-          getApplicationEnvironment().getAdonaiProperties().setCurrentTenant(nextTenant);
-          reloadViewer();
-        }
-      });
-      btnMainActions.getItems().add(menuItem);
-    }
-
-    btnMainActions.getItems().add(new SeparatorMenuItem());
-
     for (MainAction nextMainAction: getApplicationEnvironment().getExtensions(MainAction.class)) {
-      MenuItem menuItem = new MenuItem();
-      menuItem.setText(nextMainAction.getDisplayName());
-      if (nextMainAction.getIconname() != null)
-        menuItem.setGraphic(Consts.createIcon(nextMainAction.getIconname(), Consts.ICON_SIZE_TOOLBAR));
-      menuItem.setOnAction(nextMainAction.getEventHandler(getApplicationEnvironment()));
-      btnMainActions.getItems().add(menuItem);
+      if (nextMainAction.isVisible()) {
+        MenuItem menuItem = new MenuItem();
+        menuItem.setText(nextMainAction.getDisplayName());
+        if (nextMainAction.getIconname() != null)
+          menuItem.setGraphic(Consts.createIcon(nextMainAction.getIconname(), Consts.ICON_SIZE_TOOLBAR));
+        menuItem.setOnAction(nextMainAction.getEventHandler(getApplicationEnvironment()));
+        btnMainActions.getItems().add(menuItem);
+      }
     }
 
 
@@ -283,7 +229,7 @@ public class MainController extends AbstractController {
 
 
   public void reloadViewer() {
-    log.info("reloadEditor called with tenant " + getApplicationEnvironment().getCurrentTenant());
+    log.info("reloadEditor called with tenant " + getApplicationEnvironment().getModel().getCurrentTenant());
 
     SizeInfo sizeInfo = new SizeInfo(main.getWidth(), main.getHeight() - 200);
     PresentationExporter exporter = new PresentationExporter(getApplicationEnvironment(), sizeInfo, event -> {
@@ -300,7 +246,7 @@ public class MainController extends AbstractController {
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
     exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
-    exportConfiguration.setInterPartDistance(Double.valueOf(40));
+    exportConfiguration.setInterPartDistance(40.0);
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithKeys(false);

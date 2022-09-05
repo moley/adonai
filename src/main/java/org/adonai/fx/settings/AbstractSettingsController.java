@@ -1,6 +1,5 @@
 package org.adonai.fx.settings;
 
-import org.adonai.AdonaiProperties;
 import org.adonai.fx.AbstractController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Model;
@@ -18,14 +17,12 @@ public class AbstractSettingsController extends AbstractController {
     this.model = model;
   }
 
-  public TenantModel getTenantModel () {
-    AdonaiProperties adonaiProperties = new AdonaiProperties();
-    String currentTenant = adonaiProperties.getCurrentTenant();
-    return getModel().getTenantModel(currentTenant);
+  public TenantModel getCurrentTenantModel() {
+    return getModel().getCurrentTenantModel();
   }
 
   public Configuration getConfiguration () {
-    TenantModel tenantModel = getTenantModel();
+    TenantModel tenantModel = getCurrentTenantModel();
     return tenantModel.get();
   }
 

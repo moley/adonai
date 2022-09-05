@@ -47,12 +47,12 @@ public class PdfWriterTest extends AbstractExportTest {
     List<Song> songs = Arrays.asList(songBuilder.get());
     ExportConfiguration exportConfiguration = new ExportConfiguration();
     exportConfiguration.setWithChords(false);
-    exportConfiguration.setChordTextDistance(new Double(5));
-    exportConfiguration.setInterLineDistance(new Double(5));
-    exportConfiguration.setInterPartDistance(new Double(5));
-    exportConfiguration.setStructureDistance(new Double(5));
-    exportConfiguration.setLeftBorder(new Double(5));
-    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setChordTextDistance(Double.valueOf("5"));
+    exportConfiguration.setInterLineDistance(Double.valueOf("5"));
+    exportConfiguration.setInterPartDistance(Double.valueOf("5"));
+    exportConfiguration.setStructureDistance(Double.valueOf("5"));
+    exportConfiguration.setLeftBorder(Double.valueOf("5"));
+    exportConfiguration.setUpperBorder(Double.valueOf("5"));
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setOpenPreview(openPreview);
 
@@ -80,12 +80,12 @@ public class PdfWriterTest extends AbstractExportTest {
     PdfExporter pdfExporter = new PdfExporter();
 
     ExportConfiguration exportConfiguration = new ExportConfiguration();
-    exportConfiguration.setChordTextDistance(new Double(5));
-    exportConfiguration.setInterLineDistance(new Double(5));
-    exportConfiguration.setInterPartDistance(new Double(5));
-    exportConfiguration.setStructureDistance(new Double(5));
-    exportConfiguration.setLeftBorder(new Double(5));
-    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setChordTextDistance(Double.valueOf(5));
+    exportConfiguration.setInterLineDistance(Double.valueOf(5));
+    exportConfiguration.setInterPartDistance(Double.valueOf(5));
+    exportConfiguration.setStructureDistance(Double.valueOf(5));
+    exportConfiguration.setLeftBorder(Double.valueOf(5));
+    exportConfiguration.setUpperBorder(Double.valueOf(5));
     exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
 
     exportConfiguration.setWithTitle(true);
@@ -102,12 +102,12 @@ public class PdfWriterTest extends AbstractExportTest {
     List<Song> songs = getExportTestData();
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
-    exportConfiguration.setChordTextDistance(new Double(5));
-    exportConfiguration.setInterLineDistance(new Double(5));
-    exportConfiguration.setInterPartDistance(new Double(5));
-    exportConfiguration.setStructureDistance(new Double(5));
-    exportConfiguration.setLeftBorder(new Double(5));
-    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setChordTextDistance(Double.valueOf(5));
+    exportConfiguration.setInterLineDistance(Double.valueOf(5));
+    exportConfiguration.setInterPartDistance(Double.valueOf(5));
+    exportConfiguration.setStructureDistance(Double.valueOf(5));
+    exportConfiguration.setLeftBorder(Double.valueOf(5));
+    exportConfiguration.setUpperBorder(Double.valueOf(5));
 
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
@@ -122,12 +122,12 @@ public class PdfWriterTest extends AbstractExportTest {
     List<Song> songs = getExportTestData();
     PdfExporter pdfExporter = new PdfExporter();
     ExportConfiguration exportConfiguration = new ExportConfiguration();
-    exportConfiguration.setStructureDistance(new Double(5));
-    exportConfiguration.setChordTextDistance(new Double(5));
-    exportConfiguration.setInterLineDistance(new Double(5));
-    exportConfiguration.setInterPartDistance(new Double(5));
-    exportConfiguration.setLeftBorder(new Double(5));
-    exportConfiguration.setUpperBorder(new Double(5));
+    exportConfiguration.setStructureDistance(Double.valueOf(5));
+    exportConfiguration.setChordTextDistance(Double.valueOf(5));
+    exportConfiguration.setInterLineDistance(Double.valueOf(5));
+    exportConfiguration.setInterPartDistance(Double.valueOf(5));
+    exportConfiguration.setLeftBorder(Double.valueOf(5));
+    exportConfiguration.setUpperBorder(Double.valueOf(5));
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithChords(true);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.SHORT);

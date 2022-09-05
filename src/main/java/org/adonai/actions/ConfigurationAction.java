@@ -23,18 +23,20 @@ public class ConfigurationAction implements MainAction {
   }
 
   @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
-    return new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        MaskLoader<SettingsController> maskLoader = new MaskLoader();
-        Mask<SettingsController> settingsMask = maskLoader.loadWithStage( "settings");
-        screenManager.layoutOnScreen(settingsMask.getStage(), applicationEnvironment.getAdminScreen());
-        settingsMask.getController().setStage(settingsMask.getStage());
-        settingsMask.getController().setApplicationEnvironment(applicationEnvironment);
-        settingsMask.getController().setModel(applicationEnvironment.getModel());
-        settingsMask.show();
+    return event -> {
+      MaskLoader<SettingsController> maskLoader = new MaskLoader<>();
+      Mask<SettingsController> settingsMask = maskLoader.loadWithStage( "settings");
+      screenManager.layoutOnScreen(settingsMask.getStage(), applicationEnvironment.getAdminScreen());
+      settingsMask.getController().setStage(settingsMask.getStage());
+      settingsMask.getController().setApplicationEnvironment(applicationEnvironment);
+      settingsMask.getController().setModel(applicationEnvironment.getModel());
+      settingsMask.show();
 
 
-      }
     };
+  }
+
+  @Override public boolean isVisible() {
+    return true;
   }
 }

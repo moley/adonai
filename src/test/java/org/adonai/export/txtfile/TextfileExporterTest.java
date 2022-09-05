@@ -70,7 +70,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     List<Song> songs = Arrays.asList(songBuilder.get());
     ExportConfiguration exportConfiguration = createExportConfiguration();
     exportConfiguration.setWithChords(true);
-    exportConfiguration.setMinimalChordDistance (new Double(4));
+    exportConfiguration.setMinimalChordDistance (Double.valueOf(4));
     File exportFile = createExportFile(textfileWriter, "exportOnlyChordPart");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
@@ -99,7 +99,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void exportLeftBorder () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
-    exportConfiguration.setLeftBorder(new Double(5));
+    exportConfiguration.setLeftBorder(Double.valueOf(5));
     File exportFile = createExportFile(textfileWriter, "exportLeftBorder");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
@@ -113,7 +113,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void exportUpperBorder () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
-    exportConfiguration.setUpperBorder(new Double(1));
+    exportConfiguration.setUpperBorder(Double.valueOf(1));
     File exportFile = createExportFile(textfileWriter, "exportUpperBorder");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
@@ -127,7 +127,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void exportChordTextDistance () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
-    exportConfiguration.setChordTextDistance(new Double(2));
+    exportConfiguration.setChordTextDistance(Double.valueOf(2));
     exportConfiguration.setWithChords(true);
     File exportFile = createExportFile(textfileWriter, "exportChordTextDistance");
     textfileWriter.export(songs, exportFile, exportConfiguration);
@@ -144,7 +144,7 @@ public class TextfileExporterTest extends AbstractExportTest {
   public void exportInterLineDistance () throws IOException {
     List<Song> songs = getExportTestData();
     ExportConfiguration exportConfiguration = createExportConfiguration();
-    exportConfiguration.setInterLineDistance(new Double(2));
+    exportConfiguration.setInterLineDistance(Double.valueOf(2));
     File exportFile = createExportFile(textfileWriter, "exportInterLineDistance");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());

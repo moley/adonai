@@ -1,0 +1,29 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.plugin.publish.fx.initstep.ChooseTenantController" alignment="TOP_CENTER" hgap="10" vgap="10">
+    <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="100"/>
+    </columnConstraints>
+
+    <Label fx:id="lblTitle" userData="tenants.lblTitle" text="CHOOSE TENANT" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
+
+    <TextField fx:id="txtNew" userData="tenants.txtName" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"
+               GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
+
+    <ListView fx:id="lviTenants" userData="tenants.lviTenants" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.fillHeight="true" GridPane.vgrow="ALWAYS"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="3"
+             GridPane.fillHeight="false" GridPane.vgrow="NEVER" spacing="5">
+        <Button text="Start with tenant" fx:id="btnChooseTenant" userData="tenants.btnChoose" />
+        <Button text="Add tenant" fx:id="btnAddTenant" userData="tenants.btnAdd" />
+        <Button text="Remove tenant" fx:id="btnRemoveTenant" userData="tenants.btnRemove" />
+
+    </HBox>
+
+
+    
+
+</GridPane>

@@ -21,7 +21,7 @@ public class ChordProFileTest {
     List<String> content = FileUtils.readLines(new File("src/test/resources/import/chordpro/macht-hoch-die-tur-die-tor-macht-weit-D.txt"), "UTF-8");
     Song song = chordProFileReader.read(content);
 
-    Assert.assertEquals ("Macht hoch die Tür die Tor macht weit", song.getTitle());
+    Assert.assertEquals ("MACHT HOCH DIE TUER DIE TOR MACHT WEIT", song.getTitle());
     Assert.assertEquals ("D", song.getCurrentKey());
     Assert.assertEquals ("D", song.getOriginalKey());
     log.info("Song: " + song.getSongParts());

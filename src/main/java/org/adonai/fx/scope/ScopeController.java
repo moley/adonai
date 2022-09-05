@@ -3,7 +3,6 @@ package org.adonai.fx.scope;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,9 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.stage.WindowEvent;
 import org.adonai.ServiceRegistry;
 import org.adonai.actions.AddSongAction;
 import org.adonai.actions.SearchAction;
@@ -42,18 +39,16 @@ public class ScopeController extends AbstractController {
   @FXML private Button btnRemove;
   @FXML private Button btnMoveDown;
 
-  private ScopeTreeProvider scopeTreeProvider = new ScopeTreeProvider();
+  private final ScopeTreeProvider scopeTreeProvider = new ScopeTreeProvider();
 
-  private SessionService sessionService = new SessionService();
+  private final SessionService sessionService = new SessionService();
 
   @FXML public void initialize() {
     lblName.setVisible(false);
     txtName.setVisible(false);
-    txtName.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        if (event.getCode().equals(KeyCode.ENTER))
-         loadData(getSelectedScopeItem());
-      }
+    txtName.setOnKeyPressed(event -> {
+      if (event.getCode().equals(KeyCode.ENTER))
+       loadData(getSelectedScopeItem());
     });
     btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
     btnAdd.setOnAction(action -> add());
@@ -69,33 +64,29 @@ public class ScopeController extends AbstractController {
 
     treScope.setShowRoot(true);
 
-    treScope.setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override public void handle(KeyEvent event) {
-        log.info("handle onKeyPressed " + getSelectedScopeItem());
+    treScope.setOnKeyPressed(event -> {
+      log.info("handle onKeyPressed " + getSelectedScopeItem());
 
-        if (event.getText().equals("+")) {
-          event.consume();
-          add();
-        }
-        else if (event.getText().equals("-")) {
-          event.consume();
-          remove();
-        }
-        else if (event.getCode().equals(KeyCode.UP) && event.isShiftDown()) {
-          log.info("onKeyTyped down");
-          event.consume();
-          moveUp();
-        }
-        else if (event.getCode().equals(KeyCode.DOWN) && event.isShiftDown()) {
-          log.info("onKeyTyped up");
-          event.consume();
-          moveDown();
-        }
-        else if (event.getCode().equals(KeyCode.ENTER)) {
-          stepToSong();
-        }
-
-
+      if (event.getText().equals("+")) {
+        event.consume();
+        add();
+      }
+      else if (event.getText().equals("-")) {
+        event.consume();
+        remove();
+      }
+      else if (event.getCode().equals(KeyCode.UP) && event.isShiftDown()) {
+        log.info("onKeyTyped down");
+        event.consume();
+        moveUp();
+      }
+      else if (event.getCode().equals(KeyCode.DOWN) && event.isShiftDown()) {
+        log.info("onKeyTyped up");
+        event.consume();
+        moveDown();
+      }
+      else if (event.getCode().equals(KeyCode.ENTER)) {
+        stepToSong();
       }
 
 
@@ -166,20 +157,17 @@ public class ScopeController extends AbstractController {
       Session session = getSession(scopeItem);
       if (session != null) {
         log.info("addBefore in session " + session.getName());
-        SearchAction<Song> selectSong = new SearchAction<Song>();
+        SearchAction<Song> selectSong = new SearchAction<>();
         List<Song> allSongs = getApplicationEnvironment().getCurrentSongBook().getSongs();
-        FilteredList<Song> filteredList = new FilteredList<Song>(FXCollections.observableArrayList(allSongs));
-        selectSong.open(getApplicationEnvironment(), renderer -> new SongCellRenderer(),
-            new EventHandler<WindowEvent>() {
-          @Override public void handle(WindowEvent event) {
-            Song selectedSong = selectSong.getSelectedItem();
-            log.info("handle window closed in selectsong on " + selectedSong);
-            if (selectedSong != null) {
-              log.info("Add song " + selectedSong.getId() + " to session " + session.getName());
-              ServiceRegistry serviceRegistry = getApplicationEnvironment().getServices();
-              serviceRegistry.getSessionService().addSong(session, selectedSong);
-              loadData(new ScopeItem(new ScopeItem(session), selectedSong));
-            }
+        FilteredList<Song> filteredList = new FilteredList<>(FXCollections.observableArrayList(allSongs));
+        selectSong.open(getApplicationEnvironment(), renderer -> new SongCellRenderer(), event -> {
+          Song selectedSong = selectSong.getSelectedItem();
+          log.info("handle window closed in selectsong on " + selectedSong);
+          if (selectedSong != null) {
+            log.info("Add song " + selectedSong.getId() + " to session " + session.getName());
+            ServiceRegistry serviceRegistry = getApplicationEnvironment().getServices();
+            serviceRegistry.getSessionService().addSong(session, selectedSong);
+            loadData(new ScopeItem(new ScopeItem(session), selectedSong));
           }
         }, filteredList, "", 10.0, 10.0);
       }
@@ -190,20 +178,17 @@ public class ScopeController extends AbstractController {
         SongBook currentSongBook = getApplicationEnvironment().getCurrentSongBook();
         Configuration currentConfiguration = getApplicationEnvironment().getCurrentConfiguration();
         AddSongAction addSongHandler = new AddSongAction();
-        addSongHandler.add(getApplicationEnvironment(), currentConfiguration, currentSongBook,
-            new EventHandler<WindowEvent>() {
-              @Override public void handle(WindowEvent event) {
+        addSongHandler.add(getApplicationEnvironment(), currentConfiguration, currentSongBook, event -> {
 
-                Song song = addSongHandler.getNewSong();
-                log.info("New song " + song + " created");
-                if (song != null) {
-                  AddSongService addSongService = new AddSongService();   //Add new song to songbook
-                  addSongService.addSong(song, currentSongBook);
-                  getApplicationEnvironment().setCurrentSong(song);
-                  loadData(new ScopeItem(new ScopeItem(songBook), song));
-                }
-              }
-            });
+          Song song = addSongHandler.getNewSong();
+          log.info("New song " + song + " created");
+          if (song != null) {
+            AddSongService addSongService = new AddSongService();   //Add new song to songbook
+            addSongService.addSong(song, currentSongBook);
+            getApplicationEnvironment().setCurrentSong(song);
+            loadData(new ScopeItem(new ScopeItem(songBook), song));
+          }
+        });
 
       }
     }
@@ -224,6 +209,8 @@ public class ScopeController extends AbstractController {
   }
 
   private Session getSession(final ScopeItem scopeItem) {
+    if (scopeItem == null)
+      throw new IllegalArgumentException("Parameter scopeItem must not be null");
     if (scopeItem.getSession() != null)
       return scopeItem.getSession();
     else if (scopeItem.getParentItem() != null && scopeItem.getParentItem().getSession() != null)
@@ -259,6 +246,8 @@ public class ScopeController extends AbstractController {
 
   private void remove() {
     ScopeItem scopeItem = getSelectedScopeItem();
+    if (scopeItem == null)
+      return;
 
     //A session is selected
     if (scopeItem.getSession() != null) {
@@ -286,6 +275,7 @@ public class ScopeController extends AbstractController {
   public void loadData(ScopeItem selectedScopeItem) {
     String selectedId = (selectedScopeItem != null ? selectedScopeItem.getId() : null);
 
+    treScope.setShowRoot(true);
     treScope.setRoot(scopeTreeProvider.getTree(getApplicationEnvironment()));
     treScope.getRoot().setExpanded(true);
 

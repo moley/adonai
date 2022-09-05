@@ -45,4 +45,8 @@ public class DownloadAction extends AbstractRemoteAction implements MainAction {
 
     };
   }
+
+  @Override public boolean isVisible() {
+    return false;
+  }
 }

@@ -73,4 +73,8 @@ public class UploadAction extends AbstractRemoteAction implements MainAction {
       }
     };
   }
+
+  @Override public boolean isVisible() {
+    return false;
+  }
 }

@@ -33,4 +33,8 @@ public class SaveAction implements MainAction {
       }
     };
   }
+
+  @Override public boolean isVisible() {
+    return true;
+  }
 }

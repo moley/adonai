@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.adonai.AdonaiProperties;
 import org.adonai.fx.Progress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +15,6 @@ public class FileStore {
   private static final Logger LOGGER = LoggerFactory.getLogger(FileStore.class);
 
   private DropboxAdapter dropboxAdapter = new DropboxAdapter();
-
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   public FileStoreState getRemoteState(final File baseDir) throws IOException {
     FileStoreState remoteFileStoreState = new FileStoreState();
@@ -36,7 +33,9 @@ public class FileStore {
       }
     }
 
-    String token = adonaiProperties.getDropboxAccessToken();
+    if (true)
+      throw new IllegalStateException("NYI");
+    String token = null; //adonaiProperties.getDropboxAccessToken();
     List<RemoteFile> list = dropboxAdapter.list(baseDir.getName(), token);
     for (RemoteFile nextRemote : list) {
       FileStoreStateItem remoteItem = remoteFileStoreState.findOrCreateItem(nextRemote.getPath());
@@ -49,7 +48,7 @@ public class FileStore {
 
   public int upload(FileStoreState state, boolean overwrite, Progress progress) throws IOException {
 
-    String token = adonaiProperties.getDropboxAccessToken();
+    String token = null; //adonaiProperties.getDropboxAccessToken();
 
     int numberOfUploadedFiles = 0;
 
@@ -68,7 +67,7 @@ public class FileStore {
   }
 
   public int download(final File baseDir, FileStoreState state, Progress progress) {
-    String token = adonaiProperties.getDropboxAccessToken();
+    String token = null; //adonaiProperties.getDropboxAccessToken();
 
     int numberOfDownloadedFiles = 0;
     int totalNumberOfFiles = state.getItemsRemoteNewer().size();

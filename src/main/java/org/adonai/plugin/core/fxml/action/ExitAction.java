@@ -50,4 +50,8 @@ public class ExitAction implements MainAction {
       }
     };
   }
+
+  @Override public boolean isVisible() {
+    return true;
+  }
 }

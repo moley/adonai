@@ -22,7 +22,7 @@ public class ExportTokenContainer {
   }
 
   public Double getMaxY () {
-    Double max = new Double(0);
+    Double max = Double.valueOf(0);
     for (ExportToken next: exportTokenList) {
       if (next.getAreaInfo() != null)
         max = Double.max(max, next.getAreaInfo().getY() + next.getAreaInfo().getWidth());
@@ -32,7 +32,7 @@ public class ExportTokenContainer {
   }
 
   public Double getMaxX () {
-    Double max = new Double(0);
+    Double max = Double.valueOf(0);
     for (ExportToken next: exportTokenList) {
       if (next.getAreaInfo() != null)
         max = Double.max(max, next.getAreaInfo().getX());

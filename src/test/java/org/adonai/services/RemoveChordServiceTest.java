@@ -41,7 +41,7 @@ public class RemoveChordServiceTest {
     Assert.assertEquals ("Text invalid", "That isone testline", firstLine.getFirstLinePart().getText());
     Assert.assertEquals ("Chord invalid", "D", firstLine.getFirstLinePart().getChord());
 
-    Assert.assertEquals ("Position", new Integer(7), songCursor.getPositionInLinePart());
+    Assert.assertEquals ("Position", Integer.valueOf(7), songCursor.getPositionInLinePart());
 
 
 

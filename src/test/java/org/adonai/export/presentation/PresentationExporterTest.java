@@ -16,9 +16,8 @@ public class PresentationExporterTest {
   public void exportNewAddedSong () {
 
     AddSongService addSongService = new AddSongService();
-    Model model = new Model();
     Song songToImport = addSongService.createSong("New song", true);
-    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(model);
+    ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment();
 
 
     PresentationExporter exporter = new PresentationExporter(applicationEnvironment, new SizeInfo(0,0), null);

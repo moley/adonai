@@ -42,7 +42,7 @@ public class SongBuilder {
   }
 
   public SongBuilder withId (final String id) {
-    song.setId(new Integer(id).intValue());
+    song.setId(Integer.valueOf(id));
     return this;
   }
 

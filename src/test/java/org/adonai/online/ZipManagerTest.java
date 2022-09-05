@@ -4,7 +4,6 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.Consts;
 import org.apache.commons.io.FileUtils;
@@ -19,7 +18,6 @@ public class ZipManagerTest {
 
   @Before
   public void before () {
-    AdonaiProperties.dispose();
     applicationEnvironment = new ApplicationEnvironment();
   }
 

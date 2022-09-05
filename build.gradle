@@ -72,10 +72,10 @@ targetCompatibility = JavaVersion.VERSION_17
 
 test {
     testLogging {
-        events "passed", "skipped", "failed"
+        events "skipped", "failed"
         exceptionFormat 'full'
         showStackTraces = true
-        showStandardStreams = true
+        showStandardStreams = false
     }
 
     systemProperty "file.encoding", "UTF-8"
@@ -83,8 +83,8 @@ test {
 
 jacocoTestReport {
     reports {
-        xml.enabled = true
-        html.enabled = true
+        xml.required = true
+        html.required = true
     }
 }
 
@@ -98,6 +98,16 @@ task importProdData(type: Copy) {
     from System.getProperty("user.home") + '/.adonai'
     into file('.adonai')
 }
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:unchecked']
+}
+
+task createTestdata(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'org.adonai.testdata.TestDataCreator'
+}
+
 
 distZip.archiveFileName = 'adonai.zip'
 

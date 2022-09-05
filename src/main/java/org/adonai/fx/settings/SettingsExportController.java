@@ -14,12 +14,11 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import org.adonai.AdonaiProperties;
 import org.adonai.StringUtils;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ExportConfigurationMerger;
-import org.adonai.model.Model;
 import org.adonai.fx.Consts;
+import org.adonai.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +36,6 @@ public class SettingsExportController extends AbstractSettingsController {
 
   @FXML ResourceBundle resources;
 
-  private AdonaiProperties adonaiProperties = new AdonaiProperties();
 
   HashMap<TitledPane, ExportConfiguration> configurationPerPane = new HashMap<TitledPane, ExportConfiguration>();
 

@@ -17,4 +17,8 @@ public class MailAction implements MainAction {
   @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
     return null;
   }
+
+  @Override public boolean isVisible() {
+    return false;
+  }
 }

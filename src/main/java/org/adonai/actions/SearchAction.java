@@ -25,9 +25,9 @@ public class SearchAction<T extends NamedElement> {
   private Callback<ListView<T>, ListCell<T>> listViewListCellCallback;
   private EventHandler<WindowEvent> onCloseEvent;
 
-  private MaskLoader<SearchController> maskLoader = new MaskLoader<SearchController>();
+  private MaskLoader<SearchController<T>> maskLoader = new MaskLoader<>();
 
-  private Mask<SearchController> searchMask;
+  private Mask<SearchController<T>> searchMask;
 
   public void open(final ApplicationEnvironment applicationEnvironment,
       Callback<ListView<T>, ListCell<T>> listViewListCellCallback,
@@ -53,6 +53,6 @@ public class SearchAction<T extends NamedElement> {
   }
 
   public T getSelectedItem() {
-    return (T) searchMask.getController().getSelectedElement();
+    return searchMask.getController().getSelectedElement();
   }
 }

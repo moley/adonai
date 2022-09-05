@@ -209,7 +209,7 @@ public class SongEditor extends AbstractController {
               additional.setAdditionalType(AdditionalType.AUDIO);
               additional.setLink(songExtension);
               AdditionalsImporter additionalsImporter = new AdditionalsImporter();
-              additionalsImporter.refreshCache(song, additional, true);
+              additionalsImporter.refreshCache(getApplicationEnvironment().getModel(), song, additional, true);
               song.setAdditional(additional);
               lblCurrentMp3.setText(getMp3Label(song));
 

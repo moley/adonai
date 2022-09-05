@@ -3,10 +3,10 @@ package org.adonai.additionals;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.adonai.AdonaiProperties;
-import org.adonai.model.Additional;
-import org.adonai.model.Song;
 import org.adonai.fx.Consts;
+import org.adonai.model.Additional;
+import org.adonai.model.Model;
+import org.adonai.model.Song;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +22,16 @@ public class AdditionalsImporter {
 
 
 
-  public File getAdditionalFile (final Song song, final Additional additional) {
+  public File getAdditionalFile (final Model model, final Song song, final Additional additional) {
 
-    AdonaiProperties adonaiProperties = new AdonaiProperties();
-    File additionalsTypePath = new File (getAdditionalsPath(adonaiProperties.getCurrentTenant()), additional.getAdditionalType().name().toLowerCase());
+    File additionalsTypePath = new File (getAdditionalsPath(model.getCurrentTenant()), additional.getAdditionalType().name().toLowerCase());
     String suffix = additional.getLink().substring(additional.getLink().indexOf("."));
 
     return new File (additionalsTypePath, song.getId().toString() + suffix);
   }
 
-  public void refreshCache (final Song song, final Additional additional, boolean clean) {
-    File additionalFile = getAdditionalFile(song, additional);
+  public void refreshCache (final Model model, final Song song, final Additional additional, boolean clean) {
+    File additionalFile = getAdditionalFile(model, song, additional);
     additional.setCacheLink(additionalFile.getAbsolutePath());
     if (clean || ! additionalFile.exists()) {
 
@@ -47,8 +46,8 @@ public class AdditionalsImporter {
   }
 
 
-  public void removeAdditional (final Song song, final Additional additional) throws FileNotFoundException {
-    File additionalFile = getAdditionalFile(song, additional);
+  public void removeAdditional (final Model model, final Song song, final Additional additional) throws FileNotFoundException {
+    File additionalFile = getAdditionalFile(model, song, additional);
     if (! additionalFile.exists())
       throw new FileNotFoundException("File " + additionalFile.getAbsolutePath() + " does not exist");
     else

@@ -12,8 +12,8 @@ public class SizeInfo {
     if (computeStringHeight == null)
       throw new IllegalArgumentException("Argument computeStringHeight must not be null");
 
-    this.height = new Double(computeStringHeight.doubleValue());
-    this.width = new Double(computeStringWidth.doubleValue());
+    this.height = Double.valueOf(computeStringHeight.doubleValue());
+    this.width = Double.valueOf(computeStringWidth.doubleValue());
   }
   public SizeInfo (final Double computeStringWidth, final Double computeStringHeight) {
     if (computeStringWidth == null)

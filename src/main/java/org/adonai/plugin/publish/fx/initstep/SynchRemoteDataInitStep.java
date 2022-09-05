@@ -1,7 +1,5 @@
 package org.adonai.plugin.publish.fx.initstep;
 
-import java.io.File;
-import java.io.IOException;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +9,12 @@ import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
 import org.adonai.online.FileStore;
-import org.adonai.online.FileStoreState;
 
 
 @Slf4j
 public class SynchRemoteDataInitStep implements InitStep {
 
-  private MaskLoader<SynchRemoteDataController> maskLoader = new MaskLoader();
+  private final MaskLoader<SynchRemoteDataController> maskLoader = new MaskLoader<>();
 
   public void execute (ApplicationEnvironment applicationEnvironment) {
     Stage initStepStage = new Stage();
@@ -35,16 +32,21 @@ public class SynchRemoteDataInitStep implements InitStep {
 
   @Override public boolean isExecuted(ApplicationEnvironment applicationEnvironment) {
     FileStore fileStore = new FileStore();
-    try {
-      File tenantPath = applicationEnvironment.getServices().getModelService().getTenantPath(applicationEnvironment.getCurrentTenant());
-      FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
-      log.error("The following remote items after newer: " + remoteState.getItemsRemoteNewer());
-      return ! remoteState.getItemsRemoteNewer().isEmpty();
-
-    } catch (IOException e) {
-      log.error("Error when reading remote state: " + e.getLocalizedMessage(), e);
-      return true;
-    }
+    return false;
+//    if (true) { //TODO
+//      try {
+//        File tenantPath = applicationEnvironment.getServices().getModelService().getTenantPath(applicationEnvironment.getCurrentTenant());
+//        FileStoreState remoteState = fileStore.getRemoteState(tenantPath);
+//        log.error("The following remote items after newer: " + remoteState.getItemsRemoteNewer());
+//        return !remoteState.getItemsRemoteNewer().isEmpty();
+//
+//      } catch (IOException e) {
+//        log.error("Error when reading remote state: " + e.getLocalizedMessage(), e);
+//        return true;
+//      }
+//    }
+//    else
+//      return false;
 
   }
 }

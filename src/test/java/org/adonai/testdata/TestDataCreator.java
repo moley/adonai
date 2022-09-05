@@ -3,7 +3,6 @@ package org.adonai.testdata;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.fx.Consts;
@@ -16,11 +15,13 @@ import org.adonai.model.Song;
 import org.adonai.model.SongBook;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
+import org.adonai.model.SongStructItem;
 import org.adonai.model.TenantModel;
 import org.adonai.model.User;
 import org.adonai.services.AddSongService;
 import org.adonai.services.ModelService;
 import org.adonai.services.SessionService;
+import org.adonai.services.SongRepairer;
 import org.adonai.uitests.TestUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -51,14 +52,12 @@ public class TestDataCreator {
     LOGGER.info("Clean testdir " + testDataPath.getAbsolutePath());
     FileUtils.deleteDirectory(testDataPath);
 
-
     Model model = new Model();
+    model.setCurrentTenant("tenant1");
 
-    AdonaiProperties adonaiProperties = new AdonaiProperties();
-    adonaiProperties.setCurrentTenant("tenant1");
+    for (String nextTenant : Arrays.asList("tenant1", "tenant2", "tenant3", "tenant4", "tenant5")) {
 
-    for (String nextTenant : Arrays.asList("tenant1", "tenant2")) {
-
+      File tenantPath = new File (Consts.getAdonaiHome(), "tenant_" + nextTenant);
       SongBook songBook = new SongBook();
 
       ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment();
@@ -90,7 +89,7 @@ public class TestDataCreator {
       linePart1.setChord("C");
       LinePart linePart2 = new LinePart();
 
-      linePart2.setText("very nice song");
+      linePart2.setText("very nice vers of song in tenant " + nextTenant);
       linePart2.setChord("F");
       line.getLineParts().addAll(Arrays.asList(linePart1, linePart2));
       songPart.getLines().add(line);
@@ -103,7 +102,7 @@ public class TestDataCreator {
       linePart21.setText("This is a ");
       linePart21.setChord("C");
       LinePart linePart22 = new LinePart();
-      linePart22.setText("very nice song");
+      linePart22.setText("very nice refrain of song in tenant " + nextTenant);
       linePart22.setChord("F");
       line2.getLineParts().addAll(Arrays.asList(linePart21, linePart22));
       songPart2.getLines().add(line2);
@@ -111,6 +110,16 @@ public class TestDataCreator {
       song1.getSongParts().addAll(Arrays.asList(songPart, songPart2));
       song1.setPreset("preset");
       song1.setLeadVoice(user1);
+
+      SongStructItem songStructItem1 = new SongStructItem();
+      songStructItem1.setPartId(songPart.getId());
+
+      SongStructItem songStructItem2 = new SongStructItem();
+      songStructItem2.setPartId(songPart2.getId());
+      song1.getStructItems().addAll(Arrays.asList(songStructItem1, songStructItem2,songStructItem1));
+      SongRepairer songRepairer = new SongRepairer();
+      songRepairer.repairSong(song1);
+
       Song song2 = createSong("Song2_" + nextTenant, true, 180);
       Song song3 = createSong("Song3_" + nextTenant, true, 90);
       Song song4 = createSong("Song4_" + nextTenant, true, 120);
@@ -135,13 +144,9 @@ public class TestDataCreator {
 
       configuration.getUsers().addAll(Arrays.asList(user1, user2));
 
-      File exportDir = new File(testDataPath, "export");
-      File extensionPath = new File(testDataPath, "additionals");
-      exportDir.mkdirs();
+      File extensionPath = new File(tenantPath, "additionals");
       extensionPath.mkdirs();
 
-      configuration.setExportPath(exportDir.getAbsolutePath());
-      configuration.getExportPathAsFile().mkdirs();
       configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
 
       new File(extensionPath, "SomeMp3.mp3").createNewFile();

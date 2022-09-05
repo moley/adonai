@@ -87,7 +87,7 @@ public class SettingsUsersController extends AbstractSettingsController {
       User selectedItem = lviUsers.getSelectionModel().getSelectedItem();
       if (selectedItem != null && selectedItem.getMail() != null && ! selectedItem.getMail().trim().isEmpty()) {
         MailSender mailSender = new MailSender();
-        String accessKey = getApplicationEnvironment().getAdonaiProperties().getDropboxAccessToken() + "_" + getTenantModel().getTenant();
+        String accessKey = null; //TODO getApplicationEnvironment().getAdonaiProperties().getDropboxAccessToken() + "_" + getCurrentTenantModel().getTenant();
         List<String> text = Arrays.asList("Hello " + selectedItem.getUsername(),
                                           "",
                                           "You were invited to join adonai.",

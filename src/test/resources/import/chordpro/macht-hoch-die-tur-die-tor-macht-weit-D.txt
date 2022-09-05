@@ -1,4 +1,4 @@
-{title: Macht hoch die Tür die Tor macht weit}
+{title: Macht hoch die Tuer die Tor macht weit}
 {artist: Text: Georg Weissel | Musik: Johann Anastasius Freylinghausen}
 {key: D}
 {time: 6/4}

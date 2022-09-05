@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
-import org.adonai.AdonaiProperties;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.AbstractController;
 import org.adonai.fx.Progress;
@@ -42,9 +41,7 @@ public class SynchRemoteDataController extends AbstractController {
     pgbProgress.setProgress(0);
 
     btnStart.setOnAction(event -> {
-      AdonaiProperties.dispose(); //to dispose
-      new AdonaiProperties(); //and reread again
-
+      //TODO
       getStage().close();
 
     });
@@ -58,9 +55,9 @@ public class SynchRemoteDataController extends AbstractController {
         String tenant = tokens[tokens.length - 1];
         String token = txtAccessToken.getText().substring(0, txtAccessToken.getText().length() - tenant.length() - 1);
 
-        applicationEnvironment.getAdonaiProperties().setDropboxAccessToken(token);
-        applicationEnvironment.getAdonaiProperties().setCurrentTenant(tenant);
-        File tenantPath = applicationEnvironment.getServices().getModelService().getTenantPath(applicationEnvironment.getCurrentTenant());
+        //TODO applicationEnvironment.getAdonaiProperties().setDropboxAccessToken(token);
+        //TODO applicationEnvironment.getAdonaiProperties().setCurrentTenant(tenant);
+        File tenantPath = null; //TODO applicationEnvironment.getServices().getModelService().getTenantPath(applicationEnvironment.getCurrentTenant());
         pgbProgress.setVisible(true);
         lblProgress.setVisible(true);
 
@@ -93,9 +90,8 @@ public class SynchRemoteDataController extends AbstractController {
 
         downloadTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, new EventHandler<WorkerStateEvent>() {
           @Override public void handle(WorkerStateEvent event) {
-            AdonaiProperties.dispose(); //to dispose
-            new AdonaiProperties(); //and reread again
 
+            //TODO
             getStage().close();
           }
         });
@@ -110,8 +106,8 @@ public class SynchRemoteDataController extends AbstractController {
   @Override public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
     super.setApplicationEnvironment(applicationEnvironment);
 
-    String accessToken = applicationEnvironment.getAdonaiProperties().getDropboxAccessToken();
-    String tenant = applicationEnvironment.getAdonaiProperties().getCurrentTenant();
+    String accessToken = null; //TODO applicationEnvironment.getAdonaiProperties().getDropboxAccessToken();
+    String tenant = null; //TODOapplicationEnvironment.getAdonaiProperties().getCurrentTenant();
     if (accessToken != null && ! accessToken.isEmpty())
       txtAccessToken.setText(accessToken + "_" + tenant);
 

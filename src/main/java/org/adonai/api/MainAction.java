@@ -12,4 +12,6 @@ public interface MainAction  {
 
   EventHandler<ActionEvent> getEventHandler (ApplicationEnvironment applicationEnvironment);
 
+  boolean isVisible ();
+
 }

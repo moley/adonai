@@ -33,91 +33,93 @@ public class ExportAction implements MainAction {
   }
 
   @Override public EventHandler<ActionEvent> getEventHandler(ApplicationEnvironment applicationEnvironment) {
-    return new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
+    return event -> {
 
-        String name = applicationEnvironment.getCurrentScopeItem().getName().trim();
-        Configuration configuration = applicationEnvironment.getCurrentConfiguration();
-        List<Song> songs = applicationEnvironment.getSongsOfCurrentScope();
+      String name = applicationEnvironment.getCurrentScopeItem().getName().trim();
+      Configuration configuration = applicationEnvironment.getCurrentConfiguration();
+      List<Song> songs = applicationEnvironment.getSongsOfCurrentScope();
 
-        LOGGER.info("Export " + name + " with " + songs.size() + " songs");
-        PdfExporter writer = new PdfExporter();
+      LOGGER.info("Export " + name + " with " + songs.size() + " songs");
+      PdfExporter writer = new PdfExporter();
 
-        File exportPath = new File (configuration.getExportPathAsFile(), name);
-        exportPath.mkdirs();
-        if (exportPath.exists()) {
-          try {
-            FileUtils.deleteDirectory(exportPath);
-          } catch (IOException e) {
-            throw new IllegalStateException(e);
-          }
-        }
-
-        LOGGER.info("Added " + exportPath.getAbsolutePath());
-
-        //With chords
-        ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
-        exportConfiguration.setWithContentPage(true);
-        exportConfiguration.setWithIndexPage(true);
-        exportConfiguration.setWithChords(true);
-        exportConfiguration.setWithId(true);
-        exportConfiguration.setWithTitle(true);
-        exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
-        exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-        exportConfiguration.setWithIndexPage(songs.size() > 1);
-        exportConfiguration.setWithContentPage(songs.size() > 1);
-        exportConfiguration.setStructureDistance(new Double(5));
-        //exportConfiguration.setInterPartDistance(new Double(5));
-
-        File exportFile = new File(exportPath, name + "_Chords.pdf");
-        exportFile.getParentFile().mkdirs();
-        writer.export(songs, exportFile, exportConfiguration);
-        LOGGER.info("Exported with chords " + exportPath.getAbsolutePath());
-
-        //Without chords
-        writer = new PdfExporter();
-
-        ExportConfiguration exportConfigurationNoChords = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
-        exportConfigurationNoChords.setWithContentPage(true);
-        exportConfigurationNoChords.setWithChords(false);
-        exportConfigurationNoChords.setWithIndexPage(songs.size() > 1);
-        exportConfigurationNoChords.setWithContentPage(songs.size() > 1);
-        exportConfigurationNoChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
-        exportConfigurationNoChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
-        exportConfigurationNoChords.setStructureDistance(new Double(5));
-
-
-        File exportFileNoChords = new File(exportPath, name + ".pdf");
-        exportFileNoChords.getParentFile().mkdirs();
-        writer.export(songs, exportFileNoChords, exportConfigurationNoChords);
-        LOGGER.info("Exported without chords " + exportPath.getAbsolutePath());
-
-        File songsPath = new File (exportPath, "mp3s");
-        for (Song next: songs) {
-          for (Additional nextAdditional: next.getAdditionals()) {
-            if (nextAdditional.getAdditionalType().equals(AdditionalType.AUDIO)) {
-
-              String filename = String.format("%03d - %s.mp3", next.getId(), next.getTitle());
-              File destFile = new File (songsPath, filename);
-              try {
-                FileUtils.copyFile(new File (nextAdditional.getLink()), destFile);
-              } catch (IOException e) {
-                LOGGER.error("Error copying file " +nextAdditional.getLink() + ":" + e.getLocalizedMessage());
-              }
-            }
-          }
-        }
-        LOGGER.info("Copied mp3s");
-
-        File iTunesPlayList = new File (exportPath, name + ".m3u");
-        CreatePlaylistService createPlaylistService = new CreatePlaylistService();
+      File exportPath = new File (configuration.getExportPathAsFile(), name);
+      exportPath.mkdirs();
+      if (exportPath.exists()) {
         try {
-          createPlaylistService.create(iTunesPlayList, songs);
+          FileUtils.deleteDirectory(exportPath);
         } catch (IOException e) {
           throw new IllegalStateException(e);
         }
-        LOGGER.info("Created playlist");
       }
+
+      LOGGER.info("Added " + exportPath.getAbsolutePath());
+
+      //With chords
+      ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
+      exportConfiguration.setWithContentPage(true);
+      exportConfiguration.setWithIndexPage(true);
+      exportConfiguration.setWithChords(true);
+      exportConfiguration.setWithId(true);
+      exportConfiguration.setWithTitle(true);
+      exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+      exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+      exportConfiguration.setWithIndexPage(songs.size() > 1);
+      exportConfiguration.setWithContentPage(songs.size() > 1);
+      exportConfiguration.setStructureDistance(Double.valueOf(5));
+      //exportConfiguration.setInterPartDistance(Double.valueOf(5));
+
+      File exportFile = new File(exportPath, name + "_Chords.pdf");
+      exportFile.getParentFile().mkdirs();
+      writer.export(songs, exportFile, exportConfiguration);
+      LOGGER.info("Exported with chords " + exportPath.getAbsolutePath());
+
+      //Without chords
+      writer = new PdfExporter();
+
+      ExportConfiguration exportConfigurationNoChords = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
+      exportConfigurationNoChords.setWithContentPage(true);
+      exportConfigurationNoChords.setWithChords(false);
+      exportConfigurationNoChords.setWithIndexPage(songs.size() > 1);
+      exportConfigurationNoChords.setWithContentPage(songs.size() > 1);
+      exportConfigurationNoChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+      exportConfigurationNoChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+      exportConfigurationNoChords.setStructureDistance(Double.valueOf(5));
+
+
+      File exportFileNoChords = new File(exportPath, name + ".pdf");
+      exportFileNoChords.getParentFile().mkdirs();
+      writer.export(songs, exportFileNoChords, exportConfigurationNoChords);
+      LOGGER.info("Exported without chords " + exportPath.getAbsolutePath());
+
+      File songsPath = new File (exportPath, "mp3s");
+      for (Song next: songs) {
+        for (Additional nextAdditional: next.getAdditionals()) {
+          if (nextAdditional.getAdditionalType().equals(AdditionalType.AUDIO)) {
+
+            String filename = String.format("%03d - %s.mp3", next.getId(), next.getTitle());
+            File destFile = new File (songsPath, filename);
+            try {
+              FileUtils.copyFile(new File (nextAdditional.getLink()), destFile);
+            } catch (IOException e) {
+              LOGGER.error("Error copying file " +nextAdditional.getLink() + ":" + e.getLocalizedMessage());
+            }
+          }
+        }
+      }
+      LOGGER.info("Copied mp3s");
+
+      File iTunesPlayList = new File (exportPath, name + ".m3u");
+      CreatePlaylistService createPlaylistService = new CreatePlaylistService();
+      try {
+        createPlaylistService.create(iTunesPlayList, songs);
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+      LOGGER.info("Created playlist");
     };
+  }
+
+  @Override public boolean isVisible() {
+    return true;
   }
 }
