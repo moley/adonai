@@ -30,26 +30,39 @@ public class SettingsController extends AbstractController {
 
   @FXML private StackPane panConfigurationDetails;
 
-  private HashMap<String, Parent> panes = new HashMap<String, Parent>();
+  private HashMap<String, Parent> panes = new HashMap<>();
 
   ObservableList<SettingsItem> configurations = FXCollections.observableArrayList();
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SettingsController.class);
+
+  /**
+   * gets masks readable from classpath
+   * @return list of masks, guarented to be readable from classpath
+   */
+  public List<String> getMasks () {
+    List<String> settingsPanes = new ArrayList<>();
+
+    List<Configuration> extensions = getApplicationEnvironment().getExtensions(Configuration.class);
+    for (Configuration next : extensions) {
+      LOGGER.info("Add configuration mask " + next.getMaskFilename());
+      String newResource = "/fxml/" + next.getMaskFilename();
+      settingsPanes.add(newResource);
+      if (getClass().getResource(newResource) == null) {
+        throw new IllegalStateException(newResource + " was not found on classpath");
+      }
+    }
+
+    return settingsPanes;
+  }
 
   public void setModel(Model model) {
     LOGGER.info("initializing SettingsController");
 
     lviConfigurationList.setItems(configurations);
 
-    Collection<String> settingsPanes = new ArrayList<String>();
 
-    List<Configuration> extensions = getApplicationEnvironment().getExtensions(Configuration.class);
-    for (Configuration next : extensions) {
-      LOGGER.info("Add configuration mask " + next.getMaskFilename());
-      settingsPanes.add("/fxml/" + next.getMaskFilename());
-    }
-
-    for (String next : settingsPanes) {
+    for (String next : getMasks()) {
 
       FXMLLoader loader = new FXMLLoader(getClass().getResource(next));
       loader.setResources(ResourceBundle.getBundle("languages.adonai"));

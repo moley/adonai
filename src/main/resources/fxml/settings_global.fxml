@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.adonai.fx.settings.SettingsGlobalConfigurationsController" alignment="TOP_CENTER" hgap="10" vgap="10" >
     <padding><Insets top="20" bottom="20" left="10" right="10"/> </padding>
     <columnConstraints>
@@ -13,7 +14,11 @@
     <Label fx:id="lblTitle" userData="users.lblTitle" text="CONFIGURATION - GLOBAL" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
 
 
+
     <Button fx:id="btnRenumber" text="Renumber" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
+
+    <Label text="MP3 folder:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="txtMp3Folder" userData="general.txtMp3Folder" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
 
 
 </GridPane>

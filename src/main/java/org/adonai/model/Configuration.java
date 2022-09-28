@@ -30,9 +30,10 @@ public class Configuration {
 
   private List<SongBook> songBooks = new ArrayList<>();
 
-  private List<String> extensionPaths = new ArrayList<>(Arrays.asList());
 
   private SimpleStringProperty exportPath = new SimpleStringProperty("export");
+
+  private SimpleStringProperty mp3ExtensionPath = new SimpleStringProperty("");
 
   public List<Session> getSessions() {
     return sessions;
@@ -50,13 +51,9 @@ public class Configuration {
     this.songBooks = songBooks;
   }
 
-  public List<String> getExtensionPaths() {
-    return extensionPaths;
-  }
 
-  public void setExtensionPaths(List<String> extensionPaths) {
-    this.extensionPaths = extensionPaths;
-  }
+
+
 
   @XmlTransient
   public File getExportPathAsFile () {
@@ -117,6 +114,18 @@ public class Configuration {
   }
 
   @Override public String toString() {
-    return "Configuration{" + "tenant='" + tenant + '\'' + ", users=" + users + ", exportConfigurations=" + exportConfigurations + ", sessions=" + sessions + ", songBooks=" + songBooks + ", extensionPaths=" + extensionPaths + ", exportPath=" + exportPath + '}';
+    return "Configuration{" + "tenant='" + tenant + '\'' + ", users=" + users + ", exportConfigurations=" + exportConfigurations + ", sessions=" + sessions + ", songBooks=" + songBooks + ", mp3ExtensionPath=" + mp3ExtensionPath + ", exportPath=" + exportPath + '}';
+  }
+
+  public String getMp3ExtensionPath() {
+    return mp3ExtensionPath.get();
+  }
+
+  public SimpleStringProperty mp3ExtensionPathProperty() {
+    return mp3ExtensionPath;
+  }
+
+  public void setMp3ExtensionPath(String mp3ExtensionPath) {
+    this.mp3ExtensionPath.set(mp3ExtensionPath);
   }
 }

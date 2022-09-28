@@ -1,6 +1,8 @@
 package org.adonai.fx;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -51,6 +53,8 @@ public class ExtensionSelectorController extends AbstractController {
         LOGGER.info("Selecting first (" + lviExtensions.getItems().get(0));
       }
     }
+    else
+      LOGGER.error("Extension Index is not set");
   }
 
   @FXML
@@ -114,7 +118,7 @@ public class ExtensionSelectorController extends AbstractController {
 
   public void init(ExtensionType type, final Configuration configuration) {
     currentType = type;
-    extensionIndex  = new ExtensionIndex(configuration.getExtensionPaths());
+    extensionIndex  = new ExtensionIndex(List.of(configuration.getMp3ExtensionPath()));
 
     refreshListView(txtSearch.getText());
 
