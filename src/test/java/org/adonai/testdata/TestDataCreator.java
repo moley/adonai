@@ -147,7 +147,7 @@ public class TestDataCreator {
       File extensionPath = new File(tenantPath, "additionals");
       extensionPath.mkdirs();
 
-      configuration.getExtensionPaths().add(extensionPath.getAbsolutePath());
+      configuration.setMp3ExtensionPath(extensionPath.getAbsolutePath());
 
       new File(extensionPath, "SomeMp3.mp3").createNewFile();
       new File(extensionPath, "AnotherMp3.mp3").createNewFile();

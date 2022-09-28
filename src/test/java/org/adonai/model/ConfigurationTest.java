@@ -25,8 +25,8 @@ public class ConfigurationTest {
   @Test
   public void setAndGetExtensionPaths () {
     Configuration configuration = new Configuration();
-    configuration.setExtensionPaths(Arrays.asList("1", "2"));
-    Assert.assertEquals ("Number of extensionpaths invalid", 2, configuration.getExtensionPaths().size());
+    configuration.setMp3ExtensionPath("1");
+    Assert.assertEquals ("Number of extensionpaths invalid", "1", configuration.getMp3ExtensionPath());
   }
 
   @Test
