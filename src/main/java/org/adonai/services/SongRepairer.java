@@ -141,7 +141,7 @@ public class SongRepairer {
             songTransposeService.transpose(nextLinePart, originKey, currentKey);
           } catch (Exception e) {
             throw new IllegalStateException(
-                "Error repairing chord in linepart " + nextLinePart + " in song " + song.getId());
+                "Error repairing chord in linepart " + nextLinePart + " in song " + song.getId() + ":" + e.getLocalizedMessage(), e);
 
           }
         }

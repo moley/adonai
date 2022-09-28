@@ -10,7 +10,11 @@ public class Chord {
 
 
 
-  public Chord (final String chordAsString) throws InvalidChordException {
+  public Chord (String chordAsString) throws InvalidChordException {
+
+    chordAsString = chordAsString.replace("(", "");
+    chordAsString = chordAsString.replace(")", "");
+
     String [] chordParts = chordAsString.split("/");
     if (chordParts.length == 0 || chordParts.length > 2)
       throw new InvalidChordException("Not one or two chord parts found, but " + chordParts.length + " in " + chordAsString);

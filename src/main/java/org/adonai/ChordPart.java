@@ -6,6 +6,9 @@ package org.adonai;
 public class ChordPart {
 
   Note note;
+
+
+
   boolean moll;
   boolean major;
   boolean minor;
@@ -47,9 +50,11 @@ public class ChordPart {
     if (trimmed.isEmpty())
       throw new InvalidChordException("Empty string");
 
-    if (trimmed.equals("Es"))
+    if (trimmed.equalsIgnoreCase("Es"))
       trimmed = "Eb";
 
+    trimmed = trimmed.replace("ES", "#");
+    trimmed = trimmed.replace("IS", "#");
     trimmed = trimmed.replace("is", "#");
     trimmed = trimmed.replace("es", "b");
 
@@ -131,5 +136,37 @@ public class ChordPart {
 
     this.note = Note.values()[nextOrdinal];
     this.noteEntryType = noteEntryType;
+  }
+
+  public boolean isMoll() {
+    return moll;
+  }
+
+  public boolean isMajor() {
+    return major;
+  }
+
+  public boolean isMinor() {
+    return minor;
+  }
+
+  public boolean isAdd() {
+    return add;
+  }
+
+  public Integer getIntervall() {
+    return intervall;
+  }
+
+  public boolean isSus() {
+    return sus;
+  }
+
+  public NoteEntryType getNoteEntryType() {
+    return noteEntryType;
+  }
+
+  public Note getNote() {
+    return note;
   }
 }

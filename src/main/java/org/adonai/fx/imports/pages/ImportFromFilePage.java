@@ -1,11 +1,10 @@
 package org.adonai.fx.imports.pages;
 
+import com.glaforge.i18n.io.CharsetToolkit;
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,12 +16,12 @@ import javafx.stage.Stage;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.fx.imports.SongImportController;
 import org.adonai.reader.chordpro.ChordProFileReader;
-import org.adonai.reader.text.TextfileReader;
-import org.adonai.reader.text.TextfileReaderParam;
 import org.apache.commons.io.FileUtils;
 import org.controlsfx.control.Notifications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static java.lang.System.in;
 
 public class ImportFromFilePage extends WizardPage {
   public final static String TITLE = "Import from file";
@@ -81,10 +80,14 @@ public class ImportFromFilePage extends WizardPage {
 
   boolean importFile() {
     File importfile = new File (txtFilename.getText());
+
+
     if (importfile.exists()) {
-      ChordProFileReader textfileReader = new ChordProFileReader();
+
       try {
-        List<String> lines = FileUtils.readLines(importfile, StandardCharsets.UTF_8);
+        Charset cs = CharsetToolkit.guessEncoding(importfile, 4096, StandardCharsets.UTF_8);
+        ChordProFileReader textfileReader = new ChordProFileReader();
+        List<String> lines = FileUtils.readLines(importfile, cs);
         controller.setSongToImport(textfileReader.read(lines));
         return true;
       } catch (Exception e) {

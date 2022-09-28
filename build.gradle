@@ -31,6 +31,8 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
+    implementation 'org.codehaus.guessencoding:guessencoding:1.4'
+
     implementation 'org.apache.poi:poi:4.1.1'//word/ppt export / import
     implementation 'org.apache.poi:poi-ooxml:4.1.1'//word/ppt export
     implementation 'org.apache.poi:poi-scratchpad:4.1.1'  //word/ppt export
@@ -117,9 +119,10 @@ task installLocal() {
     File outputDir = new File(System.getProperty("user.home") + "/programs/adonai")
     File adonaiZip = distZip.archiveFile.get().asFile
 
-    println "Install AdonaiZip $adonaiZip.absolutePath into $outputDir.absolutePath"
+
 
     doFirst {
+        println "Install AdonaiZip $adonaiZip.absolutePath into $outputDir.absolutePath"
         delete(outputDir)
     }
 

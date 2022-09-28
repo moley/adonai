@@ -8,6 +8,19 @@ import org.junit.Test;
  */
 public class ChordTest {
 
+  @Test
+  public void brackets () {
+    Chord chord = new Chord("(D)");
+    Assert.assertEquals ("Invalid basepart ",  "D", chord.leftPart.toString());
+
+  }
+  @Test
+  public void is () {
+    Chord chord = new Chord("CIS");
+    Assert.assertEquals ("Invalid basepart ",  "C#", chord.leftPart.toString());
+
+  }
+
   @Test(expected = InvalidChordException.class)
   public void threeParts () {
     new Chord("C/G/A");

@@ -10,7 +10,8 @@ public enum SongPartType {
   SOLO ("Solo"),
   ZWISCHENSPIEL ("Zwischenspiel"),
   EXTRO ("Extro"),
-  RAP ("Rap");
+  RAP ("Rap"),
+  PRECHORUS ("PreChorus");
 
   private String displayname;
 

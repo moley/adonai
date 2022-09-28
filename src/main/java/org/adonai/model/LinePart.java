@@ -92,7 +92,7 @@ public class LinePart {
     if (text != null && ! text.isEmpty())
       linePartString += text;
     else
-      linePartString += "_";
+      linePartString += " ";
 
     return linePartString;
   }

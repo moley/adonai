@@ -9,3 +9,9 @@
 
 {comment: Vers 1}
 Bla [D]Blub [A]Bla [C]
+
+{comment: Instrumental}
+[|] [Bm7]      [|] [G]         [|] [Bm7]      [|] [G]         [|]
+
+CCLI-Liednummer 6593630
+Bla | Blub

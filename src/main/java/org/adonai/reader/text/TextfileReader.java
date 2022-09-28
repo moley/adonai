@@ -13,6 +13,7 @@ import org.adonai.model.Song;
 import org.adonai.model.SongPart;
 import org.adonai.model.SongPartType;
 import org.adonai.model.SongStructItem;
+import org.adonai.reader.ReaderUtil;
 import org.adonai.services.SongRepairer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class TextfileReader {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TextfileReader.class.getName());
 
+  private ReaderUtil readerUtil = new ReaderUtil();
 
   private String addPendingChordLine (final String currentChordLine, final SongPart songPart) {
     if (currentChordLine != null) { //chordline as last line in part
@@ -112,20 +114,23 @@ public class TextfileReader {
         continue;
       }
 
+      SongPartType foundType = readerUtil.extractType(next.trim());
+      if (foundType != null && newSongPart != null)
+        newSongPart.setSongPartType(foundType);
+      else {
 
-      if (isChordLine(next)) { //read chord line
-        if (currentChordLine != null)
-          addPendingChordLine(currentChordLine, currentSongPart);
+        if (isChordLine(next)) { //read chord line
+          if (currentChordLine != null)
+            addPendingChordLine(currentChordLine, currentSongPart);
 
-        currentChordLine = next;
-      }
-      else { //read text line
+          currentChordLine = next;
+        } else { //read text line
 
-        Line newLine = new Line();
-        if (currentChordLine == null) {
-          LOGGER.info("- create linepart without chords (" + next + ")");
-          newLine.getLineParts().add(new LinePart(next));
-        } else {
+          Line newLine = new Line();
+          if (currentChordLine == null) {
+            LOGGER.info("- create linepart without chords (" + next + ")");
+            newLine.getLineParts().add(new LinePart(next));
+          } else {
 
             List<Integer> tokens = getTokens(currentChordLine);
             List<Chord> chords = getChords(currentChordLine);
@@ -147,20 +152,20 @@ public class TextfileReader {
 
                 newLine.getLineParts().add(new LinePart(evenutallyTrimmedText, chord));
               } catch (Exception e) {
-                throw new IllegalStateException("From " + from + " to " + to + "(" + i + " of " + (tokens.size() - 1) + ") in line " + linenumber + "(" + next + ")", e);
+                throw new IllegalStateException("From " + from + " to " + to + "(" + i + " of " + (tokens.size() - 1) + ") in line " + linenumber + "(" + next + ")",
+                    e);
 
               }
 
+            }
 
+            currentChordLine = null;
           }
 
-          currentChordLine = null;
+          LOGGER.info("- create lineparts with chords (" + newLine + ")");
+          currentSongPart.getLines().add(newLine);
+
         }
-
-
-        LOGGER.info("- create lineparts with chords (" + newLine + ")");
-        currentSongPart.getLines().add(newLine);
-
       }
 
     }

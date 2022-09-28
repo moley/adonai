@@ -22,4 +22,5 @@ public class TextfileReaderParam {
   public void setWithTitle(boolean withTitle) {
     this.withTitle = withTitle;
   }
+
 }
