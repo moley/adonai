@@ -28,7 +28,7 @@ public class ExtensionIndex {
 
   public void readPath (final File path) {
     LOGGER.info("read path " + path.getAbsolutePath());
-    if (path.exists()) {
+    if (! path.exists()) {
       LOGGER.error("Path " + path.getAbsolutePath() + " does not exist");
       return;
     }
