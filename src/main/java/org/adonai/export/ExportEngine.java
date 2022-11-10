@@ -145,9 +145,11 @@ public class ExportEngine {
 
             String remarks = nextStructItem.getRemarks();
             SizeInfo sizeinfoRemarks = documentBuilder.getSize(remarks, ExportTokenType.REMARKS);
-            ExportToken remarksToken = new ExportToken(nextSong, nextStructItem, remarks, new AreaInfo(locationInfo, sizeinfoRemarks), ExportTokenType.REMARKS);
+            LocationInfo locationInfoRemarks = new LocationInfo(documentBuilder.getPageSize().getWidth() - exportConfiguration.getLeftBorder() - sizeinfoRemarks.getWidth(), locationInfo.getY());
+            ExportToken remarksToken = new ExportToken(nextSong, nextStructItem, remarks, new AreaInfo(locationInfoRemarks, sizeinfoRemarks), ExportTokenType.REMARKS);
             documentBuilder.newToken(remarksToken);
-            locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getRemarksStructureDistance() + sizeinfoRemarks.getHeight());
+            locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), locationInfo.getY());
+            //TODO make configurable rightbound one line or leftbound nextline
           }
         }
 
