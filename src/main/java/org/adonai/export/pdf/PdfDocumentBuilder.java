@@ -146,6 +146,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setChordTextDistance(4.0);
     exportConfiguration.setInterPartDistance(15.0);
     exportConfiguration.setStructureDistance(5.0);
+    exportConfiguration.setTitleSongDistance(5.0);
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setLeftBorder(30.0);
     exportConfiguration.setUpperBorder(20.0);
