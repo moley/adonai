@@ -30,6 +30,8 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   BaseFont bf;
   BaseFont bfBold;
 
+  BaseFont bfItalic;
+
 
   public PdfDocumentBuilder () {
     pagesizeA4 = PageSize.A4;
@@ -38,6 +40,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     try {
       bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
       bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
+      bfItalic = BaseFont.createFont(BaseFont.HELVETICA_OBLIQUE,  BaseFont.CP1252, BaseFont.EMBEDDED); //centralize fonthandling
     } catch (IOException | DocumentException e) {
       throw new IllegalStateException(e);
     }
@@ -66,6 +69,8 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
   private BaseFont getBaseFont (final ExportTokenType exportTokenType) {
     if (exportTokenType.isBold())
       return bfBold;
+    else if (exportTokenType.isItalic())
+      return bfItalic;
     else
       return bf;
   }
@@ -78,6 +83,8 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     else if (exportTokenType.equals(ExportTokenType.TITLE))
       return 14;
     else if (exportTokenType.equals(ExportTokenType.STRUCTURE))
+      return 8;
+    else if (exportTokenType.equals(ExportTokenType.REMARKS))
       return 8;
     else
       throw new IllegalStateException("ExportTokenType " + exportTokenType.name() + " not yet supported");
@@ -108,7 +115,9 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
           cb.beginText();
           double realY = pagesizeA4.getHeight() - nextToken.getAreaInfo().getY() - heightFirstLine;
           cb.moveText(nextToken.getAreaInfo().getX().floatValue(), (float) realY);
-          cb.setFontAndSize(nextToken.getExportTokenType().isBold() ? bfBold : bf, getFontsize(nextToken.getExportTokenType()));
+
+          BaseFont baseFont = getBaseFont(nextToken.getExportTokenType());
+          cb.setFontAndSize(baseFont, getFontsize(nextToken.getExportTokenType()));
           cb.showText(nextToken.getText());
           cb.endText();
 
@@ -143,6 +152,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setLowerBorder(20.0);
     exportConfiguration.setOpenPreview(true);
     exportConfiguration.setMinimalChordDistance(5.0);
+    exportConfiguration.setRemarksStructureDistance(5.0);
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema PDF Default");
 

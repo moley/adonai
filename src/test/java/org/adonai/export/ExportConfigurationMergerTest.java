@@ -49,6 +49,7 @@ public class ExportConfigurationMergerTest {
     defaultConfiguration.setLeftBorder(5.0);
     defaultConfiguration.setLowerBorder(5.0);
     defaultConfiguration.setMinimalChordDistance(5.0);
+    defaultConfiguration.setRemarksStructureDistance(5.0);
     defaultConfiguration.setOpenPreview(Boolean.FALSE);
 
     ExportConfiguration userConfiguration = new ExportConfiguration();
@@ -68,6 +69,7 @@ public class ExportConfigurationMergerTest {
     userConfiguration.setStructureDistance(15.0);
     userConfiguration.setChordTextDistance(15.0);
     userConfiguration.setTitleSongDistance(15.0);
+    userConfiguration.setRemarksStructureDistance(15.0);
     userConfiguration.setUpperBorder(15.0);
     userConfiguration.setLeftBorder(15.0);
     userConfiguration.setLowerBorder(15.0);
@@ -94,6 +96,7 @@ public class ExportConfigurationMergerTest {
     Assert.assertEquals("Structure distance invalid", Double.valueOf(15.0), mergedConfiguration.getStructureDistance());
     Assert.assertEquals("ChordText distance invalid", Double.valueOf(15.0), mergedConfiguration.getChordTextDistance());
     Assert.assertEquals("TitleSong distance invalid", Double.valueOf(15.0), mergedConfiguration.getTitleSongDistance());
+    Assert.assertEquals("Remarks structure distance invalid", Double.valueOf(15.0), mergedConfiguration.getRemarksStructureDistance());
     Assert.assertEquals("Upper border invalid", Double.valueOf(15.0), mergedConfiguration.getUpperBorder());
     Assert.assertEquals("Left border invalid", Double.valueOf(15.0), mergedConfiguration.getLeftBorder());
     Assert.assertEquals("Lower border invalid", Double.valueOf(15.0), mergedConfiguration.getLowerBorder());
@@ -148,6 +151,7 @@ public class ExportConfigurationMergerTest {
     defaultConfiguration.setStructureDistance(5.0);
     defaultConfiguration.setChordTextDistance(5.0);
     defaultConfiguration.setTitleSongDistance(5.0);
+    defaultConfiguration.setRemarksStructureDistance(5.0);
     defaultConfiguration.setUpperBorder(5.0);
     defaultConfiguration.setLeftBorder(5.0);
     defaultConfiguration.setLowerBorder(5.0);
@@ -179,6 +183,7 @@ public class ExportConfigurationMergerTest {
     Assert.assertEquals("Structure distance invalid", Double.valueOf(5.0), mergedConfiguration.getStructureDistance());
     Assert.assertEquals("ChordText distance invalid", Double.valueOf(5.0), mergedConfiguration.getChordTextDistance());
     Assert.assertEquals("TitleSong distance invalid", Double.valueOf(5.0), mergedConfiguration.getTitleSongDistance());
+    Assert.assertEquals("RemarksStructure distance invalid", Double.valueOf(5.0), mergedConfiguration.getRemarksStructureDistance());
     Assert.assertEquals("Upper border invalid", Double.valueOf(5.0), mergedConfiguration.getUpperBorder());
     Assert.assertEquals("Left border invalid", Double.valueOf(5.0), mergedConfiguration.getLeftBorder());
     Assert.assertEquals("Lower border invalid", Double.valueOf(5.0), mergedConfiguration.getLowerBorder());

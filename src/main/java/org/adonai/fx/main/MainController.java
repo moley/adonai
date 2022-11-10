@@ -247,6 +247,7 @@ public class MainController extends AbstractController {
 
     exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
     exportConfiguration.setInterPartDistance(40.0);
+    exportConfiguration.setRemarksStructureDistance(5.0); //TODO why it is not set from default
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithKeys(false);

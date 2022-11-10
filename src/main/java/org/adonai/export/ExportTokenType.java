@@ -23,4 +23,5 @@ public enum ExportTokenType {
   public boolean isBold () {
     return bold;
   }
+
 }

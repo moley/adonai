@@ -66,6 +66,9 @@ public class ExportAction implements MainAction {
       exportConfiguration.setWithIndexPage(songs.size() > 1);
       exportConfiguration.setWithContentPage(songs.size() > 1);
       exportConfiguration.setStructureDistance(Double.valueOf(5));
+      exportConfiguration.setWithRemarks(true);
+      exportConfiguration.setRemarksStructureDistance(Double.valueOf(5));
+
       //exportConfiguration.setInterPartDistance(Double.valueOf(5));
 
       File exportFile = new File(exportPath, name + "_Chords.pdf");
@@ -84,6 +87,8 @@ public class ExportAction implements MainAction {
       exportConfigurationNoChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
       exportConfigurationNoChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
       exportConfigurationNoChords.setStructureDistance(Double.valueOf(5));
+      exportConfigurationNoChords.setWithRemarks(true);
+      exportConfigurationNoChords.setRemarksStructureDistance(Double.valueOf(5));
 
 
       File exportFileNoChords = new File(exportPath, name + ".pdf");

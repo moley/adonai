@@ -194,6 +194,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setLowerBorder(Double.valueOf(5));
     exportConfiguration.setOpenPreview(false);
     exportConfiguration.setMinimalChordDistance(Double.valueOf(5));
+    exportConfiguration.setRemarksStructureDistance(Double.valueOf(5));
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema Editor Default");
     exportConfiguration.setWithRemarks(Boolean.TRUE);

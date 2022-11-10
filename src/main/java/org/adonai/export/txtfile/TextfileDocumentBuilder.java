@@ -74,6 +74,7 @@ public class TextfileDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setInterPartDistance(Double.valueOf(1));
     exportConfiguration.setInterSongDistance(Double.valueOf(2));
     exportConfiguration.setMinimalChordDistance(Double.valueOf(0));
+    exportConfiguration.setRemarksStructureDistance(Double.valueOf(0));
 
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema Textfile Default");

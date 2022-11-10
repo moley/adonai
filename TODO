@@ -1,3 +1,9 @@
+- add remarks to pdf italic
+- add remarks rightbound
+- user management and login
+- user specific remarks
+- export for admin contains remarks of all users
+
 - after transposing and stepping back to editor the current selected part is overwritten by the previous editor content
 - Refresh in TabPane of Editor
 - TextEditor and SongPropertiesEditor

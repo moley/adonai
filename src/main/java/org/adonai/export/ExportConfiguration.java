@@ -79,6 +79,8 @@ public class ExportConfiguration {
 
   private SimpleDoubleProperty titleSongDistance = new SimpleDoubleProperty(-1);
 
+  private SimpleDoubleProperty remarksStructureDistance = new SimpleDoubleProperty(-1);
+
 
 
 
@@ -439,6 +441,20 @@ public class ExportConfiguration {
   public void setLowerBorder(Double lowerBorder) { this.lowerBorder.setValue(lowerBorder);}
 
   public SimpleDoubleProperty lowerBorderProperty () { return lowerBorder; }
+
+  //remarks structure distance
+
+  public Double getRemarksStructureDistance() {
+    return remarksStructureDistance.get();
+  }
+
+  public SimpleDoubleProperty remarksStructureDistanceProperty() {
+    return remarksStructureDistance;
+  }
+
+  public void setRemarksStructureDistance(double remarksStructureDistance) {
+    this.remarksStructureDistance.set(remarksStructureDistance);
+  }
 
   //minimal chord distance
 

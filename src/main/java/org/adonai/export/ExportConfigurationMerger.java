@@ -29,6 +29,7 @@ public class ExportConfigurationMerger {
     merged.setLeftBorder(userConf.getLeftBorder() >=0 ? userConf.getLeftBorder(): defConf.getLeftBorder());
     merged.setLowerBorder(userConf.getLowerBorder() >=0 ? userConf.getLowerBorder(): defConf.getLowerBorder());
     merged.setMinimalChordDistance(userConf.getMinimalChordDistance() >=0 ? userConf.getMinimalChordDistance(): defConf.getMinimalChordDistance());
+    merged.setRemarksStructureDistance(userConf.getRemarksStructureDistance() >= 0 ? userConf.getRemarksStructureDistance(): defConf.getRemarksStructureDistance());
     merged.setOpenPreview(userConf.isOpenPreviewInitialized() ? userConf.isOpenPreview(): defConf.isOpenPreview());
     merged.setDocumentBuilderClass(defConf.getDocumentBuilderClass());
 

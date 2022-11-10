@@ -147,7 +147,7 @@ public class ExportEngine {
             SizeInfo sizeinfoRemarks = documentBuilder.getSize(remarks, ExportTokenType.REMARKS);
             ExportToken remarksToken = new ExportToken(nextSong, nextStructItem, remarks, new AreaInfo(locationInfo, sizeinfoRemarks), ExportTokenType.REMARKS);
             documentBuilder.newToken(remarksToken);
-            locationInfo = locationInfoCalculator.addY(locationInfo, sizeinfoRemarks.getHeight());
+            locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getRemarksStructureDistance() + sizeinfoRemarks.getHeight());
           }
         }
 
