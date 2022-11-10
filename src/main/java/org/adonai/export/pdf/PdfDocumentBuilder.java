@@ -141,7 +141,6 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithContentPage(true);
-    exportConfiguration.setTitleSongDistance(5.0);
     exportConfiguration.setInterLineDistance(5.0);
     exportConfiguration.setChordTextDistance(4.0);
     exportConfiguration.setInterPartDistance(15.0);
@@ -154,6 +153,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setOpenPreview(true);
     exportConfiguration.setMinimalChordDistance(5.0);
     exportConfiguration.setRemarksStructureDistance(5.0);
+    exportConfiguration.setRemarksRight(true);
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema PDF Default");
 

@@ -42,6 +42,8 @@ public class ExportConfiguration {
   private SimpleBooleanProperty withIndexPageInitialized = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty withRemarks = new SimpleBooleanProperty(false);
+
+  private SimpleBooleanProperty remarksRight = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withRemarksInitialized = new SimpleBooleanProperty(false);
 
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
@@ -306,6 +308,19 @@ public class ExportConfiguration {
     return withChordsInitialized;
   }
 
+  //Remarks right
+  public boolean isRemarksRight() {
+    return remarksRight.get();
+  }
+
+  public SimpleBooleanProperty remarksRightProperty() {
+    return remarksRight;
+  }
+
+  public void setRemarksRight(boolean remarksRight) {
+    this.remarksRight.set(remarksRight);
+  }
+
   public void setWithChords(Boolean withChords) {
     this.withChordsInitialized.set(Boolean.TRUE);
     this.withChords.set(withChords);
@@ -551,4 +566,6 @@ public class ExportConfiguration {
 
     }
   }
+
+
 }

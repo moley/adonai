@@ -68,7 +68,7 @@ public class ExportAction implements MainAction {
       exportConfiguration.setStructureDistance(Double.valueOf(5));
       exportConfiguration.setWithRemarks(true);
       exportConfiguration.setRemarksStructureDistance(Double.valueOf(5));
-      exportConfiguration.setTitleSongDistance(0d);
+      exportConfiguration.setRemarksRight(true);
 
       //exportConfiguration.setInterPartDistance(Double.valueOf(5));
 
@@ -90,7 +90,7 @@ public class ExportAction implements MainAction {
       exportConfigurationNoChords.setStructureDistance(Double.valueOf(5));
       exportConfigurationNoChords.setWithRemarks(true);
       exportConfigurationNoChords.setRemarksStructureDistance(Double.valueOf(5));
-      exportConfigurationNoChords.setTitleSongDistance(0d);
+      exportConfigurationNoChords.setRemarksRight(true);
 
 
       File exportFileNoChords = new File(exportPath, name + ".pdf");

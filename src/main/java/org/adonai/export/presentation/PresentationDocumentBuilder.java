@@ -198,6 +198,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setDocumentBuilderClass(getClass().getName());
     exportConfiguration.setName("Styleschema Editor Default");
     exportConfiguration.setWithRemarks(Boolean.TRUE);
+    exportConfiguration.setRemarksRight(false);
 
     return exportConfiguration;
   }

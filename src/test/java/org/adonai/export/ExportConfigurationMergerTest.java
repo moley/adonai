@@ -34,6 +34,7 @@ public class ExportConfigurationMergerTest {
     defaultConfiguration.setWithChords(Boolean.FALSE);
     defaultConfiguration.setWithContentPage(Boolean.FALSE);
     defaultConfiguration.setWithIndexPage(Boolean.FALSE);
+    defaultConfiguration.setRemarksRight(Boolean.FALSE);
     defaultConfiguration.setNewPageStrategy(NewPageStrategy.NEVER);
     defaultConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     defaultConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
@@ -55,6 +56,7 @@ public class ExportConfigurationMergerTest {
     ExportConfiguration userConfiguration = new ExportConfiguration();
     userConfiguration.setName("userConfiguration");
     userConfiguration.setId("2");
+    userConfiguration.setRemarksRight(Boolean.TRUE);
     userConfiguration.setWithChords(Boolean.TRUE);
     userConfiguration.setWithContentPage(Boolean.TRUE);
     userConfiguration.setWithIndexPage(Boolean.TRUE);
@@ -84,11 +86,13 @@ public class ExportConfigurationMergerTest {
     Assert.assertEquals ("With chords invalid", Boolean.TRUE, mergedConfiguration.isWithChords());
     Assert.assertEquals("With content page invalid", Boolean.TRUE, mergedConfiguration.isWithContentPage());
     Assert.assertEquals("With index page invalid", Boolean.TRUE, mergedConfiguration.isWithIndexPage());
+    Assert.assertEquals("Remarks right invalid", Boolean.TRUE, mergedConfiguration.isRemarksRight());
     Assert.assertEquals ("New page strategy invalid", NewPageStrategy.PER_PART, mergedConfiguration.getNewPageStrategy());
     Assert.assertEquals ("Reference strategy invalid", ReferenceStrategy.HIDE, mergedConfiguration.getReferenceStrategy());
     Assert.assertEquals("Songpart descriptor strategy invalid", SongPartDescriptorStrategy.SHORT, mergedConfiguration.getSongPartDescriptorType());
     Assert.assertEquals ("Pagesize invalid", new SizeInfo(800, 600), mergedConfiguration.getPageSize());
     Assert.assertEquals("With title invalid", Boolean.TRUE, mergedConfiguration.getWithTitle());
+
 
     Assert.assertEquals("Interpart distance invalid", Double.valueOf(15.0), mergedConfiguration.getInterPartDistance());
     Assert.assertEquals("Intersong distance invalid", Double.valueOf(15.0), mergedConfiguration.getInterSongDistance());
@@ -141,6 +145,7 @@ public class ExportConfigurationMergerTest {
     defaultConfiguration.setWithContentPage(Boolean.TRUE);
     defaultConfiguration.setWithIndexPage(Boolean.TRUE);
     defaultConfiguration.setOpenPreview(Boolean.TRUE);
+    defaultConfiguration.setRemarksRight(Boolean.TRUE);
     defaultConfiguration.setNewPageStrategy(NewPageStrategy.NEVER);
     defaultConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
     defaultConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
@@ -173,6 +178,7 @@ public class ExportConfigurationMergerTest {
     Assert.assertEquals ("With chords invalid", Boolean.TRUE, mergedConfiguration.isWithChords());
     Assert.assertEquals ("With content page invalid", Boolean.TRUE, mergedConfiguration.isWithChords());
     Assert.assertEquals ("With index page invalid", Boolean.TRUE, mergedConfiguration.isWithIndexPage());
+    Assert.assertEquals ("Remarks right invalid", Boolean.TRUE, mergedConfiguration.isRemarksRight());
     Assert.assertEquals ("New page strategy invalid", NewPageStrategy.NEVER, mergedConfiguration.getNewPageStrategy());
     Assert.assertEquals ("Reference strategy invalid", ReferenceStrategy.SHOW_STRUCTURE, mergedConfiguration.getReferenceStrategy());
     Assert.assertEquals ("SongpartDescriptorType invalid", SongPartDescriptorStrategy.LONG, mergedConfiguration.getSongPartDescriptorType());
