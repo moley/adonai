@@ -44,6 +44,8 @@ public class Configuration {
   }
 
   public List<SongBook> getSongBooks() {
+    if (songBooks.isEmpty())
+      songBooks.add(new SongBook());
     return songBooks;
   }
 

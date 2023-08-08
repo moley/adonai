@@ -198,10 +198,6 @@ public class ApplicationEnvironment {
   }
 
   public SongBook getCurrentSongBook() {
-    if (getCurrentConfiguration().getSongBooks().isEmpty()) {
-      SongBook newSongbook = new SongBook();
-      getCurrentConfiguration().getSongBooks().add(newSongbook);
-    }
     return getCurrentConfiguration().getSongBooks().get(0);
   }
 

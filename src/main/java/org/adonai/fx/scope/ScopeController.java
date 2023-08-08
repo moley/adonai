@@ -3,10 +3,16 @@ package org.adonai.fx.scope;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
@@ -22,6 +28,7 @@ import org.adonai.model.Configuration;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.TenantModel;
 import org.adonai.services.AddSongService;
 import org.adonai.services.RemoveSongService;
 import org.adonai.services.SessionService;
@@ -39,6 +46,8 @@ public class ScopeController extends AbstractController {
   @FXML private Button btnRemove;
   @FXML private Button btnMoveDown;
 
+  @FXML private MenuButton btnCloneToTenant;
+
   private final ScopeTreeProvider scopeTreeProvider = new ScopeTreeProvider();
 
   private final SessionService sessionService = new SessionService();
@@ -51,16 +60,26 @@ public class ScopeController extends AbstractController {
        loadData(getSelectedScopeItem());
     });
     btnAdd.setGraphic(Consts.createIcon("fas-plus", Consts.ICON_SIZE_VERY_SMALL));
+    btnAdd.setTooltip(new Tooltip("Add new song"));
     btnAdd.setOnAction(action -> add());
 
     btnMoveUp.setGraphic(Consts.createIcon("fas-angle-up", Consts.ICON_SIZE_VERY_SMALL));
+    btnMoveUp.setTooltip(new Tooltip("Move song up"));
     btnMoveUp.setOnAction(action -> moveUp());
 
     btnRemove.setGraphic(Consts.createIcon("fas-trash", Consts.ICON_SIZE_VERY_SMALL));
     btnRemove.setOnAction(action -> remove());
+    btnRemove.setTooltip(new Tooltip("Remove selected song"));
 
     btnMoveDown.setGraphic(Consts.createIcon("fas-angle-down", Consts.ICON_SIZE_VERY_SMALL));
     btnMoveDown.setOnAction(action -> moveDown());
+    btnMoveDown.setTooltip(new Tooltip("Move song down"));
+
+    btnCloneToTenant.setGraphic(Consts.createIcon("fas-clone", Consts.ICON_SIZE_VERY_SMALL));
+    btnCloneToTenant.setOnAction(action -> cloneToTenant ());
+    btnCloneToTenant.setTooltip(new Tooltip("Clone song to tenant"));
+
+
 
     treScope.setShowRoot(true);
 
@@ -134,6 +153,9 @@ public class ScopeController extends AbstractController {
       }
     });
 
+  }
+
+  private void cloneToTenant() {
   }
 
   private void stepToSong () {
@@ -279,6 +301,31 @@ public class ScopeController extends AbstractController {
     treScope.setRoot(scopeTreeProvider.getTree(getApplicationEnvironment()));
     treScope.getRoot().setExpanded(true);
 
+    btnCloneToTenant.getItems().clear();
+    for (String next: getApplicationEnvironment().getOtherTenants()) {
+      MenuItem menuItemTenant = new MenuItem(next);
+      menuItemTenant.setOnAction(new EventHandler<>() {
+        @Override public void handle(ActionEvent event) {
+          if (getSelectedScopeItem() != null && getSelectedScopeItem().getSong() != null) {
+            String tenant = ((MenuItem) event.getSource()).getText();
+            System.out.println("Clone " + getSelectedScopeItem().getSong().getName() + " to " + tenant);
+
+            AddSongService addSongService = new AddSongService();
+
+            TenantModel tenantModel = getApplicationEnvironment().getModel().getTenantModel(tenant);
+            Configuration configurationOtherTenant = tenantModel.get();
+
+            SongBook songBookOtherTenant = configurationOtherTenant.getSongBooks().get(0);
+            addSongService.addSong(getSelectedScopeItem().getSong(), songBookOtherTenant);
+            tenantModel.save();
+          }
+
+
+        }
+      });
+      btnCloneToTenant.getItems().add(menuItemTenant);
+    }
+
     if (selectedId != null) {
       TreeItem<ScopeItem> root = treScope.getRoot();
 
@@ -297,5 +344,7 @@ public class ScopeController extends AbstractController {
       }
     }
     treScope.requestFocus();
+
+
   }
 }
