@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.adonai.SizeInfo;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.model.SongPartDescriptorStrategy;
 
 import java.util.UUID;
@@ -49,15 +50,11 @@ public class ExportConfiguration {
   private SimpleBooleanProperty openPreview = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty openPreviewInitialized = new SimpleBooleanProperty(false);
 
-  private SimpleBooleanProperty originalKey = new SimpleBooleanProperty(false);
-  private SimpleBooleanProperty originKeyInitialized = new SimpleBooleanProperty(false);
-
-
-
-
   private ReferenceStrategy referenceStrategy = ReferenceStrategy.SHOW_STRUCTURE;
 
   private NewPageStrategy newPageStrategy = NewPageStrategy.PER_SONG;
+
+  private KeyType keyType = KeyType.CURRENT;
 
   private SongPartDescriptorStrategy songPartDescriptorType = SongPartDescriptorStrategy.NONE;
 
@@ -119,26 +116,13 @@ public class ExportConfiguration {
     this.withRemarks.set(originalKey);
   }
 
-  //original key
-  public Boolean isOriginalKey () {
-    return originalKey.get();
+  //key type
+  public KeyType getKeyType() {
+    return keyType;
   }
 
-  public boolean isOriginalKeyInitialized () {
-    return originKeyInitialized.get();
-  }
-
-  public SimpleBooleanProperty originalKeyProperty () {
-    return originalKey;
-  }
-
-  public SimpleBooleanProperty originalKeyInitializedProperty () {
-    return originKeyInitialized;
-  }
-
-  public void setOriginalKey (final Boolean originalKey) {
-    this.originKeyInitialized.set(Boolean.TRUE);
-    this.originalKey.set(originalKey);
+  public void setKeyType(KeyType keyType) {
+    this.keyType = keyType;
   }
 
   //with index page
@@ -549,7 +533,7 @@ public class ExportConfiguration {
         interPartDistance + "\n interSongDistance=" + interSongDistance + "\n interLineDistance=" + interLineDistance + "\n chordTextDistance="+
         chordTextDistance + "\n structureDistance=" + structureDistance + "\n upperBorder=" + upperBorder + "\n lowerBorder=" + lowerBorder +
         "\n leftBorder=" + leftBorder + "\n minimalChordDistance=" + minimalChordDistance + "\n titleSongDistance=" + titleSongDistance +
-        "\n openPreview=" + openPreview + "\n pageSize=" + pageSize + '}';
+        "\n openPreview=" + openPreview + "\n pageSize=" + pageSize + "\n keyType=" + keyType +  '}';
   }
 
   public void initializeValues() {

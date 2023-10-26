@@ -2,10 +2,13 @@ package org.adonai.fx.main;
 
 import java.util.List;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
@@ -26,6 +29,7 @@ import org.adonai.fx.Consts;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.SongViewer;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.fx.editcontent.SongEditor;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
@@ -50,8 +54,7 @@ public class MainController extends AbstractController {
   public HBox panHeader;
   public BorderPane main;
   public Button btnLeadVoice;
-  public Button btnTransposedKey;
-  public Button btnOriginalKey;
+  public ComboBox<KeyType> cboKeyType;
   //public Button btnHelp;
   public Button btnAdmin;
   public Button btnViewer;
@@ -74,6 +77,8 @@ public class MainController extends AbstractController {
     btnAdmin.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
     btnAdmin.setTooltip(new Tooltip("Data"));
     btnAdmin.setOnAction(event -> reloadScope());
+    cboKeyType.setItems(FXCollections.observableArrayList(KeyType.values()));
+    cboKeyType.getSelectionModel().select(KeyType.CURRENT);
     //btnHelp.setTooltip(new Tooltip("Help screen"));
     //btnHelp.setOnAction(event -> openHelp ());
     //btnHelp.setGraphic(Consts.createIcon("fas-info", Consts.ICON_SIZE_TOOLBAR));
@@ -127,16 +132,8 @@ public class MainController extends AbstractController {
 
     panMetronome.getChildren().add(metronome.getControl());
 
-    btnTransposedKey.setOnAction(event -> {
-      getApplicationEnvironment().setShowOriginalKey(false);
-      btnTransposedKey.setStyle("-fx-background-color:yellow");
-      btnOriginalKey.setStyle("");
-      reloadViewer();
-    });
-    btnOriginalKey.setOnAction(event -> {
-      getApplicationEnvironment().setShowOriginalKey(true);
-      btnOriginalKey.setStyle("-fx-background-color:yellow");
-      btnTransposedKey.setStyle("");
+    cboKeyType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+      getApplicationEnvironment().setShowKeyType(newValue);
       reloadViewer();
     });
 
@@ -245,13 +242,13 @@ public class MainController extends AbstractController {
     List<Song> songsOfCurrentScope = getApplicationEnvironment().getSongsOfCurrentScope();
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
-    exportConfiguration.setOriginalKey(getApplicationEnvironment().isShowOriginalKey());
+    exportConfiguration.setKeyType(getApplicationEnvironment().getShowKeyType());
     exportConfiguration.setInterPartDistance(40.0);
     exportConfiguration.setRemarksStructureDistance(5.0); //TODO why it is not set from default
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
     exportConfiguration.setWithKeys(false);
-    exportConfiguration.setWithLead(false);
+    exportConfiguration.setWithLead(true);
     exportConfiguration.setWithRemarks(true); //TODO from configuration
 
     exporter.export(songsOfCurrentScope, null, exportConfiguration);
@@ -272,14 +269,10 @@ public class MainController extends AbstractController {
       if (newValue != null) {
         log.info("Current song property changed to " + newValue.getId());
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername() : "");
-        btnOriginalKey.setText(newValue.getOriginalKey() != null ? newValue.getOriginalKey() : "");
-        btnTransposedKey.setText(newValue.getCurrentKey() != null ? ("-> " + newValue.getCurrentKey()) : "");
         btnSpeed.setText(newValue.getSpeedNotNull());
       }
       else {
         btnLeadVoice.setText("");
-        btnOriginalKey.setText("");
-        btnTransposedKey.setText("");
         btnSpeed.setText("");
       }
     });

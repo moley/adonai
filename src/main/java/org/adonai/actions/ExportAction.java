@@ -11,6 +11,7 @@ import org.adonai.api.MainAction;
 import org.adonai.export.ExportConfiguration;
 import org.adonai.export.ReferenceStrategy;
 import org.adonai.export.pdf.PdfExporter;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
@@ -63,15 +64,13 @@ public class ExportAction implements MainAction {
       exportConfiguration.setWithTitle(true);
       exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
       exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+      exportConfiguration.setKeyType(KeyType.CURRENT);
       exportConfiguration.setWithIndexPage(songs.size() > 1);
       exportConfiguration.setWithContentPage(songs.size() > 1);
       exportConfiguration.setStructureDistance(Double.valueOf(5));
       exportConfiguration.setWithRemarks(true);
       exportConfiguration.setRemarksStructureDistance(Double.valueOf(5));
       exportConfiguration.setRemarksRight(true);
-
-      //exportConfiguration.setInterPartDistance(Double.valueOf(5));
-
       File exportFile = new File(exportPath, name + "_Chords.pdf");
       exportFile.getParentFile().mkdirs();
       writer.export(songs, exportFile, exportConfiguration);
@@ -91,12 +90,32 @@ public class ExportAction implements MainAction {
       exportConfigurationNoChords.setWithRemarks(true);
       exportConfigurationNoChords.setRemarksStructureDistance(Double.valueOf(5));
       exportConfigurationNoChords.setRemarksRight(true);
-
-
       File exportFileNoChords = new File(exportPath, name + ".pdf");
       exportFileNoChords.getParentFile().mkdirs();
       writer.export(songs, exportFileNoChords, exportConfigurationNoChords);
       LOGGER.info("Exported without chords " + exportPath.getAbsolutePath());
+
+      //With capo and chords
+      writer = new PdfExporter();
+      ExportConfiguration exportConfigurationCapoAndChords = configuration.findDefaultExportConfiguration(writer.getPdfDocumentBuilder().getClass());
+      exportConfigurationCapoAndChords.setWithContentPage(true);
+      exportConfigurationCapoAndChords.setWithIndexPage(true);
+      exportConfigurationCapoAndChords.setWithChords(true);
+      exportConfigurationCapoAndChords.setWithId(true);
+      exportConfigurationCapoAndChords.setWithTitle(true);
+      exportConfigurationCapoAndChords.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
+      exportConfigurationCapoAndChords.setKeyType(KeyType.CURRENT_CAPO);
+      exportConfigurationCapoAndChords.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
+      exportConfigurationCapoAndChords.setWithIndexPage(songs.size() > 1);
+      exportConfigurationCapoAndChords.setWithContentPage(songs.size() > 1);
+      exportConfigurationCapoAndChords.setStructureDistance(Double.valueOf(5));
+      exportConfigurationCapoAndChords.setWithRemarks(true);
+      exportConfigurationCapoAndChords.setRemarksStructureDistance(Double.valueOf(5));
+      exportConfigurationCapoAndChords.setRemarksRight(true);
+      File exportConfigurationCapoAndChordsFile = new File(exportPath, name + "_Chords_Capo.pdf");
+      exportFile.getParentFile().mkdirs();
+      writer.export(songs, exportConfigurationCapoAndChordsFile, exportConfigurationCapoAndChords);
+      LOGGER.info("Exported with chords and capo " + exportPath.getAbsolutePath());
 
       File songsPath = new File (exportPath, "mp3s");
       for (Song next: songs) {

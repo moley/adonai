@@ -17,6 +17,7 @@ import org.adonai.export.ExportConfiguration;
 import org.adonai.export.presentation.PresentationDocumentBuilder;
 import org.adonai.export.presentation.PresentationExporter;
 import org.adonai.fx.SongViewer;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.fx.imports.SongImportController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
@@ -56,7 +57,7 @@ public class PreviewPage extends WizardPage {
       Configuration configuration = applicationEnvironment.getCurrentConfiguration();
       ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
-      exportConfiguration.setOriginalKey(false);
+      exportConfiguration.setKeyType(KeyType.CURRENT);
       exportConfiguration.setWithTitle(false);
       exportConfiguration.setWithLead(false);
       exportConfiguration.setWithId(false);

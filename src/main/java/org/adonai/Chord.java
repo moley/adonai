@@ -32,11 +32,13 @@ public class Chord {
    * transposes a chord
    * @param diff
    */
-  public void transpose (final int diff, final NoteEntryType noteEntryType) {
+  public Chord transpose (final int diff, final NoteEntryType noteEntryType) {
     leftPart.transpose(diff, noteEntryType);
 
     if (basePart != null)
     basePart.transpose(diff, noteEntryType);
+
+    return this;
   }
 
   /**

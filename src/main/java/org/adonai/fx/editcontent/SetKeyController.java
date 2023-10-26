@@ -19,8 +19,7 @@ import org.adonai.model.SongPartType;
 import org.adonai.services.SongCloneService;
 import org.adonai.services.SongTransposeService;
 
-@Slf4j
-public class SetKeyController extends AbstractController {
+@Slf4j public class SetKeyController extends AbstractController {
 
   public Button btnSave;
   public Button btnCancel;
@@ -30,7 +29,7 @@ public class SetKeyController extends AbstractController {
   public TextArea txtTextTo;
   public GridPane panSetKey;
   public Label lblTitle;
-  private boolean originalKey;
+  private KeyType keyType;
 
   private Song currentSong;
   private Song previewSong;
@@ -41,16 +40,7 @@ public class SetKeyController extends AbstractController {
 
   private SongCloneService songCloneService = new SongCloneService();
 
-  public boolean isOriginalKey() {
-    return originalKey;
-  }
-
-  public void setOriginalKey(boolean originalKey) {
-    this.originalKey = originalKey;
-  }
-
-  @FXML
-  public void initialize () {
+  @FXML public void initialize() {
     cboTo.setItems(FXCollections.observableArrayList(Key.values()));
     panSetKey.setPadding(new Insets(20));
 
@@ -59,10 +49,9 @@ public class SetKeyController extends AbstractController {
     txtTextTo.setEditable(false);
     txtTextFrom.setFocusTraversable(false);
 
-
   }
 
-  public void renderContent () {
+  public void renderContent() {
     SongPart originPart = currentSong.getFirstPart(SongPartType.REFRAIN);
     SongPart previewPart = previewSong.getFirstPart(SongPartType.REFRAIN);
 
@@ -71,8 +60,8 @@ public class SetKeyController extends AbstractController {
       previewPart = previewSong.getFirstPart();
     }
 
-    txtTextFrom.setText(textRenderer.getRenderedText(originPart, isOriginalKey()));
-    txtTextTo.setText(textRenderer.getRenderedText(previewPart, isOriginalKey()));
+    txtTextFrom.setText(textRenderer.getRenderedText(originPart, getKeyType()));
+    txtTextTo.setText(textRenderer.getRenderedText(previewPart, getKeyType()));
   }
 
   public void setApplicationEnvironment(ApplicationEnvironment applicationEnvironment) {
@@ -80,55 +69,86 @@ public class SetKeyController extends AbstractController {
     this.currentSong = applicationEnvironment.getCurrentSong();
     this.previewSong = songCloneService.cloneSong(this.currentSong);
 
-    String fromChord = originalKey ? currentSong.getOriginalKey(): currentSong.getCurrentKey();
+    String fromChord = currentSong.getChord(keyType);
     if (fromChord == null)
       fromChord = "";
 
     log.info("From Chord: <" + fromChord + ">");
     btnFrom.setText(fromChord);
-    lblTitle.setText(originalKey ? "SET ORIGINAL KEY": "SET CURRENT KEY");
+    switch (keyType) {
+    case CURRENT:
+      lblTitle.setText("SET CURRENT KEY");
+      break;
+    case ORIGINAL:
+      lblTitle.setText("SET ORIGINAL KEY");
+      break;
+    case CURRENT_CAPO:
+      lblTitle.setText("SET CURRENT CAPO KEY");
+      break;
+    default:
+      throw new IllegalStateException("Invalid keytype " + keyType);
+    }
 
-    if (! fromChord.trim().isEmpty())
+    if (!fromChord.trim().isEmpty())
       cboTo.getSelectionModel().select(Key.fromString(fromChord));
 
-
     cboTo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-       log.info("Change chord from " + btnFrom.getText() + " to "+ cboTo.getSelectionModel().getSelectedItem().toString());
+      log.info(
+          "Change chord from " + btnFrom.getText() + " to " + cboTo.getSelectionModel().getSelectedItem().toString());
 
-       if (originalKey) {
-         previewSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
-         if (! btnFrom.getText().trim().isEmpty())
-           songTransposeService.recalculateOrigin(previewSong);
-       }
-       else {
-         previewSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
-         if (! btnFrom.getText().trim().isEmpty())
-           songTransposeService.recalculateCurrent(previewSong);
-       }
+      switch (keyType) {
+      case ORIGINAL:
+        previewSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (!btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateOrigin(previewSong);
+        break;
+      case CURRENT:
+        previewSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (!btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateCurrent(previewSong);
+        break;
+      case CURRENT_CAPO:
+        previewSong.setCurrentKeyCapo(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (!btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateCurrent(previewSong);
+        break;
+      }
 
-       renderContent();
+      renderContent();
     });
 
     renderContent();
 
-
-
     btnSave.setOnAction(event -> {
 
-      if (originalKey) {
+      switch (keyType) {
+      case ORIGINAL:
         currentSong.setOriginalKey(cboTo.getSelectionModel().getSelectedItem().toString());
-        if (! btnFrom.getText().trim().isEmpty())
+        if (!btnFrom.getText().trim().isEmpty())
           songTransposeService.recalculateOrigin(currentSong);
-      }
-      else {
+        break;
+      case CURRENT:
         currentSong.setCurrentKey(cboTo.getSelectionModel().getSelectedItem().toString());
-        if (! btnFrom.getText().trim().isEmpty())
+        if (!btnFrom.getText().trim().isEmpty())
           songTransposeService.recalculateCurrent(currentSong);
+      case CURRENT_CAPO:
+        currentSong.setCurrentKeyCapo(cboTo.getSelectionModel().getSelectedItem().toString());
+        if (!btnFrom.getText().trim().isEmpty())
+          songTransposeService.recalculateCurrentCapo(currentSong);
       }
+
       getStage().close();
     });
 
     btnCancel.setOnAction(event -> getStage().close());
 
+  }
+
+  public KeyType getKeyType() {
+    return keyType;
+  }
+
+  public void setKeyType(KeyType keyType) {
+    this.keyType = keyType;
   }
 }

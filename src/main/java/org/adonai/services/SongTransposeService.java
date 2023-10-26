@@ -16,6 +16,7 @@ public class SongTransposeService {
 
   private KeyManager manager = new KeyManager();
 
+
   public void transpose (final LinePart linePart, final Key from, final Key to) {
     if (from == null || to == null)
       return;
@@ -31,14 +32,21 @@ public class SongTransposeService {
     NoteEntryType noteEntryTypeTo = manager.getType(to);
     NoteEntryType noteEntryTypeFrom = manager.getType(from);
 
+    //Calculate chord capo from chord
+    if (linePart.getChord() != null && linePart.getChordCapo() == null) {
+      Chord nextChord = new Chord(linePart.getChord()).transpose(- diff, noteEntryTypeFrom);
+      linePart.setChordCapo(nextChord.toString());
+    }
+
+    //Calculate original chord from chord
     if (linePart.getChord() != null && linePart.getOriginalChord() == null) {
-      Chord nextChord = new Chord(linePart.getChord());
-      nextChord.transpose(- diff, noteEntryTypeFrom);
+      Chord nextChord = new Chord(linePart.getChord()).transpose(- diff, noteEntryTypeFrom);
       linePart.setOriginalChord(nextChord.toString());
     }
+
+    //Calculate chord from original chord
     if (linePart.getChord() == null && linePart.getOriginalChord() != null) {
-      Chord nextChord = new Chord(linePart.getOriginalChord());
-      nextChord.transpose(diff, noteEntryTypeTo);
+      Chord nextChord = new Chord(linePart.getOriginalChord()).transpose(diff, noteEntryTypeTo);
       linePart.setChord(nextChord.toString());
     }
 
@@ -59,6 +67,20 @@ public class SongTransposeService {
     }
 
     log.info("Recalculating origin chords finished");
+  }
+
+  public void recalculateCurrentCapo (final Song song) {
+    log.info("recalculate current chords (from " + song.getCurrentKey() + " to " + song.getCurrentKey() + ")");
+    if (song.getCurrentKey() == null || song.getCurrentKeyCapo() == null)
+      throw new IllegalStateException("Both current key capo and current key have to be set to recalculate the current capo key");
+    for (SongPart nextPart: song.getSongParts()) {
+      for (Line line: nextPart.getLines()) {
+        for (LinePart nextLinePart: line.getLineParts()) {
+          nextLinePart.setChordCapo(null);
+          transpose(nextLinePart, Key.fromString(song.getCurrentKeyCapo()), Key.fromString(song.getCurrentKey()));
+        }
+      }
+    }
   }
 
   public void recalculateCurrent (final Song song) {

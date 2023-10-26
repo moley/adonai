@@ -6,9 +6,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import org.adonai.AreaInfo;
+import org.adonai.Key;
 import org.adonai.LocationInfo;
 import org.adonai.LocationInfoCalculator;
+import org.adonai.Note;
 import org.adonai.SizeInfo;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.Song;
@@ -116,9 +119,9 @@ public class ExportEngine {
       String realKey = (exportConfiguration.getWithKeys() && nextSong.getCurrentKey() != null ?
           nextSong.getCurrentKey() :
           "");
-      String completeKey = (exportConfiguration.getWithKeys() ? "(" + originalKey + " -> " + realKey + ")" : "");
+      String completeKey = (exportConfiguration.getWithKeys() ? " | " + originalKey + " -> " + realKey : "");
       String leadVoice = (exportConfiguration.getWithLead() && nextSong.getLeadVoice() != null ?
-          " / " + nextSong.getLeadVoice().getUsername() :
+          " | " + nextSong.getLeadVoice().getUsername() :
           "");
 
       String id = (exportConfiguration.getWithId() && nextSong.getId() != null) ? nextSong.getId().toString() : "";
@@ -126,14 +129,42 @@ public class ExportEngine {
           nextSong.getTitle().toString() :
           "";
 
-      String idAndTitle = id + "     " + title + "                   " + completeKey + leadVoice;
-      if (!idAndTitle.trim().isEmpty()) {
-        SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
-        documentBuilder.newToken(
-            new ExportToken(nextSong, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId),
-                ExportTokenType.TITLE));
-        locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
+
+      String capo = "";
+      if (exportConfiguration.getKeyType().equals(KeyType.CURRENT_CAPO)) {
+        Note noteFrom = Note.from(Key.fromString(nextSong.getCurrentKey()));
+        Note noteTo = Note.from(Key.fromString(nextSong.getCurrentKeyCapo()));
+
+        int fromIndex = noteFrom.ordinal();
+        int toIndex = noteTo.ordinal();
+
+        int diff = toIndex - fromIndex;
+        if (diff == 0)
+          capo = " | Ohne Capo ";
+        else
+          capo = " | Capo " + Math.abs(diff);
       }
+
+      String idAndTitle = id + "     " + title;
+      SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
+      documentBuilder.newToken(
+          new ExportToken(nextSong, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId),
+             ExportTokenType.TITLE));
+      locationInfo = locationInfoCalculator.addX(locationInfo, sizeInfoTitelAndId.getWidth() + 10);
+
+
+      String headerInfo = capo + completeKey + leadVoice;
+      if (! headerInfo.trim().isEmpty())
+        headerInfo = (headerInfo  + " |").trim();
+
+      if (!headerInfo.trim().isEmpty()) {
+        SizeInfo sizeInfoheaderInfo = documentBuilder.getSize(headerInfo, ExportTokenType.TEXT);
+        documentBuilder.newToken(
+            new ExportToken(nextSong, null, headerInfo, new AreaInfo(locationInfo, sizeInfoheaderInfo),
+                ExportTokenType.TEXT));
+      }
+      locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
+      locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), locationInfo.getY());
 
       locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getTitleSongDistance());
 
@@ -299,11 +330,7 @@ public class ExportEngine {
   }
 
   private String transposeChordOnDemand(LinePart linePart, Song song, ExportConfiguration mergedConfiguration) {
-    if (mergedConfiguration.isOriginalKey()) {
-      return linePart.getOriginalChord();
-    } else {
-      return linePart.getChord();
-    }
+    return linePart.getChord(mergedConfiguration.getKeyType());
   }
 
   /**

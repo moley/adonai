@@ -6,22 +6,24 @@ import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlIDREF;
+import org.adonai.fx.editcontent.KeyType;
 
 /**
  * Created by OleyMa on 01.09.16.
  */
-public class Song extends AbstractSessionItem implements NamedElement{
+public class Song extends AbstractSessionItem implements NamedElement {
 
   private List<SongPart> parts = new ArrayList<SongPart>();
 
   private Integer id;
-
 
   private List<SongStructItem> structItems = new ArrayList<SongStructItem>();
 
   private Status status;
 
   private String currentKey;
+
+  private String currentKeyCapo;
 
   private String originalKey;
 
@@ -33,19 +35,21 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   private SimpleObjectProperty<Integer> speedProperty = new SimpleObjectProperty<Integer>();
 
-  public int getIndex (final SongPart songPart) {
+  private SimpleObjectProperty<Integer> capoThreadProperty = new SimpleObjectProperty<Integer>();
+
+  public int getIndex(final SongPart songPart) {
     return parts.indexOf(songPart);
   }
 
-  public int getIndex (final SongStructItem songStructItem) {
+  public int getIndex(final SongStructItem songStructItem) {
     if (songStructItem == null)
       throw new IllegalArgumentException("Parameter 'songStructItem' must not be null");
 
     return structItems.indexOf(songStructItem);
   }
 
-  public SongPart findSongPartByUUID (final String uuid) {
-    for (SongPart next: parts) {
+  public SongPart findSongPartByUUID(final String uuid) {
+    for (SongPart next : parts) {
       if (next.getId().equals(uuid))
         return next;
     }
@@ -53,22 +57,22 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return null;
   }
 
-  public SongPart getPreviousPart (SongPart songPart) {
+  public SongPart getPreviousPart(SongPart songPart) {
     int index = getIndex(songPart);
-    return index > 0 ? getSongParts().get(index - 1): null;
+    return index > 0 ? getSongParts().get(index - 1) : null;
   }
 
-  public SongPart getNextPart (SongPart songPart) {
+  public SongPart getNextPart(SongPart songPart) {
     int index = getIndex(songPart);
-    return (index < getSongParts().size() - 1)? getSongParts().get(index + 1): null;
+    return (index < getSongParts().size() - 1) ? getSongParts().get(index + 1) : null;
   }
 
-  public SongPart getFirstPart () {
+  public SongPart getFirstPart() {
     return parts.get(0);
   }
 
-  public SongPart getFirstPart (SongPartType type) {
-    for (SongPart next: parts) {
+  public SongPart getFirstPart(SongPartType type) {
+    for (SongPart next : parts) {
       if (next.getSongPartType().equals(type))
         return next;
     }
@@ -77,30 +81,29 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   }
 
-  public SongPart getLastPart () {
+  public SongPart getLastPart() {
     return parts.get(parts.size() - 1);
   }
 
-  public SongStructItem getPreviousStructItem (SongStructItem songStructItem) {
+  public SongStructItem getPreviousStructItem(SongStructItem songStructItem) {
     int index = getIndex(songStructItem);
-    return index > 0 ? getStructItems().get(index - 1): null;
+    return index > 0 ? getStructItems().get(index - 1) : null;
   }
 
-  public SongStructItem getNextStructItem (SongStructItem songStructItem) {
+  public SongStructItem getNextStructItem(SongStructItem songStructItem) {
     int index = getIndex(songStructItem);
     boolean notLast = index < getStructItems().size() - 1;
-    SongStructItem nextItem =  notLast ? getStructItems().get(index + 1): null;
+    SongStructItem nextItem = notLast ? getStructItems().get(index + 1) : null;
     return nextItem;
   }
 
-  public SongStructItem getFirstStructItem () {
+  public SongStructItem getFirstStructItem() {
     return structItems.get(0);
   }
 
-  public SongStructItem getLastStructItem () {
+  public SongStructItem getLastStructItem() {
     return structItems.get(structItems.size() - 1);
   }
-
 
   public List<SongPart> getSongParts() {
     return parts;
@@ -126,7 +129,7 @@ public class Song extends AbstractSessionItem implements NamedElement{
     this.id = id;
   }
 
-  public String toString () {
+  public String toString() {
     String content = "";
     content += id + "-" + getTitle() + "\n";
     return content;
@@ -134,6 +137,19 @@ public class Song extends AbstractSessionItem implements NamedElement{
 
   public String getOriginalKey() {
     return originalKey;
+  }
+
+  public String getChord(final KeyType keyType) {
+    switch (keyType) {
+    case CURRENT:
+      return getCurrentKey();
+    case ORIGINAL:
+      return getOriginalKey();
+    case CURRENT_CAPO:
+      return getCurrentKeyCapo();
+    default:
+      throw new IllegalStateException("Invalid type " + keyType);
+    }
   }
 
   public void setOriginalKey(String originalKey) {
@@ -148,20 +164,15 @@ public class Song extends AbstractSessionItem implements NamedElement{
     this.currentKey = currentKey;
   }
 
-  public SimpleStringProperty titleProperty () {
+  public SimpleStringProperty titleProperty() {
     return titleProperty;
   }
 
-
-
-  @Override
-  public String getName() {
+  @Override public String getName() {
     return getTitle();
   }
 
-
-  @XmlIDREF
-  public User getLeadVoice() {
+  @XmlIDREF public User getLeadVoice() {
     return leadVoice;
   }
 
@@ -173,7 +184,7 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return status;
   }
 
-  public boolean isDisabled () {
+  public boolean isDisabled() {
     return getStatus() != null && getStatus().equals(Status.INACTIVE);
   }
 
@@ -185,7 +196,7 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return presetProperty.get();
   }
 
-  public SimpleStringProperty presetProperty () {
+  public SimpleStringProperty presetProperty() {
     return presetProperty;
   }
 
@@ -197,11 +208,11 @@ public class Song extends AbstractSessionItem implements NamedElement{
     return speedProperty.get();
   }
 
-  public String getSpeedNotNull () {
+  public String getSpeedNotNull() {
     return (getSpeed() != null ? String.valueOf(getSpeed()) : "0");
   }
 
-  public void setSpeed (final Integer newSpeed) {
+  public void setSpeed(final Integer newSpeed) {
     this.speedProperty.set(newSpeed);
   }
 
@@ -219,24 +230,45 @@ public class Song extends AbstractSessionItem implements NamedElement{
     this.structItems = structItems;
   }
 
-  public SongPart findSongPart (final SongStructItem songStructItem) {
+  public SongPart findSongPart(final SongStructItem songStructItem) {
     Collection<String> found = new ArrayList<>();
-    for (SongPart next: parts) {
+    for (SongPart next : parts) {
       if (next.getId().equals(songStructItem.getPartId()))
         return next;
       else
         found.add(next.getId() + "\n");
     }
-    throw new IllegalStateException("Part with id " + songStructItem.getPartId() + " not found in song " + getId() + "\n(Found ids: " + found + ")");
+    throw new IllegalStateException(
+        "Part with id " + songStructItem.getPartId() + " not found in song " + getId() + "\n(Found ids: " + found + ")");
   }
 
-  public List<SongStructItem> getStructItems (final SongPart songPart) {
+  public List<SongStructItem> getStructItems(final SongPart songPart) {
     List<SongStructItem> contains = new ArrayList<SongStructItem>();
-    for (SongStructItem next: getStructItems()) {
+    for (SongStructItem next : getStructItems()) {
       if (next.getPartId().equals(songPart.getId()))
         contains.add(next);
     }
 
     return contains;
+  }
+
+  public Integer getCapoThreadProperty() {
+    return capoThreadProperty.get();
+  }
+
+  public SimpleObjectProperty<Integer> capoThreadPropertyProperty() {
+    return capoThreadProperty;
+  }
+
+  public void setCapoThreadProperty(Integer capoThreadProperty) {
+    this.capoThreadProperty.set(capoThreadProperty);
+  }
+
+  public String getCurrentKeyCapo() {
+    return currentKeyCapo;
+  }
+
+  public void setCurrentKeyCapo(String currentKeyCapo) {
+    this.currentKeyCapo = currentKeyCapo;
   }
 }

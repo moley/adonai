@@ -37,10 +37,10 @@ import org.adonai.fx.ExtensionSelectorController;
 import org.adonai.fx.Mask;
 import org.adonai.fx.MaskLoader;
 import org.adonai.fx.ScreenManager;
+import org.adonai.fx.TextRenderer;
 import org.adonai.fx.renderer.SongStructCellRenderer;
 import org.adonai.fx.renderer.StatusRenderer;
 import org.adonai.fx.renderer.UserCellRenderer;
-import org.adonai.fx.TextRenderer;
 import org.adonai.model.Additional;
 import org.adonai.model.AdditionalType;
 import org.adonai.model.Configuration;
@@ -96,6 +96,8 @@ public class SongEditor extends AbstractController {
 
   @FXML private Button btnCurrentKey;
 
+  @FXML private Button btnCurrentKeyCapo;
+
   @FXML private Button btnOriginalKey;
 
   @FXML private ComboBox<User> cboLeadVoice;
@@ -120,12 +122,12 @@ public class SongEditor extends AbstractController {
 
   private MaskLoader<SetKeyController> maskLoader = new MaskLoader<>();
 
-  private void stepToKeyDialog (final boolean original) {
+  private void stepToKeyDialog (final KeyType keyType) {
     Stage initStepStage = new Stage();
     Mask<SetKeyController> mask = maskLoader.loadWithStage("set_key", getClass().getClassLoader());
     SetKeyController controller = mask.getController();
     controller.setStage(initStepStage);
-    controller.setOriginalKey(original);
+    controller.setKeyType(keyType);
     controller.setApplicationEnvironment(getApplicationEnvironment());
     initStepStage.setScene(mask.getScene());
     ScreenManager screenManager = new ScreenManager();
@@ -189,8 +191,9 @@ public class SongEditor extends AbstractController {
       }
     });
 
-    btnCurrentKey.setOnAction(event -> stepToKeyDialog(false));
-    btnOriginalKey.setOnAction(event -> stepToKeyDialog(true));
+    btnCurrentKey.setOnAction(event -> stepToKeyDialog(KeyType.CURRENT));
+    btnOriginalKey.setOnAction(event -> stepToKeyDialog(KeyType.ORIGINAL));
+    btnCurrentKeyCapo.setOnAction(event -> stepToKeyDialog(KeyType.CURRENT_CAPO));
 
     btnAssignMp3.setOnAction(new EventHandler<ActionEvent>() {
       @Override public void handle(ActionEvent event) {
@@ -310,13 +313,19 @@ public class SongEditor extends AbstractController {
       btnOriginalKey.setText(song.getOriginalKey());
     } else
       btnOriginalKey.setText("");
+
+    //set current key with capo
+    if (song.getCurrentKeyCapo() != null) {
+      btnCurrentKeyCapo.setText(song.getCurrentKeyCapo());
+    } else {
+      btnCurrentKeyCapo.setText("");
+    }
   }
 
   public void saveSongProperties () {
     log.info("save song properties of song " + song.getId());
     song.setPreset(txtPreset.getText());
     song.setTitle(txtTitle.getText());
-    song.setSpeed(spiSpeed.getValue());
     song.setLeadVoice(cboLeadVoice.getSelectionModel().getSelectedItem());
     song.setStatus(cboSongStatus.getSelectionModel().getSelectedItem());
     song.setOriginalKey(btnOriginalKey.getText());
@@ -348,7 +357,7 @@ public class SongEditor extends AbstractController {
 
     SongPart songPart = findSongPart(songStructItem); //and load new one
     log.info("load song part " + songStructItem.getPartId() + "-" + songPart);
-    txaText.setText(textRenderer.getRenderedText(songPart, false));
+    txaText.setText(textRenderer.getRenderedText(songPart, KeyType.CURRENT));
     txtRemarks.setText(songStructItem.getRemarks());
     txtQuantity.setText(songStructItem.getQuantity());
     cboType.getSelectionModel().select(songPart.getSongPartType());

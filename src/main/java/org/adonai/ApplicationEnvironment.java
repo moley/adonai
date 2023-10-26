@@ -13,6 +13,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.adonai.additionals.AdditionalsImporter;
 import org.adonai.fx.ScreenManager;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.fx.main.ScopeItem;
 import org.adonai.fx.main.ScopeItemProvider;
 import org.adonai.model.Additional;
@@ -42,7 +43,7 @@ public class ApplicationEnvironment {
 
   private Session currentSession = null;
 
-  private boolean showOriginalKey = false;
+  private KeyType showKeyType = KeyType.CURRENT;
 
   private ScopeItemProvider scopeItemProvider = new ScopeItemProvider();
 
@@ -217,13 +218,7 @@ public class ApplicationEnvironment {
     return currentScopeItem;
   }
 
-  public boolean isShowOriginalKey() {
-    return showOriginalKey;
-  }
 
-  public void setShowOriginalKey(boolean showOriginalKey) {
-    this.showOriginalKey = showOriginalKey;
-  }
 
   public ScopeItem getScopeItem(Session newSession) {
     for (ScopeItem next : getAllScopeItems()) {
@@ -275,5 +270,13 @@ public class ApplicationEnvironment {
 
   public void setCreateDefaultExportConfigurations(boolean createDefaultExportConfigurations) {
     this.createDefaultExportConfigurations = createDefaultExportConfigurations;
+  }
+
+  public KeyType getShowKeyType() {
+    return showKeyType;
+  }
+
+  public void setShowKeyType(KeyType showKeyType) {
+    this.showKeyType = showKeyType;
   }
 }

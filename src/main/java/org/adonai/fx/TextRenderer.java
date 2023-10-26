@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.adonai.StringUtils;
+import org.adonai.fx.editcontent.KeyType;
 import org.adonai.model.Line;
 import org.adonai.model.LinePart;
 import org.adonai.model.SongPart;
@@ -11,7 +12,7 @@ import org.adonai.model.SongPart;
 @Slf4j
 public class TextRenderer {
 
-  public String getRenderedText (final SongPart songPart, final boolean original) {
+  public String getRenderedText (final SongPart songPart, final KeyType keyType) {
     try {
       List<String> lines = new ArrayList<>();
       for (Line line : songPart.getLines()) {
@@ -28,7 +29,8 @@ public class TextRenderer {
            }
            }**/
 
-          String selectedChord = original ? nextPart.getOriginalChord() : nextPart.getChord();
+          String selectedChord = nextPart.getChord(keyType);
+
           if (nextPart.getText() != null)
             textLine += nextPart.getText();
 
