@@ -23,6 +23,7 @@ public class ChooseTenantInitStep implements InitStep {
     initStepStage.initStyle(StageStyle.UNDECORATED);
     screenManager.layoutOnScreen(initStepStage, 200, screenManager.getPrimary());
     initStepStage.toFront();
+    initStepStage.setAlwaysOnTop(true);
     initStepStage.showAndWait();
   }
 
