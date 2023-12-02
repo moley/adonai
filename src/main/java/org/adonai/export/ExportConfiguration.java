@@ -21,6 +21,7 @@ public class ExportConfiguration {
 
   private Boolean defaultConfiguration = Boolean.FALSE;
 
+  private SimpleBooleanProperty withHiddenTitles = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withChordsInitialized = new SimpleBooleanProperty(false);
 
@@ -290,6 +291,20 @@ public class ExportConfiguration {
 
   public SimpleBooleanProperty getWithChordsInitializedProperty () {
     return withChordsInitialized;
+  }
+
+  //Show disabled titles
+
+  public boolean isWithHiddenTitles() {
+    return withHiddenTitles.get();
+  }
+
+  public SimpleBooleanProperty hiddenTitlesProperty() {
+    return withHiddenTitles;
+  }
+
+  public void setWithHiddenTitles(boolean withHiddenTitles) {
+    this.withHiddenTitles.set(withHiddenTitles);
   }
 
   //Remarks right

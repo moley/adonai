@@ -243,6 +243,7 @@ public class MainController extends AbstractController {
     log.info("recalculate " + songsOfCurrentScope.size() + " songs");
 
     exportConfiguration.setKeyType(getApplicationEnvironment().getShowKeyType());
+    exportConfiguration.setWithHiddenTitles(true);
     exportConfiguration.setInterPartDistance(40.0);
     exportConfiguration.setRemarksStructureDistance(5.0); //TODO why it is not set from default
     exportConfiguration.setWithId(true);

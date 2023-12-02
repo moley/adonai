@@ -58,6 +58,7 @@ public class PreviewPage extends WizardPage {
       ExportConfiguration exportConfiguration = configuration.findDefaultExportConfiguration(PresentationDocumentBuilder.class);
 
       exportConfiguration.setKeyType(KeyType.CURRENT);
+      exportConfiguration.setWithHiddenTitles(true);
       exportConfiguration.setWithTitle(false);
       exportConfiguration.setWithLead(false);
       exportConfiguration.setWithId(false);
