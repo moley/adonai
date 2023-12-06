@@ -16,6 +16,66 @@ public class SongRepairerTest {
 
 
   @Test
+  public void defaultFromOriginalKey () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+    song.setOriginalKey("C");
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+    Assert.assertEquals("C", song.getCurrentKeyCapo());
+    Assert.assertEquals("C", song.getCurrentKey());
+  }
+  @Test
+  public void defaultNoOverwriteFromOriginalKey () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+    song.setOriginalKey("C");
+    song.setCurrentKeyCapo("D");
+    song.setOriginalKey("D");
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+    Assert.assertEquals("D", song.getCurrentKeyCapo());
+    Assert.assertEquals("D", song.getCurrentKey());
+  }
+  @Test
+  public void defaultFromCurrentKey () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+    song.setCurrentKey("C");
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+    Assert.assertEquals("C", song.getCurrentKeyCapo());
+    Assert.assertEquals("C", song.getOriginalKey());
+  }
+  @Test
+  public void defaultNoOverwriteFromCurrentKey () {
+    SongBuilder builder = SongBuilder.instance();
+    builder = builder.withPartReference("1");
+    builder = builder.withPart(SongPartType.VERS).withRemarks("remarks").withLine().withPartId("1").withLinePart("First verse", "C");
+    builder = builder.withPart(SongPartType.REFRAIN).withLine().withPartId("2").withLinePart("Refrain", "C");
+    builder = builder.withPart(SongPartType.VERS).withLine().withPartId("3").withQuantity(3).withRemarks("Cool").withLinePart("Second verse", "C");
+    Song song = builder.get();
+    song.setCurrentKey("C");
+    song.setCurrentKeyCapo("D");
+    song.setOriginalKey("D");
+    SongRepairer songRepairer = new SongRepairer();
+    songRepairer.repairSong(song);
+    Assert.assertEquals("D", song.getCurrentKeyCapo());
+    Assert.assertEquals("D", song.getOriginalKey());
+  }
+  @Test
   public void getAggregatedNumberOfParts () {
     SongBuilder builder = SongBuilder.instance();
     builder = builder.withPartReference("1");

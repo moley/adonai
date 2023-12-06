@@ -135,8 +135,7 @@ public class TextfileReader {
             List<Integer> tokens = getTokens(currentChordLine);
             List<Chord> chords = getChords(currentChordLine);
             if (tokens.get(0) > 0) { //Line in front ot first chord
-              newLine.getLineParts().add(new LinePart(next.substring(0, tokens.get(0)), null));
-            }
+              newLine.getLineParts().add(new LinePart(next.substring(0, tokens.get(0))));            }
 
             for (int i = 0; i < tokens.size(); i++) {
               Integer from = tokens.get(i);

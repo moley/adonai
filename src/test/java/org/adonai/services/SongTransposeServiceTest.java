@@ -12,6 +12,18 @@ public class SongTransposeServiceTest {
 
   private SongTransposeService songTransposeService = new SongTransposeService();
 
+  @Test
+  public void transposeError () {
+    SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.INTRO).withLine().withLinePart(" ", "Gm");
+    Song song = songbuilder.get();
+    song.setOriginalKey("Bb");
+    song.setCurrentKey("Bb");
+    song.setCurrentKeyCapo("G");
+    songTransposeService.recalculateCurrentCapo(song);
+    Assert.assertEquals("Em", song.getFirstPart().getFirstLine().getFirstLinePart().getChordCapo());
+  }
+
+
   private Song createSongInC () {
     SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.VERS).withLine().withLinePart("This is", "C");
     songbuilder = songbuilder.withLinePart("a test", "F");

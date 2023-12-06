@@ -37,6 +37,18 @@ public class SongRepairer {
     Key currentKey = (song.getCurrentKey() != null && ! song.getCurrentKey().trim().isEmpty()) ? Key.fromString(song.getCurrentKey()) : null;
     Key originKey = (song.getOriginalKey() != null && ! song.getOriginalKey().trim().isEmpty()) ? Key.fromString(song.getOriginalKey()) : null;
 
+    if (song.getCurrentKey() != null) {
+      if (song.getOriginalKey() == null)
+        song.setOriginalKey(song.getCurrentKey());
+      if (song.getCurrentKeyCapo() == null)
+        song.setCurrentKeyCapo(song.getCurrentKey());
+    } else if (song.getOriginalKey() != null) {
+      if (song.getCurrentKey() == null)
+        song.setCurrentKey(song.getOriginalKey());
+      if (song.getCurrentKeyCapo() == null)
+        song.setCurrentKeyCapo(song.getOriginalKey());
+    }
+
     Collection<SongPart> emptySongParts = new ArrayList<SongPart>();
 
     //remove duplicate parts

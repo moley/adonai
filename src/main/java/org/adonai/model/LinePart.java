@@ -41,9 +41,11 @@ public class LinePart {
   }
 
   public LinePart(final String text, final Chord chord) {
-    setText(text);
-    if (chord != null)
-      setChord(chord.toString());
+    this (text, chord.toString(), null, null);
+  }
+
+  public LinePart(final String text, final String chord) {
+    this (text, chord, null, null);
   }
 
   public LinePart(final String text, final String chord, final String chordCapo) {
