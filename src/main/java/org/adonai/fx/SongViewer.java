@@ -12,13 +12,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import lombok.extern.slf4j.Slf4j;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.export.presentation.Page;
+import org.adonai.midi.MidiTester;
 import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SongViewer extends VBox {
+@Slf4j
+public class SongViewer extends VBox implements SongSelector {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SongViewer.class);
 
@@ -32,11 +35,14 @@ public class SongViewer extends VBox {
 
   private ApplicationEnvironment applicationEnvironment;
 
+  private MidiTester midiTester = new MidiTester();
+
   public SongViewer(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
     this.setId("songeditor");
     this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;
     currentIndex = 0;
+    midiTester.configure(this);
   }
 
   private void disableAndRemove() {
@@ -63,6 +69,48 @@ public class SongViewer extends VBox {
 
     if (!rightPane.getChildren().isEmpty())
       rightPane.getChildren().get(0).setVisible(true);
+  }
+
+  public void selectPrevSong () {
+    log.info("select previous song");
+    Song currentSong = panes.get(currentIndex).getSong();
+    Song prevSong = currentSong;
+    int x = currentIndex;
+    do {
+      if (x > 0)
+        x--;
+      else
+        break;
+      prevSong = panes.get(x).getSong();
+      if (! currentSong.equals(prevSong))
+        break;
+    } while (x >= 0);
+
+    log.info("Select " + prevSong.getId());
+    selectSong(prevSong);
+
+
+  }
+
+  public void selectNextSong () {
+    log.info("select next song");
+
+    Song currentSong = panes.get(currentIndex).getSong();
+    Song nextSong = currentSong;
+    int x = currentIndex;
+    do {
+      if (x < panes.size())
+        x++;
+      else
+        break;
+      nextSong = panes.get(x).getSong();
+      if (! currentSong.equals(nextSong))
+        break;
+    } while (x < panes.size());
+    log.info("Select " + nextSong.getId());
+
+    selectSong(nextSong);
+
   }
 
   private void selectSong(Song song) {
@@ -112,7 +160,7 @@ public class SongViewer extends VBox {
           if (panes.get(currentIndex).getSong() != null)
             //metronome.setBpm(panes.get(currentIndex).getSong().getSpeed());
 
-            enableAndAdd();
+          enableAndAdd();
 
         } else if (event.getCode().equals(KeyCode.LEFT)) {
           disableAndRemove();
@@ -127,6 +175,12 @@ public class SongViewer extends VBox {
 
             enableAndAdd();
 
+        }
+        else if (event.getCode().equals(KeyCode.UP)) {
+          selectPrevSong();
+        }
+        else if (event.getCode().equals(KeyCode.DOWN)) {
+          selectNextSong();
         }
       }
 
