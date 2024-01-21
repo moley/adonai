@@ -72,44 +72,52 @@ public class SongViewer extends VBox implements SongSelector {
   }
 
   public void selectPrevSong () {
-    log.info("select previous song");
-    Song currentSong = panes.get(currentIndex).getSong();
-    Song prevSong = currentSong;
-    int x = currentIndex;
-    do {
-      if (x > 0)
-        x--;
-      else
-        break;
-      prevSong = panes.get(x).getSong();
-      if (! currentSong.equals(prevSong))
-        break;
-    } while (x >= 0);
+    try {
+      log.info("select previous song");
+      Song currentSong = panes.get(currentIndex).getSong();
+      Song prevSong = currentSong;
+      int x = currentIndex;
+      do {
+        if (x > 0)
+          x--;
+        else
+          break;
+        prevSong = panes.get(x).getSong();
+        if (!currentSong.equals(prevSong))
+          break;
+      } while (x >= 0);
 
-    log.info("Select " + prevSong.getId());
-    selectSong(prevSong);
+      log.info("Select " + prevSong.getId());
+      selectSong(prevSong);
+    } catch (Exception e) {
+      log.error("Error catched on calling selectPrev: " + e.getLocalizedMessage(), e);
+    }
 
 
   }
 
   public void selectNextSong () {
-    log.info("select next song");
+    try {
+      log.info("select next song");
 
-    Song currentSong = panes.get(currentIndex).getSong();
-    Song nextSong = currentSong;
-    int x = currentIndex;
-    do {
-      if (x < panes.size())
-        x++;
-      else
-        break;
-      nextSong = panes.get(x).getSong();
-      if (! currentSong.equals(nextSong))
-        break;
-    } while (x < panes.size());
-    log.info("Select " + nextSong.getId());
+      Song currentSong = panes.get(currentIndex).getSong();
+      Song nextSong = currentSong;
+      int x = currentIndex;
+      do {
+        if (x < panes.size())
+          x++;
+        else
+          break;
+        nextSong = panes.get(x).getSong();
+        if (!currentSong.equals(nextSong))
+          break;
+      } while (x < panes.size());
+      log.info("Select " + nextSong.getId());
 
-    selectSong(nextSong);
+      selectSong(nextSong);
+    } catch (Exception e) {
+      log.error("Error catched on calling selectNextSong: " + e.getLocalizedMessage(), e);
+    }
 
   }
 
