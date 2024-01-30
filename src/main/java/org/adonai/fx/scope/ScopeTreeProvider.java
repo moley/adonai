@@ -61,30 +61,33 @@ public class ScopeTreeProvider {
     lblName.setMaxWidth(WIDTH_NAME);
     lblName.setMinWidth(WIDTH_NAME);
 
-    final int WIDTH_ORIGINKEY = 50;
-    Button btnOriginalKey = new Button();
-    btnOriginalKey.setText(song.getOriginalKey());
-    btnOriginalKey.setMaxWidth(WIDTH_ORIGINKEY);
-    btnOriginalKey.setMinWidth(WIDTH_ORIGINKEY);
+    final int WIDTH_LEAD = 150;
+    Button btnLeadVoice = new Button();
+    btnLeadVoice.setText((song.getLeadVoice() != null ? song.getLeadVoice().getUsername(): ""));
+    btnLeadVoice.setMaxWidth(WIDTH_LEAD);
+    btnLeadVoice.setMinWidth(WIDTH_LEAD);
 
     final int WIDTH_CURRENTKEY =75;
     Button btnCurrentKey = new Button();
-    btnCurrentKey.setText(song.getCurrentKey() != null ? "->" + song.getCurrentKey(): "");
+    btnCurrentKey.setText(song.getCurrentKey() != null ? song.getCurrentKey(): "");
     btnCurrentKey.setMaxWidth(WIDTH_CURRENTKEY);
     btnCurrentKey.setMinWidth(WIDTH_CURRENTKEY);
 
     final int WIDTH_ADDITIONALS_MP3 = 50;
     Button btnAdditionalMp3 = new Button();
-    btnAdditionalMp3.setText(song.getCurrentKey() != null ? "->" + song.getCurrentKey(): "");
     btnAdditionalMp3.setMaxWidth(WIDTH_ADDITIONALS_MP3);
     btnAdditionalMp3.setMinWidth(WIDTH_ADDITIONALS_MP3);
     if (song.getAdditional(AdditionalType.AUDIO) != null)
       btnAdditionalMp3.setGraphic(Consts.createIcon("fas-file-audio", Consts.ICON_SIZE_TOOLBAR));
+    else {
+      btnAdditionalMp3.setText("");
+      btnAdditionalMp3.setDisable(true);
+    }
 
     Label lblStatus = new Label();
     lblStatus.setText((song.getStatus() != null ? song.getStatus().name():""));
 
-    return new TreeItem<>(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnOriginalKey, btnCurrentKey, btnAdditionalMp3, lblStatus));
+    return new TreeItem<>(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnLeadVoice, btnCurrentKey, btnAdditionalMp3, lblStatus));
 
   }
 }
