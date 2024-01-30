@@ -11,6 +11,7 @@ import org.adonai.model.AdditionalType;
 import org.adonai.model.Session;
 import org.adonai.model.Song;
 import org.adonai.model.SongBook;
+import org.adonai.model.Status;
 import org.adonai.model.TenantModel;
 
 public class ScopeTreeProvider {
@@ -86,6 +87,14 @@ public class ScopeTreeProvider {
 
     Label lblStatus = new Label();
     lblStatus.setText((song.getStatus() != null ? song.getStatus().name():""));
+    if (song.getStatus() != null && song.getStatus().equals(Status.INACTIVE)) {
+      lblId.setDisable(true);
+      lblName.setDisable(true);
+      btnLeadVoice.setDisable(true);
+      btnCurrentKey.setDisable(true);
+      btnAdditionalMp3.setDisable(true);
+      lblStatus.setDisable(true);
+    }
 
     return new TreeItem<>(scopeItem, new HBox(5, scopeItem.getIcon(), lblId, lblName, btnLeadVoice, btnCurrentKey, btnAdditionalMp3, lblStatus));
 
