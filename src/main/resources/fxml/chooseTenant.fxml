@@ -20,6 +20,7 @@
         <Button text="Start with tenant" fx:id="btnChooseTenant" userData="tenants.btnChoose" />
         <Button text="Add tenant" fx:id="btnAddTenant" userData="tenants.btnAdd" />
         <Button text="Remove tenant" fx:id="btnRemoveTenant" userData="tenants.btnRemove" />
+        <Button text="Exit" fx:id="btnExit" userData="tenants.btnExit" />
 
     </HBox>
 

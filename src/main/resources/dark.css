@@ -1,0 +1,172 @@
+.editorpane {
+    -fx-background-color: rgb(200, 200, 200);
+}
+
+.editortext {
+    -fx-font-size: 18;
+    -fx-font-family: monospaced;
+}
+
+.tab-label {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    /* if outer border should be 10 radius */
+    -fx-background-radius: 10 10 0 0, 9 9 0 0, 8 8 0 0;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-radius: 9 9 0 0, 8 8 0 0;
+}
+
+#header {
+  -fx-font-size: 30;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+  -fx-text-fill: rgb(256, 256,256);
+  -fx-padding: 0 0 20 0;
+}
+
+.id {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.title {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.leadVoice {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.radio-button {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+
+.chordButton {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.setupLabel {
+    -fx-font-size: 18;
+    -fx-font-family: Verdana;
+    -fx-background-color: #AAAAAA;
+}
+
+
+.scopeChooser {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.tree-view {
+  -fx-background-color: #666666;
+}
+
+.tree-cell {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+
+.menu-item {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+}
+
+.combo-box-base {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-background-color: #666666;
+}
+
+.combo-box-popup .list-cell {
+ -fx-padding: 10.0px;
+}
+
+.label {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+}
+
+.text-field {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-background-color: #666666;
+
+}
+
+.text-area {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-background-color: #666666;
+}
+
+
+.list-view .list-cell {
+ -fx-font-size: 18;
+ -fx-font-family: Verdana;
+ -fx-padding: 10.0px;
+ -fx-background-color: #666666;
+
+}
+
+.button {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-background-color: #666666;
+}
+
+.menu-button {
+  -fx-background-radius: 30px;
+  -fx-border-radius: 30px;
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+  -fx-background-color: #666666;
+}
+
+.spinner {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+.scriptureChapterNumber {
+  -fx-font-size: 20;
+  -fx-text-fill: rgb(160, 160, 160);
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+  -fx-padding: 20 0 10 0;
+}
+
+.scriptureVerseNumber {
+  -fx-font-size: 14;
+  -fx-font-family: Verdana;
+  -fx-font-weight: bold;
+}
+
+.scriptureContent {
+  -fx-font-size: 18;
+  -fx-font-family: Verdana;
+}
+
+
+.root {
+  -fx-background-color: #222222;
+}
+
