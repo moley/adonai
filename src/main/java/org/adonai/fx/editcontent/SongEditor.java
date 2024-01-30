@@ -96,6 +96,8 @@ public class SongEditor extends AbstractController {
 
   @FXML private Button btnCurrentKey;
 
+  @FXML private TextField txtSetup;
+
   @FXML private Button btnCurrentKeyCapo;
 
   @FXML private Button btnOriginalKey;
@@ -176,6 +178,7 @@ public class SongEditor extends AbstractController {
     cboLeadVoice.setCellFactory(cellfactory -> new UserCellRenderer());
     spiSpeed.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300));
     spiSpeed.setEditable(true);
+
 
     tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
       @Override public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
@@ -290,6 +293,8 @@ public class SongEditor extends AbstractController {
     else
       spiSpeed.getValueFactory().setValue(0);
 
+    txtSetup.setText(song.getSetup());
+
     //set lead voice
     if (song.getLeadVoice() != null)
       cboLeadVoice.getSelectionModel().select(song.getLeadVoice());
@@ -331,6 +336,7 @@ public class SongEditor extends AbstractController {
     song.setOriginalKey(btnOriginalKey.getText());
     song.setCurrentKey(btnCurrentKey.getText());
     song.setSpeed(spiSpeed.getValue());
+    song.setSetup(txtSetup.getText());
   }
 
   private Configuration getConfiguration () {

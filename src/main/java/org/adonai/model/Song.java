@@ -2,6 +2,7 @@ package org.adonai.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,6 +37,9 @@ public class Song extends AbstractSessionItem implements NamedElement {
   private SimpleObjectProperty<Integer> speedProperty = new SimpleObjectProperty<Integer>();
 
   private SimpleObjectProperty<Integer> capoThreadProperty = new SimpleObjectProperty<Integer>();
+
+
+  private SimpleStringProperty setupProperty = new SimpleStringProperty();
 
   public int getIndex(final SongPart songPart) {
     return parts.indexOf(songPart);
@@ -270,5 +274,17 @@ public class Song extends AbstractSessionItem implements NamedElement {
 
   public void setCurrentKeyCapo(String currentKeyCapo) {
     this.currentKeyCapo = currentKeyCapo;
+  }
+
+  public String getSetup() {
+    return setupProperty.get();
+  }
+
+  public SimpleStringProperty setupPropertyProperty() {
+    return setupProperty;
+  }
+
+  public void setSetup(String setupProperty) {
+    this.setupProperty.set(setupProperty);
   }
 }

@@ -22,6 +22,8 @@ public class Configuration {
 
   private String adminScreen;
 
+  private Integer setupCount = 8; //TODO make configurable
+
   private List<User> users = new ArrayList<User>();
 
   private List<ExportConfiguration> exportConfigurations = new ArrayList<>();
@@ -129,5 +131,13 @@ public class Configuration {
 
   public void setMp3ExtensionPath(String mp3ExtensionPath) {
     this.mp3ExtensionPath.set(mp3ExtensionPath);
+  }
+
+  public Integer getSetupCount() {
+    return setupCount;
+  }
+
+  public void setSetupCount(Integer setupCount) {
+    this.setupCount = setupCount;
   }
 }

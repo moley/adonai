@@ -9,6 +9,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
@@ -16,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.SizeInfo;
 import org.adonai.actions.HelpAction;
@@ -62,6 +64,8 @@ public class MainController extends AbstractController {
   public Pane panMetronome;
   public Button btnSpeed;
 
+  public Button btnSetup;
+
   private final Mp3Player mp3Player = new Mp3Player();
 
   private final Metronome metronome = new Metronome();
@@ -73,6 +77,8 @@ public class MainController extends AbstractController {
   private Mask<SongEditor> songEditorMask;
 
   public void initialize() {
+    btnSpeed.setGraphic(Consts.createIcon("fas-rocket", Consts.ICON_SIZE_TOOLBAR));
+    btnSetup.setGraphic(Consts.createIcon("fas-sliders-h", Consts.ICON_SIZE_TOOLBAR));
     btnMainActions.setGraphic(Consts.createIcon("fas-bars", Consts.ICON_SIZE_TOOLBAR));
     btnAdmin.setGraphic(Consts.createIcon("fas-code-branch", Consts.ICON_SIZE_TOOLBAR));
     btnAdmin.setTooltip(new Tooltip("Data"));
@@ -270,11 +276,13 @@ public class MainController extends AbstractController {
       if (newValue != null) {
         log.info("Current song property changed to " + newValue.getId());
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername() : "");
-        btnSpeed.setText(newValue.getSpeedNotNull());
+        btnSpeed.setText((newValue.getSpeed() != 0 ? newValue.getSpeed().toString(): " not set"));
+        btnSetup.setText((newValue.getSetup() != null ? newValue.getSetup() : " not set"));
       }
       else {
         btnLeadVoice.setText("");
-        btnSpeed.setText("");
+        btnSpeed.setText("not set");
+        btnSetup.setText("not set");
       }
     });
 

@@ -57,6 +57,13 @@
   -fx-font-family: Verdana;
 }
 
+.setupLabel {
+    -fx-font-size: 18;
+    -fx-font-family: Verdana;
+    -fx-background-color: #AAAAAA;
+}
+
+
 .scopeChooser {
   -fx-font-size: 18;
   -fx-font-family: Verdana;
