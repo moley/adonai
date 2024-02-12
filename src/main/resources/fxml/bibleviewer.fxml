@@ -4,6 +4,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Text?>
 <GridPane fx:controller="org.adonai.fx.bibles.BibleViewerController"
           xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10" >
     <padding><Insets top="40" bottom="40" left="30" right="30"/> </padding>
@@ -14,7 +15,7 @@
     <Label fx:id="lblTitle" text="VIEW BIBLE" id="header" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
 
     <TextField fx:id="txtSearch" userData="extensionselector.txtSearch" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER"/>
-    <Label fx:id="lblPreview" id="preview" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <Label fx:id="lblPreview" id="lblPreview" GridPane.halignment="CENTER" GridPane.fillWidth ="true" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2"/>
 
     <Button text="Select" fx:id="btnSelect" userData="extensionselector.btnSelect" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <Button text="Cancel" fx:id="btnCancel" userData="extensionselector.btnCancel" GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>

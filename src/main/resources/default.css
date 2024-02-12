@@ -96,6 +96,12 @@
  -fx-font-family: Verdana;
 }
 
+.text {
+    -fx-font-size: 18;
+    -fx-font-family: Verdana;
+}
+
+
 .text-field {
   -fx-background-radius: 30px;
   -fx-border-radius: 30px;

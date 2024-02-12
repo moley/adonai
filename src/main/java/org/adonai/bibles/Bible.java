@@ -45,6 +45,9 @@ public class Bible {
     Chapter foundChapter = foundBibleBook.findChapter(chapter);
     return foundChapter.findVerse (verse);
 
+    //1.Mose 2,10 - 1.Mose 2,12
 
   }
+
+
 }

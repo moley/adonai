@@ -11,7 +11,7 @@ import org.junit.Test;
 public class SongTransposeServiceTest {
 
   private SongTransposeService songTransposeService = new SongTransposeService();
-
+  
   @Test
   public void transposeError () {
     SongBuilder songbuilder = new SongBuilder().withPart(SongPartType.INTRO).withLine().withLinePart(" ", "Gm");

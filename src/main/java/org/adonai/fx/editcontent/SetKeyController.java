@@ -110,7 +110,7 @@ import org.adonai.services.SongTransposeService;
       case CURRENT_CAPO:
         previewSong.setCurrentKeyCapo(cboTo.getSelectionModel().getSelectedItem().toString());
         if (!btnFrom.getText().trim().isEmpty())
-          songTransposeService.recalculateCurrent(previewSong);
+          songTransposeService.recalculateCurrentCapo(previewSong);
         break;
       }
 
