@@ -112,7 +112,12 @@ public class ScopeController extends AbstractController {
     });
 
     treScope.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-      log.info("selectionChanged property");
+
+
+      ScopeItem selectedScopeItem = getSelectedScopeItem();
+      log.info("selectionChanged property: " + selectedScopeItem.toString());
+
+      //btnAdd.setDisable(selectedScopeItem.getSongBook() == null && selectedScopeItem.getR );
 
       if (oldValue != null && oldValue.getValue() != null) {
         ScopeItem scopeItem = oldValue.getValue();
