@@ -175,6 +175,9 @@ public class ScopeController extends AbstractController {
   private void add() {
 
     ScopeItem scopeItem = getSelectedScopeItem();
+    if (scopeItem == null)
+      return;
+    
     if (scopeItem.isRoot()) { //Root
       Session newSession = sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
       loadData(new ScopeItem(newSession));
