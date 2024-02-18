@@ -28,6 +28,13 @@ public class ChordProFileTest {
       throw new IllegalStateException(e);
     }
   }
+
+  @Test
+  public void importResultsInNull () {
+    List<String> content = readFile(new File("src/test/resources/import/chordpro/ich-weiss-dass-mein-erloser-lebt-chordpro-E.txt"));
+    Song song = chordProFileReader.read(content);
+    Assert.assertEquals("ICH WEISS DASS MEIN ERLÖSER LEBT", song.getTitle());
+  }
   @Test
   public void importCopiedText () throws IOException {
     List<String> content = readFile(new File("src/test/resources/import/chordpro/withoutChords.txt"));

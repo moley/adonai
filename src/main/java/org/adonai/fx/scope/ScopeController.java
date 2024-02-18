@@ -115,7 +115,7 @@ public class ScopeController extends AbstractController {
 
 
       ScopeItem selectedScopeItem = getSelectedScopeItem();
-      log.info("selectionChanged property: " + selectedScopeItem.toString());
+      log.info("selectionChanged property: " + (selectedScopeItem != null ? selectedScopeItem.toString(): "<null>"));
 
       //btnAdd.setDisable(selectedScopeItem.getSongBook() == null && selectedScopeItem.getR );
 
@@ -177,7 +177,7 @@ public class ScopeController extends AbstractController {
     ScopeItem scopeItem = getSelectedScopeItem();
     if (scopeItem == null)
       return;
-    
+
     if (scopeItem.isRoot()) { //Root
       Session newSession = sessionService.newSession(getApplicationEnvironment().getCurrentConfiguration());
       loadData(new ScopeItem(newSession));
