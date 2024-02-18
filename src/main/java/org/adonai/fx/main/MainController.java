@@ -276,7 +276,7 @@ public class MainController extends AbstractController {
       if (newValue != null) {
         log.info("Current song property changed to " + newValue.getId());
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername() : "");
-        btnSpeed.setText((newValue.getSpeed() != 0 ? newValue.getSpeed().toString(): " not set"));
+        btnSpeed.setText((newValue.getSpeed() != null && newValue.getSpeed() != 0 ? newValue.getSpeed().toString(): " not set"));
         btnSetup.setText((newValue.getSetup() != null ? newValue.getSetup() : " not set"));
       }
       else {
