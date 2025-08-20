@@ -190,6 +190,7 @@ public class PresentationDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.setStructureDistance(Double.valueOf(15));
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setLeftBorder(Double.valueOf(5));
+    exportConfiguration.setWithLead(true);
     exportConfiguration.setUpperBorder(Double.valueOf(5));
     exportConfiguration.setLowerBorder(Double.valueOf(5));
     exportConfiguration.setOpenPreview(false);

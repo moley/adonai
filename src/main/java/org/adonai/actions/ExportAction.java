@@ -62,6 +62,7 @@ public class ExportAction implements MainAction {
       exportConfiguration.setWithChords(true);
       exportConfiguration.setWithId(true);
       exportConfiguration.setWithTitle(true);
+      exportConfiguration.setWithLead(true);
       exportConfiguration.setReferenceStrategy(ReferenceStrategy.SHOW_STRUCTURE);
       exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
       exportConfiguration.setKeyType(KeyType.CURRENT);

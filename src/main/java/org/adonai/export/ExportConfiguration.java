@@ -21,7 +21,10 @@ public class ExportConfiguration {
 
   private Boolean defaultConfiguration = Boolean.FALSE;
 
+  // Flag shows if titles, which are in status disabled should be exported as well
   private SimpleBooleanProperty withHiddenTitles = new SimpleBooleanProperty(false);
+
+
   private SimpleBooleanProperty withChords = new SimpleBooleanProperty(false);
   private SimpleBooleanProperty withChordsInitialized = new SimpleBooleanProperty(false);
 

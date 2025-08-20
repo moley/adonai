@@ -140,6 +140,7 @@ public class PdfDocumentBuilder extends AbstractDocumentBuilder {
     exportConfiguration.initializeValues();
     exportConfiguration.setWithId(true);
     exportConfiguration.setWithTitle(true);
+    exportConfiguration.setWithLead(true);
     exportConfiguration.setWithContentPage(true);
     exportConfiguration.setInterLineDistance(5.0);
     exportConfiguration.setChordTextDistance(4.0);
