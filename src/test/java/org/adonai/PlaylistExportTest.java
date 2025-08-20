@@ -29,8 +29,7 @@ public class PlaylistExportTest {
     additional1.setCacheLink(mp3_1.getAbsolutePath());
     song1.getAdditionals().add(additional1);
     songBook.getSongs().addAll(Arrays.asList(song1));
-    configuration.getSongBooks().add(songBook);
-
+    configuration.setSongBooks(Arrays.asList(songBook));
     PlaylistExport playlistExport = new PlaylistExport();
     playlistExport.export(configuration, playlistPath );
   }
@@ -61,12 +60,12 @@ public class PlaylistExportTest {
     Song songWithout = new Song();
 
     songBook.getSongs().addAll(Arrays.asList(song1, song2, songWithout));
-    configuration.getSongBooks().add(songBook);
+    configuration.setSongBooks(Arrays.asList(songBook));
 
     PlaylistExport playlistExport = new PlaylistExport();
     playlistExport.export(configuration, playlistPath );
-    Assert.assertTrue (new File (playlistPath, "001-Title1.mp3").exists());
-    Assert.assertTrue (new File (playlistPath, "002-Title2.mp3").exists());
+    Assert.assertTrue ("Title1 does not exist in " + playlistPath.getAbsolutePath(), new File (playlistPath, "001-Title1.mp3").exists());
+    Assert.assertTrue ("Title2 does not exist in " + playlistPath.getAbsolutePath(), new File (playlistPath, "002-Title2.mp3").exists());
 
 
   }

@@ -74,6 +74,7 @@ public class TextfileExporterTest extends AbstractExportTest {
     File exportFile = createExportFile(textfileWriter, "exportOnlyChordPart");
     textfileWriter.export(songs, exportFile, exportConfiguration);
     List<String> lines = FileUtils.readLines(exportFile, Charset.defaultCharset());
+    System.out.println (lines);
     Assert.assertEquals("A        D        A", StringUtils.trimRight(lines.get(0)));
   }
 

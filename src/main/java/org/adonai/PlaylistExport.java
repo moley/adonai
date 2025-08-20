@@ -27,6 +27,7 @@ public class PlaylistExport {
 
   private void adaptMp3Tags (final File inputfile, final File outputfile, final Song song) {
 
+
     try {
       Mp3File mp3file = new Mp3File(inputfile);
       LOGGER.info("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");

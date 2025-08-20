@@ -55,6 +55,8 @@ public class PdfWriterTest extends AbstractExportTest {
     exportConfiguration.setUpperBorder(Double.valueOf("5"));
     exportConfiguration.setSongPartDescriptorType(SongPartDescriptorStrategy.LONG);
     exportConfiguration.setOpenPreview(openPreview);
+    exportConfiguration.setWithTitle(false);
+    exportConfiguration.setWithLead(false);
 
 
     PdfExporter pdfExporter = new PdfExporter();
@@ -68,7 +70,7 @@ public class PdfWriterTest extends AbstractExportTest {
     LOGGER.info("ExportTokenContainer: " + exportTokenContainer);
 
     ExportToken firstExportToken = exportTokenContainer.getExportTokenList().get(0);
-    Assert.assertEquals ("Part with no text is not exported when exporting without chords", "INTRO", firstExportToken.getText());
+    Assert.assertEquals ("Part with no text is not exported when exporting without chords (" + exportTokenContainer.getExportTokenList() + ")", "INTRO", firstExportToken.getText());
 
   }
 

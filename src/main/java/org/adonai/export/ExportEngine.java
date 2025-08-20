@@ -150,9 +150,13 @@ public class ExportEngine {
 
         String idAndTitle = id + "     " + title;
         SizeInfo sizeInfoTitelAndId = documentBuilder.getSize(idAndTitle, ExportTokenType.TITLE);
-        documentBuilder.newToken(
-            new ExportToken(nextSong, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE));
-        locationInfo = locationInfoCalculator.addX(locationInfo, sizeInfoTitelAndId.getWidth() + 10);
+        boolean titleLineExists = false;
+        if (! idAndTitle.trim().isEmpty() && exportConfiguration.getWithTitle() != null && exportConfiguration.getWithTitle().equals(Boolean.TRUE)) {
+          documentBuilder.newToken(
+                  new ExportToken(nextSong, null, idAndTitle, new AreaInfo(locationInfo, sizeInfoTitelAndId), ExportTokenType.TITLE));
+          locationInfo = locationInfoCalculator.addX(locationInfo, sizeInfoTitelAndId.getWidth() + 10);
+          titleLineExists = true;
+        }
 
         String headerInfo = capo + completeKey + leadVoice;
         if (!headerInfo.trim().isEmpty())
@@ -163,11 +167,14 @@ public class ExportEngine {
           documentBuilder.newToken(
               new ExportToken(nextSong, null, headerInfo, new AreaInfo(locationInfo, sizeInfoheaderInfo),
                   ExportTokenType.TEXT));
+          titleLineExists = true;
         }
-        locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
-        locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), locationInfo.getY());
+        if (titleLineExists) {
+          locationInfo = locationInfoCalculator.addY(locationInfo, sizeInfoTitelAndId.getHeight() * 2);
+          locationInfo = new LocationInfo(exportConfiguration.getLeftBorder(), locationInfo.getY());
 
-        locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getTitleSongDistance());
+          locationInfo = locationInfoCalculator.addY(locationInfo, exportConfiguration.getTitleSongDistance());
+        }
 
         for (SongStructItem nextStructItem : nextSong.getStructItems()) {
 
