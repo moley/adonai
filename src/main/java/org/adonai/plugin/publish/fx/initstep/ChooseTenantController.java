@@ -66,6 +66,7 @@ public class ChooseTenantController extends AbstractController {
         chooseTenant();
       }
     });
+    Platform.runLater(() -> lviTenants.requestFocus());
   }
 
   public void chooseTenant () {

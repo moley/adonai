@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.adonai.ApplicationEnvironment;
 import org.adonai.export.presentation.Page;
-import org.adonai.midi.MidiTester;
 import org.adonai.model.Song;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,14 +34,11 @@ public class SongViewer extends VBox implements SongSelector {
 
   private ApplicationEnvironment applicationEnvironment;
 
-  private MidiTester midiTester = new MidiTester();
-
   public SongViewer(final ApplicationEnvironment applicationEnvironment, final List<Page> pages) {
     this.setId("songeditor");
     this.applicationEnvironment = applicationEnvironment;
     this.panes = pages;
     currentIndex = 0;
-    midiTester.configure(this);
   }
 
   private void disableAndRemove() {

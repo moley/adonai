@@ -35,6 +35,7 @@ import org.adonai.fx.editcontent.KeyType;
 import org.adonai.fx.editcontent.SongEditor;
 import org.adonai.fx.renderer.SongCellRenderer;
 import org.adonai.fx.scope.ScopeController;
+import org.adonai.midi.MidiController;
 import org.adonai.model.Configuration;
 import org.adonai.model.Song;
 import org.adonai.player.Mp3Player;
@@ -67,6 +68,8 @@ public class MainController extends AbstractController {
   public Button btnSetup;
 
   private final Mp3Player mp3Player = new Mp3Player();
+
+  private final MidiController midiController = new MidiController();
 
   private final Metronome metronome = new Metronome();
 
@@ -174,6 +177,8 @@ public class MainController extends AbstractController {
       mp3Player.end();
     });
 
+
+
   }
 
   private void openHelp() {
@@ -278,6 +283,7 @@ public class MainController extends AbstractController {
         btnLeadVoice.setText(newValue.getLeadVoice() != null ? newValue.getLeadVoice().getUsername() : "");
         btnSpeed.setText((newValue.getSpeed() != null && newValue.getSpeed() != 0 ? newValue.getSpeed().toString(): " not set"));
         btnSetup.setText((newValue.getSetup() != null ? newValue.getSetup() : " not set"));
+        midiController.selectSong(newValue);
       }
       else {
         btnLeadVoice.setText("");

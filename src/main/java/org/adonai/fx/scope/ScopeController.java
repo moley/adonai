@@ -1,6 +1,8 @@
 package org.adonai.fx.scope;
 
 import java.util.List;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -157,6 +159,8 @@ public class ScopeController extends AbstractController {
         stepToSong();
       }
     });
+
+    Platform.runLater(() -> treScope.getSelectionModel().selectFirst());
 
   }
 
