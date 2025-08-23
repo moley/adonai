@@ -25,10 +25,8 @@ public class MidiController {
                 receiver.close();
                 device.close();
                 log.info("Program Change gesendet an: " + info.getName());
-            } catch (MidiUnavailableException e) {
-                log.error(e.getLocalizedMessage(), e);
-            } catch (InvalidMidiDataException e) {
-                log.error(e.getLocalizedMessage(), e);
+            } catch (MidiUnavailableException | InvalidMidiDataException e) {
+                log.error(e.getLocalizedMessage());
             }
 
 
